@@ -10,5 +10,5 @@
 
 @interface LoginViewController : UIViewController
 
-
+-(void)showHome;
 @end

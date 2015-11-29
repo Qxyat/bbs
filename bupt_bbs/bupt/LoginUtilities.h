@@ -6,10 +6,12 @@
 //  Copyright © 2015年 qiu. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
+@class LoginViewController;
 
 @interface LoginUtilities : NSObject
 
-+(void)doLogin:(NSString*)userName password:(NSString*)password saveUserInfo:(BOOL)shouldSave;
++(void)doLogin:(NSString*)userName password:(NSString*)password saveUserInfo:(BOOL)shouldSave delegate:(LoginViewController *)viewController;
 
 @end

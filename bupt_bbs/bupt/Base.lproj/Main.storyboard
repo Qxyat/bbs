@@ -5,6 +5,57 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
     </dependencies>
     <scenes>
+        <!--Root View Controller-->
+        <scene sceneID="PdR-iH-I0O">
+            <objects>
+                <viewController storyboardIdentifier="rootViewController" id="2UN-UI-huw" customClass="RootViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="EB6-9k-Du7"/>
+                        <viewControllerLayoutGuide type="bottom" id="4af-lU-KZT"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="VSs-hP-V1T">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="r3b-Gx-986" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5" y="284"/>
+        </scene>
+        <!--Home View Controller-->
+        <scene sceneID="kMM-xv-lsR">
+            <objects>
+                <viewController storyboardIdentifier="homeViewController" id="YGt-Ne-WSn" customClass="HomeViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="kI4-MP-aJq"/>
+                        <viewControllerLayoutGuide type="bottom" id="ayF-xf-fR7"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="uV6-To-pUk">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bHk-Vz-QS5">
+                                <rect key="frame" x="50" y="245" width="30" height="30"/>
+                                <animations/>
+                                <state key="normal" title="点我">
+                                    <color key="titleColor" red="0.01117788462" green="0.01117788462" blue="0.01117788462" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="pressButton:" destination="YGt-Ne-WSn" eventType="touchUpInside" id="fy8-Nc-1VT"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <animations/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3PU-fi-Byr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="731" y="284"/>
+        </scene>
         <!--Main View Controller-->
         <scene sceneID="1PN-5Z-x1w">
             <objects>
@@ -26,13 +77,13 @@
                             </label>
                         </subviews>
                         <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="0.90721689620000001" blue="0.36842459509999997" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C5P-sL-npd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="360" y="284"/>
+            <point key="canvasLocation" x="375" y="284"/>
         </scene>
     </scenes>
 </document>

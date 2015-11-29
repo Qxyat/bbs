@@ -30,7 +30,7 @@
     }
     else{
         UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        MainViewController *mainViewController=[storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
+        MainViewController *mainViewController=[storyboard instantiateViewControllerWithIdentifier:@"rootViewController"];
         self.window.rootViewController=mainViewController;
     }
     [self.window makeKeyAndVisible];

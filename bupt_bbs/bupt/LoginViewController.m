@@ -21,7 +21,8 @@
 
 #pragma mark - 点击登录按钮
 - (IBAction)loginButtonPressed:(id)sender {
-    [LoginUtilities doLogin:self.nameTextField.text password:self.passwdTextField.text saveUserInfo:self.shouldSaveUserInfo.isOn];
+    [LoginUtilities doLogin:self.nameTextField.text password:self.passwdTextField.text saveUserInfo:self.shouldSaveUserInfo.isOn
+                   delegate:self];
 }
 
 #pragma mark - 点击背景，释放输入框
@@ -35,4 +36,7 @@
     [sender resignFirstResponder];
 }
 
+-(void)showHome{
+    [UIApplication sharedApplication].keyWindow.rootViewController=[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"rootViewController"];
+}
 @end

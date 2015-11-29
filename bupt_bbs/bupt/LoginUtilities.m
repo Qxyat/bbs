@@ -10,9 +10,10 @@
 #import "BBSConstants.h"
 #import <AFNetworking.h>
 #import "UserInfo.h"
+#import "LoginViewController.h"
 
 @implementation LoginUtilities
-+(void)doLogin:(NSString*)username password:(NSString*)password saveUserInfo:(BOOL)shouldSaveUserInfo{
++(void)doLogin:(NSString*)username password:(NSString*)password saveUserInfo:(BOOL)shouldSaveUserInfo delegate:(LoginViewController *)viewController{
     NSDictionary *dic=@{@"client_id":kAppKey,
                         @"response_type":@"token",
                         @"redirect_uri":kRedirectURL,
@@ -31,6 +32,10 @@
             NSArray* array=[location componentsSeparatedByString:@"#"];
             if([array count]>1){
                 [UserInfo saveLoadConfiguration:array[1] saveUserInfo:shouldSaveUserInfo];
+               
+                dispatch_async(dispatch_get_main_queue(), ^{
+                     [viewController showHome];
+                });
             }
            
             return nil;

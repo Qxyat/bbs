@@ -9,7 +9,7 @@
             <connections>
                 <outlet property="nameTextField" destination="E14-rt-mXH" id="5zr-hG-Zsw"/>
                 <outlet property="passwdTextField" destination="A91-S3-SpS" id="qnA-O0-GlJ"/>
-                <outlet property="shouldSaveUserInfo" destination="oT3-sx-SJr" id="mZf-oo-NsX"/>
+                <outlet property="shouldSaveLoginConfiguration" destination="oT3-sx-SJr" id="c0m-to-da4"/>
                 <outlet property="view" destination="iN0-l3-epB" id="4xn-rN-S20"/>
             </connections>
         </placeholder>

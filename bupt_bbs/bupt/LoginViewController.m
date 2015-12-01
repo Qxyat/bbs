@@ -13,7 +13,7 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwdTextField;
-@property (weak, nonatomic) IBOutlet UISwitch *shouldSaveUserInfo;
+@property (weak, nonatomic) IBOutlet UISwitch *shouldSaveLoginConfiguration;
 
 @end
 
@@ -21,8 +21,7 @@
 
 #pragma mark - 点击登录按钮
 - (IBAction)loginButtonPressed:(id)sender {
-    [LoginUtilities doLogin:self.nameTextField.text password:self.passwdTextField.text saveUserInfo:self.shouldSaveUserInfo.isOn
-                   delegate:self];
+    [LoginUtilities doLogin:self.nameTextField.text password:self.passwdTextField.text saveLoginConfiguration:self.shouldSaveLoginConfiguration.isOn delegate:self];
 }
 
 #pragma mark - 点击背景，释放输入框
@@ -36,6 +35,7 @@
     [sender resignFirstResponder];
 }
 
+#pragma mark - 用户完成登陆后显示根控制器
 -(void)showHome{
     [UIApplication sharedApplication].keyWindow.rootViewController=[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"rootViewController"];
 }

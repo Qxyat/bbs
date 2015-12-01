@@ -1,33 +1,28 @@
 //
-//  HomeViewController.m
+//  TopTenViewController.m
 //  bupt
 //
-//  Created by 邱鑫玥 on 15/11/29.
+//  Created by 邱鑫玥 on 15/12/1.
 //  Copyright © 2015年 qiu. All rights reserved.
 //
 
-#import "HomeViewController.h"
-
-@interface HomeViewController ()
+#import "TopTenViewController.h"
+#import "TopTenUtilities.h"
+@interface TopTenViewController ()
 
 @end
 
-@implementation HomeViewController
+@implementation TopTenViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [TopTenUtilities getTopTenArticles];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-- (IBAction)pressButton:(id)sender {
-    UIAlertController *controller=[UIAlertController alertControllerWithTitle:@"123" message:@"hha" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *action=[UIAlertAction actionWithTitle:@"22" style:UIAlertActionStyleDestructive handler:nil];
-    [controller addAction:action];
-    [self presentViewController:controller animated:YES completion:nil];
 }
 
 /*

@@ -7,9 +7,9 @@
 //
 
 #import "AppDelegate.h"
-#import "UserInfo.h"
+#import "LoginConfiguration.h"
 #import "LoginViewController.h"
-#import "MainViewController.h"
+#import "RootViewController.h"
 @interface AppDelegate ()
 
 @end
@@ -22,16 +22,17 @@
     
     //判断用户之前是否登陆过
     self.window=[[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    UserInfo * userInfo=[UserInfo getInstance];
+    LoginConfiguration * loginConfiguration=[LoginConfiguration getInstance];
     
-    if(userInfo.access_token==nil){
+    if(loginConfiguration.access_token==nil){
         LoginViewController *loginViewController=[[LoginViewController alloc]initWithNibName:@"LoginView" bundle:nil];
         self.window.rootViewController=loginViewController;
     }
     else{
         UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        MainViewController *mainViewController=[storyboard instantiateViewControllerWithIdentifier:@"rootViewController"];
-        self.window.rootViewController=mainViewController;
+        RootViewController *rootViewController=[storyboard instantiateViewControllerWithIdentifier:@"rootViewController"];
+        
+        self.window.rootViewController=rootViewController;
     }
     [self.window makeKeyAndVisible];
     return YES;
@@ -40,7 +41,7 @@
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-    [UserInfo saveUserInfo];
+    [LoginConfiguration saveLoginConfiguration];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {

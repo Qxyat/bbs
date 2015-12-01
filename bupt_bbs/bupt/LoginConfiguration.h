@@ -1,5 +1,5 @@
 //
-//  UserInfo.h
+//  LoginConfiguration.h
 //  bupt
 //
 //  Created by 邱鑫玥 on 15/11/24.
@@ -8,18 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
-@interface UserInfo : NSObject<NSCoding>
+@interface LoginConfiguration : NSObject<NSCoding>
 
 @property (copy,nonatomic)NSString *access_token;
 @property (copy,nonatomic)NSString *refresh_token;
 @property (copy,nonatomic)NSString *expires_in;
-@property (nonatomic)BOOL shouldSaveUserInfo;
+@property (nonatomic)BOOL shouldSaveLoginConfiguration;
 
 +(instancetype)getInstance;
 
-+(void)saveUserInfo;
-+(void)deleteUserInfo;
++(void)saveLoginConfiguration;
++(void)deleteLoginConfiguration;
 
-+(void)saveLoadConfiguration:(NSString*)loadConfiguration saveUserInfo:(BOOL)shouldSaveUserInfo;
++(void)saveLoadConfiguration:(NSString*)loadConfiguration saveLoginConfiguration:(BOOL)shouldSaveLoginConfiguration;
 
 @end

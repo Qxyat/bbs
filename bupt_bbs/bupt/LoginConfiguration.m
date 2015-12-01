@@ -1,27 +1,27 @@
 //
-//  UserInfo.m
+//  LoginConfiguration.m
 //  bupt
 //
 //  Created by 邱鑫玥 on 15/11/24.
 //  Copyright © 2015年 qiu. All rights reserved.
 //
 
-#import "UserInfo.h"
-static NSString *const kUserInfoKey=@"userinfo";
+#import "LoginConfiguration.h"
+static NSString *const kLoginConfigurationKey=@"LoginConfiguration";
 static NSString *const kAccessTokenKey=@"access_token";
 static NSString *const kRefreshTokenKey=@"refresh_token";
 static NSString *const kExpireInKey=@"expires_in";
 
 
-static UserInfo * user=nil;
+static LoginConfiguration * loginConfiguration=nil;
 static dispatch_once_t token;
 
-static NSString * userDataFilePath(){
+static NSString * loginConfigurationFilePath(){
     NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    return [paths[0] stringByAppendingPathComponent:@"user.archive"];
+    return [paths[0] stringByAppendingPathComponent:@"loginconfiguration.archive"];
 }
 
-@implementation UserInfo
+@implementation LoginConfiguration
 
 #pragma mark - 实现NSCoding协议
 -(void)encodeWithCoder:(NSCoder *)aCoder{
@@ -38,55 +38,55 @@ static NSString * userDataFilePath(){
     return self;
 }
 
-#pragma mark - 获得UserInfo的单例
+#pragma mark - 获得LoginConfiguration的单例
 +(instancetype)getInstance{
     dispatch_once(&token, ^{
-        NSData *data=[[NSData alloc]initWithContentsOfFile:userDataFilePath()];
+        NSData *data=[[NSData alloc]initWithContentsOfFile:loginConfigurationFilePath()];
         if(data==nil){
-            user=[[UserInfo alloc]init];
+            loginConfiguration=[[LoginConfiguration alloc]init];
         }
         else{
             NSKeyedUnarchiver *unarchiver=[[NSKeyedUnarchiver alloc]initForReadingWithData:data];
-            user=[unarchiver decodeObjectForKey:kUserInfoKey];
+            loginConfiguration=[unarchiver decodeObjectForKey:kLoginConfigurationKey];
             [unarchiver finishDecoding];
         }
     });
-    return user;
+    return loginConfiguration;
 }
 
-#pragma mark - 保存UserInfo
-+(void)saveUserInfo{
-    if(user.shouldSaveUserInfo){
+#pragma mark - 保存LoginConfiguration
++(void)saveLoginConfiguration{
+    if(loginConfiguration.shouldSaveLoginConfiguration){
         NSMutableData *data=[[NSMutableData alloc]init];
         NSKeyedArchiver *archiver=[[NSKeyedArchiver alloc]initForWritingWithMutableData:data];
-        [archiver encodeObject:user forKey:kUserInfoKey];
+        [archiver encodeObject:loginConfiguration forKey:kLoginConfigurationKey];
         [archiver finishEncoding];
-        [data writeToFile:userDataFilePath() atomically:YES];
+        [data writeToFile:loginConfigurationFilePath() atomically:YES];
     }
     else{
-        [UserInfo deleteUserInfo];
+        [LoginConfiguration deleteLoginConfiguration];
     }
 }
-#pragma mark - 删除UserInfo
-+(void)deleteUserInfo{
-    user=[[UserInfo alloc]init];
-    [[NSFileManager defaultManager] removeItemAtPath:userDataFilePath() error:nil];
+#pragma mark - 删除LoginConfiguration
++(void)deleteLoginConfiguration{
+    loginConfiguration=[[LoginConfiguration alloc]init];
+    [[NSFileManager defaultManager] removeItemAtPath:loginConfigurationFilePath() error:nil];
 }
 
 #pragma mark - 保存用户的access_token,refresh_token,expires_in
-+(void)saveLoadConfiguration:(NSString *)loadConfiguration saveUserInfo:(BOOL)shouldSaveUserInfo{
-    user.shouldSaveUserInfo=shouldSaveUserInfo;
++(void)saveLoadConfiguration:(NSString *)loadConfiguration saveLoginConfiguration:(BOOL)shouldSaveLoginConfiguration{
+    loginConfiguration.shouldSaveLoginConfiguration=shouldSaveLoginConfiguration;
     NSArray *tuples=[loadConfiguration componentsSeparatedByString:@"&"];
     for(NSString *tuple in tuples){
         NSArray *pairs=[tuple componentsSeparatedByString:@"="];
         if([pairs[0] isEqualToString:@"access_token"]){
-            user.access_token=pairs[1];
+            loginConfiguration.access_token=pairs[1];
         }
         else if([pairs[0] isEqualToString:@"expires_in"]){
-            user.expires_in=pairs[1];
+            loginConfiguration.expires_in=pairs[1];
         }
         else if([pairs[0] isEqualToString:@"refresh_token"]){
-            user.refresh_token=pairs[1];
+            loginConfiguration.refresh_token=pairs[1];
         }
     }
     

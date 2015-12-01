@@ -25,10 +25,10 @@
             </objects>
             <point key="canvasLocation" x="5" y="284"/>
         </scene>
-        <!--Home View Controller-->
+        <!--User View Controller-->
         <scene sceneID="kMM-xv-lsR">
             <objects>
-                <viewController storyboardIdentifier="homeViewController" id="YGt-Ne-WSn" customClass="HomeViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="userviewcontroller" id="YGt-Ne-WSn" customClass="UserViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kI4-MP-aJq"/>
                         <viewControllerLayoutGuide type="bottom" id="ayF-xf-fR7"/>
@@ -54,36 +54,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3PU-fi-Byr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="731" y="284"/>
-        </scene>
-        <!--Main View Controller-->
-        <scene sceneID="1PN-5Z-x1w">
-            <objects>
-                <viewController storyboardIdentifier="mainViewController" id="gka-ow-Dud" customClass="MainViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="dCR-JJ-hF1"/>
-                        <viewControllerLayoutGuide type="bottom" id="1tZ-kI-80m"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Lch-mT-MGD">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="已经登陆过" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gN3-Mt-l93">
-                                <rect key="frame" x="118" y="273" width="85" height="21"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <animations/>
-                        <color key="backgroundColor" red="1" green="0.90721689620000001" blue="0.36842459509999997" alpha="1" colorSpace="calibratedRGB"/>
-                    </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="C5P-sL-npd" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="375" y="284"/>
+            <point key="canvasLocation" x="373" y="284"/>
         </scene>
     </scenes>
 </document>

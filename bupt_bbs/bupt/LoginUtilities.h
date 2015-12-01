@@ -12,6 +12,6 @@
 
 @interface LoginUtilities : NSObject
 
-+(void)doLogin:(NSString*)userName password:(NSString*)password saveUserInfo:(BOOL)shouldSave delegate:(LoginViewController *)viewController;
++(void)doLogin:(NSString*)userName password:(NSString*)password saveLoginConfiguration:(BOOL)shouldSave delegate:(LoginViewController *)viewController;
 
 @end

@@ -9,11 +9,11 @@
 #import "LoginUtilities.h"
 #import "BBSConstants.h"
 #import <AFNetworking.h>
-#import "UserInfo.h"
+#import "LoginConfiguration.h"
 #import "LoginViewController.h"
 
 @implementation LoginUtilities
-+(void)doLogin:(NSString*)username password:(NSString*)password saveUserInfo:(BOOL)shouldSaveUserInfo delegate:(LoginViewController *)viewController{
++(void)doLogin:(NSString*)username password:(NSString*)password saveLoginConfiguration:(BOOL)shouldSaveLoginConfiguration delegate:(LoginViewController *)viewController{
     NSDictionary *dic=@{@"client_id":kAppKey,
                         @"response_type":@"token",
                         @"redirect_uri":kRedirectURL,
@@ -31,7 +31,7 @@
             NSString *location=dic[@"Location"];
             NSArray* array=[location componentsSeparatedByString:@"#"];
             if([array count]>1){
-                [UserInfo saveLoadConfiguration:array[1] saveUserInfo:shouldSaveUserInfo];
+                [LoginConfiguration saveLoadConfiguration:array[1] saveLoginConfiguration:shouldSaveLoginConfiguration];
                
                 dispatch_async(dispatch_get_main_queue(), ^{
                      [viewController showHome];

@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GetArticleInfoDelegate.h"
+@interface TopTenViewController : UITableViewController<ArticleInfoDelegate>
 
-@interface TopTenViewController : UITableViewController
+@property (copy,nonatomic) NSArray *data;
 
 @end

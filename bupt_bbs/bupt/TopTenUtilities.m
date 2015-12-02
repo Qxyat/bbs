@@ -10,11 +10,11 @@
 #import "BBSConstants.h"
 #import "LoginConfiguration.h"
 #import <AFNetworking.h>
-
+#import "ArticleInfo.h"
 @implementation TopTenUtilities
 
 
-+(void)getTopTenArticles{
++(void)getTopTenArticles:(id<ArticleInfoDelegate>) delegate{
     NSString *url=[kRequestURL stringByAppendingString:@"/widget/topten.json"];
     
     LoginConfiguration *loginConfiguration=[LoginConfiguration getInstance];
@@ -25,8 +25,7 @@
     manager.responseSerializer=[[AFJSONResponseSerializer alloc]init];
     
     [[AFHTTPRequestOperationManager manager]GET:url parameters:paramters success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-         NSLog(@"%@",responseObject[@"article"][1]);
-        NSLog(@"%@",responseObject[@"article"][1][@"content"]);
+        [delegate fillArticlesInfo:responseObject[@"article"]];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
         NSLog(@"%@",error);
     }];

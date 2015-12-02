@@ -14,6 +14,9 @@
 		41185B8C1BFAC71A00695E9C /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41185B8B1BFAC71A00695E9C /* LoginViewController.m */; };
 		411DD2691C0D8CA600002CD3 /* UserMainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 411DD2681C0D8CA600002CD3 /* UserMainInterface.storyboard */; };
 		411DEC061C0D3131008B7EB6 /* TopTenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 411DEC051C0D3131008B7EB6 /* TopTenViewController.m */; };
+		412641F31C0E86BD006C4B31 /* ArticleInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 412641F21C0E86BD006C4B31 /* ArticleInfo.m */; };
+		412641F61C0E876E006C4B31 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 412641F51C0E876E006C4B31 /* UserInfo.m */; };
+		412641FA1C0ED80D006C4B31 /* ArticleInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 412641F91C0ED80D006C4B31 /* ArticleInfoCell.xib */; };
 		41434F2D1BE8D5AA00FF01D9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 41434F2C1BE8D5AA00FF01D9 /* main.m */; };
 		41434F301BE8D5AA00FF01D9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 41434F2F1BE8D5AA00FF01D9 /* AppDelegate.m */; };
 		41434F361BE8D5AA00FF01D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41434F341BE8D5AA00FF01D9 /* Main.storyboard */; };
@@ -41,6 +44,12 @@
 		411DD2681C0D8CA600002CD3 /* UserMainInterface.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = UserMainInterface.storyboard; sourceTree = "<group>"; };
 		411DEC041C0D3131008B7EB6 /* TopTenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopTenViewController.h; sourceTree = "<group>"; };
 		411DEC051C0D3131008B7EB6 /* TopTenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopTenViewController.m; sourceTree = "<group>"; };
+		412641F11C0E86BD006C4B31 /* ArticleInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleInfo.h; sourceTree = "<group>"; };
+		412641F21C0E86BD006C4B31 /* ArticleInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleInfo.m; sourceTree = "<group>"; };
+		412641F41C0E876E006C4B31 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
+		412641F51C0E876E006C4B31 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
+		412641F81C0E91A7006C4B31 /* GetArticleInfoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetArticleInfoDelegate.h; sourceTree = "<group>"; };
+		412641F91C0ED80D006C4B31 /* ArticleInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArticleInfoCell.xib; sourceTree = "<group>"; };
 		41434F281BE8D5AA00FF01D9 /* 邮遍天下.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "邮遍天下.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		41434F2C1BE8D5AA00FF01D9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		41434F2E1BE8D5AA00FF01D9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -75,6 +84,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		412641F71C0E9129006C4B31 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				412641F81C0E91A7006C4B31 /* GetArticleInfoDelegate.h */,
+			);
+			name = Protocol;
+			sourceTree = "<group>";
+		};
 		41434F1F1BE8D5AA00FF01D9 = {
 			isa = PBXGroup;
 			children = (
@@ -98,6 +115,7 @@
 			children = (
 				41434F2E1BE8D5AA00FF01D9 /* AppDelegate.h */,
 				41434F2F1BE8D5AA00FF01D9 /* AppDelegate.m */,
+				412641F71C0E9129006C4B31 /* Protocol */,
 				41CDB23C1BF9B68600172DE0 /* Constants */,
 				41E4CE9E1C045347004DD407 /* Controller */,
 				41E4CE9D1C0452C0004DD407 /* NetworkUtilities */,
@@ -164,6 +182,7 @@
 				411DD2681C0D8CA600002CD3 /* UserMainInterface.storyboard */,
 				41434F391BE8D5AA00FF01D9 /* LaunchScreen.storyboard */,
 				41E4CEA41C04588C004DD407 /* LoginView.xib */,
+				412641F91C0ED80D006C4B31 /* ArticleInfoCell.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -173,6 +192,10 @@
 			children = (
 				41AF90E91C0467E2007FFE3C /* LoginConfiguration.h */,
 				41AF90EA1C0467E2007FFE3C /* LoginConfiguration.m */,
+				412641F11C0E86BD006C4B31 /* ArticleInfo.h */,
+				412641F21C0E86BD006C4B31 /* ArticleInfo.m */,
+				412641F41C0E876E006C4B31 /* UserInfo.h */,
+				412641F51C0E876E006C4B31 /* UserInfo.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -259,6 +282,7 @@
 				41434F3B1BE8D5AA00FF01D9 /* LaunchScreen.storyboard in Resources */,
 				41434F381BE8D5AA00FF01D9 /* Assets.xcassets in Resources */,
 				41E4CEA51C04588C004DD407 /* LoginView.xib in Resources */,
+				412641FA1C0ED80D006C4B31 /* ArticleInfoCell.xib in Resources */,
 				41434F361BE8D5AA00FF01D9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -323,6 +347,8 @@
 				41434F301BE8D5AA00FF01D9 /* AppDelegate.m in Sources */,
 				4108AFFD1C0D8FEF00CDC292 /* RecommedArticalViewController.m in Sources */,
 				41A86EE21C05B5C7005A724D /* BBSConstants.m in Sources */,
+				412641F31C0E86BD006C4B31 /* ArticleInfo.m in Sources */,
+				412641F61C0E876E006C4B31 /* UserInfo.m in Sources */,
 				4108AFFA1C0D8FBB00CDC292 /* SectionViewController.m in Sources */,
 				4108B0001C0D951600CDC292 /* TopTenUtilities.m in Sources */,
 				415AE0951C0AF5F700B1F137 /* UserViewController.m in Sources */,

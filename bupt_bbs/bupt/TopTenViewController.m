@@ -11,9 +11,12 @@
 #import "ArticleInfo.h"
 #import "UserInfo.h"
 #import <MJRefresh.h>
+#import "ThemeViewController.h"
+#import "ArticleInfoCell.h"
 
 static CGFloat const kMargin=20;
 static CGFloat const kRowMargin=kMargin/2;
+static NSString *const kCellIdentifier=@"articleInfoCell";
 
 @interface TopTenViewController ()
 
@@ -27,7 +30,7 @@ static CGFloat const kRowMargin=kMargin/2;
     [super viewDidLoad];
    
     self.screenWidth=[UIScreen mainScreen].bounds.size.width;
-    [self.tableView registerNib:[UINib nibWithNibName:@"ArticleInfoCell" bundle:nil] forCellReuseIdentifier:@"ArticleInfoCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"ArticleInfoCell" bundle:nil] forCellReuseIdentifier:kCellIdentifier];
     
     self.tableView.mj_header=[MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
     [self.tableView.mj_header beginRefreshing];
@@ -45,31 +48,26 @@ static CGFloat const kRowMargin=kMargin/2;
     return  self.data.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"ArticleInfoCell"];
-    UILabel *titleLabel=[cell viewWithTag:1];
-    UILabel *boardLabel=[cell viewWithTag:2];
-    UILabel *userLabel=[cell viewWithTag:3];
-    UILabel *replyCountLabel=[cell viewWithTag:4];
-    UIView  *bottemView=[cell viewWithTag:5];
+    ArticleInfoCell *cell=[tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
     
     ArticleInfo *articleInfo=self.data[indexPath.row];
     
-    titleLabel.text=articleInfo.title;
-    CGRect titleRect=titleLabel.frame;
+    cell.titleLabel.text=articleInfo.title;
+    CGRect titleRect=cell.titleLabel.frame;
     CGRect titleCalRect=[self getTitleFrameSize:articleInfo.title];
     titleRect.origin.x=kMargin;
     titleRect.origin.y=kRowMargin;
     titleRect.size.width=titleCalRect.size.width;
     titleRect.size.height=titleCalRect.size.height;
-    titleLabel.frame=titleRect;
+    cell.titleLabel.frame=titleRect;
     
-    CGRect bottemRect=bottemView.frame;
+    CGRect bottemRect=cell.bottomView.frame;
     bottemRect.origin.y=2*kRowMargin+titleRect.size.height;
-    bottemView.frame=bottemRect;
+    cell.bottomView.frame=bottemRect;
     
-    boardLabel.text=articleInfo.board_name;
-    userLabel.text=articleInfo.user.user_name;
-    replyCountLabel.text=[NSString stringWithFormat:@"%d",articleInfo.reply_count];
+    cell.boardLabel.text=articleInfo.board_name;
+    cell.nameLabel.text=articleInfo.user.user_name;
+    cell.replyCountLabel.text=[NSString stringWithFormat:@"%d",articleInfo.reply_count];
 
     return cell;
 }
@@ -85,14 +83,24 @@ static CGFloat const kRowMargin=kMargin/2;
     UIEdgeInsets edge=UIEdgeInsetsMake(0, kMargin, 0, kMargin);
     [cell setSeparatorInset:edge];
 }
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    ThemeViewController *themViewController=[[ThemeViewController alloc]init];
+    ArticleInfo *articleInfo=self.data[indexPath.row];
+    themViewController.board_name=articleInfo.board_name;
+    themViewController.group_id=articleInfo.group_id;
+    themViewController.page=1;
+    themViewController.count=10;
+    themViewController.tabBarController.tabBar.hidden=YES;
+   
+    [self.navigationController pushViewController:themViewController animated:YES];
+}
 
-#pragma  mark - 实现填充TableView数据来源的协议ArticleInfoDelegate
--(void)fillArticlesInfo:(NSArray *)array{
-    self.data=[ArticleInfo getArticlesInfo:array];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tableView reloadData];
-        [self.tableView.mj_header endRefreshing];
-    });
+#pragma  mark - 实现HttpResponseDelegate
+-(void)handleHttpResponse:(id)response{
+    NSDictionary *dic=(NSDictionary*)response;
+    self.data=[ArticleInfo getArticlesInfo:dic[@"article"]];
+    [self.tableView reloadData];
+    [self.tableView.mj_header endRefreshing];
 }
 
 #pragma mark - 获取每个cell的文章标题的框体大小

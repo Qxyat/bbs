@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GetArticleInfoDelegate.h"
+#import "HttpResponseDelegate.h"
 @interface TopTenUtilities : NSObject
 
-+(void)getTopTenArticles:(id<ArticleInfoDelegate>) delegate;
++(void)getTopTenArticles:(id<HttpResponseDelegate>) delegate;
 
 @end

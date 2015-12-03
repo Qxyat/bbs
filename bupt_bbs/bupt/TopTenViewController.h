@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GetArticleInfoDelegate.h"
-@interface TopTenViewController : UITableViewController<ArticleInfoDelegate>
+#import "HttpResponseDelegate.h"
+@interface TopTenViewController : UITableViewController<HttpResponseDelegate>
 
 @property (copy,nonatomic) NSArray *data;
 

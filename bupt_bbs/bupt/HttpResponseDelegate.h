@@ -8,10 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol ArticleInfoDelegate <NSObject>
+@protocol HttpResponseDelegate <NSObject>
 
-@optional
--(void)fillArticlesInfo:(NSArray*)array;
--(void)fillArticleInfo:(NSDictionary*)dic;
+-(void)handleHttpResponse:(id)response;
 
 @end

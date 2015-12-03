@@ -10,6 +10,7 @@
 #import "TopTenUtilities.h"
 #import "ArticleInfo.h"
 #import "UserInfo.h"
+#import <MJRefresh.h>
 
 static CGFloat const kMargin=20;
 static CGFloat const kRowMargin=kMargin/2;
@@ -28,9 +29,14 @@ static CGFloat const kRowMargin=kMargin/2;
     self.screenWidth=[UIScreen mainScreen].bounds.size.width;
     [self.tableView registerNib:[UINib nibWithNibName:@"ArticleInfoCell" bundle:nil] forCellReuseIdentifier:@"ArticleInfoCell"];
     
-    [TopTenUtilities getTopTenArticles:self];
+    self.tableView.mj_header=[MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
+    [self.tableView.mj_header beginRefreshing];
 }
 
+#pragma mark - 刷新十大消息
+-(void)refresh{
+    [TopTenUtilities getTopTenArticles:self];
+}
 #pragma mark - UITableView Data Source
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return  1;
@@ -85,6 +91,7 @@ static CGFloat const kRowMargin=kMargin/2;
     self.data=[ArticleInfo getArticlesInfo:array];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
+        [self.tableView.mj_header endRefreshing];
     });
 }
 

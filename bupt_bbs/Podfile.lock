@@ -20,11 +20,14 @@ PODS:
   - AFNetworking/UIKit (2.6.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - MJRefresh (3.0.7)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
+  - MJRefresh
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
+  MJRefresh: f3e1228ec3d38c7ba5208d58032631a52f39f495
 
 COCOAPODS: 0.39.0

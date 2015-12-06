@@ -34,5 +34,5 @@
 @property(nonatomic)        BOOL      is_admin;
 @property(nonatomic)        int       stay_count;
 
-+(UserInfo*)getUserInfo:(NSDictionary*)dic;
++(UserInfo*)getUserInfo:(id)item;
 @end

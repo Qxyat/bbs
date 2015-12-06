@@ -21,6 +21,7 @@ static NSString *const kCellIdentifier=@"articleInfoCell";
 @interface TopTenViewController ()
 
 @property (nonatomic) CGFloat screenWidth;
+@property (copy,nonatomic) NSArray *data;
 
 @end
 

@@ -7,12 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FileInfo.h"
+
 @interface AttachmentInfo : NSObject
 
 @property (copy,nonatomic)    NSArray  *file;
 @property (strong,nonatomic)  NSString *remain_space;
-@property (strong,nonatomic)  NSString *remain_count;
+@property (nonatomic)  int remain_count;
 
-+(AttachmentInfo*)getAttachmentInfo:(NSDictionary*)dic;
++(AttachmentInfo*)getAttachmentInfo:(id)item;
 @end

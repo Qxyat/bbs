@@ -36,6 +36,6 @@
 @property(strong,nonatomic) NSString*last_reply_user_id;
 @property(nonatomic) int last_reply_time;
 
-+(NSMutableArray*)getArticlesInfo:(NSArray*)array;
-+(ArticleInfo *)getArticleInfo:(NSDictionary*)dic;
++(NSArray*)getArticlesInfo:(id)item;
++(ArticleInfo *)getArticleInfo:(id)item;
 @end

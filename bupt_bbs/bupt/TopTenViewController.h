@@ -10,6 +10,4 @@
 #import "HttpResponseDelegate.h"
 @interface TopTenViewController : UITableViewController<HttpResponseDelegate>
 
-@property (copy,nonatomic) NSArray *data;
-
 @end

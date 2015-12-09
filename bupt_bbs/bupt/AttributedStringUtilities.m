@@ -10,6 +10,9 @@
 #import <UIImageView+WebCache.h>
 #import <YYKit.h>
 #import "ArticleInfo.h"
+#import "AttachmentInfo.h"
+#import "AttachmentFile.h"
+#import "LoginConfiguration.h"
 static NSString *const kColorBeginTag=@"[color=#";
 static NSString *const kSizeBeginTag=@"[size=";
 static NSString *const kEmojiBeginTag=@"[em";
@@ -105,7 +108,17 @@ static NSAttributedString* getEmoji(NSString*string,CGFloat fontSize)
     
     return attachText;
 }
-
+#pragma mark - 判断一个字符串对应的url是否是图片
+bool isPicture(NSString *string){
+    NSArray* array=[string componentsSeparatedByString:@"."];
+    if([array count]>1){
+        return [array[1] isEqualToString:@"png"]||
+        [array[1] isEqualToString:@"jpg"]||
+        [array[1] isEqualToString:@"jpeg"]||
+        [array[1] isEqualToString:@"gif"];
+    }
+    return NO;
+}
 #pragma mark -
 @implementation AttributedStringUtilities
 
@@ -118,22 +131,62 @@ static NSAttributedString* getEmoji(NSString*string,CGFloat fontSize)
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSMutableArray *res=[[NSMutableArray alloc]initWithCapacity:array.count];
         for(int i=0;i<array.count;i++){
-            NSAttributedString *attributedString=[AttributedStringUtilities getAttributedStringWithString:[(ArticleInfo*)array[i] content] StringColor:color StringSize:fontSize];
+            NSAttributedString *attributedString=[AttributedStringUtilities getAttributedStringWithString:[(ArticleInfo*)array[i] content] StringColor:color StringSize:fontSize Attachments:[(ArticleInfo*)array[i] attachment]];
             CGSize size=sizeThatFitsAttributedString(attributedString, boundSize, 0);
             [res addObject:@{@"AttributedString":attributedString,
-                               @"Size":NSStringFromCGSize(size)}];
+                             @"Size":NSStringFromCGSize(size)}];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             [delegate handleAttribuedStringResponse:res];
         });
     });
 }
-#pragma mark - 获取string对应的attributedstring
+static AttachmentInfo* kAttachmentInfo;
+static bool* kUsed;
+#pragma mark - 获取string对应的attributedstring,主要是从附件的角度考虑
 +(NSMutableAttributedString*)getAttributedStringWithString:(NSString*)                     string
-                                              StringColor:(UIColor*)color
-                                               StringSize:(CGFloat)size
-
+                                               StringColor:(UIColor*)color
+                                                StringSize:(CGFloat)size
+                                               Attachments:(AttachmentInfo*)attachmentInfo
 {
+    if(attachmentInfo!=nil&&attachmentInfo.file!=nil){
+        kAttachmentInfo=attachmentInfo;
+        kUsed=malloc(sizeof(bool)*kAttachmentInfo.file.count);
+    }
+    else{
+        kAttachmentInfo=nil;
+        kUsed=NULL;
+    }
+    
+    for(int i=0;i<kAttachmentInfo.file.count;i++){
+        kUsed[i]=false;
+    }
+    
+    NSMutableAttributedString*result=[AttributedStringUtilities getAttributedStringByRecursiveWithString:string StringColor:color StringSize:size];
+    
+    if(kAttachmentInfo!=nil&&kUsed!=NULL){
+        for(int i=0;i<kAttachmentInfo.file.count;i++){
+            AttachmentFile *file=kAttachmentInfo.file[i];
+            if(kUsed[i]==false&&isPicture(file.name)){
+                UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 280, 280)];
+                [imageView sd_setImageWithURL:[NSURL URLWithString:
+                                               [NSString stringWithFormat:@"%@?oauth_token=%@",file.url,[LoginConfiguration getInstance].access_token]]];
+                
+                //使用YYKit提供的方法，后期争取能替换成自己的
+                NSMutableAttributedString* attachText = [NSMutableAttributedString attachmentStringWithContent:imageView contentMode:UIViewContentModeCenter attachmentSize:imageView.size alignToFont:[UIFont systemFontOfSize:size] alignment:YYTextVerticalAlignmentCenter];
+                [result appendAttributedString:attachText];
+                [result appendAttributedString:[[NSAttributedString alloc]initWithString:@"\n\n"]];
+            }
+        }
+        
+    }
+    return result;
+}
+#pragma mark - 通过递归的方式获取对应的attributedstring
++(NSMutableAttributedString*)getAttributedStringByRecursiveWithString:
+(NSString*)string
+                                                          StringColor:(UIColor*)color
+                                                           StringSize:(CGFloat)size{
     NSMutableAttributedString *result=[[NSMutableAttributedString alloc]init];
     NSDictionary *attributes=@{NSForegroundColorAttributeName:color,
                                NSFontAttributeName:[UIFont systemFontOfSize:size]};
@@ -150,7 +203,7 @@ static NSAttributedString* getEmoji(NSString*string,CGFloat fontSize)
             UIColor *newColor=getColor(tmp);
             [scanner scanString:@"]" intoString:nil];
             [scanner scanUpToString:@"[/color]" intoString:&tmp];
-            [result appendAttributedString:[AttributedStringUtilities getAttributedStringWithString:tmp StringColor:newColor StringSize:size]];
+            [result appendAttributedString:[AttributedStringUtilities getAttributedStringByRecursiveWithString:tmp StringColor:newColor StringSize:size]];
             [scanner scanString:@"[/color]" intoString:nil];
             range.location=scanner.scanLocation;
             range.length=0;
@@ -161,7 +214,7 @@ static NSAttributedString* getEmoji(NSString*string,CGFloat fontSize)
             CGFloat newSize=size;
             [scanner scanString:@"]" intoString:nil];
             [scanner scanUpToString:@"[/size]" intoString:&tmp];
-            [result appendAttributedString:[AttributedStringUtilities getAttributedStringWithString:tmp StringColor:color StringSize:newSize]];
+            [result appendAttributedString:[AttributedStringUtilities getAttributedStringByRecursiveWithString:tmp StringColor:color StringSize:newSize]];
             [scanner scanString:@"[/size]" intoString:nil];
             range.location=scanner.scanLocation;
             range.length=0;
@@ -186,6 +239,26 @@ static NSAttributedString* getEmoji(NSString*string,CGFloat fontSize)
             range.location=scanner.scanLocation;
             range.length=0;
         }
+        else if([scanner scanString:@"[upload=" intoString:nil]){
+            [result appendAttributedString:[[NSAttributedString alloc]initWithString:[string substringWithRange:range] attributes:attributes]];
+            int pos=1;
+            [scanner scanInt:&pos];
+            if(kAttachmentInfo!=nil&&kUsed!=NULL&&pos<=kAttachmentInfo.file.count){
+                AttachmentFile *file=kAttachmentInfo.file[pos-1];
+                if(isPicture(file.name)){
+                    kUsed[pos-1]=YES;
+                    UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 280, 280)];
+                    [imageView sd_setImageWithURL:[NSURL URLWithString:
+                                                   [NSString stringWithFormat:@"%@?oauth_token=%@",file.url,[LoginConfiguration getInstance].access_token]]];
+                    NSAttributedString* attachText=[NSAttributedString attachmentStringWithContent:imageView contentMode:UIViewContentModeCenter attachmentSize:imageView.size alignToFont:[UIFont systemFontOfSize:size] alignment:YYTextVerticalAlignmentCenter];
+                    [result appendAttributedString:attachText];
+                    [result appendAttributedString:[[NSAttributedString alloc]initWithString:@"\n\n"]];
+                }
+            }
+            [scanner scanString:@"][/upload]" intoString:nil];
+            range.location=scanner.scanLocation;
+            range.length=0;
+        }
         else{
             scanner.scanLocation++;
             range.length++;
@@ -194,5 +267,4 @@ static NSAttributedString* getEmoji(NSString*string,CGFloat fontSize)
     [result appendAttributedString:[[NSAttributedString alloc] initWithString:[string substringWithRange:range] attributes:attributes]];
     return result;
 }
-
 @end

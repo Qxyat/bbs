@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "HttpResponseDelegate.h"
-@interface ThemeViewController : UITableViewController<HttpResponseDelegate>
+#import "AttributedStringDelegate.h"
+@interface ThemeViewController : UITableViewController<HttpResponseDelegate,AttributedStringDelegate>
 
 @property (nonatomic) int group_id;
 @property (strong,nonatomic) NSString *board_name;

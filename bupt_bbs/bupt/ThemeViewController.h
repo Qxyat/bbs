@@ -13,7 +13,5 @@
 
 @property (nonatomic) int group_id;
 @property (strong,nonatomic) NSString *board_name;
-@property (nonatomic) int page;
-@property (nonatomic) int count;
-
+@property (strong,nonatomic) NSString *theme_title;
 @end

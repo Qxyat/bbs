@@ -89,10 +89,21 @@ static NSString *const kCellIdentifier=@"articleInfoCell";
     ArticleInfo *articleInfo=self.data[indexPath.row];
     themViewController.board_name=articleInfo.board_name;
     themViewController.group_id=articleInfo.group_id;
-    themViewController.page=1;
-    themViewController.count=10;
+    themViewController.theme_title=articleInfo.title;
     themViewController.tabBarController.tabBar.hidden=YES;
    
+    UIBarButtonItem *barButtonItem=[[UIBarButtonItem alloc]init];
+    barButtonItem.title=@"";
+    self.navigationItem.backBarButtonItem=barButtonItem;
+    
+    UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(20, 20, 100, 40)];
+    label.numberOfLines=0;
+    label.text=articleInfo.title;
+    label.lineBreakMode=NSLineBreakByCharWrapping;
+    label.textAlignment=NSTextAlignmentCenter;
+    label.adjustsFontSizeToFitWidth=YES;
+    [self.navigationItem.titleView addSubview:label];
+    
     [self.navigationController pushViewController:themViewController animated:YES];
 }
 

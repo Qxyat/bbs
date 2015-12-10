@@ -100,10 +100,11 @@ static NSAttributedString* getEmoji(NSString*string,CGFloat fontSize)
     NSRange range =[string rangeOfString:@"^[a-zA-z]+" options:NSRegularExpressionSearch];
     NSString* url=[NSString stringWithFormat:@"%@/%@/%@.gif",@"http://bbs.byr.cn/img/ubb",[string substringWithRange:range],[string substringFromIndex:range.location+range.length]];
     
-    UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, imageWidth, imageWidth)];
-    [imageView sd_setImageWithURL:[NSURL URLWithString:url]];
-    
     //使用YYKit提供的方法，后期争取能替换成自己的
+    YYImage *image = [YYImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]] scale:1];
+    image.preloadAllAnimatedImageFrames = YES;
+    YYAnimatedImageView *imageView = [[YYAnimatedImageView alloc] initWithFrame:CGRectMake(0, 0, imageWidth, imageWidth)];
+    [imageView setImage:image];
     NSMutableAttributedString* attachText = [NSMutableAttributedString attachmentStringWithContent:imageView contentMode:UIViewContentModeCenter attachmentSize:imageView.size alignToFont:font alignment:YYTextVerticalAlignmentCenter];
     
     return attachText;
@@ -171,7 +172,6 @@ static bool* kUsed;
                 UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 280, 280)];
                 [imageView sd_setImageWithURL:[NSURL URLWithString:
                                                [NSString stringWithFormat:@"%@?oauth_token=%@",file.url,[LoginConfiguration getInstance].access_token]]];
-                
                 //使用YYKit提供的方法，后期争取能替换成自己的
                 NSMutableAttributedString* attachText = [NSMutableAttributedString attachmentStringWithContent:imageView contentMode:UIViewContentModeCenter attachmentSize:imageView.size alignToFont:[UIFont systemFontOfSize:size] alignment:YYTextVerticalAlignmentCenter];
                 [result appendAttributedString:attachText];
@@ -234,7 +234,7 @@ static bool* kUsed;
             [scanner scanUpToString:@"]" intoString:&tmp];
             [scanner scanString:@"]" intoString:nil];
             [scanner scanUpToString:@"[/url]" intoString:&tmp];
-            [result appendAttributedString:[[NSAttributedString alloc]initWithString:tmp attributes:attributes]];
+            [result appendAttributedString:[AttributedStringUtilities getAttributedStringByRecursiveWithString:tmp StringColor:color StringSize:size]];
             [scanner scanString:@"[/url]" intoString:nil];
             range.location=scanner.scanLocation;
             range.length=0;
@@ -245,7 +245,7 @@ static bool* kUsed;
             [scanner scanInt:&pos];
             if(kAttachmentInfo!=nil&&kUsed!=NULL&&pos<=kAttachmentInfo.file.count){
                 AttachmentFile *file=kAttachmentInfo.file[pos-1];
-                if(isPicture(file.name)){
+                if(isPicture(file.name)&&!kUsed[pos-1]){
                     kUsed[pos-1]=YES;
                     UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 280, 280)];
                     [imageView sd_setImageWithURL:[NSURL URLWithString:
@@ -256,6 +256,16 @@ static bool* kUsed;
                 }
             }
             [scanner scanString:@"][/upload]" intoString:nil];
+            range.location=scanner.scanLocation;
+            range.length=0;
+        }
+        else if([scanner scanString:@"[face=" intoString:nil]){
+            [result appendAttributedString:[[NSAttributedString alloc]initWithString:[string substringWithRange:range] attributes:attributes]];
+            [scanner scanUpToString:@"]" intoString:&tmp];
+            [scanner scanString:@"]" intoString:nil];
+            [scanner scanUpToString:@"[/face]" intoString:&tmp];
+            [result appendAttributedString:[AttributedStringUtilities getAttributedStringByRecursiveWithString:tmp StringColor:color StringSize:size]];
+            [scanner scanString:@"[/face]" intoString:nil];
             range.location=scanner.scanLocation;
             range.length=0;
         }

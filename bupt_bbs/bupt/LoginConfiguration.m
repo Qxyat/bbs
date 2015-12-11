@@ -89,6 +89,8 @@ static NSString * loginConfigurationFilePath(){
             loginConfiguration.refresh_token=pairs[1];
         }
     }
-    
+    if(shouldSaveLoginConfiguration){
+        [LoginConfiguration saveLoginConfiguration];
+    }
 }
 @end

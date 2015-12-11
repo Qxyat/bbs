@@ -3,3 +3,5 @@ pod "AFNetworking","~>2.0"
 pod "MJRefresh"
 pod "SDWebImage","~>3.7"
 pod "YYKit"
+pod "WYPopoverController","~>0.2.2"
+

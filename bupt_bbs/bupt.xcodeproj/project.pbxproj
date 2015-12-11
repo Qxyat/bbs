@@ -33,10 +33,11 @@
 		41B02B741C1024F700E4904B /* ThemeUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B02B731C1024F700E4904B /* ThemeUtilities.m */; };
 		41B02B771C1033A400E4904B /* ArticleDetailInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B02B761C1033A400E4904B /* ArticleDetailInfoCell.m */; };
 		41B02B7A1C1036D300E4904B /* ArticleInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B02B791C1036D300E4904B /* ArticleInfoCell.m */; };
-		41B4A37E1C1912100086584B /* CustomPageControl.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41B4A37D1C1912100086584B /* CustomPageControl.xib */; };
 		41D801DD1C14277B00845782 /* AttachmentFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D801DC1C14277B00845782 /* AttachmentFile.m */; };
 		41E4CEA31C0456D7004DD407 /* LoginUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41E4CEA21C0456D7004DD407 /* LoginUtilities.m */; };
 		41E4CEA51C04588C004DD407 /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41E4CEA41C04588C004DD407 /* LoginView.xib */; };
+		41FE55E61C19B38100BEA091 /* SubThemeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FE55E41C19B38100BEA091 /* SubThemeViewController.m */; };
+		41FE55E71C19B38100BEA091 /* SubThemeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41FE55E51C19B38100BEA091 /* SubThemeViewController.xib */; };
 		ADF0647870C22EAF6852BE39 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC63FE2D2B942D0F858DC8B3 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -89,13 +90,15 @@
 		41B02B761C1033A400E4904B /* ArticleDetailInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleDetailInfoCell.m; sourceTree = "<group>"; };
 		41B02B781C1036D300E4904B /* ArticleInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleInfoCell.h; sourceTree = "<group>"; };
 		41B02B791C1036D300E4904B /* ArticleInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleInfoCell.m; sourceTree = "<group>"; };
-		41B4A37D1C1912100086584B /* CustomPageControl.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomPageControl.xib; sourceTree = "<group>"; };
 		41CDB23D1BF9B6D400172DE0 /* BBSConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSConstants.h; sourceTree = "<group>"; };
 		41D801DB1C14277B00845782 /* AttachmentFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentFile.h; sourceTree = "<group>"; };
 		41D801DC1C14277B00845782 /* AttachmentFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentFile.m; sourceTree = "<group>"; };
 		41E4CEA11C0456D7004DD407 /* LoginUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginUtilities.h; sourceTree = "<group>"; };
 		41E4CEA21C0456D7004DD407 /* LoginUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginUtilities.m; sourceTree = "<group>"; };
 		41E4CEA41C04588C004DD407 /* LoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
+		41FE55E31C19B38100BEA091 /* SubThemeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubThemeViewController.h; sourceTree = "<group>"; };
+		41FE55E41C19B38100BEA091 /* SubThemeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubThemeViewController.m; sourceTree = "<group>"; };
+		41FE55E51C19B38100BEA091 /* SubThemeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SubThemeViewController.xib; sourceTree = "<group>"; };
 		5DCAE85174F511042FCAD6F0 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		ABF3A8893432526BB672DC07 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		BC63FE2D2B942D0F858DC8B3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -217,6 +220,8 @@
 				4108AFF91C0D8FBB00CDC292 /* SectionViewController.m */,
 				41B02B691C0FED2500E4904B /* ThemeViewController.h */,
 				41B02B6A1C0FED2500E4904B /* ThemeViewController.m */,
+				41FE55E31C19B38100BEA091 /* SubThemeViewController.h */,
+				41FE55E41C19B38100BEA091 /* SubThemeViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -234,7 +239,7 @@
 				41B02B701C10221500E4904B /* ArticleDetailInfoCell.xib */,
 				41B02B751C1033A400E4904B /* ArticleDetailInfoCell.h */,
 				41B02B761C1033A400E4904B /* ArticleDetailInfoCell.m */,
-				41B4A37D1C1912100086584B /* CustomPageControl.xib */,
+				41FE55E51C19B38100BEA091 /* SubThemeViewController.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -337,11 +342,11 @@
 				411DD2691C0D8CA600002CD3 /* UserMainInterface.storyboard in Resources */,
 				41434F3B1BE8D5AA00FF01D9 /* LaunchScreen.storyboard in Resources */,
 				41E4CEA51C04588C004DD407 /* LoginView.xib in Resources */,
+				41FE55E71C19B38100BEA091 /* SubThemeViewController.xib in Resources */,
 				412641FA1C0ED80D006C4B31 /* ArticleInfoCell.xib in Resources */,
 				410B20221C1524A3004C0CBE /* Assets.xcassets in Resources */,
 				41434F361BE8D5AA00FF01D9 /* Main.storyboard in Resources */,
 				41B02B711C10221500E4904B /* ArticleDetailInfoCell.xib in Resources */,
-				41B4A37E1C1912100086584B /* CustomPageControl.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,6 +411,7 @@
 				41434F301BE8D5AA00FF01D9 /* AppDelegate.m in Sources */,
 				41D801DD1C14277B00845782 /* AttachmentFile.m in Sources */,
 				4108AFFD1C0D8FEF00CDC292 /* RecommedArticalViewController.m in Sources */,
+				41FE55E61C19B38100BEA091 /* SubThemeViewController.m in Sources */,
 				41A86EE21C05B5C7005A724D /* BBSConstants.m in Sources */,
 				412641F31C0E86BD006C4B31 /* ArticleInfo.m in Sources */,
 				412641F61C0E876E006C4B31 /* UserInfo.m in Sources */,

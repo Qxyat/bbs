@@ -15,11 +15,14 @@
 #import <UIImageView+WebCache.h>
 #import "AttributedStringUtilities.h"
 #import <MJRefresh.h>
+#import "SubThemeViewController.h"
 
 static NSString * const kCellIdentifier=@"articledetailinfo";
+static const int kNumOfPageToCache=5;
 
-#define PullUpOrientation 0
-#define PullDownOrientation 1
+#define RefreshModePullUp 0
+#define RefreshModePullDown 1
+#define RefreshModeJump 2
 
 @interface ThemeViewController ()
 
@@ -29,16 +32,25 @@ static NSString * const kCellIdentifier=@"articledetailinfo";
 @property (nonatomic)     NSRange          pageRange;
 @property (nonatomic)     int              page_cur_count;
 @property (nonatomic)     int              item_page_count;
-@property (nonatomic)     NSUInteger       pullOrientation;
+@property (nonatomic)     NSUInteger       refreshMode;
+@property (strong,nonatomic)UILabel*       titleLabel;
+
 @end
 
 @implementation ThemeViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.tableView registerNib:[UINib nibWithNibName:@"ArticleDetailInfoCell" bundle:nil] forCellReuseIdentifier:kCellIdentifier];
-    //self.navigationItem.title=self.theme_title;
+    self.titleLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, 200, 40)];
+    self.titleLabel.font=[UIFont systemFontOfSize:14];
+    self.titleLabel.numberOfLines=0;
+    self.titleLabel.lineBreakMode=NSLineBreakByCharWrapping;
+    self.titleLabel.textAlignment=NSTextAlignmentCenter;
+    self.titleLabel.adjustsFontSizeToFitWidth=YES;
+    self.navigationItem.titleView=self.titleLabel;
     
-        
+    UIBarButtonItem *barButtonItem=[[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"jumpButton"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(jumpToDestinationPagePopover)];
+    self.navigationItem.rightBarButtonItem=barButtonItem;
     
     _pageRange.location=0;
     _pageRange.length=0;
@@ -55,6 +67,27 @@ static NSString * const kCellIdentifier=@"articledetailinfo";
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+#pragma mark - 打开跳转到指定页面的浮动窗口
+-(void)jumpToDestinationPagePopover{
+    SubThemeViewController *controller=[[SubThemeViewController alloc]initWithNibName:@"SubThemeViewController" bundle:nil];
+    controller.page_all_count=_page_all_count;
+    controller.themViewController=self;
+    controller.preferredContentSize=CGSizeMake(304, 55);
+    
+    self.wyPopoverController=[[WYPopoverController alloc]initWithContentViewController:controller];
+    self.wyPopoverController.delegate=self;
+    [self.wyPopoverController presentPopoverFromBarButtonItem:self.navigationItem.rightBarButtonItem permittedArrowDirections:WYPopoverArrowDirectionDown animated:YES];
+}
+#pragma mark - 实现WYPopoverControllerDelegate的协议
+-(BOOL)popoverControllerShouldDismissPopover:(WYPopoverController *)popoverController{
+    return YES;
+}
+-(void)popoverControllerDidDismissPopover:(WYPopoverController *)popoverController{
+    self.wyPopoverController.delegate=nil;
+    self.wyPopoverController=nil;
+    
 }
 
 #pragma mark - UITableView Data Source
@@ -87,9 +120,9 @@ static NSString * const kCellIdentifier=@"articledetailinfo";
     return 65+size.height;
 }
 
-#pragma mark - 根据刷新方向刷新页面的内容
+#pragma mark - 根据刷新方式刷新页面的内容
 -(void)pullDownToRefresh{
-    self.pullOrientation=PullDownOrientation;
+    self.refreshMode=RefreshModePullDown;
     int nextPage=self.pageRange.location-1;
     if(nextPage>=1)
         [ThemeUtilities getThemeWithBoardName:self.board_name groupId:self.group_id pageIndex:nextPage countOfOnePage:self.item_page_count delegate:self];
@@ -98,7 +131,7 @@ static NSString * const kCellIdentifier=@"articledetailinfo";
     }
 }
 -(void)pullUpToRefresh{
-    self.pullOrientation=PullUpOrientation;
+    self.refreshMode=RefreshModePullUp;
     int nextPage;
     if(_pageRange.location==0&&_pageRange.length==0)
         nextPage=1;
@@ -111,32 +144,42 @@ static NSString * const kCellIdentifier=@"articledetailinfo";
         [self.tableView.mj_footer endRefreshingWithNoMoreData];
     }
 }
-
+-(void)jumpToRefresh:(NSUInteger) nextPage{
+    self.refreshMode=RefreshModeJump;
+    [ThemeUtilities getThemeWithBoardName:self.board_name groupId:self.group_id pageIndex:nextPage countOfOnePage:self.item_page_count delegate:self];
+}
 #pragma mark - 实现HttpResponseDelegate协议
 -(void)handleHttpResponse:(id)response{
     NSDictionary *dic=(NSDictionary*)response;
     
+    self.titleLabel.text=response[@"title"];
     NSArray *tmp=[ArticleInfo getArticlesInfo:dic[@"article"]];
     self.page_all_count=[dic[@"pagination"][@"page_all_count"] intValue];
-    self.page_cur_count=[dic[@"pagination"][@"page_curent_count"] intValue];
-    if(self.pullOrientation==PullDownOrientation){
+    self.page_cur_count=[dic[@"pagination"][@"page_current_count"] intValue];
+    if(self.refreshMode==RefreshModePullDown){
         [_data insertObjects:tmp atIndex:0];
     }
-    else{
+    else if(self.refreshMode==RefreshModePullUp){
         [_data insertObjects:tmp atIndex:_data.count];
+    }
+    else if(self.refreshMode==RefreshModeJump){
+        [_data removeAllObjects];
+        [_data addObjectsFromArray:tmp];
     }
     [AttributedStringUtilities getAttributedStringsWithArray:tmp StringColor:[UIColor blackColor] StringSize:17 BoundSize:CGSizeMake(300, 10000) Delegate:self];
 }
 
 #pragma mark - 实现AttributedStringDelegate协议
 -(void)handleAttribuedStringResponse:(NSArray *)array{
-    if(self.pullOrientation==PullDownOrientation){
+    if(self.refreshMode==RefreshModePullDown){
         [_attributedStringArray insertObjects:array atIndex:0];
         [self.tableView.mj_header endRefreshing];
         _pageRange.location--;
         _pageRange.length++;
+        [self.tableView reloadData];
+        [self.tableView scrollToRow:_item_page_count inSection:0 atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
-    else{
+    else if(self.refreshMode==RefreshModePullUp){
         [_attributedStringArray insertObjects:array atIndex:_attributedStringArray.count];
         [self.tableView.mj_footer endRefreshing];
         if(_pageRange.location==0&&_pageRange.length==0){
@@ -145,27 +188,38 @@ static NSString * const kCellIdentifier=@"articledetailinfo";
         }
         else
             _pageRange.length++;
+        [self.tableView reloadData];
     }
-    //出于防止内存溢出的BUG，使得data和attributedStringArray里面保存的数据不要超过5页,并且需要考虑页面连续
-    [self.tableView reloadData];
-    if(_pageRange.length>5){
-        if(self.pullOrientation==PullDownOrientation){
-            NSRange range=NSMakeRange(50, _data.count%_item_page_count==0?_item_page_count:_data.count%_item_page_count);
+    else if(self.refreshMode==RefreshModeJump){
+        [_attributedStringArray removeAllObjects];
+        [_attributedStringArray addObjectsFromArray:array];
+        _pageRange.location=self.page_cur_count;
+        _pageRange.length=1;
+        [self.tableView reloadData];
+        [self.tableView scrollToRow:0 inSection:0 atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        if(self.wyPopoverController!=nil)
+           [self.wyPopoverController dismissPopoverAnimated:YES];
+    }
+    //出于防止内存溢出的BUG，使得data和attributedStringArray里面保存的数据不要超过kNumOfPageToCache页,并且需要考虑页面连续
+    if(_pageRange.length>kNumOfPageToCache){
+        if(self.refreshMode==RefreshModePullDown){
+            NSRange range=NSMakeRange(kNumOfPageToCache*_item_page_count, _data.count%_item_page_count==0?_item_page_count:_data.count%_item_page_count);
             [_data removeObjectsInRange:range];
             [_attributedStringArray removeObjectsInRange:range];
+            [self.tableView reloadData];
             _pageRange.length--;
-            [self.tableView scrollToRow:10 inSection:0 atScrollPosition:UITableViewScrollPositionTop animated:NO];
+            [self.tableView scrollToRow:_item_page_count inSection:0 atScrollPosition:UITableViewScrollPositionTop animated:NO];
         }
         else{
-            NSRange range=NSMakeRange(0, 10);
+            NSRange range=NSMakeRange(0, _item_page_count);
             [_data removeObjectsInRange:range];
             [_attributedStringArray removeObjectsInRange:range];
+            [self.tableView reloadData];
             _pageRange.location++;
             _pageRange.length--;
-            [self.tableView scrollToRow:39 inSection:0 atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+            [self.tableView scrollToRow:(kNumOfPageToCache-1)*_item_page_count-1 inSection:0 atScrollPosition:UITableViewScrollPositionBottom animated:NO];
         }
     }
-   
 }
 
 #pragma mark - 实现根据字符串获得框体大小的方法

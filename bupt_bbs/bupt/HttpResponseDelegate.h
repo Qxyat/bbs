@@ -10,6 +10,10 @@
 
 @protocol HttpResponseDelegate <NSObject>
 
+@required
 -(void)handleHttpResponse:(id)response;
+
+@optional
+-(void)handleSubSectionResponse:(id)response;
 
 @end

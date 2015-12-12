@@ -37,7 +37,7 @@ static NSString* const kLastReplyTime=@"last_reply_time";
 #pragma mark - 得到一页当中所有的文章的信息
 +(NSMutableArray*)getArticlesInfo:(id)item{
     NSMutableArray *mutableArray=nil;
-    if(item!=[NSNull null]&&item!=nil){
+    if(item!=[NSNull null]){
         NSArray *array=(NSArray*)item;
         mutableArray=[[NSMutableArray alloc]initWithCapacity:array.count];
         for(int i=0;i<array.count;i++){
@@ -48,33 +48,32 @@ static NSString* const kLastReplyTime=@"last_reply_time";
 }
 #pragma mark - 得到一篇文章的信息
 +(ArticleInfo *)getArticleInfo:(id)item{
-    ArticleInfo *articleInfo=nil;
-    if(item!=[NSNull null]&&item!=nil){
-        NSDictionary *dic=(NSDictionary*)item;
-        articleInfo=[[ArticleInfo alloc]init];
-        articleInfo.articleId=[[dic objectForKey:kArticleId] intValue];
-        articleInfo.group_id=[[dic objectForKey:kGroupId] intValue];
-        articleInfo.reply_id=[[dic objectForKey:kReplyId] intValue];
-        articleInfo.flag=[dic objectForKey:kFlag];
-        articleInfo.position=[[dic objectForKey:kPosition] intValue];
-        articleInfo.is_top=[[dic objectForKey:kIsTop] boolValue];
-        articleInfo.is_subject=[[dic objectForKey:kIsSubject] boolValue];
-        articleInfo.has_attachment=[[dic objectForKey:kHasAttachment] boolValue];
-        articleInfo.is_admin=[[dic objectForKey:kIsAdmin] boolValue];
-        articleInfo.title=[dic objectForKey:kTitle];
-        articleInfo.user=[UserInfo getUserInfo:[dic objectForKey:kUser]];
-        articleInfo.post_time=[[dic objectForKey:kPostTime] intValue];
-        articleInfo.board_name=[dic objectForKey:kBoardName];
-        articleInfo.content=[dic objectForKey:kContent];
-        articleInfo.attachment=[AttachmentInfo getAttachmentInfo:[dic objectForKey:kAttachment]];
-        articleInfo.previous_id=[[dic objectForKey:kPreviousId]intValue];
-        articleInfo.next_id=[[dic objectForKey:kNextId] intValue];
-        articleInfo.threads_previous_id=[[dic objectForKey:kThreadPreviousId] intValue];
-        articleInfo.threads_next_id=[[dic objectForKey:kThreadNextId] intValue];
-        articleInfo.reply_count=[[dic objectForKey:kReplyCount] intValue];
-        articleInfo.last_reply_user_id=[dic objectForKey:kLastReplyUserId];
-        articleInfo.last_reply_time=[[dic objectForKey:kLastReplyTime] intValue];
-    }
+    ArticleInfo *articleInfo=[[ArticleInfo alloc]init];
+    NSDictionary *dic=(NSDictionary*)item;
+    
+    articleInfo.articleId=[[dic objectForKey:kArticleId] intValue];
+    articleInfo.group_id=[[dic objectForKey:kGroupId] intValue];
+    articleInfo.reply_id=[[dic objectForKey:kReplyId] intValue];
+    articleInfo.flag=[dic objectForKey:kFlag];
+    articleInfo.position=[[dic objectForKey:kPosition] intValue];
+    articleInfo.is_top=[[dic objectForKey:kIsTop] boolValue];
+    articleInfo.is_subject=[[dic objectForKey:kIsSubject] boolValue];
+    articleInfo.has_attachment=[[dic objectForKey:kHasAttachment] boolValue];
+    articleInfo.is_admin=[[dic objectForKey:kIsAdmin] boolValue];
+    articleInfo.title=[dic objectForKey:kTitle];
+    articleInfo.user=[UserInfo getUserInfo:[dic objectForKey:kUser]];
+    articleInfo.post_time=[[dic objectForKey:kPostTime] intValue];
+    articleInfo.board_name=[dic objectForKey:kBoardName];
+    articleInfo.content=[dic objectForKey:kContent];
+    articleInfo.attachment=[AttachmentInfo getAttachmentInfo:[dic objectForKey:kAttachment]];
+    articleInfo.previous_id=[[dic objectForKey:kPreviousId]intValue];
+    articleInfo.next_id=[[dic objectForKey:kNextId] intValue];
+    articleInfo.threads_previous_id=[[dic objectForKey:kThreadPreviousId] intValue];
+    articleInfo.threads_next_id=[[dic objectForKey:kThreadNextId] intValue];
+    articleInfo.reply_count=[[dic objectForKey:kReplyCount] intValue];
+    articleInfo.last_reply_user_id=[dic objectForKey:kLastReplyUserId];
+    articleInfo.last_reply_time=[[dic objectForKey:kLastReplyTime] intValue];
+    
     return articleInfo;
 }
 @end

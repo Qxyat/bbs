@@ -34,7 +34,7 @@ static NSString* const kStayCount=@"stay_count";
 @implementation UserInfo
 +(UserInfo*)getUserInfo:(id)item{
     UserInfo *user=nil;
-    if(item!=[NSNull null]&&item!=nil){
+    if(item!=[NSNull null]){
         NSDictionary *dic=(NSDictionary*)item;
         user=[[UserInfo alloc]init];
         user.userId=[dic objectForKey:kUserId];
@@ -60,7 +60,6 @@ static NSString* const kStayCount=@"stay_count";
         user.is_admin=[[dic objectForKey:kIsAdmin] boolValue];
         user.stay_count=[[dic objectForKey:kStayCount] intValue];
     }
-    
     
     return user;
 }

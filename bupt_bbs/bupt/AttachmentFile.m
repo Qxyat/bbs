@@ -18,7 +18,7 @@ static NSString * const kThumbnailMiddle=@"thumbnail_middle";
 
 +(NSArray*)getAttachmentFiles:(id)item{
     NSMutableArray *mutableArray=nil;
-    if(item!=[NSNull null]&&item!=nil){
+    if(item!=[NSNull null]){
         NSArray *array=(NSArray*)item;
         mutableArray=[[NSMutableArray alloc]initWithCapacity:[array count]];
         for(int i=0;i<[array count];i++)
@@ -27,16 +27,15 @@ static NSString * const kThumbnailMiddle=@"thumbnail_middle";
     return mutableArray;
 }
 +(AttachmentFile *)getAttachmentFile:(id)item{
-    AttachmentFile *attachmentFile=nil;
-    if(item!=[NSNull null]&&item!=nil){
-        NSDictionary *dic=(NSDictionary *)item;
-        attachmentFile=[[AttachmentFile alloc]init];
-        attachmentFile.name=[dic objectForKey:kName];
-        attachmentFile.url=[dic objectForKey:kUrl];
-        attachmentFile.size=[dic objectForKey:kSize];
-        attachmentFile.thumbnail_small=[dic objectForKey:kThumbnailSmall];
-        attachmentFile.thumbnail_middle=[dic objectForKey:kThumbnailMiddle];
-    }
+    AttachmentFile *attachmentFile=[[AttachmentFile alloc]init];;
+    NSDictionary *dic=(NSDictionary *)item;
+    
+    attachmentFile.name=[dic objectForKey:kName];
+    attachmentFile.url=[dic objectForKey:kUrl];
+    attachmentFile.size=[dic objectForKey:kSize];
+    attachmentFile.thumbnail_small=[dic objectForKey:kThumbnailSmall];
+    attachmentFile.thumbnail_middle=[dic objectForKey:kThumbnailMiddle];
+    
     return  attachmentFile;
 }
 @end

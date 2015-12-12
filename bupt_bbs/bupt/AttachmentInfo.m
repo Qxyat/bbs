@@ -17,7 +17,7 @@ static NSString *const kRemainCount=@"remain_count";
 
 +(AttachmentInfo*)getAttachmentInfo:(id)item{
     AttachmentInfo *attachmentInfo=nil;
-    if(item!=[NSNull null]&&item!=nil){
+    if(item!=[NSNull null]){
         NSDictionary *dic=(NSDictionary *)item;
         attachmentInfo=[[AttachmentInfo alloc]init];
         attachmentInfo.remain_space=[dic objectForKey:kRemainSpace];

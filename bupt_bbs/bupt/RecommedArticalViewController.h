@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HttpResponseDelegate.h"
 
-@interface RecommedArticalViewController : UINavigationController
+@interface RecommedArticalViewController : UITableViewController<HttpResponseDelegate>
 
 @end

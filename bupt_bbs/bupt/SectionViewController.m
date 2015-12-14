@@ -13,6 +13,8 @@
 #import "SectionAndBoardInfoCell.h"
 #import "CollectionViewHeader.h"
 #import "SectionInfo.h"
+#import "BoardViewController.h"
+
 static NSString *const kContentCellIdentifier=@"contentCell";
 static NSString *const kHeaderCellIdentifier=@"headerCell";
 @interface SectionViewController ()
@@ -111,7 +113,42 @@ static NSString *const kHeaderCellIdentifier=@"headerCell";
 
 #pragma mark - 实现UICollectionView delegate
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    
+    UIBarButtonItem *barButtonItem=[[UIBarButtonItem alloc]init];
+    barButtonItem.title=@"";
+    self.navigationItem.backBarButtonItem=barButtonItem;
+    if(_numberOfSections==1){
+        if(self.section_data.count!=0){
+            SectionViewController *sectionViewController=[[SectionViewController alloc]initWithCollectionViewLayout:[[UICollectionViewFlowLayout alloc]init]];
+            SectionInfo *sectionInfo=self.section_data[indexPath.row];
+            sectionViewController.name=sectionInfo.name;
+            sectionViewController.section_description=sectionInfo.section_description;
+            [self.navigationController pushViewController:sectionViewController animated:YES];
+        }
+        else{
+            BoardViewController *boardViewController=[[BoardViewController alloc]init];
+            BoardInfo *boardInfo=self.board_data[indexPath.row];
+            boardViewController.name=boardInfo.name;
+            boardViewController.board_description=boardInfo.board_description;
+            [self.navigationController pushViewController:boardViewController animated:YES];
+        }
+    }
+    else{
+        if(indexPath.section==0){
+            SectionViewController *sectionViewController=[[SectionViewController alloc]initWithCollectionViewLayout:[[UICollectionViewFlowLayout alloc]init]];
+            SectionInfo *sectionInfo=self.section_data[indexPath.row];
+            sectionViewController.name=sectionInfo.name;
+            sectionViewController.section_description=sectionInfo.section_description;
+            
+            [self.navigationController pushViewController:sectionViewController animated:YES];
+        }
+        else{
+            BoardViewController *boardViewController=[[BoardViewController alloc]init];
+            BoardInfo *boardInfo=self.board_data[indexPath.row];
+            boardViewController.name=boardInfo.name;
+            boardViewController.board_description=boardInfo.board_description;
+            [self.navigationController pushViewController:boardViewController animated:YES];
+        }
+    }
 }
 
 #pragma mark - 实现UICollectionViewFlowLayout delegate

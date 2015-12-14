@@ -19,6 +19,11 @@
 		412641F31C0E86BD006C4B31 /* ArticleInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 412641F21C0E86BD006C4B31 /* ArticleInfo.m */; };
 		412641F61C0E876E006C4B31 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 412641F51C0E876E006C4B31 /* UserInfo.m */; };
 		412641FA1C0ED80D006C4B31 /* ArticleInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 412641F91C0ED80D006C4B31 /* ArticleInfoCell.xib */; };
+		41295DD51C1E5E260021D689 /* RecommedUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41295DD41C1E5E260021D689 /* RecommedUtilities.m */; };
+		41404F6A1C1D142100A45B13 /* BoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41404F691C1D142100A45B13 /* BoardViewController.m */; };
+		41404F6D1C1D16E700A45B13 /* BoardUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41404F6C1C1D16E700A45B13 /* BoardUtilities.m */; };
+		41404F711C1D207900A45B13 /* BoardArticleInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41404F6F1C1D207900A45B13 /* BoardArticleInfoCell.m */; };
+		41404F721C1D207900A45B13 /* BoardArticleInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41404F701C1D207900A45B13 /* BoardArticleInfoCell.xib */; };
 		414224161C17D86D0042BBBE /* AttributedStringUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 414224151C17D86D0042BBBE /* AttributedStringUtilities.m */; };
 		41434F2D1BE8D5AA00FF01D9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 41434F2C1BE8D5AA00FF01D9 /* main.m */; };
 		41434F301BE8D5AA00FF01D9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 41434F2F1BE8D5AA00FF01D9 /* AppDelegate.m */; };
@@ -70,6 +75,15 @@
 		412641F51C0E876E006C4B31 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
 		412641F81C0E91A7006C4B31 /* HttpResponseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpResponseDelegate.h; sourceTree = "<group>"; };
 		412641F91C0ED80D006C4B31 /* ArticleInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArticleInfoCell.xib; sourceTree = "<group>"; };
+		41295DD31C1E5E260021D689 /* RecommedUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommedUtilities.h; sourceTree = "<group>"; };
+		41295DD41C1E5E260021D689 /* RecommedUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommedUtilities.m; sourceTree = "<group>"; };
+		41404F681C1D142100A45B13 /* BoardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardViewController.h; sourceTree = "<group>"; };
+		41404F691C1D142100A45B13 /* BoardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardViewController.m; sourceTree = "<group>"; };
+		41404F6B1C1D16E700A45B13 /* BoardUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardUtilities.h; sourceTree = "<group>"; };
+		41404F6C1C1D16E700A45B13 /* BoardUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardUtilities.m; sourceTree = "<group>"; };
+		41404F6E1C1D207900A45B13 /* BoardArticleInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardArticleInfoCell.h; sourceTree = "<group>"; };
+		41404F6F1C1D207900A45B13 /* BoardArticleInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardArticleInfoCell.m; sourceTree = "<group>"; };
+		41404F701C1D207900A45B13 /* BoardArticleInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BoardArticleInfoCell.xib; sourceTree = "<group>"; };
 		414224141C17D86D0042BBBE /* AttributedStringUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributedStringUtilities.h; sourceTree = "<group>"; };
 		414224151C17D86D0042BBBE /* AttributedStringUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributedStringUtilities.m; sourceTree = "<group>"; };
 		41434F281BE8D5AA00FF01D9 /* 邮遍天下.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "邮遍天下.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -219,6 +233,10 @@
 				41B02B731C1024F700E4904B /* ThemeUtilities.m */,
 				416B272D1C1BE87F00D0FFE4 /* SectionUtilities.h */,
 				416B272E1C1BE87F00D0FFE4 /* SectionUtilities.m */,
+				41404F6B1C1D16E700A45B13 /* BoardUtilities.h */,
+				41404F6C1C1D16E700A45B13 /* BoardUtilities.m */,
+				41295DD31C1E5E260021D689 /* RecommedUtilities.h */,
+				41295DD41C1E5E260021D689 /* RecommedUtilities.m */,
 			);
 			name = NetworkUtilities;
 			sourceTree = "<group>";
@@ -234,8 +252,6 @@
 				410EABA11C0A9EE70076F7A9 /* RootViewController.m */,
 				411DEC041C0D3131008B7EB6 /* TopTenViewController.h */,
 				411DEC051C0D3131008B7EB6 /* TopTenViewController.m */,
-				4108AFFB1C0D8FEF00CDC292 /* RecommedArticalViewController.h */,
-				4108AFFC1C0D8FEF00CDC292 /* RecommedArticalViewController.m */,
 				41B02B691C0FED2500E4904B /* ThemeViewController.h */,
 				41B02B6A1C0FED2500E4904B /* ThemeViewController.m */,
 				41FE55E31C19B38100BEA091 /* SubThemeViewController.h */,
@@ -244,6 +260,10 @@
 				4108AFF91C0D8FBB00CDC292 /* TopSectionViewController.m */,
 				419411D91C1C0C93002E59AC /* SectionViewController.h */,
 				419411DA1C1C0C93002E59AC /* SectionViewController.m */,
+				41404F681C1D142100A45B13 /* BoardViewController.h */,
+				41404F691C1D142100A45B13 /* BoardViewController.m */,
+				4108AFFB1C0D8FEF00CDC292 /* RecommedArticalViewController.h */,
+				4108AFFC1C0D8FEF00CDC292 /* RecommedArticalViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -266,6 +286,9 @@
 				419411D71C1BFD03002E59AC /* SectionAndBoardInfoCell.m */,
 				419411DF1C1C372C002E59AC /* CollectionViewHeader.h */,
 				419411E01C1C372C002E59AC /* CollectionViewHeader.m */,
+				41404F701C1D207900A45B13 /* BoardArticleInfoCell.xib */,
+				41404F6E1C1D207900A45B13 /* BoardArticleInfoCell.h */,
+				41404F6F1C1D207900A45B13 /* BoardArticleInfoCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -373,6 +396,7 @@
 				41434F3B1BE8D5AA00FF01D9 /* LaunchScreen.storyboard in Resources */,
 				41E4CEA51C04588C004DD407 /* LoginView.xib in Resources */,
 				41FE55E71C19B38100BEA091 /* SubThemeViewController.xib in Resources */,
+				41404F721C1D207900A45B13 /* BoardArticleInfoCell.xib in Resources */,
 				412641FA1C0ED80D006C4B31 /* ArticleInfoCell.xib in Resources */,
 				410B20221C1524A3004C0CBE /* Assets.xcassets in Resources */,
 				41434F361BE8D5AA00FF01D9 /* Main.storyboard in Resources */,
@@ -435,7 +459,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41295DD51C1E5E260021D689 /* RecommedUtilities.m in Sources */,
 				41E4CEA31C0456D7004DD407 /* LoginUtilities.m in Sources */,
+				41404F711C1D207900A45B13 /* BoardArticleInfoCell.m in Sources */,
 				41185B8C1BFAC71A00695E9C /* LoginViewController.m in Sources */,
 				41B02B6C1C0FED2500E4904B /* ThemeViewController.m in Sources */,
 				41434F301BE8D5AA00FF01D9 /* AppDelegate.m in Sources */,
@@ -443,6 +469,7 @@
 				4108AFFD1C0D8FEF00CDC292 /* RecommedArticalViewController.m in Sources */,
 				41FE55E61C19B38100BEA091 /* SubThemeViewController.m in Sources */,
 				41A86EE21C05B5C7005A724D /* BBSConstants.m in Sources */,
+				41404F6D1C1D16E700A45B13 /* BoardUtilities.m in Sources */,
 				419411E11C1C372C002E59AC /* CollectionViewHeader.m in Sources */,
 				412641F31C0E86BD006C4B31 /* ArticleInfo.m in Sources */,
 				412641F61C0E876E006C4B31 /* UserInfo.m in Sources */,
@@ -456,6 +483,7 @@
 				415AE0951C0AF5F700B1F137 /* UserViewController.m in Sources */,
 				419411DE1C1C1573002E59AC /* BoardInfo.m in Sources */,
 				41B02B771C1033A400E4904B /* ArticleDetailInfoCell.m in Sources */,
+				41404F6A1C1D142100A45B13 /* BoardViewController.m in Sources */,
 				419411D81C1BFD03002E59AC /* SectionAndBoardInfoCell.m in Sources */,
 				41434F2D1BE8D5AA00FF01D9 /* main.m in Sources */,
 				41B02B741C1024F700E4904B /* ThemeUtilities.m in Sources */,

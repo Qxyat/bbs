@@ -1,50 +1,78 @@
 //
-//  RecommedArticalViewController.m
+//  BoardViewController.m
 //  bupt
 //
-//  Created by 邱鑫玥 on 15/12/1.
+//  Created by 邱鑫玥 on 15/12/13.
 //  Copyright © 2015年 qiu. All rights reserved.
 //
 
-#import "RecommedArticalViewController.h"
+#import "BoardViewController.h"
 #import <MJRefresh.h>
-#import "RecommedUtilities.h"
+#import "BoardUtilities.h"
 #import "ArticleInfo.h"
-#import "ArticleInfoCell.h"
-#import "ThemeViewController.h"
+#import "BoardArticleInfoCell.h"
 #import "UserInfo.h"
+#import "ThemeViewController.h"
 
 static CGFloat const kMargin=20;
 static CGFloat const kRowMargin=kMargin/2;
-static NSString *const kCellIdentifier=@"cell";
+static NSString* const kCellIdentifier=@"cell";
 
-@interface RecommedArticalViewController ()
+@interface BoardViewController ()
 
-@property (strong,nonatomic) NSArray *data;
+@property (strong,nonatomic)NSArray *data;
+@property (nonatomic)int page_all_count;
+@property (nonatomic)int page_curent_count;
+@property (nonatomic)int item_page_count;
+@property (nonatomic)int item_all_count;
 @property (nonatomic) CGFloat screenWidth;
 @end
 
-@implementation RecommedArticalViewController
+@implementation BoardViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.navigationItem.title=self.board_description;
+    self.page_curent_count=1;
+    self.item_page_count=30;
     self.screenWidth=[UIScreen mainScreen].bounds.size.width;
-    [self.tableView registerNib:[UINib nibWithNibName:@"ArticleInfoCell" bundle:nil] forCellReuseIdentifier:kCellIdentifier];
+    
+    [self.tableView registerNib:[UINib nibWithNibName:@"BoardArticleInfoCell" bundle:nil]
+     forCellReuseIdentifier:kCellIdentifier];
     
     self.tableView.mj_header=[MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
     [self.tableView.mj_header beginRefreshing];
 }
-#pragma mark - 实现UITableview Data Source
+
+#pragma mark - 刷新
+-(void)refresh{
+    [BoardUtilities getBoardWithName:self.name Mode:2 Count:self.item_page_count Page:self.page_curent_count Delegate:self];
+}
+
+#pragma mark - 实现HttpResponseDelegate协议
+-(void)handleHttpResponse:(id)response{
+    NSDictionary *dic=(NSDictionary *)response;
+    self.data=[ArticleInfo getArticlesInfo:dic[@"article"]];
+    
+    self.page_all_count=[dic[@"pegination"][@"page_all_count"] intValue];
+    self.page_curent_count=[dic[@"pegination"][@"page_cur_count"] intValue];
+    self.item_page_count=[dic[@"pegination"][@"item_page_count"] intValue];
+    self.item_all_count=[dic[@"pegination"][@"item_all_count"] intValue];
+    
+    [self.tableView.mj_header endRefreshing];
+    [self.tableView reloadData];
+}
+
+#pragma mark - UITableViewDataSrource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.data.count;
+    return  self.data.count;
 }
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    ArticleInfoCell *cell=[tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
-    
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    BoardArticleInfoCell * cell=[tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
     ArticleInfo *articleInfo=self.data[indexPath.row];
     
     cell.titleLabel.text=articleInfo.title;
@@ -57,16 +85,16 @@ static NSString *const kCellIdentifier=@"cell";
     cell.titleLabel.frame=titleRect;
     
     CGRect bottemRect=cell.bottomView.frame;
+    bottemRect.origin.x=kMargin;
     bottemRect.origin.y=2*kRowMargin+titleRect.size.height;
     cell.bottomView.frame=bottemRect;
     
-    cell.boardLabel.text=articleInfo.board_name;
     cell.nameLabel.text=articleInfo.user.user_name;
     cell.replyCountLabel.text=[NSString stringWithFormat:@"%d",articleInfo.reply_count];
     
     return cell;
 }
-#pragma mark - UITableView Delegate
+#pragma mark - UITableview Delegate
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     ArticleInfo *articleInfo=self.data[indexPath.row];
     CGRect calRect=[self getTitleFrameSize:articleInfo.title];
@@ -91,18 +119,7 @@ static NSString *const kCellIdentifier=@"cell";
     
     [self.navigationController pushViewController:themViewController animated:YES];
 }
-#pragma mark - 刷新推荐文章数据
--(void)refresh{
-    [RecommedUtilities getRecommendArticles:self];
-}
 
-#pragma mark - 实现HttpResponseDelegate协议
--(void)handleHttpResponse:(id)response{
-    NSDictionary *dic=(NSDictionary*)response;
-    self.data=[ArticleInfo getArticlesInfo:dic[@"article"]];
-    [self.tableView reloadData];
-    [self.tableView.mj_header endRefreshing];
-}
 
 #pragma mark - 获取每个cell的文章标题的框体大小
 -(CGRect)getTitleFrameSize:(NSString*)aStr{

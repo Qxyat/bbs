@@ -63,30 +63,20 @@
             </objects>
             <point key="canvasLocation" x="-168" y="334"/>
         </scene>
-        <!--Root View Controller-->
+        <!--推荐文章-->
         <scene sceneID="2xm-aL-fiN">
             <objects>
-                <tableViewController id="a53-ia-q8e" sceneMemberID="viewController">
+                <tableViewController id="a53-ia-q8e" customClass="RecommedArticalViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="pJg-JK-bka">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="IDx-PX-cKk">
-                                <rect key="frame" x="0.0" y="92" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IDx-PX-cKk" id="k1p-oE-PfL">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="a53-ia-q8e" id="Q7M-N6-tN1"/>
                             <outlet property="delegate" destination="a53-ia-q8e" id="7MW-Y6-QXP"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="XpJ-cI-9SR"/>
+                    <navigationItem key="navigationItem" title="推荐文章" id="XpJ-cI-9SR"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rrq-84-Hdg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

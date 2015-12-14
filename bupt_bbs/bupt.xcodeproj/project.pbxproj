@@ -25,6 +25,7 @@
 		41404F711C1D207900A45B13 /* BoardArticleInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41404F6F1C1D207900A45B13 /* BoardArticleInfoCell.m */; };
 		41404F721C1D207900A45B13 /* BoardArticleInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41404F701C1D207900A45B13 /* BoardArticleInfoCell.xib */; };
 		414224161C17D86D0042BBBE /* AttributedStringUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 414224151C17D86D0042BBBE /* AttributedStringUtilities.m */; };
+		4143427D1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4143427C1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.m */; };
 		41434F2D1BE8D5AA00FF01D9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 41434F2C1BE8D5AA00FF01D9 /* main.m */; };
 		41434F301BE8D5AA00FF01D9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 41434F2F1BE8D5AA00FF01D9 /* AppDelegate.m */; };
 		41434F361BE8D5AA00FF01D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41434F341BE8D5AA00FF01D9 /* Main.storyboard */; };
@@ -86,6 +87,8 @@
 		41404F701C1D207900A45B13 /* BoardArticleInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BoardArticleInfoCell.xib; sourceTree = "<group>"; };
 		414224141C17D86D0042BBBE /* AttributedStringUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributedStringUtilities.h; sourceTree = "<group>"; };
 		414224151C17D86D0042BBBE /* AttributedStringUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributedStringUtilities.m; sourceTree = "<group>"; };
+		4143427B1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaluateAttributedStringSizeUtilities.h; sourceTree = "<group>"; };
+		4143427C1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaluateAttributedStringSizeUtilities.m; sourceTree = "<group>"; };
 		41434F281BE8D5AA00FF01D9 /* 邮遍天下.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "邮遍天下.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		41434F2C1BE8D5AA00FF01D9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		41434F2E1BE8D5AA00FF01D9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -155,6 +158,8 @@
 				410B201F1C151842004C0CBE /* CustomUtilities.m */,
 				414224141C17D86D0042BBBE /* AttributedStringUtilities.h */,
 				414224151C17D86D0042BBBE /* AttributedStringUtilities.m */,
+				4143427B1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.h */,
+				4143427C1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.m */,
 			);
 			name = CustomUtilities;
 			sourceTree = "<group>";
@@ -489,6 +494,7 @@
 				41B02B741C1024F700E4904B /* ThemeUtilities.m in Sources */,
 				41AF90EB1C0467E2007FFE3C /* LoginConfiguration.m in Sources */,
 				411DEC061C0D3131008B7EB6 /* TopTenViewController.m in Sources */,
+				4143427D1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.m in Sources */,
 				419411D51C1BEF41002E59AC /* SectionInfo.m in Sources */,
 				410EABA21C0A9EE70076F7A9 /* RootViewController.m in Sources */,
 				410B20201C151842004C0CBE /* CustomUtilities.m in Sources */,

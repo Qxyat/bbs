@@ -105,7 +105,7 @@ static const int kNumOfPageToCache=5;
     cell.floorLabel.text=[CustomUtilities getFloorString:articleInfo.position];
     [cell.replyButton setTitle:articleInfo.user.userId forState:UIControlStateNormal];
     cell.nameLabel.text=articleInfo.user.userId;
-    cell.contentLabel.attributedText=_attributedStringArray[indexPath.row][@"AttributedString"];
+    cell.contentLabel.attributedText=[AttributedStringUtilities getAttributedStringWithString:articleInfo.content StringColor:[UIColor blackColor] StringSize:17 Attachments:articleInfo.attachment];
     cell.contentLabel.numberOfLines=0;
     CGRect contentLabelNewFrame=cell.contentLabel.frame;
     contentLabelNewFrame.size=CGSizeFromString(_attributedStringArray[indexPath.row][@"Size"]);

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AttributedStringDelegate.h"
+#import "AttachmentInfo.h"
 @interface AttributedStringUtilities : NSObject
 
 +(void)getAttributedStringsWithArray:(NSArray *)array
@@ -15,4 +16,9 @@
                           StringSize:(CGFloat)fontSize
                            BoundSize:(CGSize)boundSize
                             Delegate:(id<AttributedStringDelegate>)delegate;
+
++(NSMutableAttributedString*)getAttributedStringWithString:(NSString*)                     string
+                                               StringColor:(UIColor*)color
+                                                StringSize:(CGFloat)size
+                                               Attachments:(AttachmentInfo*)attachmentInfo;
 @end

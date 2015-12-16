@@ -30,7 +30,7 @@
 		41434F301BE8D5AA00FF01D9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 41434F2F1BE8D5AA00FF01D9 /* AppDelegate.m */; };
 		41434F361BE8D5AA00FF01D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41434F341BE8D5AA00FF01D9 /* Main.storyboard */; };
 		41434F3B1BE8D5AA00FF01D9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41434F391BE8D5AA00FF01D9 /* LaunchScreen.storyboard */; };
-		415AE0951C0AF5F700B1F137 /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 415AE0941C0AF5F700B1F137 /* UserViewController.m */; };
+		415AE0951C0AF5F700B1F137 /* UserCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 415AE0941C0AF5F700B1F137 /* UserCenterViewController.m */; };
 		416B272F1C1BE87F00D0FFE4 /* SectionUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 416B272E1C1BE87F00D0FFE4 /* SectionUtilities.m */; };
 		419411D51C1BEF41002E59AC /* SectionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 419411D41C1BEF41002E59AC /* SectionInfo.m */; };
 		419411D81C1BFD03002E59AC /* SectionAndBoardInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 419411D71C1BFD03002E59AC /* SectionAndBoardInfoCell.m */; };
@@ -45,9 +45,13 @@
 		41B02B741C1024F700E4904B /* ThemeUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B02B731C1024F700E4904B /* ThemeUtilities.m */; };
 		41B02B771C1033A400E4904B /* ArticleDetailInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B02B761C1033A400E4904B /* ArticleDetailInfoCell.m */; };
 		41B02B7A1C1036D300E4904B /* ArticleInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B02B791C1036D300E4904B /* ArticleInfoCell.m */; };
+		41B684BD1C2001BB0088395D /* ShowUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B684BB1C2001BB0088395D /* ShowUserInfoViewController.m */; };
+		41B684BE1C2001BB0088395D /* ShowUserInfo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41B684BC1C2001BB0088395D /* ShowUserInfo.xib */; };
 		41D801DD1C14277B00845782 /* AttachmentFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D801DC1C14277B00845782 /* AttachmentFile.m */; };
 		41E4CEA31C0456D7004DD407 /* LoginUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41E4CEA21C0456D7004DD407 /* LoginUtilities.m */; };
 		41E4CEA51C04588C004DD407 /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41E4CEA41C04588C004DD407 /* LoginView.xib */; };
+		41F86AB71C1FA3DD009DC75C /* UserCenter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41F86AB61C1FA3DD009DC75C /* UserCenter.xib */; };
+		41F86ABA1C1FA8FC009DC75C /* UserUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F86AB91C1FA8FC009DC75C /* UserUtilities.m */; };
 		41FE55E61C19B38100BEA091 /* SubThemeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FE55E41C19B38100BEA091 /* SubThemeViewController.m */; };
 		41FE55E71C19B38100BEA091 /* SubThemeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41FE55E51C19B38100BEA091 /* SubThemeViewController.xib */; };
 		ADF0647870C22EAF6852BE39 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC63FE2D2B942D0F858DC8B3 /* libPods.a */; };
@@ -96,8 +100,8 @@
 		41434F351BE8D5AA00FF01D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		41434F3A1BE8D5AA00FF01D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		41434F3C1BE8D5AA00FF01D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		415AE0931C0AF5F700B1F137 /* UserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserViewController.h; sourceTree = "<group>"; };
-		415AE0941C0AF5F700B1F137 /* UserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserViewController.m; sourceTree = "<group>"; };
+		415AE0931C0AF5F700B1F137 /* UserCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCenterViewController.h; sourceTree = "<group>"; };
+		415AE0941C0AF5F700B1F137 /* UserCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCenterViewController.m; sourceTree = "<group>"; };
 		416B272D1C1BE87F00D0FFE4 /* SectionUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionUtilities.h; sourceTree = "<group>"; };
 		416B272E1C1BE87F00D0FFE4 /* SectionUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionUtilities.m; sourceTree = "<group>"; };
 		419411D31C1BEF41002E59AC /* SectionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionInfo.h; sourceTree = "<group>"; };
@@ -125,12 +129,18 @@
 		41B02B761C1033A400E4904B /* ArticleDetailInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleDetailInfoCell.m; sourceTree = "<group>"; };
 		41B02B781C1036D300E4904B /* ArticleInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleInfoCell.h; sourceTree = "<group>"; };
 		41B02B791C1036D300E4904B /* ArticleInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleInfoCell.m; sourceTree = "<group>"; };
+		41B684BA1C2001BB0088395D /* ShowUserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowUserInfoViewController.h; sourceTree = "<group>"; };
+		41B684BB1C2001BB0088395D /* ShowUserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowUserInfoViewController.m; sourceTree = "<group>"; };
+		41B684BC1C2001BB0088395D /* ShowUserInfo.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShowUserInfo.xib; sourceTree = "<group>"; };
 		41CDB23D1BF9B6D400172DE0 /* BBSConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSConstants.h; sourceTree = "<group>"; };
 		41D801DB1C14277B00845782 /* AttachmentFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentFile.h; sourceTree = "<group>"; };
 		41D801DC1C14277B00845782 /* AttachmentFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentFile.m; sourceTree = "<group>"; };
 		41E4CEA11C0456D7004DD407 /* LoginUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginUtilities.h; sourceTree = "<group>"; };
 		41E4CEA21C0456D7004DD407 /* LoginUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginUtilities.m; sourceTree = "<group>"; };
 		41E4CEA41C04588C004DD407 /* LoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
+		41F86AB61C1FA3DD009DC75C /* UserCenter.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserCenter.xib; sourceTree = "<group>"; };
+		41F86AB81C1FA8FC009DC75C /* UserUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserUtilities.h; sourceTree = "<group>"; };
+		41F86AB91C1FA8FC009DC75C /* UserUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserUtilities.m; sourceTree = "<group>"; };
 		41FE55E31C19B38100BEA091 /* SubThemeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubThemeViewController.h; sourceTree = "<group>"; };
 		41FE55E41C19B38100BEA091 /* SubThemeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubThemeViewController.m; sourceTree = "<group>"; };
 		41FE55E51C19B38100BEA091 /* SubThemeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SubThemeViewController.xib; sourceTree = "<group>"; };
@@ -242,6 +252,8 @@
 				41404F6C1C1D16E700A45B13 /* BoardUtilities.m */,
 				41295DD31C1E5E260021D689 /* RecommedUtilities.h */,
 				41295DD41C1E5E260021D689 /* RecommedUtilities.m */,
+				41F86AB81C1FA8FC009DC75C /* UserUtilities.h */,
+				41F86AB91C1FA8FC009DC75C /* UserUtilities.m */,
 			);
 			name = NetworkUtilities;
 			sourceTree = "<group>";
@@ -251,10 +263,10 @@
 			children = (
 				41185B8A1BFAC71A00695E9C /* LoginViewController.h */,
 				41185B8B1BFAC71A00695E9C /* LoginViewController.m */,
-				415AE0931C0AF5F700B1F137 /* UserViewController.h */,
-				415AE0941C0AF5F700B1F137 /* UserViewController.m */,
 				410EABA01C0A9EE70076F7A9 /* RootViewController.h */,
 				410EABA11C0A9EE70076F7A9 /* RootViewController.m */,
+				415AE0931C0AF5F700B1F137 /* UserCenterViewController.h */,
+				415AE0941C0AF5F700B1F137 /* UserCenterViewController.m */,
 				411DEC041C0D3131008B7EB6 /* TopTenViewController.h */,
 				411DEC051C0D3131008B7EB6 /* TopTenViewController.m */,
 				41B02B691C0FED2500E4904B /* ThemeViewController.h */,
@@ -269,6 +281,8 @@
 				41404F691C1D142100A45B13 /* BoardViewController.m */,
 				4108AFFB1C0D8FEF00CDC292 /* RecommedArticalViewController.h */,
 				4108AFFC1C0D8FEF00CDC292 /* RecommedArticalViewController.m */,
+				41B684BA1C2001BB0088395D /* ShowUserInfoViewController.h */,
+				41B684BB1C2001BB0088395D /* ShowUserInfoViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -277,9 +291,11 @@
 			isa = PBXGroup;
 			children = (
 				41434F341BE8D5AA00FF01D9 /* Main.storyboard */,
-				411DD2681C0D8CA600002CD3 /* UserMainInterface.storyboard */,
 				41434F391BE8D5AA00FF01D9 /* LaunchScreen.storyboard */,
 				41E4CEA41C04588C004DD407 /* LoginView.xib */,
+				41F86AB61C1FA3DD009DC75C /* UserCenter.xib */,
+				41B684BC1C2001BB0088395D /* ShowUserInfo.xib */,
+				411DD2681C0D8CA600002CD3 /* UserMainInterface.storyboard */,
 				412641F91C0ED80D006C4B31 /* ArticleInfoCell.xib */,
 				41B02B781C1036D300E4904B /* ArticleInfoCell.h */,
 				41B02B791C1036D300E4904B /* ArticleInfoCell.m */,
@@ -402,8 +418,10 @@
 				41E4CEA51C04588C004DD407 /* LoginView.xib in Resources */,
 				41FE55E71C19B38100BEA091 /* SubThemeViewController.xib in Resources */,
 				41404F721C1D207900A45B13 /* BoardArticleInfoCell.xib in Resources */,
+				41F86AB71C1FA3DD009DC75C /* UserCenter.xib in Resources */,
 				412641FA1C0ED80D006C4B31 /* ArticleInfoCell.xib in Resources */,
 				410B20221C1524A3004C0CBE /* Assets.xcassets in Resources */,
+				41B684BE1C2001BB0088395D /* ShowUserInfo.xib in Resources */,
 				41434F361BE8D5AA00FF01D9 /* Main.storyboard in Resources */,
 				41B02B711C10221500E4904B /* ArticleDetailInfoCell.xib in Resources */,
 			);
@@ -482,16 +500,18 @@
 				4108AFFA1C0D8FBB00CDC292 /* TopSectionViewController.m in Sources */,
 				419411DB1C1C0C93002E59AC /* SectionViewController.m in Sources */,
 				414224161C17D86D0042BBBE /* AttributedStringUtilities.m in Sources */,
+				41B684BD1C2001BB0088395D /* ShowUserInfoViewController.m in Sources */,
 				4108B0001C0D951600CDC292 /* TopTenUtilities.m in Sources */,
 				416B272F1C1BE87F00D0FFE4 /* SectionUtilities.m in Sources */,
 				41B02B7A1C1036D300E4904B /* ArticleInfoCell.m in Sources */,
-				415AE0951C0AF5F700B1F137 /* UserViewController.m in Sources */,
+				415AE0951C0AF5F700B1F137 /* UserCenterViewController.m in Sources */,
 				419411DE1C1C1573002E59AC /* BoardInfo.m in Sources */,
 				41B02B771C1033A400E4904B /* ArticleDetailInfoCell.m in Sources */,
 				41404F6A1C1D142100A45B13 /* BoardViewController.m in Sources */,
 				419411D81C1BFD03002E59AC /* SectionAndBoardInfoCell.m in Sources */,
 				41434F2D1BE8D5AA00FF01D9 /* main.m in Sources */,
 				41B02B741C1024F700E4904B /* ThemeUtilities.m in Sources */,
+				41F86ABA1C1FA8FC009DC75C /* UserUtilities.m in Sources */,
 				41AF90EB1C0467E2007FFE3C /* LoginConfiguration.m in Sources */,
 				411DEC061C0D3131008B7EB6 /* TopTenViewController.m in Sources */,
 				4143427D1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.m in Sources */,

@@ -13,4 +13,6 @@
 
 @property (nonatomic) int page_all_count;
 @property (weak,nonatomic) ThemeViewController *themViewController;
++(SubThemeViewController *)getInstance;
+
 @end

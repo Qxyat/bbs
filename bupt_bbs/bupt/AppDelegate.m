@@ -25,13 +25,11 @@
     LoginConfiguration * loginConfiguration=[LoginConfiguration getInstance];
     
     if(loginConfiguration.access_token==nil){
-        LoginViewController *loginViewController=[[LoginViewController alloc]initWithNibName:@"LoginView" bundle:nil];
+        LoginViewController *loginViewController=[LoginViewController getInstance];
         self.window.rootViewController=loginViewController;
     }
     else{
-        UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        RootViewController *rootViewController=[storyboard instantiateViewControllerWithIdentifier:@"rootViewController"];
-        
+        RootViewController *rootViewController=[RootViewController getInstance];
         self.window.rootViewController=rootViewController;
     }
     [self.window makeKeyAndVisible];

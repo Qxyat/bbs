@@ -34,7 +34,7 @@
                 [LoginConfiguration saveLoadConfiguration:array[1] saveLoginConfiguration:shouldSaveLoginConfiguration];
                
                 dispatch_async(dispatch_get_main_queue(), ^{
-                     [viewController showHome];
+                     [viewController handleHttpResponse:nil];
                 });
             }
            

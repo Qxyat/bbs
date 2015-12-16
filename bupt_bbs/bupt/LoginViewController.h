@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HttpResponseDelegate.h"
 
-@interface LoginViewController : UIViewController
+@interface LoginViewController : UIViewController<HttpResponseDelegate>
 
--(void)showHome;
++(LoginViewController *)getInstance;
+
 @end

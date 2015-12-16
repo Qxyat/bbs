@@ -10,4 +10,6 @@
 
 @interface RootViewController : UIViewController<UITabBarControllerDelegate>
 
++(RootViewController*)getInstance;
+-(void)showLeft;
 @end

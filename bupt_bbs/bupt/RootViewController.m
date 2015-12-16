@@ -7,7 +7,10 @@
 //
 
 #import "RootViewController.h"
-#import "UserViewController.h"
+#import "UserCenterViewController.h"
+#import "LoginConfiguration.h"
+#import <UIImageView+WebCache.h>
+
 static CGFloat const kProportion=0.77;
 
 @interface RootViewController()
@@ -16,13 +19,17 @@ static CGFloat const kProportion=0.77;
 @property (nonatomic) CGFloat maxMoveDistance;
 
 @property (strong,nonatomic) UIView *blackCover;
-@property (strong,nonatomic) UserViewController *userViewController;
+@property (strong,nonatomic) UserCenterViewController *userViewController;
 @property (strong,nonatomic) UITabBarController *userMainInterfaceViewController;
 @property (strong,nonatomic) UITapGestureRecognizer *tapGestureRecognizer;
 
 @end
 
 @implementation RootViewController
++(RootViewController*)getInstance{
+    return [[RootViewController alloc]init];
+}
+
 -(void)viewDidLoad{
     [super viewDidLoad];
 
@@ -32,9 +39,10 @@ static CGFloat const kProportion=0.77;
     
     self.view.backgroundColor=[UIColor greenColor];
     
-    self.userViewController=[self.storyboard instantiateViewControllerWithIdentifier:@"userviewcontroller"];
+    self.userViewController=[UserCenterViewController getInstance];
     self.userViewController.view.center=CGPointMake(self.screenWidth*kProportion/2, self.userViewController.view.center.y);
     self.userViewController.view.transform=CGAffineTransformMakeScale(kProportion, kProportion);
+    self.userViewController.view.backgroundColor=[UIColor colorWithWhite:0 alpha:0];
     
     [self.view addSubview:self.userViewController.view];
     
@@ -50,6 +58,8 @@ static CGFloat const kProportion=0.77;
     self.tapGestureRecognizer=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMain)];
     self.tapGestureRecognizer.enabled=NO;
     [self.userMainInterfaceViewController.view addGestureRecognizer:self.tapGestureRecognizer];
+    
+    
 }
 
 -(void)getuserMainInterfaceViewController{

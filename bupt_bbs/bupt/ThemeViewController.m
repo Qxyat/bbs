@@ -65,13 +65,19 @@ static const int kNumOfPageToCache=5;
     self.tableView.mj_footer=[MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(pullUpToRefresh)];
     [self.tableView.mj_footer beginRefreshing];
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.tabBarController.tabBar.hidden=YES;
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    self.tabBarController.tabBar.hidden=NO;
 }
 
 #pragma mark - 打开跳转到指定页面的浮动窗口
 -(void)jumpToDestinationPagePopover{
-    SubThemeViewController *controller=[[SubThemeViewController alloc]initWithNibName:@"SubThemeViewController" bundle:nil];
+    SubThemeViewController *controller=[SubThemeViewController getInstance];
     controller.page_all_count=_page_all_count;
     controller.themViewController=self;
     controller.preferredContentSize=CGSizeMake(304, 55);
@@ -100,8 +106,9 @@ static const int kNumOfPageToCache=5;
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ArticleDetailInfoCell *cell=[tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
     ArticleInfo *articleInfo=_data[indexPath.row];
+    cell.articleInfo=articleInfo;
     [cell.faceImageView sd_setImageWithURL:[NSURL URLWithString:articleInfo.user.face_url] placeholderImage:[UIImage imageNamed:@"face_default.png"]];
-    cell.timeLabel.text=[CustomUtilities getTimeString:articleInfo.post_time];
+    cell.timeLabel.text=[CustomUtilities getPostTimeString:articleInfo.post_time];
     cell.floorLabel.text=[CustomUtilities getFloorString:articleInfo.position];
     [cell.replyButton setTitle:articleInfo.user.userId forState:UIControlStateNormal];
     cell.nameLabel.text=articleInfo.user.userId;
@@ -110,7 +117,7 @@ static const int kNumOfPageToCache=5;
     CGRect contentLabelNewFrame=cell.contentLabel.frame;
     contentLabelNewFrame.size=CGSizeFromString(_attributedStringArray[indexPath.row][@"Size"]);
     cell.contentLabel.frame=contentLabelNewFrame;
-    cell.userInteractionEnabled=NO;
+    [cell resignFirstResponder];
     return cell;
 }
 
@@ -118,6 +125,9 @@ static const int kNumOfPageToCache=5;
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     CGSize size=CGSizeFromString(_attributedStringArray[indexPath.row][@"Size"]);
     return 65+size.height;
+}
+-(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath{
+    return  NO;
 }
 
 #pragma mark - 根据刷新方式刷新页面的内容

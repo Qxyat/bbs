@@ -12,6 +12,9 @@
 #import "SectionInfo.h"
 #import "SectionAndBoardInfoCell.h"
 #import "SectionViewController.h"
+#import <UIButton+WebCache.h>
+#import "LoginConfiguration.h"
+#import "RootViewController.h"
 
 @interface TopSectionViewController ()
 @property (copy,nonatomic) NSArray* data;
@@ -30,6 +33,20 @@
     
     self.collectionView.mj_header=[MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
     [self.collectionView.mj_header beginRefreshing];
+
+    UIButton *button=[[UIButton alloc]init];
+    button.frame=CGRectMake(0, 0, 40, 40);
+    button.layer.cornerRadius=20;
+    button.layer.masksToBounds=YES;
+    [button addTarget:self action:@selector(showLeft) forControlEvents:UIControlEventTouchUpInside];
+    [button sd_setBackgroundImageWithURL:[NSURL URLWithString:[LoginConfiguration getInstance].loginUserInfo.face_url] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"face_default"]];
+    UIBarButtonItem *leftBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:button];
+    self.navigationItem.leftBarButtonItem=leftBarButtonItem;
+}
+#pragma mark - 显示用户个人中心
+-(void)showLeft{
+    RootViewController *rootViewController=(RootViewController*)[UIApplication sharedApplication].keyWindow.rootViewController;
+    [rootViewController showLeft];
 }
 
 #pragma mark - 实现UICollectionView Data Source

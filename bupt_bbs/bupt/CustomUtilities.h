@@ -10,10 +10,18 @@
 
 @interface CustomUtilities : NSObject
 
-#pragma mark - 获取显示当前时间的字符串
-+(NSString*) getTimeString:(NSUInteger) timeInterval;
+#pragma mark - 获取显示发帖时间的字符串
++(NSString*) getPostTimeString:(NSUInteger) timeInterval;
 
 #pragma mark - 获取显示楼层的字符串
 +(NSString*) getFloorString:(NSUInteger) position;
 
+#pragma mark - 获取显示用户性别的字符串
++(NSString *) getGenderString:(NSString *)gender;
+
+#pragma mark - 获取上次登录时间的字符串
++(NSString*) getLastLoginTimeString:(NSUInteger)timeInterval;
+
+#pragma mark - 获取显示用户在线状态的字符串
++(NSString*) getUserLoginStateString:(BOOL)isOnline;
 @end

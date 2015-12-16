@@ -7,17 +7,32 @@
 //
 
 #import "ArticleDetailInfoCell.h"
+#import "ShowUserInfoViewController.h"
+@interface ArticleDetailInfoCell()
+
+@property (strong,nonatomic)ShowUserInfoViewController*showUserInfoViewController;
+
+@end
 
 @implementation ArticleDetailInfoCell
 
 - (void)awakeFromNib {
-    // Initialization code
+    UITapGestureRecognizer *tapGestureRecognizer1=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showUserInfo)];
+    UITapGestureRecognizer *tapGestureRecognizer2=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showUserInfo)];
+    self.faceImageView.userInteractionEnabled=YES;
+    self.nameLabel.userInteractionEnabled=YES;
+    [self.faceImageView addGestureRecognizer:tapGestureRecognizer1];
+    [self.nameLabel addGestureRecognizer:tapGestureRecognizer2];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
+#pragma mark - 展示用户信息
+-(void)showUserInfo{
+    self.showUserInfoViewController=[ShowUserInfoViewController getInstance];
+    self.showUserInfoViewController.userInfo=self.articleInfo.user;
+    [self.showUserInfoViewController showUserInfoView];
+}
 @end

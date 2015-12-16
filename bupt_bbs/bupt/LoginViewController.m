@@ -8,6 +8,9 @@
 
 #import "LoginViewController.h"
 #import "LoginUtilities.h"
+#import "RootViewController.h"
+#import "UserUtilities.h"
+#import "LoginConfiguration.h"
 
 @interface LoginViewController ()
 
@@ -18,7 +21,9 @@
 @end
 
 @implementation LoginViewController
-
++(LoginViewController*)getInstance{
+    return [[LoginViewController alloc]initWithNibName:@"LoginView" bundle:nil];
+}
 #pragma mark - 点击登录按钮
 - (IBAction)loginButtonPressed:(id)sender {
     [LoginUtilities doLogin:self.nameTextField.text password:self.passwdTextField.text saveLoginConfiguration:self.shouldSaveLoginConfiguration.isOn delegate:self];
@@ -35,8 +40,13 @@
     [sender resignFirstResponder];
 }
 
-#pragma mark - 用户完成登陆后显示根控制器
--(void)showHome{
-    [UIApplication sharedApplication].keyWindow.rootViewController=[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"rootViewController"];
+
+#pragma mark - 实现HttpResponseDelegate协议
+-(void)handleHttpResponse:(id)response{
+    [UserUtilities getLoginUserInfo:self];
+}
+-(void)handleUserInfoResponse:(id)response{
+    [LoginConfiguration getInstance].loginUserInfo=[UserInfo getUserInfo:response];
+    [UIApplication sharedApplication].keyWindow.rootViewController=[RootViewController getInstance];
 }
 @end

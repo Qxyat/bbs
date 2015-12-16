@@ -10,8 +10,8 @@
 
 @implementation CustomUtilities
 
-#pragma mark - 获取显示当前时间的字符串
-+(NSString*) getTimeString:(NSUInteger) timeInterval{
+#pragma mark - 获取发帖时间的字符串
++(NSString*) getPostTimeString:(NSUInteger) timeInterval{
     NSDateFormatter *formatter=[[NSDateFormatter alloc]init];
     
     NSDate *today=[[NSDate alloc]init];
@@ -57,5 +57,31 @@
         return [NSString stringWithFormat:@"%d楼",position];
 }
 
+#pragma mark - 获取显示用户性别的字符串
++(NSString *) getGenderString:(NSString *)gender{
+    if([gender isEqualToString:@"m"]){
+        return @"男";
+    }
+    else if([gender isEqualToString:@"f"])
+        return @"女";
+    else
+        return @"这是个秘密~。~";
+}
+
+#pragma mark - 获取上次登录时间的字符串
++(NSString*) getLastLoginTimeString:(NSUInteger)timeInterval{
+    NSDate *date=[NSDate dateWithTimeIntervalSince1970:timeInterval];
+    NSDateFormatter *formatter=[[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"YY年MM月dd日  HH:mm:ss"];
+    return [formatter stringFromDate:date];
+}
+
+#pragma mark - 获取显示用户在线状态的字符串
++(NSString*) getUserLoginStateString:(BOOL)isOnline{
+    if(isOnline)
+        return @"在线";
+    else
+        return @"离线";
+}
 @end
 

@@ -7,13 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "UserInfo.h"
 @interface LoginConfiguration : NSObject<NSCoding>
 
 @property (copy,nonatomic)NSString *access_token;
 @property (copy,nonatomic)NSString *refresh_token;
 @property (copy,nonatomic)NSString *expires_in;
 @property (nonatomic)BOOL shouldSaveLoginConfiguration;
+@property (strong,nonatomic)UserInfo *loginUserInfo;
 
 +(instancetype)getInstance;
 

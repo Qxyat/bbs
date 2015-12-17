@@ -7,12 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HttpResponseDelegate.h"
-
-@class LoginViewController;
+#import "LoginHttpResponseDelegate.h"
 
 @interface LoginUtilities : NSObject
 
-+(void)doLogin:(NSString*)userName password:(NSString*)password saveLoginConfiguration:(BOOL)shouldSave delegate:(id<HttpResponseDelegate>)viewController;
-
++(void)loginWithUserName:(NSString*)username
+                password:(NSString*)password
+                delegete:(id<LoginHttpResponseDelegate>)delegate;
 @end

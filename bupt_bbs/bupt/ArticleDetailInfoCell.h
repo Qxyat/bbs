@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <YYKit.h>
 #import "ArticleInfo.h"
-@interface ArticleDetailInfoCell : UITableViewCell
+#import "ShowUserInfoViewControllerDelegate.h"
+@interface ArticleDetailInfoCell : UITableViewCell<ShowUserInfoViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIView *topView;
 @property (weak, nonatomic) IBOutlet UIImageView *faceImageView;
 @property (weak, nonatomic) IBOutlet UILabel *floorLabel;

@@ -30,7 +30,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oQ5-b3-tEL">
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oQ5-b3-tEL" customClass="UIControl">
                     <rect key="frame" x="40" y="52" width="240" height="449"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="昵称:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wF0-yh-EHB">
@@ -200,13 +200,15 @@
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" red="0.30305972460000002" green="0.50696520270000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <action selector="hideUserInfoViewPressed:" destination="-1" eventType="touchDown" id="br8-EF-BwE"/>
+                    </connections>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
             <connections>
-                <action selector="hideUserInfoView:" destination="-1" eventType="touchDown" id="Top-Hq-AID"/>
-                <action selector="hideUserInfoView:" destination="-1" eventType="touchUpInside" id="uk3-uA-AZP"/>
+                <action selector="hideUserInfoViewPressed:" destination="-1" eventType="touchDown" id="YSE-Su-GLX"/>
             </connections>
         </view>
     </objects>

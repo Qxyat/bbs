@@ -10,7 +10,7 @@
 #import "UserUtilities.h"
 #import "UserInfo.h"
 #import "LoginConfiguration.h"
-#import "LoginViewController.h"
+#import "FirstLoginViewController.h"
 #import <UIButton+WebCache.h>
 #import "ShowUserInfoViewController.h"
 
@@ -40,14 +40,20 @@ static CGFloat const kProportion=0.77;
 }
 - (IBAction)logOutButtonPressed:(id)sender {
     [LoginConfiguration deleteLoginConfiguration];
-    [UIApplication sharedApplication].keyWindow.rootViewController=[LoginViewController getInstance];
+    [UIApplication sharedApplication].keyWindow.rootViewController=[FirstLoginViewController getInstance];
 }
 - (IBAction)faceButtonPressed:(id)sender {
-    self.showUserInfoViewController=[ShowUserInfoViewController getInstance];
+    self.showUserInfoViewController=[ShowUserInfoViewController getInstance:self];
     self.showUserInfoViewController.userInfo=[LoginConfiguration getInstance].loginUserInfo;
     [self.showUserInfoViewController showUserInfoView];
 }
-
+#pragma mark - 实现ShowUserInfoViewControllerDelegate协议
+-(void)userInfoViewControllerDidDismiss:(ShowUserInfoViewController *)userInfoViewController{
+    if(self.showUserInfoViewController==userInfoViewController){
+        [self.showUserInfoViewController hideUserInfoView];
+        self.showUserInfoViewController=nil;
+    }
+}
 
 #pragma mark - 刷新用户个人中心界面
 -(void)refresh{

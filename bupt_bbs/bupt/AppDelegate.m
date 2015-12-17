@@ -8,7 +8,8 @@
 
 #import "AppDelegate.h"
 #import "LoginConfiguration.h"
-#import "LoginViewController.h"
+#import "FirstLoginViewController.h"
+#import "SecondLoginViewController.h"
 #import "RootViewController.h"
 @interface AppDelegate ()
 
@@ -25,8 +26,8 @@
     LoginConfiguration * loginConfiguration=[LoginConfiguration getInstance];
     
     if(loginConfiguration.access_token==nil){
-        LoginViewController *loginViewController=[LoginViewController getInstance];
-        self.window.rootViewController=loginViewController;
+        FirstLoginViewController *firstLoginViewController=[FirstLoginViewController getInstance];
+        self.window.rootViewController=firstLoginViewController;
     }
     else{
         RootViewController *rootViewController=[RootViewController getInstance];

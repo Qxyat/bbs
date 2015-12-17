@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "HttpResponseDelegate.h"
 
-@interface LoginViewController : UIViewController<HttpResponseDelegate>
+@interface SecondLoginViewController : UIViewController<HttpResponseDelegate>
 
-+(LoginViewController *)getInstance;
++(SecondLoginViewController *)getInstance;
 
 @end

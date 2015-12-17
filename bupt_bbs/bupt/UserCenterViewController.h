@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ShowUserInfoViewControllerDelegate.h"
 
-@interface UserCenterViewController : UIViewController
+@interface UserCenterViewController : UIViewController<ShowUserInfoViewControllerDelegate>
 
 +(UserCenterViewController *)getInstance;
 @end

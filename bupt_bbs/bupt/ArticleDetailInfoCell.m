@@ -31,8 +31,15 @@
 
 #pragma mark - 展示用户信息
 -(void)showUserInfo{
-    self.showUserInfoViewController=[ShowUserInfoViewController getInstance];
+    self.showUserInfoViewController=[ShowUserInfoViewController getInstance:self];
     self.showUserInfoViewController.userInfo=self.articleInfo.user;
     [self.showUserInfoViewController showUserInfoView];
+}
+#pragma mark - 实现ShowUserInfoViewControllerDelegate协议
+-(void)userInfoViewControllerDidDismiss:(ShowUserInfoViewController *)userInfoViewController{
+    if(self.showUserInfoViewController==userInfoViewController){
+        [self.showUserInfoViewController hideUserInfoView];
+        self.showUserInfoViewController=nil;
+    }
 }
 @end

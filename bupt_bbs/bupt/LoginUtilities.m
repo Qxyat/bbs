@@ -10,10 +10,13 @@
 #import "BBSConstants.h"
 #import <AFNetworking.h>
 #import "LoginConfiguration.h"
-#import "LoginViewController.h"
+#import "SecondLoginViewController.h"
 
 @implementation LoginUtilities
-+(void)doLogin:(NSString*)username password:(NSString*)password saveLoginConfiguration:(BOOL)shouldSaveLoginConfiguration delegate:(LoginViewController *)viewController{
+
++(void)loginWithUserName:(NSString*)username
+                password:(NSString*)password
+                delegete:(id<LoginHttpResponseDelegate>)delegate{
     NSDictionary *dic=@{@"client_id":kAppKey,
                         @"response_type":@"token",
                         @"redirect_uri":kRedirectURL,
@@ -31,16 +34,15 @@
             NSString *location=dic[@"Location"];
             NSArray* array=[location componentsSeparatedByString:@"#"];
             if([array count]>1){
-                [LoginConfiguration saveLoadConfiguration:array[1] saveLoginConfiguration:shouldSaveLoginConfiguration];
-               
-                dispatch_async(dispatch_get_main_queue(), ^{
-                     [viewController handleHttpResponse:nil];
-                });
+                [delegate handleLoginSuccessResponse:array[1]];
             }
-           
+            
             return nil;
         }
         return request;
+    }];
+    [operation setCompletionBlock:^{
+        [delegate handleLoginErrorResponse:nil];
     }];
     NSOperationQueue *queue=[[NSOperationQueue alloc]init];
     [queue addOperation:operation];

@@ -6,27 +6,33 @@
 //  Copyright © 2015年 qiu. All rights reserved.
 //
 
-#import "LoginViewController.h"
+#import "SecondLoginViewController.h"
 #import "LoginUtilities.h"
 #import "RootViewController.h"
 #import "UserUtilities.h"
 #import "LoginConfiguration.h"
-
-@interface LoginViewController ()
+#import "BBSConstants.h"
+@interface SecondLoginViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwdTextField;
 @property (weak, nonatomic) IBOutlet UISwitch *shouldSaveLoginConfiguration;
+@property (weak, nonatomic) IBOutlet UIButton *loginButton;
 
 @end
 
-@implementation LoginViewController
-+(LoginViewController*)getInstance{
-    return [[LoginViewController alloc]initWithNibName:@"LoginView" bundle:nil];
+@implementation SecondLoginViewController
+
+-(void)viewDidLoad{
+    self.loginButton.layer.cornerRadius=5.f;
+    [self.loginButton setBackgroundColor:[UIColor colorWithRed:kCustomGreenColor.red/255.f green:kCustomGreenColor.green/255.f blue :kCustomGreenColor.blue/255.f alpha:1]];
+}
++(SecondLoginViewController*)getInstance{
+    return [[SecondLoginViewController alloc]initWithNibName:@"LoginView" bundle:nil];
 }
 #pragma mark - 点击登录按钮
 - (IBAction)loginButtonPressed:(id)sender {
-    [LoginUtilities doLogin:self.nameTextField.text password:self.passwdTextField.text saveLoginConfiguration:self.shouldSaveLoginConfiguration.isOn delegate:self];
+    //[LoginUtilities doLogin:self.nameTextField.text password:self.passwdTextField.text saveLoginConfiguration:self.shouldSaveLoginConfiguration.isOn delegate:self];
 }
 
 #pragma mark - 点击背景，释放输入框

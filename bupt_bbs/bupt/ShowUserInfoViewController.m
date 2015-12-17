@@ -33,8 +33,10 @@
 
 @implementation ShowUserInfoViewController
 
-+(ShowUserInfoViewController *)getInstance{
-    return [[ShowUserInfoViewController alloc]initWithNibName:@"ShowUserInfo" bundle:nil];
++(ShowUserInfoViewController *)getInstance:(id<ShowUserInfoViewControllerDelegate>)delegate{
+    ShowUserInfoViewController *controller=[[ShowUserInfoViewController alloc]initWithNibName:@"ShowUserInfo" bundle:nil];
+    controller.delegate=delegate;
+    return controller;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -59,8 +61,12 @@
     } completion:nil];
     
 }
-#pragma mark - 隐藏用户信息
-- (IBAction)hideUserInfoView:(id)sender {
+#pragma mark - 触发隐藏用户信息的事件
+- (IBAction)hideUserInfoViewPressed:(id)sender {
+    [self.delegate userInfoViewControllerDidDismiss:self];
+}
+#pragma mark - 完成隐藏用户信息
+-(void)hideUserInfoView{
     [UIView animateWithDuration:0.5 animations:^{
         self.view.center=CGPointMake(self.screenWidth/2, 3*self.screenHeight/2);
     }];

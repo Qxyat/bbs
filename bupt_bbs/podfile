@@ -4,4 +4,4 @@ pod "MJRefresh"
 pod "SDWebImage","~>3.7"
 pod "YYKit"
 pod "WYPopoverController","~>0.2.2"
-
+pod "SVProgressHUD"

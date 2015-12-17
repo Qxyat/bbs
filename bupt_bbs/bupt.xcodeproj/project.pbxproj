@@ -13,9 +13,11 @@
 		410B20201C151842004C0CBE /* CustomUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 410B201F1C151842004C0CBE /* CustomUtilities.m */; };
 		410B20221C1524A3004C0CBE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 410B20211C1524A3004C0CBE /* Assets.xcassets */; };
 		410EABA21C0A9EE70076F7A9 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 410EABA11C0A9EE70076F7A9 /* RootViewController.m */; };
-		41185B8C1BFAC71A00695E9C /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41185B8B1BFAC71A00695E9C /* LoginViewController.m */; };
+		41185B8C1BFAC71A00695E9C /* SecondLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41185B8B1BFAC71A00695E9C /* SecondLoginViewController.m */; };
 		411DD2691C0D8CA600002CD3 /* UserMainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 411DD2681C0D8CA600002CD3 /* UserMainInterface.storyboard */; };
 		411DEC061C0D3131008B7EB6 /* TopTenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 411DEC051C0D3131008B7EB6 /* TopTenViewController.m */; };
+		412441121C2259EA009A4172 /* FirstLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 412441111C2259EA009A4172 /* FirstLoginViewController.m */; };
+		412441141C225A1E009A4172 /* FirstLoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 412441131C225A1E009A4172 /* FirstLoginView.xib */; };
 		412641F31C0E86BD006C4B31 /* ArticleInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 412641F21C0E86BD006C4B31 /* ArticleInfo.m */; };
 		412641F61C0E876E006C4B31 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 412641F51C0E876E006C4B31 /* UserInfo.m */; };
 		412641FA1C0ED80D006C4B31 /* ArticleInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 412641F91C0ED80D006C4B31 /* ArticleInfoCell.xib */; };
@@ -49,7 +51,7 @@
 		41B684BE1C2001BB0088395D /* ShowUserInfo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41B684BC1C2001BB0088395D /* ShowUserInfo.xib */; };
 		41D801DD1C14277B00845782 /* AttachmentFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D801DC1C14277B00845782 /* AttachmentFile.m */; };
 		41E4CEA31C0456D7004DD407 /* LoginUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41E4CEA21C0456D7004DD407 /* LoginUtilities.m */; };
-		41E4CEA51C04588C004DD407 /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41E4CEA41C04588C004DD407 /* LoginView.xib */; };
+		41E4CEA51C04588C004DD407 /* SecondLoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41E4CEA41C04588C004DD407 /* SecondLoginView.xib */; };
 		41F86AB71C1FA3DD009DC75C /* UserCenter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41F86AB61C1FA3DD009DC75C /* UserCenter.xib */; };
 		41F86ABA1C1FA8FC009DC75C /* UserUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F86AB91C1FA8FC009DC75C /* UserUtilities.m */; };
 		41FE55E61C19B38100BEA091 /* SubThemeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FE55E41C19B38100BEA091 /* SubThemeViewController.m */; };
@@ -69,11 +71,16 @@
 		410B20211C1524A3004C0CBE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		410EABA01C0A9EE70076F7A9 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		410EABA11C0A9EE70076F7A9 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
-		41185B8A1BFAC71A00695E9C /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
-		41185B8B1BFAC71A00695E9C /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		41185B8A1BFAC71A00695E9C /* SecondLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondLoginViewController.h; sourceTree = "<group>"; };
+		41185B8B1BFAC71A00695E9C /* SecondLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondLoginViewController.m; sourceTree = "<group>"; };
 		411DD2681C0D8CA600002CD3 /* UserMainInterface.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = UserMainInterface.storyboard; sourceTree = "<group>"; };
 		411DEC041C0D3131008B7EB6 /* TopTenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopTenViewController.h; sourceTree = "<group>"; };
 		411DEC051C0D3131008B7EB6 /* TopTenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopTenViewController.m; sourceTree = "<group>"; };
+		4124410F1C2244F2009A4172 /* ShowUserInfoViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowUserInfoViewControllerDelegate.h; sourceTree = "<group>"; };
+		412441101C2259EA009A4172 /* FirstLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstLoginViewController.h; sourceTree = "<group>"; };
+		412441111C2259EA009A4172 /* FirstLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstLoginViewController.m; sourceTree = "<group>"; };
+		412441131C225A1E009A4172 /* FirstLoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FirstLoginView.xib; sourceTree = "<group>"; };
+		412441151C2263B0009A4172 /* LoginHttpResponseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginHttpResponseDelegate.h; sourceTree = "<group>"; };
 		412641F11C0E86BD006C4B31 /* ArticleInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleInfo.h; sourceTree = "<group>"; };
 		412641F21C0E86BD006C4B31 /* ArticleInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleInfo.m; sourceTree = "<group>"; };
 		412641F41C0E876E006C4B31 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
@@ -137,7 +144,7 @@
 		41D801DC1C14277B00845782 /* AttachmentFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentFile.m; sourceTree = "<group>"; };
 		41E4CEA11C0456D7004DD407 /* LoginUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginUtilities.h; sourceTree = "<group>"; };
 		41E4CEA21C0456D7004DD407 /* LoginUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginUtilities.m; sourceTree = "<group>"; };
-		41E4CEA41C04588C004DD407 /* LoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
+		41E4CEA41C04588C004DD407 /* SecondLoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecondLoginView.xib; sourceTree = "<group>"; };
 		41F86AB61C1FA3DD009DC75C /* UserCenter.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserCenter.xib; sourceTree = "<group>"; };
 		41F86AB81C1FA8FC009DC75C /* UserUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserUtilities.h; sourceTree = "<group>"; };
 		41F86AB91C1FA8FC009DC75C /* UserUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserUtilities.m; sourceTree = "<group>"; };
@@ -177,8 +184,10 @@
 		412641F71C0E9129006C4B31 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
+				412441151C2263B0009A4172 /* LoginHttpResponseDelegate.h */,
 				412641F81C0E91A7006C4B31 /* HttpResponseDelegate.h */,
 				41A9B1031C180DE500CF422F /* AttributedStringDelegate.h */,
+				4124410F1C2244F2009A4172 /* ShowUserInfoViewControllerDelegate.h */,
 			);
 			name = Protocol;
 			sourceTree = "<group>";
@@ -261,8 +270,10 @@
 		41E4CE9E1C045347004DD407 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				41185B8A1BFAC71A00695E9C /* LoginViewController.h */,
-				41185B8B1BFAC71A00695E9C /* LoginViewController.m */,
+				412441101C2259EA009A4172 /* FirstLoginViewController.h */,
+				412441111C2259EA009A4172 /* FirstLoginViewController.m */,
+				41185B8A1BFAC71A00695E9C /* SecondLoginViewController.h */,
+				41185B8B1BFAC71A00695E9C /* SecondLoginViewController.m */,
 				410EABA01C0A9EE70076F7A9 /* RootViewController.h */,
 				410EABA11C0A9EE70076F7A9 /* RootViewController.m */,
 				415AE0931C0AF5F700B1F137 /* UserCenterViewController.h */,
@@ -292,7 +303,8 @@
 			children = (
 				41434F341BE8D5AA00FF01D9 /* Main.storyboard */,
 				41434F391BE8D5AA00FF01D9 /* LaunchScreen.storyboard */,
-				41E4CEA41C04588C004DD407 /* LoginView.xib */,
+				412441131C225A1E009A4172 /* FirstLoginView.xib */,
+				41E4CEA41C04588C004DD407 /* SecondLoginView.xib */,
 				41F86AB61C1FA3DD009DC75C /* UserCenter.xib */,
 				41B684BC1C2001BB0088395D /* ShowUserInfo.xib */,
 				411DD2681C0D8CA600002CD3 /* UserMainInterface.storyboard */,
@@ -413,9 +425,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				412441141C225A1E009A4172 /* FirstLoginView.xib in Resources */,
 				411DD2691C0D8CA600002CD3 /* UserMainInterface.storyboard in Resources */,
 				41434F3B1BE8D5AA00FF01D9 /* LaunchScreen.storyboard in Resources */,
-				41E4CEA51C04588C004DD407 /* LoginView.xib in Resources */,
+				41E4CEA51C04588C004DD407 /* SecondLoginView.xib in Resources */,
 				41FE55E71C19B38100BEA091 /* SubThemeViewController.xib in Resources */,
 				41404F721C1D207900A45B13 /* BoardArticleInfoCell.xib in Resources */,
 				41F86AB71C1FA3DD009DC75C /* UserCenter.xib in Resources */,
@@ -485,7 +498,7 @@
 				41295DD51C1E5E260021D689 /* RecommedUtilities.m in Sources */,
 				41E4CEA31C0456D7004DD407 /* LoginUtilities.m in Sources */,
 				41404F711C1D207900A45B13 /* BoardArticleInfoCell.m in Sources */,
-				41185B8C1BFAC71A00695E9C /* LoginViewController.m in Sources */,
+				41185B8C1BFAC71A00695E9C /* SecondLoginViewController.m in Sources */,
 				41B02B6C1C0FED2500E4904B /* ThemeViewController.m in Sources */,
 				41434F301BE8D5AA00FF01D9 /* AppDelegate.m in Sources */,
 				41D801DD1C14277B00845782 /* AttachmentFile.m in Sources */,
@@ -503,6 +516,7 @@
 				41B684BD1C2001BB0088395D /* ShowUserInfoViewController.m in Sources */,
 				4108B0001C0D951600CDC292 /* TopTenUtilities.m in Sources */,
 				416B272F1C1BE87F00D0FFE4 /* SectionUtilities.m in Sources */,
+				412441121C2259EA009A4172 /* FirstLoginViewController.m in Sources */,
 				41B02B7A1C1036D300E4904B /* ArticleInfoCell.m in Sources */,
 				415AE0951C0AF5F700B1F137 /* UserCenterViewController.m in Sources */,
 				419411DE1C1C1573002E59AC /* BoardInfo.m in Sources */,

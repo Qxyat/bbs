@@ -9,7 +9,7 @@
 #import "SectionUtilities.h"
 #import "BBSConstants.h"
 #import <AFNetworking.h>
-#import "LoginConfiguration.h"
+#import "LoginManager.h"
 #import "SectionInfo.h"
 @implementation SectionUtilities
 
@@ -19,7 +19,7 @@
     AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
     manager.responseSerializer=[AFJSONResponseSerializer serializer];
     
-    NSDictionary *dic=@{@"oauth_token":[LoginConfiguration getInstance].access_token};
+    NSDictionary *dic=@{@"oauth_token":[LoginManager sharedManager].access_token};
     [manager GET:url parameters:dic success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
         [delegate handleHttpResponse:responseObject];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
@@ -33,7 +33,7 @@
     AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
     manager.responseSerializer=[AFJSONResponseSerializer serializer];
     
-    NSDictionary *dic=@{@"oauth_token":[LoginConfiguration getInstance].access_token};
+    NSDictionary *dic=@{@"oauth_token":[LoginManager sharedManager].access_token};
     [manager GET:url parameters:dic success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
         [delegate handleHttpResponse:responseObject];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
@@ -45,7 +45,7 @@
 +(void)getSubSectionsWithName:(NSArray*)array delegate:(id<HttpResponseDelegate>)delegate{
     NSMutableArray *result=[[NSMutableArray alloc]init];
     NSOperation *last=nil;
-    NSDictionary *dic=@{@"oauth_token":[LoginConfiguration getInstance].access_token};
+    NSDictionary *dic=@{@"oauth_token":[LoginManager sharedManager].access_token};
     NSOperationQueue *queue=[[NSOperationQueue alloc]init];
     for(int i=0;i<array.count;i++){
         NSString *url=[NSString stringWithFormat:@"%@/section/%@.json",kRequestURL,array[i]];

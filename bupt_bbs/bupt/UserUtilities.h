@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HttpResponseDelegate.h"
+#import "UserHttpResponseDelegate.h"
 
 @interface UserUtilities : NSObject
 
-+(void)getLoginUserInfo:(id<HttpResponseDelegate>)delegate;
++(void)getLoginUserInfo:(id<UserHttpResponseDelegate>)delegate;
 
 @end

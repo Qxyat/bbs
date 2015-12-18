@@ -32,6 +32,19 @@ static NSString* const kIsAdmin=@"is_admin";
 static NSString* const kStayCount=@"stay_count";
 
 @implementation UserInfo
+
+#pragma mark - 实现NSCoding协议
+-(id)initWithCoder:(NSCoder *)aDecoder{
+    if(self=[super init]){
+        self.userId=[aDecoder decodeObjectForKey:kUserId];
+        self.face_url=[aDecoder decodeObjectForKey:kFaceUrl];
+    }
+    return self;
+}
+-(void)encodeWithCoder:(NSCoder *)aCoder{
+    [aCoder encodeObject:self.userId forKey:kUserId];
+    [aCoder encodeObject:self.face_url forKey:kFaceUrl];
+}
 +(UserInfo*)getUserInfo:(id)item{
     UserInfo *user=nil;
     if(item!=[NSNull null]){

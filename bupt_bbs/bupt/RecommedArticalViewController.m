@@ -15,7 +15,7 @@
 #import "UserInfo.h"
 #import "RootViewController.h"
 #import <UIButton+WebCache.h>
-#import "LoginConfiguration.h"
+#import "LoginManager.h"
 
 static CGFloat const kMargin=20;
 static CGFloat const kRowMargin=kMargin/2;
@@ -43,7 +43,7 @@ static NSString *const kCellIdentifier=@"cell";
     button.layer.cornerRadius=20;
     button.layer.masksToBounds=YES;
     [button addTarget:self action:@selector(showLeft) forControlEvents:UIControlEventTouchUpInside];
-    [button sd_setBackgroundImageWithURL:[NSURL URLWithString:[LoginConfiguration getInstance].loginUserInfo.face_url] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"face_default"]];
+    [button sd_setBackgroundImageWithURL:[NSURL URLWithString:[LoginManager sharedManager].currentLoginUserInfo.face_url] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"face_default"]];
     UIBarButtonItem *leftBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:button];
     self.navigationItem.leftBarButtonItem=leftBarButtonItem;
 }

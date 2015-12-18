@@ -8,7 +8,7 @@
 
 #import "ThemeUtilities.h"
 #import "BBSConstants.h"
-#import "LoginConfiguration.h"
+#import "LoginManager.h"
 #import <AFNetworking.h>
 
 @implementation ThemeUtilities
@@ -20,7 +20,7 @@
     AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
     NSString *requestUrl=[NSString stringWithFormat:@"%@/threads/%@/%d.json",kRequestURL,board_name,group_id];
     
-    LoginConfiguration *loginConfiguration=[LoginConfiguration getInstance];
+    LoginManager *loginConfiguration=[LoginManager sharedManager];
     NSDictionary *parameters=@{@"oauth_token":loginConfiguration.access_token,
                                @"page":[NSNumber numberWithInt:page],
                                @"count":[NSNumber numberWithInt:count]};

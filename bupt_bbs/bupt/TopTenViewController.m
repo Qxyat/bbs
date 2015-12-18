@@ -13,7 +13,7 @@
 #import <MJRefresh.h>
 #import "ThemeViewController.h"
 #import "ArticleInfoCell.h"
-#import "LoginConfiguration.h"
+#import "LoginManager.h"
 #import <UIButton+WebCache.h>
 #import "RootViewController.h"
 
@@ -44,7 +44,7 @@ static NSString *const kCellIdentifier=@"articleInfoCell";
     button.layer.cornerRadius=20;
     button.layer.masksToBounds=YES;
     [button addTarget:self action:@selector(showLeft) forControlEvents:UIControlEventTouchUpInside];
-    [button sd_setBackgroundImageWithURL:[NSURL URLWithString:[LoginConfiguration getInstance].loginUserInfo.face_url] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"face_default"]];
+    [button sd_setBackgroundImageWithURL:[NSURL URLWithString:[LoginManager sharedManager].currentLoginUserInfo.face_url] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"face_default"]];
     UIBarButtonItem *leftBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:button];
     self.navigationItem.leftBarButtonItem=leftBarButtonItem;
 }

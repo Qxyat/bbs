@@ -10,13 +10,13 @@
 #import "HttpResponseDelegate.h"
 #import "BBSConstants.h"
 #import <AFNetworking.h>
-#import "LoginConfiguration.h"
+#import "LoginManager.h"
 
 @implementation RecommedUtilities
 
 +(void)getRecommendArticles:(id<HttpResponseDelegate>)delegate{
     NSString *url=[NSString stringWithFormat:@"%@/widget/recommend.json",kRequestURL];
-    NSDictionary *dic=@{@"oauth_token":[LoginConfiguration getInstance].access_token};
+    NSDictionary *dic=@{@"oauth_token":[LoginManager sharedManager].access_token};
     
     AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
     manager.responseSerializer=[AFJSONResponseSerializer serializer];

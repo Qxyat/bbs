@@ -12,5 +12,6 @@
 
 -(void)handleLoginSuccessResponse:(id)response;
 -(void)handleLoginErrorResponse:(id)response;
+-(void)handleLoginRealErrorResponse:(id)response;
 
 @end

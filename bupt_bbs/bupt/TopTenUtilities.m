@@ -8,7 +8,7 @@
 
 #import "TopTenUtilities.h"
 #import "BBSConstants.h"
-#import "LoginConfiguration.h"
+#import "LoginManager.h"
 #import <AFNetworking.h>
 #import "ArticleInfo.h"
 @implementation TopTenUtilities
@@ -17,7 +17,7 @@
 +(void)getTopTenArticles:(id<HttpResponseDelegate>) delegate{
     NSString *url=[kRequestURL stringByAppendingString:@"/widget/topten.json"];
     
-    LoginConfiguration *loginConfiguration=[LoginConfiguration getInstance];
+    LoginManager *loginConfiguration=[LoginManager sharedManager];
     NSDictionary *paramters=@{@"oauth_token":loginConfiguration.access_token};
     
     AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];

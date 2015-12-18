@@ -7,10 +7,12 @@
 //
 
 #import "AppDelegate.h"
-#import "LoginConfiguration.h"
+#import "LoginManager.h"
 #import "FirstLoginViewController.h"
 #import "SecondLoginViewController.h"
 #import "RootViewController.h"
+#import "LaunchViewController.h"
+#import <SVProgressHUD.h>
 @interface AppDelegate ()
 
 @end
@@ -23,24 +25,39 @@
     
     //判断用户之前是否登陆过
     self.window=[[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    LoginConfiguration * loginConfiguration=[LoginConfiguration getInstance];
+    LoginManager * manager=[LoginManager sharedManager];
     
-    if(loginConfiguration.access_token==nil){
-        FirstLoginViewController *firstLoginViewController=[FirstLoginViewController getInstance];
-        self.window.rootViewController=firstLoginViewController;
+    if(manager.access_token==nil){
+        if(manager.loginUserHistory.count>0){
+            SecondLoginViewController *secondLoginViewController=[SecondLoginViewController getInstance];
+            UINavigationController *navigationController=[[UINavigationController alloc]initWithRootViewController:secondLoginViewController];
+            navigationController.navigationBar.hidden=YES;
+            self.window.rootViewController=navigationController;
+        }
+        else{
+            FirstLoginViewController *firstLoginViewController=[FirstLoginViewController getInstance:NO];
+            UINavigationController *navigationController=[[UINavigationController alloc]initWithRootViewController:firstLoginViewController];
+            navigationController.navigationBar.hidden=YES;
+            self.window.rootViewController=navigationController;
+        }
     }
     else{
-        RootViewController *rootViewController=[RootViewController getInstance];
-        self.window.rootViewController=rootViewController;
+        UserInfo *lastUserInfo=manager.loginUserHistory[0];
+        LaunchViewController *launchViewController=[LaunchViewController getInstanceWithUserId:lastUserInfo.userId FaceUrl:lastUserInfo.face_url WhetherUserFirstLoad:NO];
+        self.window.rootViewController=launchViewController;
     }
     [self.window makeKeyAndVisible];
+    
+    //全局样式的统一
+    [SVProgressHUD setBackgroundColor:[[UIColor grayColor]colorWithAlphaComponent:0.5]];
+    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    
     return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-    [LoginConfiguration saveLoginConfiguration];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {

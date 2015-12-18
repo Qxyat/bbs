@@ -9,7 +9,7 @@
 #import "BoardUtilities.h"
 #import "HttpResponseDelegate.h"
 #import "BBSConstants.h"
-#import "LoginConfiguration.h"
+#import "LoginManager.h"
 #import <AFNetworking.h>
 
 @implementation BoardUtilities
@@ -20,7 +20,7 @@
                    Page:(int)page
                Delegate:(id<HttpResponseDelegate>)delegate{
     NSString *url=[NSString stringWithFormat:@"%@/board/%@.json",kRequestURL,name];
-    NSDictionary *dic=@{@"oauth_token":[LoginConfiguration getInstance].access_token,
+    NSDictionary *dic=@{@"oauth_token":[LoginManager sharedManager].access_token,
                         @"mode":[NSNumber numberWithInt:mode],
                         @"count":[NSNumber numberWithInt:count],
                         @"page":[NSNumber numberWithInt:page]};

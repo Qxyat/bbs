@@ -9,8 +9,8 @@
 #import "UserCenterViewController.h"
 #import "UserUtilities.h"
 #import "UserInfo.h"
-#import "LoginConfiguration.h"
-#import "FirstLoginViewController.h"
+#import "LoginManager.h"
+#import "SecondLoginViewController.h"
 #import <UIButton+WebCache.h>
 #import "ShowUserInfoViewController.h"
 
@@ -38,15 +38,23 @@ static CGFloat const kProportion=0.77;
     self.faceButton.layer.masksToBounds=YES;
     [self refresh];
 }
+
+#pragma mark - 退出按钮
 - (IBAction)logOutButtonPressed:(id)sender {
-    [LoginConfiguration deleteLoginConfiguration];
-    [UIApplication sharedApplication].keyWindow.rootViewController=[FirstLoginViewController getInstance];
+    [[LoginManager sharedManager] deleteLoginConfiguration];
+    SecondLoginViewController *secondLoginViewController=[SecondLoginViewController getInstance];
+    UINavigationController *navigationController=[[UINavigationController alloc]initWithRootViewController:secondLoginViewController];
+    navigationController.navigationBar.hidden=YES;
+    [UIApplication sharedApplication].keyWindow.rootViewController=navigationController;
 }
+
+#pragma mark - 查看当前登陆用户信息
 - (IBAction)faceButtonPressed:(id)sender {
     self.showUserInfoViewController=[ShowUserInfoViewController getInstance:self];
-    self.showUserInfoViewController.userInfo=[LoginConfiguration getInstance].loginUserInfo;
+    self.showUserInfoViewController.userInfo=[LoginManager sharedManager].currentLoginUserInfo;
     [self.showUserInfoViewController showUserInfoView];
 }
+
 #pragma mark - 实现ShowUserInfoViewControllerDelegate协议
 -(void)userInfoViewControllerDidDismiss:(ShowUserInfoViewController *)userInfoViewController{
     if(self.showUserInfoViewController==userInfoViewController){
@@ -57,8 +65,8 @@ static CGFloat const kProportion=0.77;
 
 #pragma mark - 刷新用户个人中心界面
 -(void)refresh{
-    [self.faceButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[LoginConfiguration getInstance].loginUserInfo.face_url] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"face_default"]];
-    self.userIdLabel.text=[LoginConfiguration getInstance].loginUserInfo.userId;
+    [self.faceButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[LoginManager sharedManager].currentLoginUserInfo.face_url] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"face_default"]];
+    self.userIdLabel.text=[LoginManager sharedManager].currentLoginUserInfo.userId;
 }
 
 @end

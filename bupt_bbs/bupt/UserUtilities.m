@@ -7,23 +7,23 @@
 //
 
 #import "UserUtilities.h"
-#import "HttpResponseDelegate.h"
-#import "LoginConfiguration.h"
+#import "LoginManager.h"
 #import <AFNetworking.h>
 #import "BBSConstants.h"
 
 @implementation UserUtilities
 
-+(void)getLoginUserInfo:(id<HttpResponseDelegate>)delegate{
++(void)getLoginUserInfo:(id<UserHttpResponseDelegate>)delegate{
     NSString *url=[NSString stringWithFormat:@"%@/user/getinfo.json",kRequestURL];
-    NSDictionary *dic=@{@"oauth_token":[LoginConfiguration getInstance].access_token};
+    NSDictionary *dic=@{@"oauth_token":[LoginManager sharedManager].access_token};
     
     AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
+    manager.requestSerializer.timeoutInterval=10;
     manager.responseSerializer=[AFJSONResponseSerializer serializer];
     [manager GET:url parameters:dic success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        [delegate handleUserInfoResponse:responseObject];
+        [delegate handleUserInfoSuccessResponse:responseObject];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
-        NSLog(@"获取登陆用户信息失败");
+        [delegate handleUserInfoErrorResponse:error];
     }];
 }
 

@@ -8,7 +8,7 @@
 
 #import "RootViewController.h"
 #import "UserCenterViewController.h"
-#import "LoginConfiguration.h"
+#import "LoginManager.h"
 #import <UIImageView+WebCache.h>
 
 static CGFloat const kProportion=0.77;

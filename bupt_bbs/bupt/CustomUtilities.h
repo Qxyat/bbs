@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum NetworkErrorCode{
+    NetworkConnectUnknownReason,
+    NetworkConnectTimeout,
+    NetworkConnectFailed,
+}NetworkErrorCode;
+
 @interface CustomUtilities : NSObject
 
 #pragma mark - 获取显示发帖时间的字符串
@@ -24,4 +30,7 @@
 
 #pragma mark - 获取显示用户在线状态的字符串
 +(NSString*) getUserLoginStateString:(BOOL)isOnline;
+
+#pragma mark - 获取网络请求错误代码
++(NSInteger) getNetworkErrorCode:(NSError*)error;
 @end

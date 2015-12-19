@@ -16,6 +16,7 @@
 #import <SVProgressHUD.h>
 #import <UIImageView+WebCache.h>
 #import "LaunchViewController.h"
+#import "CustomUtilities.h"
 @interface SecondLoginViewController ()
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -165,10 +166,19 @@
 }
 -(void)handleLoginRealErrorResponse:(id)response{
     NSError *error=(NSError *)response;
-    if([error.userInfo[@"NSLocalizedDescription"] isEqualToString:@"The Internet connection appears to be offline."])
-        [SVProgressHUD showErrorWithStatus:@"网络连接已断开"];
-    else if([error.userInfo[@"NSLocalizedDescription"] isEqualToString:@"The request timed out."]){
-        [SVProgressHUD showErrorWithStatus:@"网络连接超时"];
+    NetworkErrorCode errorCode=[CustomUtilities getNetworkErrorCode:error];
+    switch (errorCode) {
+        case NetworkConnectFailed:
+            [SVProgressHUD showErrorWithStatus:@"网络连接已断开"];
+            break;
+        case NetworkConnectTimeout:
+            [SVProgressHUD showErrorWithStatus:@"网络连接超时"];
+            break;
+        case NetworkConnectUnknownReason:
+            [SVProgressHUD showErrorWithStatus:@"好像出现了某种奇怪的问题"];
+            break;
+        default:
+            break;
     }
     [self hideLoadingview:NO];
 }

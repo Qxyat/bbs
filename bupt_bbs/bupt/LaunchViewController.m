@@ -14,6 +14,8 @@
 #import "RootViewController.h"
 #import <SVProgressHUD.h>
 #import "SecondLoginViewController.h"
+#import "CustomUtilities.h"
+
 @interface LaunchViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *faceImageView;
 @property (weak, nonatomic) IBOutlet UILabel *userdIdLabel;
@@ -88,15 +90,23 @@
 -(void)handleUserInfoErrorResponse:(id)response{
     self.indicator.hidden=YES ;
     [[LoginManager sharedManager] deleteLoginConfiguration];
-    NSError *error=(NSError *)response;
+    
     [SVProgressHUD show];
-    if([error.userInfo[@"NSLocalizedDescription"] isEqualToString:@"The Internet connection appears to be offline."])
-        [SVProgressHUD showErrorWithStatus:@"网络连接已断开"];
-    else if([error.userInfo[@"NSLocalizedDescription"] isEqualToString:@"The request timed out."]){
-        [SVProgressHUD showErrorWithStatus:@"网络连接超时"];
+    NSError *error=(NSError *)response;
+    NetworkErrorCode errorCode=[CustomUtilities getNetworkErrorCode:error];
+    switch (errorCode) {
+        case NetworkConnectFailed:
+            [SVProgressHUD showErrorWithStatus:@"网络连接已断开，请重新登录"];
+            break;
+        case NetworkConnectTimeout:
+            [SVProgressHUD showErrorWithStatus:@"网络连接超时，请重新登录"];
+            break;
+        case NetworkConnectUnknownReason:
+            [SVProgressHUD showErrorWithStatus:@"获取用户信息失败，请重新登录"];
+            break;
+        default:
+            break;
     }
-    else
-        [SVProgressHUD showErrorWithStatus:@"获取用户信息失败，请重新登录"];
   
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         [NSThread sleepForTimeInterval:3];
@@ -112,7 +122,5 @@
             }
         });
     });
-    
-    
 }
 @end

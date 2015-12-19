@@ -83,5 +83,15 @@
     else
         return @"离线";
 }
+#pragma mark - 获取网络请求错误代码
++(NSInteger) getNetworkErrorCode:(NSError*)error{
+    if([error.userInfo[@"NSLocalizedDescription"] isEqualToString:@"The Internet connection appears to be offline."])
+        return NetworkConnectFailed;
+    else if([error.userInfo[@"NSLocalizedDescription"] isEqualToString:@"The request timed out."]){
+        return NetworkConnectTimeout;
+    }
+    else
+        return  NetworkConnectUnknownReason;
+}
 @end
 

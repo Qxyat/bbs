@@ -25,7 +25,7 @@
                         @"username":username,
                         @"password":password};
     AFHTTPRequestSerializer *serializer=[AFHTTPRequestSerializer serializer];
-    serializer.timeoutInterval=10;
+    serializer.timeoutInterval=kRequestTimeout;
     NSMutableURLRequest *request=
     [serializer requestWithMethod:@"POST" URLString:@"http://bbs.byr.cn/oauth2/authorize/finishClientAuth" parameters:dic error:nil];
     AFHTTPRequestOperation *operation=[[AFHTTPRequestOperation alloc]initWithRequest:request];
@@ -46,16 +46,13 @@
         return request;
     }];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [delegate handleLoginErrorResponse:responseObject];
-        });
+        [delegate handleLoginErrorResponse:responseObject];
     } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
         if([error.userInfo[@"NSLocalizedDescription"] containsString:@"302"]){
         }
         else{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [delegate handleLoginRealErrorResponse:error];
-            });
+            [delegate handleLoginRealErrorResponse:error];
+            
         }
     }];
     

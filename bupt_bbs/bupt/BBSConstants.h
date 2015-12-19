@@ -6,7 +6,7 @@
 //  Copyright © 2015年 qiu. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 typedef struct customColorWithRGB{
     int red;
@@ -18,3 +18,4 @@ extern NSString *const kAppKey;
 extern NSString *const kRedirectURL;
 extern NSString *const kRequestURL;
 extern CustomColorWithRGB  const kCustomGreenColor;
+extern CGFloat const   kRequestTimeout;

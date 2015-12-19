@@ -18,7 +18,7 @@
     NSDictionary *dic=@{@"oauth_token":[LoginManager sharedManager].access_token};
     
     AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
-    manager.requestSerializer.timeoutInterval=10;
+    manager.requestSerializer.timeoutInterval=kRequestTimeout;
     manager.responseSerializer=[AFJSONResponseSerializer serializer];
     [manager GET:url parameters:dic success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
         [delegate handleUserInfoSuccessResponse:responseObject];

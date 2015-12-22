@@ -39,6 +39,7 @@
     controller.faceUrl=faceUrl;
     return controller;
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     

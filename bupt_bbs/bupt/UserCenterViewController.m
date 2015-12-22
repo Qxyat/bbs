@@ -14,7 +14,6 @@
 #import <UIButton+WebCache.h>
 #import "ShowUserInfoViewController.h"
 
-static CGFloat const kProportion=0.77;
 @interface UserCenterViewController ()
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIButton *faceButton
@@ -30,10 +29,10 @@ static CGFloat const kProportion=0.77;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor=[UIColor darkGrayColor];
-    CGFloat width=[UIScreen mainScreen].bounds.size.width;
-    self.containerView.center=CGPointMake(width*kProportion/2, self.containerView.center.y);
-    self.containerView.backgroundColor=[UIColor colorWithWhite:0 alpha:0];
+    self.view.backgroundColor=[UIColor colorWithWhite:0 alpha:0];
+    self.view.frame=[UIScreen mainScreen].bounds;
+    //self.containerView.backgroundColor=[UIColor colorWithWhite:0 alpha:0];
+    self.containerView.backgroundColor=[UIColor greenColor];
     self.faceButton.layer.cornerRadius=self.faceButton.frame.size.width/2.0;
     self.faceButton.layer.masksToBounds=YES;
     [self refresh];

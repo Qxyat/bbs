@@ -13,6 +13,7 @@
 #import "RootViewController.h"
 #import "LaunchViewController.h"
 #import <SVProgressHUD.h>
+#import "TestViewController.h"
 @interface AppDelegate ()
 
 @end
@@ -22,11 +23,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    
-    //判断用户之前是否登陆过
+  
     self.window=[[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    //判断用户之前是否登陆过
     LoginManager * manager=[LoginManager sharedManager];
-    
     if(manager.access_token==nil){
         if(manager.loginUserHistory.count>0){
             SecondLoginViewController *secondLoginViewController=[SecondLoginViewController getInstance];
@@ -46,6 +46,7 @@
         LaunchViewController *launchViewController=[LaunchViewController getInstanceWithUserId:lastUserInfo.userId FaceUrl:lastUserInfo.face_url WhetherUserFirstLoad:NO];
         self.window.rootViewController=launchViewController;
     }
+  
     [self.window makeKeyAndVisible];
     
     //全局样式的统一

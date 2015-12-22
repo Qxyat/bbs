@@ -15,31 +15,53 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB">
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="naZ-nd-Ihu">
-                    <rect key="frame" x="110" y="259" width="101" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="naZ-nd-Ihu">
+                    <rect key="frame" x="110" y="259" width="100" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="0jV-RO-9tN"/>
+                        <constraint firstAttribute="width" constant="100" id="hVT-TP-PNa"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kFJ-as-1Kd">
-                    <rect key="frame" x="64" y="288" width="192" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kFJ-as-1Kd">
+                    <rect key="frame" x="60" y="288" width="200" height="20.5"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="200" id="0gC-mB-Nq1"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UO4-3h-QG0">
-                    <rect key="frame" x="110" y="110" width="100" height="100"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UO4-3h-QG0">
+                    <rect key="frame" x="115" y="115" width="90" height="90"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="90" id="a40-8T-h1u"/>
+                        <constraint firstAttribute="height" constant="90" id="whn-6U-qry"/>
+                    </constraints>
                 </imageView>
-                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="RRj-q4-hQH">
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="RRj-q4-hQH">
                     <rect key="frame" x="150" y="344" width="20" height="20"/>
                 </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="naZ-nd-Ihu" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="1mU-06-cm8"/>
+                <constraint firstItem="kFJ-as-1Kd" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="14.5" id="9wd-FN-c8i"/>
+                <constraint firstItem="naZ-nd-Ihu" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="-14.5" id="MTn-Nd-xcB"/>
+                <constraint firstItem="UO4-3h-QG0" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="-124" id="MYj-xz-aJa"/>
+                <constraint firstItem="kFJ-as-1Kd" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="SfN-d4-o6K"/>
+                <constraint firstItem="UO4-3h-QG0" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="V23-sA-NKh"/>
+                <constraint firstItem="RRj-q4-hQH" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="gcH-65-g4F"/>
+                <constraint firstItem="RRj-q4-hQH" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="70" id="qo3-Lb-Pwj"/>
+            </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+            <point key="canvasLocation" x="302" y="345"/>
         </view>
     </objects>
 </document>

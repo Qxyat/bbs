@@ -107,7 +107,13 @@ static const int kNumOfPageToCache=5;
     ArticleDetailInfoCell *cell=[tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
     ArticleInfo *articleInfo=_data[indexPath.row];
     cell.articleInfo=articleInfo;
-    [cell.faceImageView sd_setImageWithURL:[NSURL URLWithString:articleInfo.user.face_url] placeholderImage:[UIImage imageNamed:@"face_default.png"]];
+    [cell.faceImageView sd_setImageWithURL:[NSURL URLWithString:articleInfo.user.face_url] placeholderImage:[UIImage imageNamed:@"face_default.png"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        CGFloat faceImageViewWidth=(image.size.width/image.size.height)*48;
+        CGRect newFaceImagViewFrame=CGRectMake(cell.faceImageView.origin.x, cell.faceImageView.origin.y, faceImageViewWidth, cell.faceImageView.frame.size.height);
+        cell.faceImageView.frame=newFaceImagViewFrame;
+        CGRect newTitleLabelContainerFrame=CGRectMake(faceImageViewWidth+8, cell.titleLabelContainer.origin.y, 312-faceImageViewWidth-8-42, cell.titleLabelContainer.frame.size.height);
+        cell.titleLabelContainer.frame=newTitleLabelContainerFrame;
+    }];
     cell.timeLabel.text=[CustomUtilities getPostTimeString:articleInfo.post_time];
     cell.floorLabel.text=[CustomUtilities getFloorString:articleInfo.position];
     [cell.replyButton setTitle:articleInfo.user.userId forState:UIControlStateNormal];
@@ -133,22 +139,22 @@ static const int kNumOfPageToCache=5;
 #pragma mark - 根据刷新方式刷新页面的内容
 -(void)pullDownToRefresh{
     self.refreshMode=RefreshModePullDown;
-    int nextPage=self.pageRange.location-1;
+    NSUInteger nextPage=self.pageRange.location-1;
     if(nextPage>=1)
-        [ThemeUtilities getThemeWithBoardName:self.board_name groupId:self.group_id pageIndex:nextPage countOfOnePage:self.item_page_count delegate:self];
+        [ThemeUtilities getThemeWithBoardName:self.board_name groupId:self.group_id pageIndex:(int)nextPage countOfOnePage:self.item_page_count delegate:self];
     else{
         [self.tableView.mj_header endRefreshing];
     }
 }
 -(void)pullUpToRefresh{
     self.refreshMode=RefreshModePullUp;
-    int nextPage;
+    NSUInteger nextPage;
     if(_pageRange.location==0&&_pageRange.length==0)
         nextPage=1;
     else
         nextPage=self.pageRange.location+self.pageRange.length;
     if(nextPage<=self.page_all_count){
-        [ThemeUtilities getThemeWithBoardName:self.board_name groupId:self.group_id pageIndex:nextPage countOfOnePage:self.item_page_count delegate:self];
+        [ThemeUtilities getThemeWithBoardName:self.board_name groupId:self.group_id pageIndex:(int)nextPage countOfOnePage:self.item_page_count delegate:self];
     }
     else{
         [self.tableView.mj_footer endRefreshingWithNoMoreData];
@@ -156,7 +162,7 @@ static const int kNumOfPageToCache=5;
 }
 -(void)jumpToRefresh:(NSUInteger) nextPage{
     self.refreshMode=RefreshModeJump;
-    [ThemeUtilities getThemeWithBoardName:self.board_name groupId:self.group_id pageIndex:nextPage countOfOnePage:self.item_page_count delegate:self];
+    [ThemeUtilities getThemeWithBoardName:self.board_name groupId:self.group_id pageIndex:(int)nextPage countOfOnePage:self.item_page_count delegate:self];
 }
 #pragma mark - 实现HttpResponseDelegate协议
 -(void)handleHttpResponse:(id)response{

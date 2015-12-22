@@ -50,7 +50,7 @@
 }
 
 #pragma mark - 获取显示楼层的字符串
-+(NSString*) getFloorString:(NSUInteger) position{
++(NSString*) getFloorString:(int) position{
     if(position==0)
         return @"楼主";
     else
@@ -91,7 +91,7 @@
         return NetworkConnectTimeout;
     }
     else
-        return  NetworkConnectUnknownReason;
+        return NetworkConnectUnknownReason;
 }
 @end
 

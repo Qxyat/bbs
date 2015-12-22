@@ -18,7 +18,7 @@
 #pragma mark - 根据颜色代码获得颜色
 static UIColor* getColor(NSString * hexColor)
 {
-    NSUInteger red,green,blue;
+    unsigned int red,green,blue;
     NSRange range;
     
     range.length = 2;
@@ -72,9 +72,19 @@ static NSAttributedString* getPictureInAttachment(AttachmentInfo*attachmentInfo,
         if(used[pos-1]==[NSNumber numberWithBool:NO]&&isPicture(file.name)){
             used[pos-1]=[NSNumber numberWithInt:YES];
             
-            UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 300, 450)];
+            UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 300, 420)];
             [imageView sd_setImageWithURL:[NSURL URLWithString:
-                                           [NSString stringWithFormat:@"%@?oauth_token=%@",file.thumbnail_middle,[LoginManager sharedManager].access_token]]];
+                                           [NSString stringWithFormat:@"%@?oauth_token=%@",file.thumbnail_middle,[LoginManager sharedManager].access_token]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//                CGFloat newFrameWidth=0;
+//                if(image.size.width>300){
+//                    newFrameWidth=300;
+//                }
+//                else{
+//                    newFrameWidth=image.size.width;
+//                }
+//                CGFloat newFrameHeight=image.size.height/image.size.width*newFrameWidth;
+//                imageView.frame=CGRectMake(0, 0, newFrameWidth, newFrameHeight);
+            }];
             //使用YYKit提供的方法，后期争取能替换成自己的
             NSMutableAttributedString* attachText = [NSMutableAttributedString attachmentStringWithContent:imageView contentMode:UIViewContentModeCenter attachmentSize:imageView.size alignToFont:[UIFont systemFontOfSize:17] alignment:YYTextVerticalAlignmentCenter];
             [res appendAttributedString:attachText];

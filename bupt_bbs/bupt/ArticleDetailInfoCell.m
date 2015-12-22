@@ -12,6 +12,7 @@
 
 @property (strong,nonatomic)ShowUserInfoViewController*showUserInfoViewController;
 
+
 @end
 
 @implementation ArticleDetailInfoCell
@@ -28,6 +29,7 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 }
+
 
 #pragma mark - 展示用户信息
 -(void)showUserInfo{

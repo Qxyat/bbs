@@ -47,9 +47,10 @@
     UITapGestureRecognizer *gesture2=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideKeyboard)];
     [self.view addGestureRecognizer:gesture1];
     [self.scrollView addGestureRecognizer:gesture2];
+    self.passwordTextField.clearButtonMode=UITextFieldViewModeWhileEditing;
     self.passwordTextField.returnKeyType=UIReturnKeyGo;
     self.passwordTextField.enablesReturnKeyAutomatically=YES;
-    [self changeLoginButtonState];
+    [self disableLoginButton];
     
     LoginManager *manager=[LoginManager sharedManager];
     UserInfo *lastUserInfo=manager.loginUserHistory[0];
@@ -59,18 +60,14 @@
 
 #pragma mark - 实现UITextFieldDelegate协议
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
-    [self scrollviewScrollWithWidth:0 Height:30];
-    self.scrollView.scrollEnabled=YES;
+    [self enableScrollView];
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField{
-    [self.passwordTextField resignFirstResponder];
-    [self scrollviewScrollWithWidth:0 Height:0];
-    self.scrollView.scrollEnabled=NO;
+    [self disableScrollView];
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     if(textField==self.passwordTextField){
         [self doLogin];
-        [self scrollviewScrollWithWidth:0 Height:0];
         [textField resignFirstResponder];
     }
     return YES;
@@ -79,29 +76,31 @@
     NSString *before=textField.text;
     NSString *after=[before stringByReplacingCharactersInRange:range withString:string];
     if(textField==self.passwordTextField&&after.length>0){
-        self.loginButton.enabled=YES;
-        self.loginButton.alpha=1;
+        [self enableLoginButton];
     }
     else{
-        self.loginButton.alpha=0.6;
-        self.loginButton.enabled=NO;
+        [self disableLoginButton];
     }
-    return  YES;
+    return YES;
 }
-#pragma mark - 修改loginbutton状态
--(void)changeLoginButtonState{
-    if(self.passwordTextField.text.length>0){
-        self.loginButton.enabled=YES;
-        self.loginButton.alpha=1;
-        return;
-    }
-    self.loginButton.alpha=0.6;
-    self.loginButton.enabled=NO;
+-(BOOL)textFieldShouldClear:(UITextField *)textField{
+    [self disableLoginButton];
+    return YES;
 }
 #pragma mark - 点击登录按钮
 - (IBAction)loginButtonPressed:(id)sender {
-    [self.passwordTextField resignFirstResponder];
+    if([self.passwordTextField isFirstResponder])
+        [self.passwordTextField resignFirstResponder];
     [self doLogin];
+}
+#pragma mark - 打开或者关闭LoginButton
+-(void)enableLoginButton{
+    self.loginButton.enabled=YES;
+    self.loginButton.alpha=1;
+}
+-(void)disableLoginButton{
+    self.loginButton.enabled=NO;
+    self.loginButton.alpha=0.6;
 }
 #pragma mark - 点击更多按钮
 - (IBAction)moreButtonPressed:(id)sender {
@@ -139,11 +138,18 @@
 
 #pragma mark - 隐藏键盘
 -(void)hideKeyboard{
-    [self.passwordTextField resignFirstResponder];
+    if([self.passwordTextField isFirstResponder])
+       [self.passwordTextField resignFirstResponder];
+}
+#pragma mark- 打开或者关闭scrollview
+-(void)enableScrollView{
+    [self scrollviewScrollWithWidth:0 Height:30];
+    self.scrollView.scrollEnabled=YES;
+}
+-(void)disableScrollView{
     [self scrollviewScrollWithWidth:0 Height:0];
     self.scrollView.scrollEnabled=NO;
 }
-
 #pragma mark - 滑动scrollview
 -(void)scrollviewScrollWithWidth:(CGFloat)width
                           Height:(CGFloat)height{

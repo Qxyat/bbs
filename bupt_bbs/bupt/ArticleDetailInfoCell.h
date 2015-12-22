@@ -19,5 +19,5 @@
 @property (weak, nonatomic) IBOutlet UIButton *replyButton;
 @property (weak, nonatomic) IBOutlet YYLabel *contentLabel;
 @property (weak, nonatomic) ArticleInfo *articleInfo;
-
+@property (weak, nonatomic) IBOutlet UIView *titleLabelContainer;
 @end

@@ -10,7 +10,7 @@
 #import "UserCenterViewController.h"
 #import "LoginManager.h"
 #import <UIImageView+WebCache.h>
-
+#import "TestViewController.h"
 static CGFloat const kProportion=0.77;
 
 @interface RootViewController()
@@ -27,12 +27,14 @@ static CGFloat const kProportion=0.77;
 
 @implementation RootViewController
 +(RootViewController*)getInstance{
+    RootViewController *controller=[[RootViewController alloc]init];
+    controller.view.frame=[UIScreen mainScreen].bounds;
     return [[RootViewController alloc]init];
 }
 
 -(void)viewDidLoad{
     [super viewDidLoad];
-
+    self.view.frame=[UIScreen mainScreen].bounds;
     self.moveDistance=0;
     self.screenWidth=[UIScreen mainScreen].bounds.size.width;
     self.maxMoveDistance=(kProportion+kProportion/2-0.5)*self.screenWidth;
@@ -42,7 +44,7 @@ static CGFloat const kProportion=0.77;
     self.userViewController=[UserCenterViewController getInstance];
     self.userViewController.view.center=CGPointMake(self.screenWidth*kProportion/2, self.userViewController.view.center.y);
     self.userViewController.view.transform=CGAffineTransformMakeScale(kProportion, kProportion);
-    self.userViewController.view.backgroundColor=[UIColor colorWithWhite:0 alpha:0];
+    self.userViewController.view.backgroundColor=[UIColor redColor];
     
     [self.view addSubview:self.userViewController.view];
     
@@ -58,8 +60,6 @@ static CGFloat const kProportion=0.77;
     self.tapGestureRecognizer=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMain)];
     self.tapGestureRecognizer.enabled=NO;
     [self.userMainInterfaceViewController.view addGestureRecognizer:self.tapGestureRecognizer];
-    
-    
 }
 
 -(void)getuserMainInterfaceViewController{

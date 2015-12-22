@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum NetworkErrorCode{
+typedef NS_ENUM(NSInteger,NetworkErrorCode){
     NetworkConnectUnknownReason,
     NetworkConnectTimeout,
     NetworkConnectFailed,
-}NetworkErrorCode;
+};
 
 @interface CustomUtilities : NSObject
 
@@ -20,7 +20,7 @@ typedef enum NetworkErrorCode{
 +(NSString*) getPostTimeString:(NSUInteger) timeInterval;
 
 #pragma mark - 获取显示楼层的字符串
-+(NSString*) getFloorString:(NSUInteger) position;
++(NSString*) getFloorString:(int) position;
 
 #pragma mark - 获取显示用户性别的字符串
 +(NSString *) getGenderString:(NSString *)gender;

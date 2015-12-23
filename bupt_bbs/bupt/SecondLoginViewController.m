@@ -143,7 +143,7 @@
 }
 #pragma mark- 打开或者关闭scrollview
 -(void)enableScrollView{
-    [self scrollviewScrollWithWidth:0 Height:30];
+    [self scrollviewScrollWithWidth:0 Height:50];
     self.scrollView.scrollEnabled=YES;
 }
 -(void)disableScrollView{

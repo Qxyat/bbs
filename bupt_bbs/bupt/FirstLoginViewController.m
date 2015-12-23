@@ -43,7 +43,6 @@
     self.loginButton.layer.cornerRadius=5;
     self.usernameTextField.delegate=self;
     self.passwordTextField.delegate=self;
-    self.scrollView.contentSize=CGSizeMake(0, 458);
     self.scrollView.scrollEnabled=NO;
     self.scrollView.bounces=YES;
     
@@ -108,7 +107,7 @@
 }
 #pragma mark- 打开或者关闭scrollview
 -(void)enableScrollView{
-    [self scrollviewScrollWithWidth:0 Height:70];
+    [self scrollviewScrollWithWidth:0 Height:50];
     self.scrollView.scrollEnabled=YES;
 }
 -(void)disableScrollView{

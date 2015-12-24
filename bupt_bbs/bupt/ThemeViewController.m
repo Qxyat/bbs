@@ -108,7 +108,7 @@ static const int kNumOfPageToCache=5;
     ArticleInfo *articleInfo=_data[indexPath.row];
     cell.articleInfo=articleInfo;
     [cell.faceImageView sd_setImageWithURL:[NSURL URLWithString:articleInfo.user.face_url] placeholderImage:[UIImage imageNamed:@"face_default.png"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        CGFloat faceImageViewWidth=(image.size.width/image.size.height)*48;
+        CGFloat faceImageViewWidth=(image.size.width/image.size.height)*cell.faceImageView.frame.size.height;
         CGRect newFaceImagViewFrame=CGRectMake(cell.faceImageView.origin.x, cell.faceImageView.origin.y, faceImageViewWidth, cell.faceImageView.frame.size.height);
         cell.faceImageView.frame=newFaceImagViewFrame;
         CGRect newTitleLabelContainerFrame=CGRectMake(faceImageViewWidth+8, cell.titleLabelContainer.origin.y, 312-faceImageViewWidth-8-42, cell.titleLabelContainer.frame.size.height);

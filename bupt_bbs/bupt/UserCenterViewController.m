@@ -11,15 +11,19 @@
 #import "UserInfo.h"
 #import "LoginManager.h"
 #import "SecondLoginViewController.h"
-#import <UIButton+WebCache.h>
+#import <UIImageView+WebCache.h>
 #import "ShowUserInfoViewController.h"
+#import <SDWebImageDownloader.h>
 
 @interface UserCenterViewController ()
 @property (weak, nonatomic) IBOutlet UIView *containerView;
-@property (weak, nonatomic) IBOutlet UIButton *faceButton
-;
+@property (weak, nonatomic) IBOutlet UIImageView *faceImageView;
+
 @property (weak, nonatomic) IBOutlet UILabel *userIdLabel;
 @property (strong,nonatomic)ShowUserInfoViewController *showUserInfoViewController;
+@property (weak, nonatomic) IBOutlet UIView *DummyView1;
+@property (weak, nonatomic) IBOutlet UIView *DummyView2;
+@property (weak, nonatomic) IBOutlet UIView *DummyView3;
 @end
 
 @implementation UserCenterViewController
@@ -27,14 +31,19 @@
 +(UserCenterViewController*)getInstance{
     return [[UserCenterViewController alloc]initWithNibName:@"UserCenter" bundle:nil];
 }
+-(void)loadView{
+    [super loadView];
+    self.view.frame=[UIScreen mainScreen].bounds;
+    [self.view layoutIfNeeded];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor=[UIColor colorWithWhite:0 alpha:0];
-    self.view.frame=[UIScreen mainScreen].bounds;
-    //self.containerView.backgroundColor=[UIColor colorWithWhite:0 alpha:0];
-    self.containerView.backgroundColor=[UIColor greenColor];
-    self.faceButton.layer.cornerRadius=self.faceButton.frame.size.width/2.0;
-    self.faceButton.layer.masksToBounds=YES;
+   
+    self.faceImageView.layer.cornerRadius=self.faceImageView.frame.size.height/2.0f;
+    self.faceImageView.layer.masksToBounds=YES;
+    
+    UITapGestureRecognizer *recognizer=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(faceImageViewPressed)];
+    [self.faceImageView addGestureRecognizer:recognizer];
     [self refresh];
 }
 
@@ -48,7 +57,7 @@
 }
 
 #pragma mark - 查看当前登陆用户信息
-- (IBAction)faceButtonPressed:(id)sender {
+- (void)faceImageViewPressed{
     self.showUserInfoViewController=[ShowUserInfoViewController getInstance:self];
     self.showUserInfoViewController.userInfo=[LoginManager sharedManager].currentLoginUserInfo;
     [self.showUserInfoViewController showUserInfoView];
@@ -64,7 +73,7 @@
 
 #pragma mark - 刷新用户个人中心界面
 -(void)refresh{
-    [self.faceButton sd_setBackgroundImageWithURL:[NSURL URLWithString:[LoginManager sharedManager].currentLoginUserInfo.face_url] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"face_default"]];
+    [self.faceImageView sd_setImageWithURL:[NSURL URLWithString:[LoginManager sharedManager].currentLoginUserInfo.face_url] placeholderImage:[UIImage imageNamed:@"face_default"]];
     self.userIdLabel.text=[LoginManager sharedManager].currentLoginUserInfo.userId;
 }
 

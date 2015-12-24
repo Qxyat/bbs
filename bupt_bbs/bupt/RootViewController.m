@@ -1,5 +1,5 @@
 //
-//  userViewController.m
+//  RootViewController.m
 //  bupt
 //
 //  Created by 邱鑫玥 on 15/11/29.
@@ -11,11 +11,11 @@
 #import "LoginManager.h"
 #import <UIImageView+WebCache.h>
 #import "TestViewController.h"
+#import "ScreenAdaptionUtilities.h"
 static CGFloat const kProportion=0.77;
 
 @interface RootViewController()
 @property (nonatomic) CGFloat moveDistance;
-@property (nonatomic) CGFloat screenWidth;
 @property (nonatomic) CGFloat maxMoveDistance;
 
 @property (strong,nonatomic) UIView *blackCover;
@@ -28,24 +28,24 @@ static CGFloat const kProportion=0.77;
 @implementation RootViewController
 +(RootViewController*)getInstance{
     RootViewController *controller=[[RootViewController alloc]init];
-    controller.view.frame=[UIScreen mainScreen].bounds;
-    return [[RootViewController alloc]init];
+    return controller;
 }
 
 -(void)viewDidLoad{
     [super viewDidLoad];
-    self.view.frame=[UIScreen mainScreen].bounds;
     self.moveDistance=0;
-    self.screenWidth=[UIScreen mainScreen].bounds.size.width;
-    self.maxMoveDistance=(kProportion+kProportion/2-0.5)*self.screenWidth;
+    self.maxMoveDistance=(kProportion+kProportion/2-0.5)*kScreenWidth;
     
-    self.view.backgroundColor=[UIColor greenColor];
+    UIImage *image=[UIImage imageNamed:@"bg-root"];
+    UIGraphicsBeginImageContext(kScreenSize);
+    [image drawInRect:kScreenBounds];
+    image=UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    self.view.backgroundColor=[UIColor colorWithPatternImage:image];
     
     self.userViewController=[UserCenterViewController getInstance];
-    self.userViewController.view.center=CGPointMake(self.screenWidth*kProportion/2, self.userViewController.view.center.y);
+    self.userViewController.view.center=CGPointMake(kScreenWidth*kProportion/2, self.userViewController.view.center.y);
     self.userViewController.view.transform=CGAffineTransformMakeScale(kProportion, kProportion);
-    self.userViewController.view.backgroundColor=[UIColor redColor];
-    
     [self.view addSubview:self.userViewController.view];
     
     self.blackCover=[[UIView alloc]initWithFrame:CGRectOffset(self.view.frame, 0, 0)];
@@ -81,7 +81,7 @@ static CGFloat const kProportion=0.77;
     CGFloat mainProportion=0;
     CGFloat homeProportation=0;
     if(recognizer.state==UIGestureRecognizerStateEnded){
-        if(self.moveDistance>self.screenWidth*kProportion/3){
+        if(self.moveDistance>kScreenWidth*kProportion/3){
             [self showLeft];
         }
         else
@@ -106,7 +106,7 @@ static CGFloat const kProportion=0.77;
     }
     
     homeProportation=kProportion+1-mainProportion;
-    self.userViewController.view.center=CGPointMake(self.screenWidth*homeProportation/2, self.userViewController.view.center.y);
+    self.userViewController.view.center=CGPointMake(kScreenWidth*homeProportation/2, self.userViewController.view.center.y);
     self.userViewController.view.transform=CGAffineTransformMakeScale(homeProportation, homeProportation);
     self.blackCover.alpha=(mainProportion-kProportion)/(1-kProportion);
     
@@ -127,7 +127,7 @@ static CGFloat const kProportion=0.77;
 -(void)doTheAnimation:(CGFloat)proportion{
     [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         CGFloat homeProportation=kProportion+1-proportion;
-        self.userViewController.view.center=CGPointMake(self.screenWidth*homeProportation/2, self.userViewController.view.center.y);
+        self.userViewController.view.center=CGPointMake(kScreenWidth*homeProportation/2, self.userViewController.view.center.y);
         self.userViewController.view.transform=CGAffineTransformMakeScale(homeProportation, homeProportation);
         
         self.blackCover.alpha=(proportion-kProportion)/(1-kProportion);

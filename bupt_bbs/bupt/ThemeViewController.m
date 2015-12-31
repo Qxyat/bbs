@@ -64,6 +64,8 @@ static const int kNumOfPageToCache=5;
     self.tableView.mj_header=[MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(pullDownToRefresh)];
     self.tableView.mj_footer=[MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(pullUpToRefresh)];
     [self.tableView.mj_footer beginRefreshing];
+    
+    self.tableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
 }
 
 -(void)viewWillAppear:(BOOL)animated{

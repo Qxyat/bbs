@@ -15,6 +15,7 @@
 #import <UIButton+WebCache.h>
 #import "LoginManager.h"
 #import "RootViewController.h"
+#import "ScreenAdaptionUtilities.h"
 
 @interface TopSectionViewController ()
 @property (copy,nonatomic) NSArray* data;
@@ -35,8 +36,8 @@
     [self.collectionView.mj_header beginRefreshing];
 
     UIButton *button=[[UIButton alloc]init];
-    button.frame=CGRectMake(0, 0, 40, 40);
-    button.layer.cornerRadius=20;
+    button.frame=CGRectMake(0, 0, kNavigationBarHeight-8, kNavigationBarHeight-8);
+    button.layer.cornerRadius=(kNavigationBarHeight-8)/2;
     button.layer.masksToBounds=YES;
     [button addTarget:self action:@selector(showLeft) forControlEvents:UIControlEventTouchUpInside];
     [button sd_setBackgroundImageWithURL:[NSURL URLWithString:[LoginManager     sharedManager].currentLoginUserInfo.face_url] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"face_default"]];

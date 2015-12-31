@@ -10,8 +10,9 @@
 
 @interface BoardArticleInfoCell: UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UIView *bottomView;
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *posterTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *posterContentLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *replyImageView;
 @property (weak, nonatomic) IBOutlet UILabel *replyCountLabel;
 
 @end

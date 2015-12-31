@@ -53,6 +53,13 @@
     [SVProgressHUD setBackgroundColor:[[UIColor grayColor]colorWithAlphaComponent:0.5]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     
+//    UITabBar *tabbar=[UITabBar appearance];
+//    [tabbar setBarTintColor:[UIColor greenColor]];
+//    [tabbar setTintColor:[UIColor whiteColor]];
+//    
+//    UINavigationBar *navigationBar=[UINavigationBar appearance];
+//    [navigationBar setBarTintColor:[UIColor colorWithRed:48/255.f green:48/255.f blue:48/255.f alpha:48/255.f]];
+//    [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     return YES;
 }
 

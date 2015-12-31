@@ -7,17 +7,14 @@
 //
 
 #import "BoardArticleInfoCell.h"
+#import "ScreenAdaptionUtilities.h"
 
 @implementation BoardArticleInfoCell
 
-- (void)awakeFromNib {
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+-(void)awakeFromNib{
+    CGFloat margin=0.05*kScreenWidth;
+    UIEdgeInsets edge=UIEdgeInsetsMake(0, margin, 0, margin);
+    [self setSeparatorInset:edge];
 }
 
 @end

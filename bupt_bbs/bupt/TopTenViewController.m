@@ -53,8 +53,8 @@ static NSString *const kCellIdentifier=@"cell";
     }
     
     UIButton *button=[[UIButton alloc]init];
-    button.frame=CGRectMake(0, 0, kNavigationBarHeight-8, kNavigationBarHeight-8);
-    button.layer.cornerRadius=(kNavigationBarHeight-8)/2;
+    button.frame=CGRectMake(0, 0, kCustomNavigationBarHeight-8, kCustomNavigationBarHeight-8);
+    button.layer.cornerRadius=(kCustomNavigationBarHeight-8)/2;
     button.layer.masksToBounds=YES;
     [button addTarget:self action:@selector(showLeft) forControlEvents:UIControlEventTouchUpInside];
     [button sd_setBackgroundImageWithURL:[NSURL URLWithString:[LoginManager sharedManager].currentLoginUserInfo.face_url] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"face_default"]];

@@ -25,12 +25,13 @@
                                @"page":[NSNumber numberWithInt:page],
                                @"count":[NSNumber numberWithInt:count]};
     
+    manager.requestSerializer.timeoutInterval=kRequestTimeout;
     manager.responseSerializer=[[AFJSONResponseSerializer alloc]init];
     
     [manager GET:requestUrl parameters:parameters success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
         [delegate handleHttpSuccessResponse:responseObject];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
-        NSLog(@"%@",error);
+        [delegate handleHttpErrorResponse:error];
     }];
 
 }

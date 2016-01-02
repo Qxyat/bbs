@@ -96,7 +96,6 @@ static NSString* const kCellIdentifier=@"cell";
         BoardArticleInfoCell *boardArticleInfoCell=(BoardArticleInfoCell*)cell;
         boardArticleInfoCell.titleLabel.font=self.titleLabelFont;
         boardArticleInfoCell.posterTitleLabel.font=self.posterLabelFont;
-        boardArticleInfoCell.titleLabel.preferredMaxLayoutWidth=kScreenWidth*0.9;
         boardArticleInfoCell.titleLabel.text=articleInfo.title;
     }];
 }

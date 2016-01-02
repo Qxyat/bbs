@@ -53,6 +53,10 @@
 +(NSString*) getFloorString:(int) position{
     if(position==0)
         return @"楼主";
+    else if(position==1)
+        return @"沙发";
+    else if(position==2)
+        return @"板凳";
     else
         return [NSString stringWithFormat:@"%d楼",position];
 }

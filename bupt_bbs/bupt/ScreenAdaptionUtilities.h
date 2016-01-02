@@ -7,14 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#define kScreenHeight [UIScreen mainScreen].bounds.size.height
-#define kScreenWidth [UIScreen mainScreen].bounds.size.width
-#define kScreenSize  [UIScreen mainScreen].bounds.size
-#define kScreenBounds [UIScreen mainScreen].bounds
-#define kNavigationBarHeight self.navigationController.navigationBar.frame.size.height
+#define kCustomScreenHeight [UIScreen mainScreen].bounds.size.height
+#define kCustomScreenWidth [UIScreen mainScreen].bounds.size.width
+#define kCustomScreenSize  [UIScreen mainScreen].bounds.size
+#define kCustomScreenBounds [UIScreen mainScreen].bounds
+#define kCustomNavigationBarHeight self.navigationController.navigationBar.frame.size.height
 
-#define isIPhone6OrIPhone6s kScreenWidth==375&&kScreenHeight==667
-#define isIPhone6PlusOrIPhone6sPlus kScreenWidth==414&&kScreenHeight==736
+#define isIPhone6OrIPhone6s kCustomScreenWidth==375&&kCustomScreenHeight==667
+#define isIPhone6PlusOrIPhone6sPlus kCustomScreenWidth==414&&kCustomScreenHeight==736
 
 #define kIPhone5TitleLabelFontSize 16
 #define kIPhone5BoardLabelFontSize 8
@@ -23,6 +23,5 @@
 #define kIPhone6PlusTitleLabelFontSize 20
 #define kIPhone6PlusBoardLabelFontSize 12
 
-@interface ScreenAdaptionUtilities : NSObject
 
-@end
+

@@ -34,17 +34,17 @@ static CGFloat const kProportion=0.77;
 -(void)viewDidLoad{
     [super viewDidLoad];
     self.moveDistance=0;
-    self.maxMoveDistance=(kProportion+kProportion/2-0.5)*kScreenWidth;
+    self.maxMoveDistance=(kProportion+kProportion/2-0.5)*kCustomScreenWidth;
     
     UIImage *image=[UIImage imageNamed:@"bg-root"];
-    UIGraphicsBeginImageContext(kScreenSize);
-    [image drawInRect:kScreenBounds];
+    UIGraphicsBeginImageContext(kCustomScreenSize);
+    [image drawInRect:kCustomScreenBounds];
     image=UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     self.view.backgroundColor=[UIColor colorWithPatternImage:image];
     
     self.userViewController=[UserCenterViewController getInstance];
-    self.userViewController.view.center=CGPointMake(kScreenWidth*kProportion/2, self.userViewController.view.center.y);
+    self.userViewController.view.center=CGPointMake(kCustomScreenWidth*kProportion/2, self.userViewController.view.center.y);
     self.userViewController.view.transform=CGAffineTransformMakeScale(kProportion, kProportion);
     [self.view addSubview:self.userViewController.view];
     
@@ -81,7 +81,7 @@ static CGFloat const kProportion=0.77;
     CGFloat mainProportion=0;
     CGFloat homeProportation=0;
     if(recognizer.state==UIGestureRecognizerStateEnded){
-        if(self.moveDistance>kScreenWidth*kProportion/3){
+        if(self.moveDistance>kCustomScreenWidth*kProportion/3){
             [self showLeft];
         }
         else
@@ -106,7 +106,7 @@ static CGFloat const kProportion=0.77;
     }
     
     homeProportation=kProportion+1-mainProportion;
-    self.userViewController.view.center=CGPointMake(kScreenWidth*homeProportation/2, self.userViewController.view.center.y);
+    self.userViewController.view.center=CGPointMake(kCustomScreenWidth*homeProportation/2, self.userViewController.view.center.y);
     self.userViewController.view.transform=CGAffineTransformMakeScale(homeProportation, homeProportation);
     self.blackCover.alpha=(mainProportion-kProportion)/(1-kProportion);
     
@@ -127,7 +127,7 @@ static CGFloat const kProportion=0.77;
 -(void)doTheAnimation:(CGFloat)proportion{
     [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         CGFloat homeProportation=kProportion+1-proportion;
-        self.userViewController.view.center=CGPointMake(kScreenWidth*homeProportation/2, self.userViewController.view.center.y);
+        self.userViewController.view.center=CGPointMake(kCustomScreenWidth*homeProportation/2, self.userViewController.view.center.y);
         self.userViewController.view.transform=CGAffineTransformMakeScale(homeProportation, homeProportation);
         
         self.blackCover.alpha=(proportion-kProportion)/(1-kProportion);

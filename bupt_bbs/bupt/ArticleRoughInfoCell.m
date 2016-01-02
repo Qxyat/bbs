@@ -11,7 +11,7 @@
 @implementation ArticleRoughInfoCell
 
 -(void)awakeFromNib{
-    CGFloat margin=0.05*kScreenWidth;
+    CGFloat margin=0.05*kCustomScreenWidth;
     UIEdgeInsets edge=UIEdgeInsetsMake(0, margin, 0, margin);
     [self setSeparatorInset:edge];
 }

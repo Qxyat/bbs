@@ -8,6 +8,3 @@
 
 #import "ScreenAdaptionUtilities.h"
 
-@implementation ScreenAdaptionUtilities
-
-@end

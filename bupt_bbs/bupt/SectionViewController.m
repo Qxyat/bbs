@@ -14,7 +14,8 @@
 #import "CollectionViewHeader.h"
 #import "SectionInfo.h"
 #import "BoardViewController.h"
-
+#import "CustomUtilities.h"
+#import <SVProgressHUD.h>
 static NSString *const kContentCellIdentifier=@"contentCell";
 static NSString *const kHeaderCellIdentifier=@"headerCell";
 @interface SectionViewController ()
@@ -185,6 +186,24 @@ static NSString *const kHeaderCellIdentifier=@"headerCell";
         _numberOfSections=2;
     [self.collectionView.mj_header endRefreshing];
     [self.collectionView reloadData];
+}
+-(void)handleHttpErrorResponse:(id)response{
+    NSError *error=(NSError *)response;
+    NetworkErrorCode errorCode=[CustomUtilities getNetworkErrorCode:error];
+    switch (errorCode) {
+        case NetworkConnectFailed:
+            [SVProgressHUD showErrorWithStatus:@"网络连接已断开"];
+            break;
+        case NetworkConnectTimeout:
+            [SVProgressHUD showErrorWithStatus:@"网络连接超时"];
+            break;
+        case NetworkConnectUnknownReason:
+            [SVProgressHUD showErrorWithStatus:@"好像出现了某种奇怪的问题"];
+            break;
+        default:
+            break;
+    }
+    [self.collectionView.mj_header endRefreshing];
 }
 -(void)handleSubSectionResponse:(id)response{
     self.section_data=response;

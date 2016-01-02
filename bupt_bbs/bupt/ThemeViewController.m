@@ -16,8 +16,11 @@
 #import "AttributedStringUtilities.h"
 #import <MJRefresh.h>
 #import "SubThemeViewController.h"
+#import <SVProgressHUD.h>
+#import "ScreenAdaptionUtilities.h"
 
 static NSString * const kCellIdentifier=@"articledetailinfo";
+static CGFloat const kContentFontSize=15;
 static const int kNumOfPageToCache=5;
 
 #define RefreshModePullUp 0
@@ -46,7 +49,6 @@ static const int kNumOfPageToCache=5;
     self.titleLabel.numberOfLines=0;
     self.titleLabel.lineBreakMode=NSLineBreakByCharWrapping;
     self.titleLabel.textAlignment=NSTextAlignmentCenter;
-    self.titleLabel.adjustsFontSizeToFitWidth=YES;
     self.navigationItem.titleView=self.titleLabel;
     
     UIBarButtonItem *barButtonItem=[[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"jumpButton"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(jumpToDestinationPagePopover)];
@@ -110,34 +112,27 @@ static const int kNumOfPageToCache=5;
     ArticleInfo *articleInfo=_data[indexPath.row];
     cell.articleInfo=articleInfo;
     [cell.faceImageView sd_setImageWithURL:[NSURL URLWithString:articleInfo.user.face_url] placeholderImage:[UIImage imageNamed:@"face_default.png"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        CGFloat faceImageViewWidth=(image.size.width/image.size.height)*cell.faceImageView.frame.size.height;
-        CGRect newFaceImagViewFrame=CGRectMake(cell.faceImageView.origin.x, cell.faceImageView.origin.y, faceImageViewWidth, cell.faceImageView.frame.size.height);
-        cell.faceImageView.frame=newFaceImagViewFrame;
-        CGRect newTitleLabelContainerFrame=CGRectMake(faceImageViewWidth+8, cell.titleLabelContainer.origin.y, 312-faceImageViewWidth-8-42, cell.titleLabelContainer.frame.size.height);
-        cell.titleLabelContainer.frame=newTitleLabelContainerFrame;
+        [cell refreshCustomLayout];
     }];
-    cell.timeLabel.text=[CustomUtilities getPostTimeString:articleInfo.post_time];
     cell.floorLabel.text=[CustomUtilities getFloorString:articleInfo.position];
-    [cell.replyButton setTitle:articleInfo.user.userId forState:UIControlStateNormal];
+    cell.timeLabel.text=[CustomUtilities getPostTimeString:articleInfo.post_time];
     cell.nameLabel.text=articleInfo.user.userId;
-    cell.contentLabel.attributedText=[AttributedStringUtilities getAttributedStringWithString:articleInfo.content StringColor:[UIColor blackColor] StringSize:17 Attachments:articleInfo.attachment];
+    cell.contentLabel.attributedText=[AttributedStringUtilities getAttributedStringWithString:articleInfo.content StringColor:[UIColor blackColor] StringSize:kContentFontSize Attachments:articleInfo.attachment];
     cell.contentLabel.numberOfLines=0;
     CGRect contentLabelNewFrame=cell.contentLabel.frame;
     contentLabelNewFrame.size=CGSizeFromString(_attributedStringArray[indexPath.row][@"Size"]);
     cell.contentLabel.frame=contentLabelNewFrame;
-    [cell resignFirstResponder];
     return cell;
 }
 
 #pragma mark - UITableView Delegate
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     CGSize size=CGSizeFromString(_attributedStringArray[indexPath.row][@"Size"]);
-    return 65+size.height;
+    return 3*kMargin+kFaceImageViewHeight+size.height+1;
 }
 -(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath{
     return  NO;
 }
-
 #pragma mark - 根据刷新方式刷新页面的内容
 -(void)pullDownToRefresh{
     self.refreshMode=RefreshModePullDown;
@@ -165,26 +160,6 @@ static const int kNumOfPageToCache=5;
 -(void)jumpToRefresh:(NSUInteger) nextPage{
     self.refreshMode=RefreshModeJump;
     [ThemeUtilities getThemeWithBoardName:self.board_name groupId:self.group_id pageIndex:(int)nextPage countOfOnePage:self.item_page_count delegate:self];
-}
-#pragma mark - 实现HttpResponseDelegate协议
--(void)handleHttpSuccessResponse:(id)response{
-    NSDictionary *dic=(NSDictionary*)response;
-    
-    self.titleLabel.text=response[@"title"];
-    NSArray *tmp=[ArticleInfo getArticlesInfo:dic[@"article"]];
-    self.page_all_count=[dic[@"pagination"][@"page_all_count"] intValue];
-    self.page_cur_count=[dic[@"pagination"][@"page_current_count"] intValue];
-    if(self.refreshMode==RefreshModePullDown){
-        [_data insertObjects:tmp atIndex:0];
-    }
-    else if(self.refreshMode==RefreshModePullUp){
-        [_data insertObjects:tmp atIndex:_data.count];
-    }
-    else if(self.refreshMode==RefreshModeJump){
-        [_data removeAllObjects];
-        [_data addObjectsFromArray:tmp];
-    }
-    [AttributedStringUtilities getAttributedStringsWithArray:tmp StringColor:[UIColor blackColor] StringSize:17 BoundSize:CGSizeMake(300, 10000) Delegate:self];
 }
 
 #pragma mark - 实现AttributedStringDelegate协议
@@ -240,11 +215,47 @@ static const int kNumOfPageToCache=5;
     }
 }
 
-#pragma mark - 实现根据字符串获得框体大小的方法
--(CGRect)getRectWithString:(NSString *)string{
-    CGSize  maxSize=CGSizeMake(300, 1400);
-    NSStringDrawingOptions options=NSStringDrawingUsesFontLeading|NSStringDrawingUsesLineFragmentOrigin;
-    NSDictionary *dic=@{NSFontAttributeName:[UIFont systemFontOfSize:17]};
-    return [string boundingRectWithSize:maxSize options:options attributes:dic context:nil];
+
+#pragma mark - 实现HttpResponseDelegate协议
+-(void)handleHttpSuccessResponse:(id)response{
+    NSDictionary *dic=(NSDictionary*)response;
+    
+    self.titleLabel.text=response[@"title"];
+    NSArray *tmp=[ArticleInfo getArticlesInfo:dic[@"article"]];
+    self.page_all_count=[dic[@"pagination"][@"page_all_count"] intValue];
+    self.page_cur_count=[dic[@"pagination"][@"page_current_count"] intValue];
+    if(self.refreshMode==RefreshModePullDown){
+        [_data insertObjects:tmp atIndex:0];
+    }
+    else if(self.refreshMode==RefreshModePullUp){
+        [_data insertObjects:tmp atIndex:_data.count];
+    }
+    else if(self.refreshMode==RefreshModeJump){
+        [_data removeAllObjects];
+        [_data addObjectsFromArray:tmp];
+    }
+    [AttributedStringUtilities getAttributedStringsWithArray:tmp StringColor:[UIColor blackColor] StringSize:kContentFontSize BoundSize:CGSizeMake(kCustomScreenWidth-2*kMargin, 10000) Delegate:self];
 }
+-(void)handleHttpErrorResponse:(id)response{
+    NSError *error=(NSError *)response;
+    NetworkErrorCode errorCode=[CustomUtilities getNetworkErrorCode:error];
+    switch (errorCode) {
+        case NetworkConnectFailed:
+            [SVProgressHUD showErrorWithStatus:@"网络连接已断开"];
+            break;
+        case NetworkConnectTimeout:
+            [SVProgressHUD showErrorWithStatus:@"网络连接超时"];
+            break;
+        case NetworkConnectUnknownReason:
+            [SVProgressHUD showErrorWithStatus:@"好像出现了某种奇怪的问题"];
+            break;
+        default:
+            break;
+    }
+    if(self.refreshMode==RefreshModePullDown)
+        [self.tableView.mj_header endRefreshing];
+    else if(self.refreshMode==RefreshModePullUp)
+        [self.tableView.mj_footer endRefreshing];
+}
+
 @end

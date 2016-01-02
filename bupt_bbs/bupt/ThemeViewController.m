@@ -167,7 +167,7 @@ static const int kNumOfPageToCache=5;
     [ThemeUtilities getThemeWithBoardName:self.board_name groupId:self.group_id pageIndex:(int)nextPage countOfOnePage:self.item_page_count delegate:self];
 }
 #pragma mark - 实现HttpResponseDelegate协议
--(void)handleHttpResponse:(id)response{
+-(void)handleHttpSuccessResponse:(id)response{
     NSDictionary *dic=(NSDictionary*)response;
     
     self.titleLabel.text=response[@"title"];

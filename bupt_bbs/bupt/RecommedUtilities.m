@@ -20,11 +20,12 @@
     
     AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
     manager.responseSerializer=[AFJSONResponseSerializer serializer];
+    manager.requestSerializer.timeoutInterval=kRequestTimeout;
     
     [manager GET:url parameters:dic success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        [delegate handleHttpResponse:responseObject];
+        [delegate handleHttpSuccessResponse:responseObject];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
-        NSLog(@"获取推荐文章失败");
+        [delegate handleHttpErrorResponse:error];
     }];
 }
 

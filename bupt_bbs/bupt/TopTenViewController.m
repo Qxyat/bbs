@@ -18,6 +18,9 @@
 #import "RootViewController.h"
 #import "ScreenAdaptionUtilities.h"
 #import <UITableView+FDTemplateLayoutCell.h>
+#import "CustomUtilities.h"
+#import <SVProgressHUD.h>
+
 static NSString *const kCellIdentifier=@"cell";
 
 @interface TopTenViewController ()
@@ -127,11 +130,28 @@ static NSString *const kCellIdentifier=@"cell";
 }
 
 #pragma  mark - 实现HttpResponseDelegate
--(void)handleHttpResponse:(id)response{
+-(void)handleHttpSuccessResponse:(id)response{
     NSDictionary *dic=(NSDictionary*)response;
     self.data=[ArticleInfo getArticlesInfo:dic[@"article"]];
     [self.tableView reloadData];
     [self.tableView.mj_header endRefreshing];
 }
-
+-(void)handleHttpErrorResponse:(id)response{
+    NSError *error=(NSError *)response;
+    NetworkErrorCode errorCode=[CustomUtilities getNetworkErrorCode:error];
+    switch (errorCode) {
+        case NetworkConnectFailed:
+            [SVProgressHUD showErrorWithStatus:@"网络连接已断开"];
+            break;
+        case NetworkConnectTimeout:
+            [SVProgressHUD showErrorWithStatus:@"网络连接超时"];
+            break;
+        case NetworkConnectUnknownReason:
+            [SVProgressHUD showErrorWithStatus:@"好像出现了某种奇怪的问题"];
+            break;
+        default:
+            break;
+    }
+    [self.tableView.mj_header endRefreshing];
+}
 @end

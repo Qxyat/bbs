@@ -21,7 +21,7 @@
     
     NSDictionary *dic=@{@"oauth_token":[LoginManager sharedManager].access_token};
     [manager GET:url parameters:dic success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        [delegate handleHttpResponse:responseObject];
+        [delegate handleHttpSuccessResponse:responseObject];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
         NSLog(@"获取根分区信息失败");
     }];
@@ -35,7 +35,7 @@
     
     NSDictionary *dic=@{@"oauth_token":[LoginManager sharedManager].access_token};
     [manager GET:url parameters:dic success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        [delegate handleHttpResponse:responseObject];
+        [delegate handleHttpSuccessResponse:responseObject];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
         NSLog(@"获取指定分区信息失败");
     }];

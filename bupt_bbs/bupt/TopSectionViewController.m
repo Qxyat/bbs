@@ -16,6 +16,8 @@
 #import "LoginManager.h"
 #import "RootViewController.h"
 #import "ScreenAdaptionUtilities.h"
+#import "CustomUtilities.h"
+#import <SVProgressHUD.h>
 
 @interface TopSectionViewController ()
 @property (copy,nonatomic) NSArray* data;
@@ -88,11 +90,27 @@
 }
 
 #pragma mark - 实现HttpResponseDelegate协议
--(void)handleHttpResponse:(id)response{
+-(void)handleHttpSuccessResponse:(id)response{
     NSDictionary *dic=(NSDictionary*)response;
     self.data=[SectionInfo getSectionsInfo:dic[@"section"]];
     [self.collectionView.mj_header endRefreshing];
     [self.collectionView reloadData];
 }
-
+-(void)handleHttpErrorResponse:(id)response{
+    NSError *error=(NSError *)response;
+    NetworkErrorCode errorCode=[CustomUtilities getNetworkErrorCode:error];
+    switch (errorCode) {
+        case NetworkConnectFailed:
+            [SVProgressHUD showErrorWithStatus:@"网络连接已断开"];
+            break;
+        case NetworkConnectTimeout:
+            [SVProgressHUD showErrorWithStatus:@"网络连接超时"];
+            break;
+        case NetworkConnectUnknownReason:
+            [SVProgressHUD showErrorWithStatus:@"好像出现了某种奇怪的问题"];
+            break;
+        default:
+            break;
+    }
+}
 @end

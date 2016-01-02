@@ -15,6 +15,9 @@
 #import "ThemeViewController.h"
 #import "ScreenAdaptionUtilities.h"
 #import <UITableView+FDTemplateLayoutCell.h>
+#import "CustomUtilities.h"
+#import <SVProgressHUD.h>
+
 static NSString* const kCellIdentifier=@"cell";
 
 @interface BoardViewController ()
@@ -61,20 +64,6 @@ static NSString* const kCellIdentifier=@"cell";
 #pragma mark - 刷新
 -(void)refresh{
     [BoardUtilities getBoardWithName:self.name Mode:2 Count:self.item_page_count Page:self.page_curent_count Delegate:self];
-}
-
-#pragma mark - 实现HttpResponseDelegate协议
--(void)handleHttpResponse:(id)response{
-    NSDictionary *dic=(NSDictionary *)response;
-    self.data=[ArticleInfo getArticlesInfo:dic[@"article"]];
-    
-    self.page_all_count=[dic[@"pegination"][@"page_all_count"] intValue];
-    self.page_curent_count=[dic[@"pegination"][@"page_cur_count"] intValue];
-    self.item_page_count=[dic[@"pegination"][@"item_page_count"] intValue];
-    self.item_all_count=[dic[@"pegination"][@"item_all_count"] intValue];
-    
-    [self.tableView.mj_header endRefreshing];
-    [self.tableView reloadData];
 }
 
 #pragma mark - UITableViewDataSrource
@@ -127,4 +116,36 @@ static NSString* const kCellIdentifier=@"cell";
     [self.navigationController pushViewController:themViewController animated:YES];
 }
 
+
+#pragma mark - 实现HttpResponseDelegate协议
+-(void)handleHttpSuccessResponse:(id)response{
+    NSDictionary *dic=(NSDictionary *)response;
+    self.data=[ArticleInfo getArticlesInfo:dic[@"article"]];
+    
+    self.page_all_count=[dic[@"pegination"][@"page_all_count"] intValue];
+    self.page_curent_count=[dic[@"pegination"][@"page_cur_count"] intValue];
+    self.item_page_count=[dic[@"pegination"][@"item_page_count"] intValue];
+    self.item_all_count=[dic[@"pegination"][@"item_all_count"] intValue];
+    
+    [self.tableView.mj_header endRefreshing];
+    [self.tableView reloadData];
+}
+-(void)handleHttpErrorResponse:(id)response{
+    NSError *error=(NSError *)response;
+    NetworkErrorCode errorCode=[CustomUtilities getNetworkErrorCode:error];
+    switch (errorCode) {
+        case NetworkConnectFailed:
+            [SVProgressHUD showErrorWithStatus:@"网络连接已断开"];
+            break;
+        case NetworkConnectTimeout:
+            [SVProgressHUD showErrorWithStatus:@"网络连接超时"];
+            break;
+        case NetworkConnectUnknownReason:
+            [SVProgressHUD showErrorWithStatus:@"好像出现了某种奇怪的问题"];
+            break;
+        default:
+            break;
+    }
+    [self.tableView.mj_header endRefreshing];
+}
 @end

@@ -162,7 +162,7 @@ static NSString *const kHeaderCellIdentifier=@"headerCell";
 }
 
 #pragma mark - 实现HttpResponseDelegate协议
--(void)handleHttpResponse:(id)response{
+-(void)handleHttpSuccessResponse:(id)response{
     NSDictionary *dic=(NSDictionary*)response;
     NSArray *sub_sections=dic[@"sub_section"];
     if(sub_sections.count>0){

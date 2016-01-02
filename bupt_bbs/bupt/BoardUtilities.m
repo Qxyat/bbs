@@ -25,11 +25,12 @@
                         @"count":[NSNumber numberWithInt:count],
                         @"page":[NSNumber numberWithInt:page]};
     AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
+    manager.requestSerializer.timeoutInterval=kRequestTimeout;
     manager.responseSerializer=[AFJSONResponseSerializer serializer];
     [manager GET:url parameters:dic success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        [delegate handleHttpResponse:responseObject];
+        [delegate handleHttpSuccessResponse:responseObject];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
-        NSLog(@"请求版面失败");
+        [delegate handleHttpErrorResponse:error];
     }];
 }
 

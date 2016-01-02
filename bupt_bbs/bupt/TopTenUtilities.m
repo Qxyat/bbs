@@ -21,12 +21,13 @@
     NSDictionary *paramters=@{@"oauth_token":loginConfiguration.access_token};
     
     AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
-    manager.responseSerializer=[[AFJSONResponseSerializer alloc]init];
+    manager.requestSerializer.timeoutInterval=kRequestTimeout;
+    manager.responseSerializer=[AFJSONResponseSerializer serializer];
     
-    [[AFHTTPRequestOperationManager manager]GET:url parameters:paramters success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        [delegate handleHttpResponse:responseObject];
+    [manager GET:url parameters:paramters success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        [delegate handleHttpSuccessResponse:responseObject];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
-        NSLog(@"%@",error);
+        [delegate handleHttpErrorResponse:error];
     }];
 }
 

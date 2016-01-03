@@ -11,5 +11,5 @@
 @protocol ThemePopoverControllerDelegate <NSObject>
 
 -(void)hideThemePopoverController;
-
+-(void)showJumpPopoverController;
 @end

@@ -11,7 +11,7 @@
 @interface ThemePopoverController : UIViewController
 
 @property (weak,nonatomic)id<ThemePopoverControllerDelegate>delegate;
-
+@property (nonatomic)CGFloat navigationBarHeight;
 +(instancetype)getInstance;
 -(void)hideThemePopoverControllerView;
 

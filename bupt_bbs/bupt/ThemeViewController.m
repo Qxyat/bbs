@@ -18,6 +18,7 @@
 #import <SVProgressHUD.h>
 #import "ScreenAdaptionUtilities.h"
 #import "ThemePopoverController.h"
+#import "JumpPopoverController.h"
 
 static NSString * const kCellIdentifier=@"articledetailinfo";
 static CGFloat const kContentFontSize=15;
@@ -38,6 +39,7 @@ static const int kNumOfPageToCache=5;
 @property (nonatomic)     NSUInteger       refreshMode;
 @property (strong,nonatomic)UILabel*       titleLabel;
 @property (strong,nonatomic)ThemePopoverController *themePopoverController;
+@property (strong,nonatomic)JumpPopoverController *jumpPopoverController;
 @end
 
 @implementation ThemeViewController
@@ -82,6 +84,8 @@ static const int kNumOfPageToCache=5;
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    [self hideJumpPopoverController];
+    [self hideThemePopoverController];
     self.tabBarController.tabBar.hidden=NO;
 }
 
@@ -105,14 +109,14 @@ static const int kNumOfPageToCache=5;
     cell.contentLabel.attributedText=[AttributedStringUtilities getAttributedStringWithString:articleInfo.content StringColor:[UIColor blackColor] StringSize:kContentFontSize Attachments:articleInfo.attachment];
     cell.contentLabel.numberOfLines=0;
     CGRect contentLabelNewFrame=cell.contentLabel.frame;
-    contentLabelNewFrame.size=CGSizeFromString(_attributedStringArray[indexPath.row][@"Size"]);
+    contentLabelNewFrame.size=[_attributedStringArray[indexPath.row][@"Size"] CGSizeValue];
     cell.contentLabel.frame=contentLabelNewFrame;
     return cell;
 }
 
 #pragma mark - UITableView Delegate
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    CGSize size=CGSizeFromString(_attributedStringArray[indexPath.row][@"Size"]);
+    CGSize size=[_attributedStringArray[indexPath.row][@"Size"] CGSizeValue];
     return 3*kMargin+kFaceImageViewHeight+size.height+1;
 }
 -(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -141,10 +145,6 @@ static const int kNumOfPageToCache=5;
     else{
         [self.tableView.mj_footer endRefreshingWithNoMoreData];
     }
-}
--(void)jumpToRefresh:(NSUInteger) nextPage{
-    self.refreshMode=RefreshModeJump;
-    [ThemeUtilities getThemeWithBoardName:self.board_name groupId:self.group_id pageIndex:(int)nextPage countOfOnePage:self.item_page_count delegate:self];
 }
 
 #pragma mark - 实现AttributedStringDelegate协议
@@ -201,6 +201,9 @@ static const int kNumOfPageToCache=5;
 
 #pragma mark - 实现HttpResponseDelegate协议
 -(void)handleHttpSuccessResponse:(id)response{
+    if(self.refreshMode==RefreshModeJump){
+        [SVProgressHUD dismiss];
+    }
     NSDictionary *dic=(NSDictionary*)response;
     
     self.titleLabel.text=response[@"title"];
@@ -246,11 +249,14 @@ static const int kNumOfPageToCache=5;
     if(self.themePopoverController==nil){
         self.themePopoverController=[ThemePopoverController getInstance];
         self.themePopoverController.delegate=self;
-        [self.view addSubview:self.themePopoverController.view];
+        self.themePopoverController.navigationBarHeight=kCustomNavigationBarHeight;
+        
+        [self.tableView.superview addSubview:self.themePopoverController.view];
     }
     else{
         [self hideThemePopoverController];
     }
+    [self hideJumpPopoverController];
 }
 #pragma mark - 实现ThemePopoverControllerDelegate协议
 -(void)hideThemePopoverController{
@@ -258,5 +264,32 @@ static const int kNumOfPageToCache=5;
         [self.themePopoverController hideThemePopoverControllerView];
         self.themePopoverController=nil;
     }
+}
+-(void)showJumpPopoverController{
+    [self hideThemePopoverController];
+    if(self.jumpPopoverController==nil){
+        self.jumpPopoverController=[JumpPopoverController getInstance];
+        self.jumpPopoverController.delegate=self;
+        self.jumpPopoverController.navigationBarHeight=kCustomNavigationBarHeight;
+        self.jumpPopoverController.page_all_count=self.page_all_count;
+        self.jumpPopoverController.page_cur_count=self.page_cur_count;
+        [self.tableView.superview addSubview:self.jumpPopoverController.view];
+    }
+    else{
+        [self hideJumpPopoverController];
+    }
+}
+#pragma mark - 实现JumpPopoverControllerDelegate协议
+-(void)hideJumpPopoverController{
+    if(self.jumpPopoverController!=nil){
+        [self.jumpPopoverController hideJumpPopoverControllerView];
+        self.jumpPopoverController=nil;
+    }
+}
+-(void)jumpToRefresh:(NSUInteger) nextPage{
+    [self hideJumpPopoverController];
+    self.refreshMode=RefreshModeJump;
+    [SVProgressHUD showWithStatus:@"页面加载中"];
+    [ThemeUtilities getThemeWithBoardName:self.board_name groupId:self.group_id pageIndex:(int)nextPage countOfOnePage:self.item_page_count delegate:self];
 }
 @end

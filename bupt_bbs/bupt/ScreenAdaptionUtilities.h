@@ -12,7 +12,7 @@
 #define kCustomScreenSize  [UIScreen mainScreen].bounds.size
 #define kCustomScreenBounds [UIScreen mainScreen].bounds
 #define kCustomNavigationBarHeight self.navigationController.navigationBar.frame.size.height
-
+#define kCustomStatusBarHeight [UIApplication sharedApplication].statusBarFrame.size.height;
 #define isIPhone6OrIPhone6s kCustomScreenWidth==375&&kCustomScreenHeight==667
 #define isIPhone6PlusOrIPhone6sPlus kCustomScreenWidth==414&&kCustomScreenHeight==736
 

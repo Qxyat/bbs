@@ -18,27 +18,27 @@
 @implementation ThemePopoverController
 
 +(instancetype)getInstance{
-    return [[ThemePopoverController alloc]initWithNibName:@"ThemePopoverController" bundle:nil];
+    return [[ThemePopoverController alloc]initWithNibName:@"ThemePopoverControllerView" bundle:nil];
 }
 -(void)loadView{
     [super loadView];
-    self.view.bounds=kCustomScreenBounds;
+    CGFloat y=self.navigationBarHeight+kCustomStatusBarHeight;
+    self.view.frame=CGRectMake(0, y,kCustomScreenWidth, kCustomScreenHeight-y);
     [self.view layoutIfNeeded];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor=[[UIColor alloc]initWithWhite:0 alpha:0];
     
-    UITapGestureRecognizer *recognizer1=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showJumpView)];
-    UITapGestureRecognizer *recognizer2=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showJumpView)];
+    UITapGestureRecognizer *recognizer1=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showJumpPopoverController)];
+    UITapGestureRecognizer *recognizer2=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showJumpPopoverController)];
     [self.jumpImageView addGestureRecognizer:recognizer1];
     [self.jumpLabel addGestureRecognizer:recognizer2];
     UITapGestureRecognizer *recognizer3=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideThemePopoverController)];
     [self.view addGestureRecognizer:recognizer3];
    
-    self.view.center=CGPointMake(kCustomScreenWidth/2, kCustomScreenHeight/2-self.containerView.frame.size.height);
+    self.containerView.center=CGPointMake(self.containerView.center.x, self.containerView.center.y-self.containerView.frame.size.height);
     [UIView animateWithDuration:0.5 animations:^{
-        self.view.center=CGPointMake(kCustomScreenWidth/2, kCustomScreenHeight/2);
+        self.containerView.center=CGPointMake(self.containerView.center.x, self.containerView.center.y+self.containerView.frame.size.height);
     }];
 }
 -(void)hideThemePopoverController{
@@ -46,7 +46,10 @@
 }
 -(void)hideThemePopoverControllerView{
     [UIView animateWithDuration:0.5 animations:^{
-        self.view.center=CGPointMake(kCustomScreenWidth/2,kCustomScreenHeight/2-self.containerView.frame.size.height);
+        self.containerView.center=CGPointMake(self.containerView.center.x, self.containerView.center.y-self.containerView.frame.size.height);
+        
+    } completion:^(BOOL finished) {
+        [self.view removeFromSuperview];
     }];
 }
 - (void)didReceiveMemoryWarning {
@@ -54,8 +57,8 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)showJumpView{
-    
+-(void)showJumpPopoverController{
+    [self.delegate showJumpPopoverController];
 }
 
 @end

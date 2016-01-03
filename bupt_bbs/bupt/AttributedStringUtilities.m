@@ -112,7 +112,7 @@ static NSAttributedString* getPictureInAttachment(AttachmentInfo*attachmentInfo,
             CGSize size=sizeThatFitsAttributedString(attributedString, boundSize, 0);
             
             [res addObject:@{@"AttributedString":attributedString,
-                             @"Size":NSStringFromCGSize(size)}];
+                             @"Size":[NSValue valueWithCGSize:size]}];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             [delegate handleAttribuedStringResponse:res];

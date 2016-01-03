@@ -27,7 +27,9 @@
 		41404F721C1D207900A45B13 /* BoardArticleInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41404F701C1D207900A45B13 /* BoardArticleInfoCell.xib */; };
 		414224161C17D86D0042BBBE /* AttributedStringUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 414224151C17D86D0042BBBE /* AttributedStringUtilities.m */; };
 		41432A7D1C38DA3200423DFE /* ThemePopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41432A7B1C38DA3200423DFE /* ThemePopoverController.m */; };
-		41432A7E1C38DA3200423DFE /* ThemePopoverController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41432A7C1C38DA3200423DFE /* ThemePopoverController.xib */; };
+		41432A7E1C38DA3200423DFE /* ThemePopoverControllerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41432A7C1C38DA3200423DFE /* ThemePopoverControllerView.xib */; };
+		41432A821C39053E00423DFE /* JumpPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41432A811C39053E00423DFE /* JumpPopoverController.m */; };
+		41432A841C39056E00423DFE /* JumpPopoverControllerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41432A831C39056E00423DFE /* JumpPopoverControllerView.xib */; };
 		4143427D1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4143427C1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.m */; };
 		41434F2D1BE8D5AA00FF01D9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 41434F2C1BE8D5AA00FF01D9 /* main.m */; };
 		41434F301BE8D5AA00FF01D9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 41434F2F1BE8D5AA00FF01D9 /* AppDelegate.m */; };
@@ -100,8 +102,12 @@
 		414224151C17D86D0042BBBE /* AttributedStringUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributedStringUtilities.m; sourceTree = "<group>"; };
 		41432A7A1C38DA3200423DFE /* ThemePopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemePopoverController.h; sourceTree = "<group>"; };
 		41432A7B1C38DA3200423DFE /* ThemePopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThemePopoverController.m; sourceTree = "<group>"; };
-		41432A7C1C38DA3200423DFE /* ThemePopoverController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThemePopoverController.xib; sourceTree = "<group>"; };
+		41432A7C1C38DA3200423DFE /* ThemePopoverControllerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThemePopoverControllerView.xib; sourceTree = "<group>"; };
 		41432A7F1C38E53000423DFE /* ThemePopoverControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemePopoverControllerDelegate.h; sourceTree = "<group>"; };
+		41432A801C39053E00423DFE /* JumpPopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JumpPopoverController.h; sourceTree = "<group>"; };
+		41432A811C39053E00423DFE /* JumpPopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JumpPopoverController.m; sourceTree = "<group>"; };
+		41432A831C39056E00423DFE /* JumpPopoverControllerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JumpPopoverControllerView.xib; sourceTree = "<group>"; };
+		41432A851C39096200423DFE /* JumpPopoverControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JumpPopoverControllerDelegate.h; sourceTree = "<group>"; };
 		4143427B1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaluateAttributedStringSizeUtilities.h; sourceTree = "<group>"; };
 		4143427C1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaluateAttributedStringSizeUtilities.m; sourceTree = "<group>"; };
 		41434F281BE8D5AA00FF01D9 /* 邮遍天下.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "邮遍天下.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -198,6 +204,7 @@
 				41A9B1031C180DE500CF422F /* AttributedStringDelegate.h */,
 				4124410F1C2244F2009A4172 /* ShowUserInfoViewControllerDelegate.h */,
 				41432A7F1C38E53000423DFE /* ThemePopoverControllerDelegate.h */,
+				41432A851C39096200423DFE /* JumpPopoverControllerDelegate.h */,
 			);
 			name = Protocol;
 			sourceTree = "<group>";
@@ -306,6 +313,8 @@
 				4108AFFC1C0D8FEF00CDC292 /* RecommedArticalViewController.m */,
 				41B684BA1C2001BB0088395D /* ShowUserInfoViewController.h */,
 				41B684BB1C2001BB0088395D /* ShowUserInfoViewController.m */,
+				41432A801C39053E00423DFE /* JumpPopoverController.h */,
+				41432A811C39053E00423DFE /* JumpPopoverController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -325,7 +334,8 @@
 				41B02B701C10221500E4904B /* ArticleDetailInfoCell.xib */,
 				41B02B751C1033A400E4904B /* ArticleDetailInfoCell.h */,
 				41B02B761C1033A400E4904B /* ArticleDetailInfoCell.m */,
-				41432A7C1C38DA3200423DFE /* ThemePopoverController.xib */,
+				41432A7C1C38DA3200423DFE /* ThemePopoverControllerView.xib */,
+				41432A831C39056E00423DFE /* JumpPopoverControllerView.xib */,
 				419411D61C1BFD03002E59AC /* SectionAndBoardInfoCell.h */,
 				419411D71C1BFD03002E59AC /* SectionAndBoardInfoCell.m */,
 				419411DF1C1C372C002E59AC /* CollectionViewHeader.h */,
@@ -444,7 +454,8 @@
 				41F86AB71C1FA3DD009DC75C /* UserCenter.xib in Resources */,
 				410B20221C1524A3004C0CBE /* Assets.xcassets in Resources */,
 				41B684BE1C2001BB0088395D /* ShowUserInfo.xib in Resources */,
-				41432A7E1C38DA3200423DFE /* ThemePopoverController.xib in Resources */,
+				41432A841C39056E00423DFE /* JumpPopoverControllerView.xib in Resources */,
+				41432A7E1C38DA3200423DFE /* ThemePopoverControllerView.xib in Resources */,
 				41B57D481C314AFB00B9A01B /* ArticleRoughInfoCell.xib in Resources */,
 				41B02B711C10221500E4904B /* ArticleDetailInfoCell.xib in Resources */,
 			);
@@ -510,6 +521,7 @@
 				41404F711C1D207900A45B13 /* BoardArticleInfoCell.m in Sources */,
 				41185B8C1BFAC71A00695E9C /* SecondLoginViewController.m in Sources */,
 				41B02B6C1C0FED2500E4904B /* ThemeViewController.m in Sources */,
+				41432A821C39053E00423DFE /* JumpPopoverController.m in Sources */,
 				41432A7D1C38DA3200423DFE /* ThemePopoverController.m in Sources */,
 				41434F301BE8D5AA00FF01D9 /* AppDelegate.m in Sources */,
 				41D801DD1C14277B00845782 /* AttachmentFile.m in Sources */,

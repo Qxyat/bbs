@@ -12,6 +12,6 @@
 
 @interface SecondLoginViewController : UIViewController<UITextFieldDelegate,LoginHttpResponseDelegate>
 
-+(SecondLoginViewController *)getInstance;
++(instancetype)getInstance;
 
 @end

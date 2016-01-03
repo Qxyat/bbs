@@ -27,7 +27,6 @@ PODS:
   - SDWebImage/Core (3.7.3)
   - SVProgressHUD (1.1.3)
   - UITableView+FDTemplateLayoutCell (1.3)
-  - WYPopoverController (0.2.2)
   - YYKit (0.9.8):
     - YYKit/no-arc (= 0.9.8)
   - YYKit/no-arc (0.9.8)
@@ -39,7 +38,6 @@ DEPENDENCIES:
   - SDWebImage (~> 3.7)
   - SVProgressHUD
   - UITableView+FDTemplateLayoutCell
-  - WYPopoverController (~> 0.2.2)
   - YYKit
 
 SPEC CHECKSUMS:
@@ -49,7 +47,6 @@ SPEC CHECKSUMS:
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
   UITableView+FDTemplateLayoutCell: d5be6056b5060313f5955a2590ecd33142ad713d
-  WYPopoverController: 00d879c25bddd1fd873dcc21aa98c8308d7f1555
   YYKit: 1eadb09e245f0c0f6892599fe7871c67507c4ad5
 
 COCOAPODS: 0.39.0

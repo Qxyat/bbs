@@ -29,7 +29,7 @@
 @end
 
 @implementation SecondLoginViewController
-+(SecondLoginViewController*)getInstance{
++(instancetype)getInstance{
     SecondLoginViewController *controller=[[SecondLoginViewController alloc]initWithNibName:@"SecondLoginView" bundle:nil];
     return controller;
 }

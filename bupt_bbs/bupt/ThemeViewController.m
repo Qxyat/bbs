@@ -15,9 +15,9 @@
 #import <UIImageView+WebCache.h>
 #import "AttributedStringUtilities.h"
 #import <MJRefresh.h>
-#import "SubThemeViewController.h"
 #import <SVProgressHUD.h>
 #import "ScreenAdaptionUtilities.h"
+#import "ThemePopoverController.h"
 
 static NSString * const kCellIdentifier=@"articledetailinfo";
 static CGFloat const kContentFontSize=15;
@@ -37,7 +37,7 @@ static const int kNumOfPageToCache=5;
 @property (nonatomic)     int              item_page_count;
 @property (nonatomic)     NSUInteger       refreshMode;
 @property (strong,nonatomic)UILabel*       titleLabel;
-
+@property (strong,nonatomic)ThemePopoverController *themePopoverController;
 @end
 
 @implementation ThemeViewController
@@ -51,7 +51,13 @@ static const int kNumOfPageToCache=5;
     self.titleLabel.textAlignment=NSTextAlignmentCenter;
     self.navigationItem.titleView=self.titleLabel;
     
-    UIBarButtonItem *barButtonItem=[[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"jumpButton"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(jumpToDestinationPagePopover)];
+    self.themePopoverController=nil;
+    UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kCustomNavigationBarHeight-8, kCustomNavigationBarHeight-8)];
+    imageView.contentMode=UIViewContentModeScaleAspectFit;
+    imageView.image=[UIImage imageNamed:@"more"];
+    UITapGestureRecognizer *recognizer=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showThemePopoverController)];
+    [imageView addGestureRecognizer:recognizer];
+    UIBarButtonItem *barButtonItem=[[UIBarButtonItem alloc]initWithCustomView:imageView];
     self.navigationItem.rightBarButtonItem=barButtonItem;
     
     _pageRange.location=0;
@@ -77,27 +83,6 @@ static const int kNumOfPageToCache=5;
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     self.tabBarController.tabBar.hidden=NO;
-}
-
-#pragma mark - 打开跳转到指定页面的浮动窗口
--(void)jumpToDestinationPagePopover{
-    SubThemeViewController *controller=[SubThemeViewController getInstance];
-    controller.page_all_count=_page_all_count;
-    controller.themViewController=self;
-    controller.preferredContentSize=CGSizeMake(304, 55);
-    
-    self.wyPopoverController=[[WYPopoverController alloc]initWithContentViewController:controller];
-    self.wyPopoverController.delegate=self;
-    [self.wyPopoverController presentPopoverFromBarButtonItem:self.navigationItem.rightBarButtonItem permittedArrowDirections:WYPopoverArrowDirectionDown animated:YES];
-}
-#pragma mark - 实现WYPopoverControllerDelegate的协议
--(BOOL)popoverControllerShouldDismissPopover:(WYPopoverController *)popoverController{
-    return YES;
-}
--(void)popoverControllerDidDismissPopover:(WYPopoverController *)popoverController{
-    self.wyPopoverController.delegate=nil;
-    self.wyPopoverController=nil;
-    
 }
 
 #pragma mark - UITableView Data Source
@@ -190,8 +175,6 @@ static const int kNumOfPageToCache=5;
         _pageRange.length=1;
         [self.tableView reloadData];
         [self.tableView scrollToRow:0 inSection:0 atScrollPosition:UITableViewScrollPositionTop animated:YES];
-        if(self.wyPopoverController!=nil)
-           [self.wyPopoverController dismissPopoverAnimated:YES];
     }
     //出于防止内存溢出的BUG，使得data和attributedStringArray里面保存的数据不要超过kNumOfPageToCache页,并且需要考虑页面连续
     if(_pageRange.length>kNumOfPageToCache){
@@ -258,4 +241,22 @@ static const int kNumOfPageToCache=5;
         [self.tableView.mj_footer endRefreshing];
 }
 
+#pragma mark - 显示更多内容页的PopoverController
+-(void)showThemePopoverController{
+    if(self.themePopoverController==nil){
+        self.themePopoverController=[ThemePopoverController getInstance];
+        self.themePopoverController.delegate=self;
+        [self.view addSubview:self.themePopoverController.view];
+    }
+    else{
+        [self hideThemePopoverController];
+    }
+}
+#pragma mark - 实现ThemePopoverControllerDelegate协议
+-(void)hideThemePopoverController{
+    if(self.themePopoverController!=nil){
+        [self.themePopoverController hideThemePopoverControllerView];
+        self.themePopoverController=nil;
+    }
+}
 @end

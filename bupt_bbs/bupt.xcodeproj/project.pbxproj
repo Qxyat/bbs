@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4107B3DB1C2980FA00B943BF /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4107B3D91C2980FA00B943BF /* TestViewController.m */; };
-		4107B3DC1C2980FA00B943BF /* TestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4107B3DA1C2980FA00B943BF /* TestViewController.xib */; };
 		4108AFFA1C0D8FBB00CDC292 /* TopSectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4108AFF91C0D8FBB00CDC292 /* TopSectionViewController.m */; };
 		4108AFFD1C0D8FEF00CDC292 /* RecommedArticalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4108AFFC1C0D8FEF00CDC292 /* RecommedArticalViewController.m */; };
 		4108B0001C0D951600CDC292 /* TopTenUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4108AFFF1C0D951600CDC292 /* TopTenUtilities.m */; };
@@ -28,6 +26,8 @@
 		41404F711C1D207900A45B13 /* BoardArticleInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41404F6F1C1D207900A45B13 /* BoardArticleInfoCell.m */; };
 		41404F721C1D207900A45B13 /* BoardArticleInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41404F701C1D207900A45B13 /* BoardArticleInfoCell.xib */; };
 		414224161C17D86D0042BBBE /* AttributedStringUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 414224151C17D86D0042BBBE /* AttributedStringUtilities.m */; };
+		41432A7D1C38DA3200423DFE /* ThemePopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41432A7B1C38DA3200423DFE /* ThemePopoverController.m */; };
+		41432A7E1C38DA3200423DFE /* ThemePopoverController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41432A7C1C38DA3200423DFE /* ThemePopoverController.xib */; };
 		4143427D1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4143427C1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.m */; };
 		41434F2D1BE8D5AA00FF01D9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 41434F2C1BE8D5AA00FF01D9 /* main.m */; };
 		41434F301BE8D5AA00FF01D9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 41434F2F1BE8D5AA00FF01D9 /* AppDelegate.m */; };
@@ -57,15 +57,10 @@
 		41E4CEA51C04588C004DD407 /* SecondLoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41E4CEA41C04588C004DD407 /* SecondLoginView.xib */; };
 		41F86AB71C1FA3DD009DC75C /* UserCenter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41F86AB61C1FA3DD009DC75C /* UserCenter.xib */; };
 		41F86ABA1C1FA8FC009DC75C /* UserUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F86AB91C1FA8FC009DC75C /* UserUtilities.m */; };
-		41FE55E61C19B38100BEA091 /* SubThemeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FE55E41C19B38100BEA091 /* SubThemeViewController.m */; };
-		41FE55E71C19B38100BEA091 /* SubThemeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41FE55E51C19B38100BEA091 /* SubThemeViewController.xib */; };
 		ADF0647870C22EAF6852BE39 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC63FE2D2B942D0F858DC8B3 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4107B3D81C2980FA00B943BF /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
-		4107B3D91C2980FA00B943BF /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
-		4107B3DA1C2980FA00B943BF /* TestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestViewController.xib; sourceTree = "<group>"; };
 		4108AFF81C0D8FBB00CDC292 /* TopSectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopSectionViewController.h; sourceTree = "<group>"; };
 		4108AFF91C0D8FBB00CDC292 /* TopSectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopSectionViewController.m; sourceTree = "<group>"; };
 		4108AFFB1C0D8FEF00CDC292 /* RecommedArticalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommedArticalViewController.h; sourceTree = "<group>"; };
@@ -103,6 +98,10 @@
 		41404F701C1D207900A45B13 /* BoardArticleInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BoardArticleInfoCell.xib; sourceTree = "<group>"; };
 		414224141C17D86D0042BBBE /* AttributedStringUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributedStringUtilities.h; sourceTree = "<group>"; };
 		414224151C17D86D0042BBBE /* AttributedStringUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributedStringUtilities.m; sourceTree = "<group>"; };
+		41432A7A1C38DA3200423DFE /* ThemePopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemePopoverController.h; sourceTree = "<group>"; };
+		41432A7B1C38DA3200423DFE /* ThemePopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThemePopoverController.m; sourceTree = "<group>"; };
+		41432A7C1C38DA3200423DFE /* ThemePopoverController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThemePopoverController.xib; sourceTree = "<group>"; };
+		41432A7F1C38E53000423DFE /* ThemePopoverControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemePopoverControllerDelegate.h; sourceTree = "<group>"; };
 		4143427B1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaluateAttributedStringSizeUtilities.h; sourceTree = "<group>"; };
 		4143427C1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaluateAttributedStringSizeUtilities.m; sourceTree = "<group>"; };
 		41434F281BE8D5AA00FF01D9 /* 邮遍天下.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "邮遍天下.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -158,9 +157,6 @@
 		41F86AB61C1FA3DD009DC75C /* UserCenter.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserCenter.xib; sourceTree = "<group>"; };
 		41F86AB81C1FA8FC009DC75C /* UserUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserUtilities.h; sourceTree = "<group>"; };
 		41F86AB91C1FA8FC009DC75C /* UserUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserUtilities.m; sourceTree = "<group>"; };
-		41FE55E31C19B38100BEA091 /* SubThemeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubThemeViewController.h; sourceTree = "<group>"; };
-		41FE55E41C19B38100BEA091 /* SubThemeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubThemeViewController.m; sourceTree = "<group>"; };
-		41FE55E51C19B38100BEA091 /* SubThemeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SubThemeViewController.xib; sourceTree = "<group>"; };
 		5DCAE85174F511042FCAD6F0 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		ABF3A8893432526BB672DC07 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		BC63FE2D2B942D0F858DC8B3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -201,6 +197,7 @@
 				412641F81C0E91A7006C4B31 /* HttpResponseDelegate.h */,
 				41A9B1031C180DE500CF422F /* AttributedStringDelegate.h */,
 				4124410F1C2244F2009A4172 /* ShowUserInfoViewControllerDelegate.h */,
+				41432A7F1C38E53000423DFE /* ThemePopoverControllerDelegate.h */,
 			);
 			name = Protocol;
 			sourceTree = "<group>";
@@ -297,8 +294,8 @@
 				411DEC051C0D3131008B7EB6 /* TopTenViewController.m */,
 				41B02B691C0FED2500E4904B /* ThemeViewController.h */,
 				41B02B6A1C0FED2500E4904B /* ThemeViewController.m */,
-				41FE55E31C19B38100BEA091 /* SubThemeViewController.h */,
-				41FE55E41C19B38100BEA091 /* SubThemeViewController.m */,
+				41432A7A1C38DA3200423DFE /* ThemePopoverController.h */,
+				41432A7B1C38DA3200423DFE /* ThemePopoverController.m */,
 				4108AFF81C0D8FBB00CDC292 /* TopSectionViewController.h */,
 				4108AFF91C0D8FBB00CDC292 /* TopSectionViewController.m */,
 				419411D91C1C0C93002E59AC /* SectionViewController.h */,
@@ -328,7 +325,7 @@
 				41B02B701C10221500E4904B /* ArticleDetailInfoCell.xib */,
 				41B02B751C1033A400E4904B /* ArticleDetailInfoCell.h */,
 				41B02B761C1033A400E4904B /* ArticleDetailInfoCell.m */,
-				41FE55E51C19B38100BEA091 /* SubThemeViewController.xib */,
+				41432A7C1C38DA3200423DFE /* ThemePopoverController.xib */,
 				419411D61C1BFD03002E59AC /* SectionAndBoardInfoCell.h */,
 				419411D71C1BFD03002E59AC /* SectionAndBoardInfoCell.m */,
 				419411DF1C1C372C002E59AC /* CollectionViewHeader.h */,
@@ -336,9 +333,6 @@
 				41404F701C1D207900A45B13 /* BoardArticleInfoCell.xib */,
 				41404F6E1C1D207900A45B13 /* BoardArticleInfoCell.h */,
 				41404F6F1C1D207900A45B13 /* BoardArticleInfoCell.m */,
-				4107B3D81C2980FA00B943BF /* TestViewController.h */,
-				4107B3D91C2980FA00B943BF /* TestViewController.m */,
-				4107B3DA1C2980FA00B943BF /* TestViewController.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -446,12 +440,11 @@
 				41B018581C23D06400AA8F88 /* LaunchView.xib in Resources */,
 				411DD2691C0D8CA600002CD3 /* UserMainInterface.storyboard in Resources */,
 				41E4CEA51C04588C004DD407 /* SecondLoginView.xib in Resources */,
-				41FE55E71C19B38100BEA091 /* SubThemeViewController.xib in Resources */,
 				41404F721C1D207900A45B13 /* BoardArticleInfoCell.xib in Resources */,
 				41F86AB71C1FA3DD009DC75C /* UserCenter.xib in Resources */,
 				410B20221C1524A3004C0CBE /* Assets.xcassets in Resources */,
 				41B684BE1C2001BB0088395D /* ShowUserInfo.xib in Resources */,
-				4107B3DC1C2980FA00B943BF /* TestViewController.xib in Resources */,
+				41432A7E1C38DA3200423DFE /* ThemePopoverController.xib in Resources */,
 				41B57D481C314AFB00B9A01B /* ArticleRoughInfoCell.xib in Resources */,
 				41B02B711C10221500E4904B /* ArticleDetailInfoCell.xib in Resources */,
 			);
@@ -517,10 +510,10 @@
 				41404F711C1D207900A45B13 /* BoardArticleInfoCell.m in Sources */,
 				41185B8C1BFAC71A00695E9C /* SecondLoginViewController.m in Sources */,
 				41B02B6C1C0FED2500E4904B /* ThemeViewController.m in Sources */,
+				41432A7D1C38DA3200423DFE /* ThemePopoverController.m in Sources */,
 				41434F301BE8D5AA00FF01D9 /* AppDelegate.m in Sources */,
 				41D801DD1C14277B00845782 /* AttachmentFile.m in Sources */,
 				4108AFFD1C0D8FEF00CDC292 /* RecommedArticalViewController.m in Sources */,
-				41FE55E61C19B38100BEA091 /* SubThemeViewController.m in Sources */,
 				41A86EE21C05B5C7005A724D /* BBSConstants.m in Sources */,
 				41404F6D1C1D16E700A45B13 /* BoardUtilities.m in Sources */,
 				419411E11C1C372C002E59AC /* CollectionViewHeader.m in Sources */,
@@ -540,7 +533,6 @@
 				415AE0951C0AF5F700B1F137 /* UserCenterViewController.m in Sources */,
 				419411DE1C1C1573002E59AC /* BoardInfo.m in Sources */,
 				41B02B771C1033A400E4904B /* ArticleDetailInfoCell.m in Sources */,
-				4107B3DB1C2980FA00B943BF /* TestViewController.m in Sources */,
 				41404F6A1C1D142100A45B13 /* BoardViewController.m in Sources */,
 				419411D81C1BFD03002E59AC /* SectionAndBoardInfoCell.m in Sources */,
 				41434F2D1BE8D5AA00FF01D9 /* main.m in Sources */,

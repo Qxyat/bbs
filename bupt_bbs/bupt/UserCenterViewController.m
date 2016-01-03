@@ -14,7 +14,7 @@
 #import <UIImageView+WebCache.h>
 #import "ShowUserInfoViewController.h"
 #import <SDWebImageDownloader.h>
-
+#import "ScreenAdaptionUtilities.h"
 @interface UserCenterViewController ()
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIImageView *faceImageView;
@@ -28,12 +28,12 @@
 
 @implementation UserCenterViewController
 
-+(UserCenterViewController*)getInstance{
++(instancetype)getInstance{
     return [[UserCenterViewController alloc]initWithNibName:@"UserCenter" bundle:nil];
 }
 -(void)loadView{
     [super loadView];
-    self.view.frame=[UIScreen mainScreen].bounds;
+    self.view.frame=kCustomScreenBounds;
     [self.view layoutIfNeeded];
 }
 - (void)viewDidLoad {

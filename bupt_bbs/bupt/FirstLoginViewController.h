@@ -12,6 +12,6 @@
 
 @interface FirstLoginViewController : UIViewController<UITextFieldDelegate,LoginHttpResponseDelegate>
 
-+(FirstLoginViewController*)getInstance:(BOOL)showCancleButton;
++(instancetype)getInstance:(BOOL)showCancleButton;
 
 @end

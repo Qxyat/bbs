@@ -11,7 +11,7 @@
 
 @interface LaunchViewController : UIViewController<UserHttpResponseDelegate>
 
-+(LaunchViewController*)getInstanceWithUserId:(NSString*)userid
++(instancetype)getInstanceWithUserId:(NSString*)userid
                                       FaceUrl:(NSString*)faceUrl
                          WhetherUserFirstLoad:(BOOL)firstLoad;
 

@@ -31,7 +31,7 @@
 
 @implementation FirstLoginViewController
 
-+(FirstLoginViewController*)getInstance:(BOOL)showCancleButton{
++(instancetype)getInstance:(BOOL)showCancleButton{
     FirstLoginViewController *controller=[[FirstLoginViewController alloc]initWithNibName:@"FirstLoginView" bundle:nil];
     controller.showCancleButton=showCancleButton;
     return controller;

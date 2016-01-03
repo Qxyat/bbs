@@ -33,7 +33,7 @@
 
 @implementation ShowUserInfoViewController
 
-+(ShowUserInfoViewController *)getInstance:(id<ShowUserInfoViewControllerDelegate>)delegate{
++(instancetype)getInstance:(id<ShowUserInfoViewControllerDelegate>)delegate{
     ShowUserInfoViewController *controller=[[ShowUserInfoViewController alloc]initWithNibName:@"ShowUserInfo" bundle:nil];
     controller.delegate=delegate;
     return controller;

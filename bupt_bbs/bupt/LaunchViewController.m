@@ -30,7 +30,7 @@
 
 @implementation LaunchViewController
 
-+(LaunchViewController*)getInstanceWithUserId:(NSString*)userid
++(instancetype)getInstanceWithUserId:(NSString*)userid
                                       FaceUrl:(NSString*)faceUrl
                          WhetherUserFirstLoad:(BOOL)firstLoad{
     LaunchViewController *controller=[[LaunchViewController alloc]init];

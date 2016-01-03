@@ -11,5 +11,5 @@
 
 @interface UserCenterViewController : UIViewController<ShowUserInfoViewControllerDelegate>
 
-+(UserCenterViewController *)getInstance;
++(instancetype)getInstance;
 @end

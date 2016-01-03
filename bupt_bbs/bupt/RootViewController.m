@@ -10,7 +10,6 @@
 #import "UserCenterViewController.h"
 #import "LoginManager.h"
 #import <UIImageView+WebCache.h>
-#import "TestViewController.h"
 #import "ScreenAdaptionUtilities.h"
 static CGFloat const kProportion=0.77;
 
@@ -26,7 +25,7 @@ static CGFloat const kProportion=0.77;
 @end
 
 @implementation RootViewController
-+(RootViewController*)getInstance{
++(instancetype)getInstance{
     RootViewController *controller=[[RootViewController alloc]init];
     return controller;
 }

@@ -14,7 +14,7 @@
 @property (strong,nonatomic)UserInfo *userInfo;
 @property (strong,nonatomic)id<ShowUserInfoViewControllerDelegate>delegate;
 
-+(ShowUserInfoViewController *)getInstance:(id<ShowUserInfoViewControllerDelegate>)delegate;
++(instancetype)getInstance:(id<ShowUserInfoViewControllerDelegate>)delegate;
 -(void)showUserInfoView;
 -(void)hideUserInfoView;
 

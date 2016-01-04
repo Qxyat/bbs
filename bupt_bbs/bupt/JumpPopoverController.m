@@ -88,7 +88,8 @@
 -(void)keyboardWillShow:(NSNotification*)notification{
     NSDictionary *dic=[notification userInfo];
     CGRect keyboardRect=[[dic valueForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-   
+    if(keyboardRect.size.height==0)
+        return;
     NSNumber *duration=[dic valueForKey:UIKeyboardAnimationDurationUserInfoKey];
     NSNumber *curve=[dic objectForKey:UIKeyboardAnimationCurveUserInfoKey];
     [UIView animateWithDuration:[duration doubleValue] animations:^{

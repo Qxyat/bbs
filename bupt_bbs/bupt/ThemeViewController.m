@@ -124,7 +124,7 @@ static const int kNumOfPageToCache=5;
     return  NO;
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
-    _page_cur_count=_pageRange.location+indexPath.row/_item_page_count;
+    _page_cur_count=(int)(_pageRange.location+indexPath.row/_item_page_count);
 }
 #pragma mark - 根据刷新方式刷新页面的内容
 -(void)pullDownToRefresh{

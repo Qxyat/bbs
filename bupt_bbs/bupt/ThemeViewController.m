@@ -66,8 +66,8 @@ static const int kNumOfPageToCache=5;
     
     _pageRange.location=0;
     _pageRange.length=0;
-    self.page_all_count=1;
-    self.page_cur_count=1;
+    self.page_all_count=0;
+    self.page_cur_count=0;
     self.item_page_count=10;
     
     _data=[[NSMutableArray alloc]init];
@@ -75,8 +75,7 @@ static const int kNumOfPageToCache=5;
     
     self.tableView.mj_header=[MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(pullDownToRefresh)];
     self.tableView.mj_footer=[MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(pullUpToRefresh)];
-    [self.tableView.mj_footer beginRefreshing];
-    
+    [self jumpToRefresh:1];
     self.tableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
 }
 
@@ -140,10 +139,8 @@ static const int kNumOfPageToCache=5;
 -(void)pullUpToRefresh{
     self.refreshMode=RefreshModePullUp;
     NSUInteger nextPage;
-    if(_pageRange.location==0&&_pageRange.length==0)
-        nextPage=1;
-    else
-        nextPage=self.pageRange.location+self.pageRange.length;
+    
+    nextPage=self.pageRange.location+self.pageRange.length;
     if(nextPage<=self.page_all_count){
         [ThemeUtilities getThemeWithBoardName:self.board_name groupId:self.group_id pageIndex:(int)nextPage countOfOnePage:self.item_page_count delegate:self];
     }
@@ -165,12 +162,8 @@ static const int kNumOfPageToCache=5;
     else if(self.refreshMode==RefreshModePullUp){
         [_attributedStringArray insertObjects:array atIndex:_attributedStringArray.count];
         [self.tableView.mj_footer endRefreshing];
-        if(_pageRange.location==0&&_pageRange.length==0){
-            _pageRange.location=1;
-            _pageRange.length=1;
-        }
-        else
-            _pageRange.length++;
+       
+        _pageRange.length++;
         [self.tableView reloadData];
     }
     else if(self.refreshMode==RefreshModeJump){

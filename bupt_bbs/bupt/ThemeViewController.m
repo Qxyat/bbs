@@ -54,6 +54,8 @@ static const int kNumOfPageToCache=5;
     self.navigationItem.titleView=self.titleLabel;
     
     self.themePopoverController=nil;
+    self.jumpPopoverController=nil;
+    
     UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kCustomNavigationBarHeight-8, kCustomNavigationBarHeight-8)];
     imageView.contentMode=UIViewContentModeScaleAspectFit;
     imageView.image=[UIImage imageNamed:@"more"];
@@ -94,7 +96,7 @@ static const int kNumOfPageToCache=5;
     return 1;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _data.count;
+    return _attributedStringArray.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ArticleDetailInfoCell *cell=[tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
@@ -121,6 +123,9 @@ static const int kNumOfPageToCache=5;
 }
 -(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath{
     return  NO;
+}
+-(void)tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
+    _page_cur_count=_pageRange.location+indexPath.row/_item_page_count;
 }
 #pragma mark - 根据刷新方式刷新页面的内容
 -(void)pullDownToRefresh{

@@ -28,6 +28,11 @@
     [super loadView];
     CGFloat y=self.navigationBarHeight+kCustomStatusBarHeight;
     self.view.frame=CGRectMake(0, y,kCustomScreenWidth, kCustomScreenHeight-y);
+    [self.view layoutIfNeeded];
+}
+-(void)viewDidLoad{
+    [super viewDidLoad];
+    
     [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self.view.mas_leading);
         make.trailing.equalTo(self.view.mas_trailing);
@@ -67,9 +72,7 @@
         make.width.equalTo(self.containerView.mas_width).multipliedBy(0.3);
     }];
     [self.view layoutIfNeeded];
-}
--(void)viewDidLoad{
-    [super viewDidLoad];
+    
     
     UITapGestureRecognizer *recognizer1=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideJumpPopoverController)];
     [self.noImageView addGestureRecognizer:recognizer1];
@@ -88,8 +91,8 @@
 -(void)keyboardWillShow:(NSNotification*)notification{
     NSDictionary *dic=[notification userInfo];
     CGRect keyboardRect=[[dic valueForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    if(keyboardRect.size.height==0)
-        return;
+
+    
     NSNumber *duration=[dic valueForKey:UIKeyboardAnimationDurationUserInfoKey];
     NSNumber *curve=[dic objectForKey:UIKeyboardAnimationCurveUserInfoKey];
     [UIView animateWithDuration:[duration doubleValue] animations:^{

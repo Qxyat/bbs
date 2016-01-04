@@ -15,5 +15,4 @@
     UIEdgeInsets edge=UIEdgeInsetsMake(0, margin, 0, margin);
     [self setSeparatorInset:edge];
 }
-
 @end

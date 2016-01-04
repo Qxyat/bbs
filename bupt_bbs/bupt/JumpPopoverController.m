@@ -9,11 +9,14 @@
 #import "JumpPopoverController.h"
 #import "ScreenAdaptionUtilities.h"
 #import <SVProgressHUD.h>
+#import <Masonry.h>
 @interface JumpPopoverController ()
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 @property (weak, nonatomic) IBOutlet UILabel *infoLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *noImageView;
+@property (weak, nonatomic) IBOutlet UILabel *firstLabel;
+@property (weak, nonatomic) IBOutlet UILabel *secondLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *yesImageView;
 
 @end
@@ -25,6 +28,44 @@
     [super loadView];
     CGFloat y=self.navigationBarHeight+kCustomStatusBarHeight;
     self.view.frame=CGRectMake(0, y,kCustomScreenWidth, kCustomScreenHeight-y);
+    [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.equalTo(self.view.mas_leading);
+        make.trailing.equalTo(self.view.mas_trailing);
+        make.height.equalTo(self.view.mas_height).multipliedBy(0.08);
+        make.top.equalTo(self.view.mas_bottom);
+    }];
+    [self.noImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.equalTo(self.containerView.mas_trailing).multipliedBy(0.1);
+        make.centerY.equalTo(self.containerView.mas_centerY).multipliedBy(0.5);
+        make.height.equalTo(self.containerView.mas_height).multipliedBy(0.5);
+        make.width.equalTo(self.containerView.mas_width).multipliedBy(0.1);
+    }];
+    [self.firstLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.equalTo(self.containerView.mas_trailing).multipliedBy(0.3);
+        make.bottom.equalTo(self.containerView.mas_centerY);
+        make.width.equalTo(self.containerView.mas_width).multipliedBy(0.05);
+    }];
+    [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.baseline.equalTo(self.firstLabel.mas_baseline);
+        make.centerX.equalTo(self.containerView.mas_centerX);
+        make.width.equalTo(self.containerView.mas_width).multipliedBy(0.3);
+    }];
+    [self.secondLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.equalTo(self.containerView.mas_width).multipliedBy(0.05);
+        make.baseline.equalTo(self.firstLabel.mas_baseline);
+        make.leading.equalTo(self.containerView.mas_trailing).multipliedBy(0.65);
+    }];
+    [self.yesImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.equalTo(self.containerView.mas_trailing).multipliedBy(0.8);
+        make.height.equalTo(self.noImageView.mas_height);
+        make.centerY.equalTo(self.noImageView.mas_centerY);
+        make.width.equalTo(self.noImageView.mas_width);
+    }];
+    [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.containerView.mas_centerX);
+        make.bottom.equalTo(self.containerView.mas_bottom);
+        make.width.equalTo(self.containerView.mas_width).multipliedBy(0.3);
+    }];
     [self.view layoutIfNeeded];
 }
 -(void)viewDidLoad{
@@ -38,6 +79,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
     self.infoLabel.text=[NSString stringWithFormat:@"当前%d/%d页",self.page_cur_count,self.page_all_count];
     [self.textField becomeFirstResponder];
     
@@ -46,30 +88,41 @@
 -(void)keyboardWillShow:(NSNotification*)notification{
     NSDictionary *dic=[notification userInfo];
     CGRect keyboardRect=[[dic valueForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    CGFloat keyboardEndy=keyboardRect.origin.y;
+   
     NSNumber *duration=[dic valueForKey:UIKeyboardAnimationDurationUserInfoKey];
     NSNumber *curve=[dic objectForKey:UIKeyboardAnimationCurveUserInfoKey];
     [UIView animateWithDuration:[duration doubleValue] animations:^{
         [UIView setAnimationBeginsFromCurrentState:YES];
         [UIView setAnimationCurve:[curve intValue]];
-        CGFloat centerY=keyboardEndy-self.navigationBarHeight-[UIApplication sharedApplication].statusBarFrame.size.height-self.containerView.frame.size.height/2;
-        self.containerView.center=CGPointMake(self.containerView.center.x,centerY) ;
+        CGFloat bottomY=self.view.frame.size.height-keyboardRect.size.height;
+        [self.containerView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.leading.equalTo(self.view.mas_leading);
+            make.trailing.equalTo(self.view.mas_trailing);
+            make.height.equalTo(self.view.mas_height).multipliedBy(0.08);
+            make.bottom.equalTo(self.view.mas_top).with.offset(bottomY);
+        }];
     }];
+    [self.view layoutIfNeeded];
 }
+
 -(void)keyboardWillHide:(NSNotification*)notification{
     NSDictionary *dic=[notification userInfo];
-    CGRect keyboardRect=[[dic valueForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    CGFloat keyboardEndy=keyboardRect.origin.y;
     NSNumber *duration=[dic valueForKey:UIKeyboardAnimationDurationUserInfoKey];
     NSNumber *curve=[dic valueForKey:UIKeyboardAnimationCurveUserInfoKey];
     [UIView animateWithDuration:[duration doubleValue] animations:^{
         [UIView setAnimationBeginsFromCurrentState:YES];
         [UIView setAnimationCurve:[curve intValue]];
-        CGFloat centerY=keyboardEndy-self.navigationBarHeight-[UIApplication sharedApplication].statusBarFrame.size.height+self.containerView.frame.size.height/2;
-        self.containerView.center=CGPointMake(self.containerView.center.x, centerY);
+        [self.containerView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.leading.equalTo(self.view.mas_leading);
+            make.trailing.equalTo(self.view.mas_trailing);
+            make.height.equalTo(self.view.mas_height).multipliedBy(0.08);
+            make.top.equalTo(self.view.mas_bottom);
+        }];
+
     } completion:^(BOOL finished) {
         [self.view removeFromSuperview];
     }];
+    [self.view layoutIfNeeded];
 }
 -(void)hideJumpPopoverController{
     [self.delegate hideJumpPopoverController];

@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "HttpResponseDelegate.h"
-#import "AttributedStringDelegate.h"
 #import "ThemePopoverControllerDelegate.h"
 #import "JumpPopoverControllerDelegate.h"
-@interface ThemeViewController : UITableViewController<HttpResponseDelegate,AttributedStringDelegate,ThemePopoverControllerDelegate,JumpPopoverControllerDelegate>
+#import "RefreshTableViewDelegate.h"
+@interface ThemeViewController : UITableViewController<HttpResponseDelegate,ThemePopoverControllerDelegate,JumpPopoverControllerDelegate,RefreshTableViewDelegate>
 
 @property (nonatomic) int group_id;
 @property (strong,nonatomic) NSString *board_name;

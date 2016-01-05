@@ -36,6 +36,11 @@
 @property(strong,nonatomic) NSString*last_reply_user_id;
 @property(nonatomic) int last_reply_time;
 
+//用来保存一篇文章里面的图片信息
+@property(strong,nonatomic)NSMutableArray *pictures;
+@property(strong,nonatomic)NSAttributedString *contentAttributesString;
+@property(strong,nonatomic)NSValue *contentSize;
+
 +(NSArray*)getArticlesInfo:(id)item;
 +(ArticleInfo *)getArticleInfo:(id)item;
 @end

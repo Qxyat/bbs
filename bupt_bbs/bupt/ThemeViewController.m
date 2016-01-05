@@ -11,17 +11,15 @@
 #import "ArticleInfo.h"
 #import "ArticleDetailInfoCell.h"
 #import "UserInfo.h"
-#import "CustomUtilities.h"
-#import <UIImageView+WebCache.h>
-#import "AttributedStringUtilities.h"
 #import <MJRefresh.h>
 #import <SVProgressHUD.h>
 #import "ScreenAdaptionUtilities.h"
 #import "ThemePopoverController.h"
 #import "JumpPopoverController.h"
+#import "ArticlePreProcessingUtilities.h"
+#import "CustomUtilities.h"
 
 static NSString * const kCellIdentifier=@"articledetailinfo";
-static CGFloat const kContentFontSize=15;
 static const int kNumOfPageToCache=5;
 
 #define RefreshModePullUp 0
@@ -31,7 +29,6 @@ static const int kNumOfPageToCache=5;
 @interface ThemeViewController ()
 
 @property (copy,nonatomic)NSMutableArray*  data;
-@property (copy,nonatomic)NSMutableArray*  attributedStringArray;
 @property (nonatomic)     int              page_all_count;
 @property (nonatomic)     NSRange          pageRange;
 @property (nonatomic)     int              page_cur_count;
@@ -71,7 +68,6 @@ static const int kNumOfPageToCache=5;
     self.item_page_count=10;
     
     _data=[[NSMutableArray alloc]init];
-    _attributedStringArray=[[NSMutableArray alloc]init];
     
     self.tableView.mj_header=[MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(pullDownToRefresh)];
     self.tableView.mj_footer=[MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(pullUpToRefresh)];
@@ -95,29 +91,20 @@ static const int kNumOfPageToCache=5;
     return 1;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _attributedStringArray.count;
+    return _data.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ArticleDetailInfoCell *cell=[tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
     ArticleInfo *articleInfo=_data[indexPath.row];
     cell.articleInfo=articleInfo;
-    [cell.faceImageView sd_setImageWithURL:[NSURL URLWithString:articleInfo.user.face_url] placeholderImage:[UIImage imageNamed:@"face_default.png"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        [cell refreshCustomLayout];
-    }];
-    cell.floorLabel.text=[CustomUtilities getFloorString:articleInfo.position];
-    cell.timeLabel.text=[CustomUtilities getPostTimeString:articleInfo.post_time];
-    cell.nameLabel.text=articleInfo.user.userId;
-    cell.contentLabel.attributedText=[AttributedStringUtilities getAttributedStringWithString:articleInfo.content StringColor:[UIColor blackColor] StringSize:kContentFontSize Attachments:articleInfo.attachment];
-    cell.contentLabel.numberOfLines=0;
-    CGRect contentLabelNewFrame=cell.contentLabel.frame;
-    contentLabelNewFrame.size=[_attributedStringArray[indexPath.row][@"Size"] CGSizeValue];
-    cell.contentLabel.frame=contentLabelNewFrame;
+    cell.delegate=self;
     return cell;
 }
 
 #pragma mark - UITableView Delegate
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    CGSize size=[_attributedStringArray[indexPath.row][@"Size"] CGSizeValue];
+    ArticleInfo *articleInfo=_data[indexPath.row];
+    CGSize size=[articleInfo.contentSize CGSizeValue];
     return 3*kMargin+kFaceImageViewHeight+size.height+1;
 }
 -(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -149,59 +136,8 @@ static const int kNumOfPageToCache=5;
     }
 }
 
-#pragma mark - 实现AttributedStringDelegate协议
--(void)handleAttribuedStringResponse:(NSArray *)array{
-    if(self.refreshMode==RefreshModePullDown){
-        [_attributedStringArray insertObjects:array atIndex:0];
-        [self.tableView.mj_header endRefreshing];
-        _pageRange.location--;
-        _pageRange.length++;
-        [self.tableView reloadData];
-        [self.tableView scrollToRow:_item_page_count inSection:0 atScrollPosition:UITableViewScrollPositionTop animated:NO];
-    }
-    else if(self.refreshMode==RefreshModePullUp){
-        [_attributedStringArray insertObjects:array atIndex:_attributedStringArray.count];
-        [self.tableView.mj_footer endRefreshing];
-       
-        _pageRange.length++;
-        [self.tableView reloadData];
-    }
-    else if(self.refreshMode==RefreshModeJump){
-        [_attributedStringArray removeAllObjects];
-        [_attributedStringArray addObjectsFromArray:array];
-        _pageRange.location=self.page_cur_count;
-        _pageRange.length=1;
-        [self.tableView reloadData];
-        [self.tableView scrollToRow:0 inSection:0 atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    }
-    //出于防止内存溢出的BUG，使得data和attributedStringArray里面保存的数据不要超过kNumOfPageToCache页,并且需要考虑页面连续
-    if(_pageRange.length>kNumOfPageToCache){
-        if(self.refreshMode==RefreshModePullDown){
-            NSRange range=NSMakeRange(kNumOfPageToCache*_item_page_count, _data.count%_item_page_count==0?_item_page_count:_data.count%_item_page_count);
-            [_data removeObjectsInRange:range];
-            [_attributedStringArray removeObjectsInRange:range];
-            [self.tableView reloadData];
-            _pageRange.length--;
-            [self.tableView scrollToRow:_item_page_count inSection:0 atScrollPosition:UITableViewScrollPositionTop animated:NO];
-        }
-        else{
-            NSRange range=NSMakeRange(0, _item_page_count);
-            [_data removeObjectsInRange:range];
-            [_attributedStringArray removeObjectsInRange:range];
-            [self.tableView reloadData];
-            _pageRange.location++;
-            _pageRange.length--;
-            [self.tableView scrollToRow:(kNumOfPageToCache-1)*_item_page_count-1 inSection:0 atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-        }
-    }
-}
-
-
 #pragma mark - 实现HttpResponseDelegate协议
 -(void)handleHttpSuccessResponse:(id)response{
-    if(self.refreshMode==RefreshModeJump){
-        [SVProgressHUD dismiss];
-    }
     NSDictionary *dic=(NSDictionary*)response;
     
     self.titleLabel.text=response[@"title"];
@@ -218,7 +154,46 @@ static const int kNumOfPageToCache=5;
         [_data removeAllObjects];
         [_data addObjectsFromArray:tmp];
     }
-    [AttributedStringUtilities getAttributedStringsWithArray:tmp StringColor:[UIColor blackColor] StringSize:kContentFontSize BoundSize:CGSizeMake(kCustomScreenWidth-2*kMargin, 10000) Delegate:self];
+    [ArticlePreProcessingUtilities onePageArticlesPreProcess:tmp];
+    
+    if(self.refreshMode==RefreshModePullDown){
+        [self.tableView.mj_header endRefreshing];
+        _pageRange.location--;
+        _pageRange.length++;
+        [self.tableView reloadData];
+        [self.tableView scrollToRow:_item_page_count inSection:0 atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    }
+    else if(self.refreshMode==RefreshModePullUp){
+        [self.tableView.mj_footer endRefreshing];
+        
+        _pageRange.length++;
+        [self.tableView reloadData];
+    }
+    else if(self.refreshMode==RefreshModeJump){
+        [SVProgressHUD dismiss];
+        _pageRange.location=self.page_cur_count;
+        _pageRange.length=1;
+        [self.tableView reloadData];
+        [self.tableView scrollToRow:0 inSection:0 atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
+    //出于防止内存溢出的BUG，使得data和attributedStringArray里面保存的数据不要超过kNumOfPageToCache页,并且需要考虑页面连续
+    if(_pageRange.length>kNumOfPageToCache){
+        if(self.refreshMode==RefreshModePullDown){
+            NSRange range=NSMakeRange(kNumOfPageToCache*_item_page_count, _data.count%_item_page_count==0?_item_page_count:_data.count%_item_page_count);
+            [_data removeObjectsInRange:range];
+            [self.tableView reloadData];
+            _pageRange.length--;
+            [self.tableView scrollToRow:_item_page_count inSection:0 atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        }
+        else{
+            NSRange range=NSMakeRange(0, _item_page_count);
+            [_data removeObjectsInRange:range];
+            [self.tableView reloadData];
+            _pageRange.location++;
+            _pageRange.length--;
+            [self.tableView scrollToRow:(kNumOfPageToCache-1)*_item_page_count-1 inSection:0 atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+        }
+    }
 }
 -(void)handleHttpErrorResponse:(id)response{
     NSError *error=(NSError *)response;
@@ -289,5 +264,10 @@ static const int kNumOfPageToCache=5;
     self.refreshMode=RefreshModeJump;
     [SVProgressHUD showWithStatus:@"页面加载中"];
     [ThemeUtilities getThemeWithBoardName:self.board_name groupId:self.group_id pageIndex:(int)nextPage countOfOnePage:self.item_page_count delegate:self];
+}
+
+#pragma mark - 实现RefreshTableViewDelegate协议
+-(void)refreshTableView{
+    [self.tableView reloadData];
 }
 @end

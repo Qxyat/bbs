@@ -10,7 +10,7 @@
 #import <YYKit.h>
 #import "ArticleInfo.h"
 #import "ShowUserInfoViewControllerDelegate.h"
-
+#import "RefreshTableViewDelegate.h"
 extern CGFloat const kMargin;
 extern CGFloat const kMaxRatio;
 extern CGFloat const kFaceImageViewHeight;
@@ -24,5 +24,6 @@ extern CGFloat const kFaceImageViewHeight;
 @property (weak, nonatomic) IBOutlet YYLabel *contentLabel;
 @property (weak, nonatomic) ArticleInfo *articleInfo;
 @property (weak, nonatomic) IBOutlet UIView *labelContainer;
+@property (weak, nonatomic) id<RefreshTableViewDelegate> delegate;
 -(void)refreshCustomLayout;
 @end

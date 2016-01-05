@@ -6,7 +6,7 @@
 //  Copyright © 2015年 qiu. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSInteger,NetworkErrorCode){
     NetworkConnectUnknownReason,
@@ -31,6 +31,12 @@ typedef NS_ENUM(NSInteger,NetworkErrorCode){
 #pragma mark - 获取显示用户在线状态的字符串
 +(NSString*) getUserLoginStateString:(BOOL)isOnline;
 
+#pragma mark - 判断一个名字是否代表图片
++(bool)isPicture:(NSString *)string;
+
 #pragma mark - 获取网络请求错误代码
 +(NSInteger) getNetworkErrorCode:(NSError*)error;
+
+#pragma mark - 根据颜色代码获得颜色
++(UIColor*) getColor:(NSString *) hexColor;
 @end

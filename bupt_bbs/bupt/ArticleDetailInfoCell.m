@@ -5,14 +5,23 @@
 //  Created by 邱鑫玥 on 15/12/3.
 //  Copyright © 2015年 qiu. All rights reserved.
 //
+#import <UIImageView+WebCache.h>
+#import <SDImageCache.h>
+#import <SDWebImageDownloader.h>
 
 #import "ArticleDetailInfoCell.h"
 #import "ShowUserInfoViewController.h"
 #import "ScreenAdaptionUtilities.h"
+#import "CustomUtilities.h"
+#import "CaluateAttributedStringSizeUtilities.h"
+#import "AttachmentInfo.h"
+#import "AttachmentFile.h"
+#import "DownloadResourcesUtilities.h"
 
 CGFloat const kMargin=4;
 CGFloat const kMaxRatio=1.6;
 CGFloat const kFaceImageViewHeight=30;
+static CGFloat const kContentFontSize=15;
 
 @interface ArticleDetailInfoCell()
 
@@ -75,5 +84,206 @@ CGFloat const kFaceImageViewHeight=30;
         [self.showUserInfoViewController hideUserInfoView];
         self.showUserInfoViewController=nil;
     }
+}
+#pragma mark - 填写cell内容
+-(void)setArticleInfo:(ArticleInfo *)articleInfo{
+    _articleInfo=articleInfo;
+    __weak typeof (self) target=self;
+    [self.faceImageView sd_setImageWithURL:[NSURL URLWithString:articleInfo.user.face_url] placeholderImage:[UIImage imageNamed:@"face_default.png"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        [target refreshCustomLayout];
+    }];
+    self.floorLabel.text=[CustomUtilities getFloorString:articleInfo.position];
+    self.timeLabel.text=[CustomUtilities getPostTimeString:articleInfo.post_time];
+    self.nameLabel.text=articleInfo.user.userId;
+    
+    CGSize boundSize=CGSizeMake(kCustomScreenWidth-2*kMargin, 10000);
+    self.articleInfo.contentAttributesString=[self getAttributedStringWithArticle:self.articleInfo fontColor:[UIColor blackColor] fontSize:kContentFontSize];
+    CGSize contentSize=sizeThatFitsAttributedString(self.articleInfo.contentAttributesString, boundSize, 0);
+    self.articleInfo.contentSize=[NSValue valueWithCGSize:contentSize];
+    
+    self.contentLabel.attributedText=articleInfo.contentAttributesString;
+    self.contentLabel.numberOfLines=0;
+    CGRect contentLabelNewFrame=self.contentLabel.frame;
+    contentLabelNewFrame.size=[articleInfo.contentSize CGSizeValue];
+    self.contentLabel.frame=contentLabelNewFrame;
+}
+#pragma mark - 根据表情代码获取表情对应的Attributed String
+-(NSAttributedString*)getEmoji:(NSString*)string
+                  withFontSize:(CGFloat)fontSize
+{
+    UIFont* font=[UIFont systemFontOfSize:fontSize];
+    CGFloat imageWidth=font.ascender-font.descender+10;
+    NSRange range =[string rangeOfString:@"^[a-zA-z]+" options:NSRegularExpressionSearch];
+    NSString* url=[NSString stringWithFormat:@"%@/%@/%@.gif",@"http://bbs.byr.cn/img/ubb",[string substringWithRange:range],[string substringFromIndex:range.location+range.length]];
+    
+    UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, imageWidth, imageWidth)];
+    UIImage *cachedImage=[[SDImageCache sharedImageCache]imageFromDiskCacheForKey:url];
+    if(cachedImage){
+        NSLog(@"表情图片命中");
+        imageView.image=cachedImage;
+    }
+    else
+        [imageView sd_setImageWithURL:[NSURL URLWithString:url]];
+    
+    //使用YYKit提供的方法，后期争取能替换成自己的
+    NSMutableAttributedString* attachText = [NSMutableAttributedString attachmentStringWithContent:imageView contentMode:UIViewContentModeCenter attachmentSize:imageView.size alignToFont:font alignment:YYTextVerticalAlignmentCenter];
+    
+    return attachText;
+}
+
+#pragma mark - 根据图片在附件中的位置获得对应的Attributed String
+-(NSAttributedString*)
+    getPictureInAttachment:(AttachmentInfo*)attachmentInfo
+              withPosition:(NSUInteger)pos
+    withAttachmentUsedInfo:(NSMutableArray *)used{
+    NSMutableAttributedString *res=[[NSMutableAttributedString alloc]init];
+    if(used!=nil&&pos<=attachmentInfo.file.count){
+        AttachmentFile *file=attachmentInfo.file[pos-1];
+        if(used[pos-1]==[NSNumber numberWithBool:NO]&&[CustomUtilities isPicture:file.name]){
+            used[pos-1]=[NSNumber numberWithInt:YES];
+            
+            UIImage *cachedImage=[[SDImageCache sharedImageCache]imageFromDiskCacheForKey:file.thumbnail_middle];
+            if(cachedImage){
+                NSLog(@"附件图片命中");
+                CGFloat width=cachedImage.size.width;
+                CGFloat height=cachedImage.size.height;
+                if(width>kCustomScreenWidth-2*kMargin){
+                    width=kCustomScreenWidth-2*kMargin;
+                    height=(height/width)*(kCustomScreenWidth-2*kMargin);
+                }
+                UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
+                imageView.image=cachedImage;
+                //使用YYKit提供的方法，后期争取能替换成自己的
+                NSMutableAttributedString* attachText = [NSMutableAttributedString attachmentStringWithContent:imageView contentMode:UIViewContentModeCenter attachmentSize:imageView.size alignToFont:[UIFont systemFontOfSize:kContentFontSize] alignment:YYTextVerticalAlignmentCenter];
+                [res appendAttributedString:attachText];
+                [res appendAttributedString:[[NSAttributedString alloc]initWithString:@"\n\n"]];
+            }
+            else{
+                [DownloadResourcesUtilities downloadPicture:file.thumbnail_middle FromBBS:YES Completed:^{
+                    [self.delegate refreshTableView];
+                }];
+            }
+            
+        }
+    }
+    
+    return res;
+}
+
+#pragma mark - 通过递归的方式获取对应的attributedstring
+-(NSMutableAttributedString*)
+getAttributedStringByRecursiveWithString:(NSString*)string
+                               fontColor:(UIColor*)color
+                                fontSize:(CGFloat) size
+                      withAttachmentInfo:(AttachmentInfo*)
+                                          attachmentInfo
+                  withAttachmentUsedInfo:(NSMutableArray*)used
+{
+    NSMutableAttributedString *result=[[NSMutableAttributedString alloc]init];
+    NSDictionary *attributes=@{NSForegroundColorAttributeName:color,
+                               NSFontAttributeName:[UIFont systemFontOfSize:size]};
+    NSScanner *scanner=[[NSScanner alloc]initWithString:string];
+    scanner.charactersToBeSkipped=nil;
+    NSString *tmp;
+    NSRange range;
+    range.location=0;
+    range.length=0;
+    while(![scanner isAtEnd]){
+        if([scanner scanString:@"[color=#" intoString:nil]){
+            [result appendAttributedString:[[NSAttributedString alloc]initWithString:[string substringWithRange:range] attributes:attributes]];
+            [scanner scanUpToString:@"]" intoString:&tmp];
+            UIColor *newColor=[CustomUtilities getColor:tmp];
+            [scanner scanString:@"]" intoString:nil];
+            [scanner scanUpToString:@"[/color]" intoString:&tmp];
+            [result appendAttributedString:[self getAttributedStringByRecursiveWithString:tmp fontColor:newColor fontSize:size withAttachmentInfo:attachmentInfo withAttachmentUsedInfo:used]];
+            [scanner scanString:@"[/color]" intoString:nil];
+            range.location=scanner.scanLocation;
+            range.length=0;
+        }
+        else if([scanner scanString:@"[size=" intoString:nil]){
+            [result appendAttributedString:[[NSAttributedString alloc] initWithString:[string substringWithRange:range] attributes:attributes]];
+            [scanner scanUpToString:@"]" intoString:&tmp];
+            CGFloat newSize=size;
+            [scanner scanString:@"]" intoString:nil];
+            [scanner scanUpToString:@"[/size]" intoString:&tmp];
+            [result appendAttributedString:[self getAttributedStringByRecursiveWithString:tmp fontColor:color fontSize:newSize withAttachmentInfo:attachmentInfo withAttachmentUsedInfo:used]];
+            [scanner scanString:@"[/size]" intoString:nil];
+            range.location=scanner.scanLocation;
+            range.length=0;
+        }
+        else if([scanner scanString:@"[em" intoString:nil]){
+            [result appendAttributedString:[[NSAttributedString alloc]initWithString:[string substringWithRange:range] attributes:attributes]];
+            scanner.scanLocation-=2;
+            [scanner scanUpToString:@"]" intoString:&tmp];
+            [result appendAttributedString:[self getEmoji:tmp withFontSize:kContentFontSize]];
+            [scanner scanString:@"]" intoString:nil];
+            range.location=scanner.scanLocation;
+            range.length=0;
+        }
+        else if([scanner scanString:@"[url=http://" intoString:nil]){
+            [result appendAttributedString:[[NSAttributedString alloc]initWithString:[string substringWithRange:range] attributes:attributes]];
+            scanner.scanLocation-=7;
+            [scanner scanUpToString:@"]" intoString:&tmp];
+            [scanner scanString:@"]" intoString:nil];
+            [scanner scanUpToString:@"[/url]" intoString:&tmp];
+            [result appendAttributedString:[self getAttributedStringByRecursiveWithString:tmp fontColor:color fontSize:size withAttachmentInfo:attachmentInfo withAttachmentUsedInfo:used]];
+            [scanner scanString:@"[/url]" intoString:nil];
+            range.location=scanner.scanLocation;
+            range.length=0;
+        }
+        else if([scanner scanString:@"[upload=" intoString:nil]){
+            [result appendAttributedString:[[NSAttributedString alloc]initWithString:[string substringWithRange:range] attributes:attributes]];
+            int pos=1;
+            [scanner scanInt:&pos];
+            [result appendAttributedString:[self getPictureInAttachment:attachmentInfo withPosition:pos withAttachmentUsedInfo:used]];
+            [scanner scanString:@"][/upload]" intoString:nil];
+            range.location=scanner.scanLocation;
+            range.length=0;
+        }
+        else if([scanner scanString:@"[face=" intoString:nil]){
+            [result appendAttributedString:[[NSAttributedString alloc]initWithString:[string substringWithRange:range] attributes:attributes]];
+            [scanner scanUpToString:@"]" intoString:&tmp];
+            [scanner scanString:@"]" intoString:nil];
+            [scanner scanUpToString:@"[/face]" intoString:&tmp];
+            [result appendAttributedString:[self getAttributedStringByRecursiveWithString:tmp fontColor:color fontSize:size withAttachmentInfo:attachmentInfo withAttachmentUsedInfo:used]];
+            [scanner scanString:@"[/face]" intoString:nil];
+            range.location=scanner.scanLocation;
+            range.length=0;
+        }
+        else{
+            scanner.scanLocation++;
+            range.length++;
+        }
+    }
+    
+    [result appendAttributedString:[[NSAttributedString alloc] initWithString:[string substringWithRange:range] attributes:attributes]];
+    return result;
+}
+
+#pragma mark - 获取一篇文章内容对应的对应的attributedstring
+-(NSMutableAttributedString*)
+getAttributedStringWithArticle:(ArticleInfo*)article
+                     fontColor:(UIColor*)color
+                      fontSize:(CGFloat)size
+
+{
+    NSMutableArray *used=nil;
+    AttachmentInfo *attachmentInfo=article.attachment;
+    if(attachmentInfo!=nil&&attachmentInfo.file!=nil){
+        used=[[NSMutableArray alloc] initWithCapacity:attachmentInfo.file.count];
+        for(int i=0;i<attachmentInfo.file.count;i++){
+            [used addObject:[NSNumber numberWithBool:NO]];
+        }
+    }
+    
+    NSMutableAttributedString*result=[self getAttributedStringByRecursiveWithString:article.content fontColor:color fontSize:size withAttachmentInfo:attachmentInfo withAttachmentUsedInfo:used];
+    
+    if(used!=nil){
+        for(int i=1;i<=attachmentInfo.file.count;i++){
+            [result appendAttributedString:[self getPictureInAttachment:attachmentInfo withPosition:i withAttachmentUsedInfo:used]];
+        }
+        
+    }
+    return result;
 }
 @end

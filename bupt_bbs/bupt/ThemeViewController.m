@@ -18,6 +18,7 @@
 #import "JumpPopoverController.h"
 #import "ArticlePreProcessingUtilities.h"
 #import "CustomUtilities.h"
+#import "PictureInfo.h"
 
 static NSString * const kCellIdentifier=@"articledetailinfo";
 static const int kNumOfPageToCache=5;
@@ -267,7 +268,19 @@ static const int kNumOfPageToCache=5;
 }
 
 #pragma mark - 实现RefreshTableViewDelegate协议
--(void)refreshTableView{
-    [self.tableView reloadData];
+-(void)refreshTableView:(NSString*)url{
+    NSArray *paths=[self.tableView indexPathsForVisibleRows];
+    
+    for(int i=0;i<paths.count;i++){
+        NSIndexPath *indexPath=paths[i];
+        ArticleInfo *articleInfo=self.data[indexPath.row];
+        for(int j=0;j<articleInfo.pictures.count;j++){
+            PictureInfo *picture=articleInfo.pictures[j];
+            if([url isEqualToString:picture.thumbnail_url]){
+                [self.tableView reloadData];
+                return;
+            }
+        }
+    }
 }
 @end

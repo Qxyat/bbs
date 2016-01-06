@@ -21,6 +21,7 @@
 		412641F31C0E86BD006C4B31 /* ArticleInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 412641F21C0E86BD006C4B31 /* ArticleInfo.m */; };
 		412641F61C0E876E006C4B31 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 412641F51C0E876E006C4B31 /* UserInfo.m */; };
 		41295DD51C1E5E260021D689 /* RecommedUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41295DD41C1E5E260021D689 /* RecommedUtilities.m */; };
+		4129D06D1C3CB0D900BCB528 /* PictureInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4129D06C1C3CB0D900BCB528 /* PictureInfo.m */; };
 		41404F6A1C1D142100A45B13 /* BoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41404F691C1D142100A45B13 /* BoardViewController.m */; };
 		41404F6D1C1D16E700A45B13 /* BoardUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41404F6C1C1D16E700A45B13 /* BoardUtilities.m */; };
 		41404F711C1D207900A45B13 /* BoardArticleInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41404F6F1C1D207900A45B13 /* BoardArticleInfoCell.m */; };
@@ -92,6 +93,8 @@
 		412641F81C0E91A7006C4B31 /* HttpResponseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpResponseDelegate.h; sourceTree = "<group>"; };
 		41295DD31C1E5E260021D689 /* RecommedUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommedUtilities.h; sourceTree = "<group>"; };
 		41295DD41C1E5E260021D689 /* RecommedUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommedUtilities.m; sourceTree = "<group>"; };
+		4129D06B1C3CB0D900BCB528 /* PictureInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureInfo.h; sourceTree = "<group>"; };
+		4129D06C1C3CB0D900BCB528 /* PictureInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureInfo.m; sourceTree = "<group>"; };
 		41404F681C1D142100A45B13 /* BoardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardViewController.h; sourceTree = "<group>"; };
 		41404F691C1D142100A45B13 /* BoardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardViewController.m; sourceTree = "<group>"; };
 		41404F6B1C1D16E700A45B13 /* BoardUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardUtilities.h; sourceTree = "<group>"; };
@@ -369,6 +372,8 @@
 				419411D41C1BEF41002E59AC /* SectionInfo.m */,
 				419411DC1C1C1573002E59AC /* BoardInfo.h */,
 				419411DD1C1C1573002E59AC /* BoardInfo.m */,
+				4129D06B1C3CB0D900BCB528 /* PictureInfo.h */,
+				4129D06C1C3CB0D900BCB528 /* PictureInfo.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -557,6 +562,7 @@
 				41F86ABA1C1FA8FC009DC75C /* UserUtilities.m in Sources */,
 				41AF90EB1C0467E2007FFE3C /* LoginManager.m in Sources */,
 				411DEC061C0D3131008B7EB6 /* TopTenViewController.m in Sources */,
+				4129D06D1C3CB0D900BCB528 /* PictureInfo.m in Sources */,
 				4143427D1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.m in Sources */,
 				419411D51C1BEF41002E59AC /* SectionInfo.m in Sources */,
 				41D383C31C3BF2E100255BA9 /* DownloadResourcesUtilities.m in Sources */,

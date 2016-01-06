@@ -13,6 +13,7 @@
 #import "LoginManager.h"
 #import "DownloadResourcesUtilities.h"
 #import "CustomUtilities.h"
+#import "PictureInfo.h"
 
 @implementation ArticlePreProcessingUtilities
 #pragma mark - 预加载一页文章所需要的图片
@@ -32,6 +33,7 @@
     scanner.charactersToBeSkipped=nil;
     NSString *tmp;
   
+    articleInfo.pictures=[[NSMutableArray alloc]init];
     while(![scanner isAtEnd]){
         if([scanner scanString:@"[em" intoString:nil]){
             scanner.scanLocation-=2;
@@ -49,6 +51,11 @@
             AttachmentFile *file=attachmentInfo.file[i];
             if([CustomUtilities isPicture:file.name]){
                 [DownloadResourcesUtilities downloadPicture:file.thumbnail_middle FromBBS:YES Completed:nil];
+                PictureInfo *picture=[[PictureInfo alloc]init];
+                picture.thumbnail_url=file.thumbnail_middle;
+                picture.original_url=file.url;
+                picture.isFromBBs=YES;
+                [articleInfo.pictures addObject:picture];
             }
         }
     }

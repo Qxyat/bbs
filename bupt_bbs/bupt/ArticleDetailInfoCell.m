@@ -119,7 +119,6 @@ static CGFloat const kContentFontSize=15;
     UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, imageWidth, imageWidth)];
     UIImage *cachedImage=[[SDImageCache sharedImageCache]imageFromDiskCacheForKey:url];
     if(cachedImage){
-        NSLog(@"表情图片命中");
         imageView.image=cachedImage;
     }
     else
@@ -144,7 +143,6 @@ static CGFloat const kContentFontSize=15;
             
             UIImage *cachedImage=[[SDImageCache sharedImageCache]imageFromDiskCacheForKey:file.thumbnail_middle];
             if(cachedImage){
-                NSLog(@"附件图片命中");
                 CGFloat width=cachedImage.size.width;
                 CGFloat height=cachedImage.size.height;
                 if(width>kCustomScreenWidth-2*kMargin){
@@ -160,7 +158,9 @@ static CGFloat const kContentFontSize=15;
             }
             else{
                 [DownloadResourcesUtilities downloadPicture:file.thumbnail_middle FromBBS:YES Completed:^{
-                    [self.delegate refreshTableView];
+                      dispatch_async(dispatch_get_main_queue(), ^{
+                          [self.delegate refreshTableView:file.thumbnail_middle];
+                      });
                 }];
             }
             

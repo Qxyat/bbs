@@ -40,8 +40,9 @@
     }
     [[SDWebImageDownloader sharedDownloader]downloadImageWithURL:url options:0 progress:nil completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
         [[SDImageCache sharedImageCache]storeImage:image forKey:string toDisk:YES];
-        if(block!=nil)
-            block();
+        if(block!=nil){
+           block();
+        }
     }];
 }
 @end

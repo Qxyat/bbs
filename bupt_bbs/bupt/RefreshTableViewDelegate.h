@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @protocol RefreshTableViewDelegate <NSObject>
--(void)refreshTableView;
+-(void)refreshTableView:(NSString*)url;
 @end

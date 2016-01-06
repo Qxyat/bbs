@@ -74,11 +74,17 @@ static const int kNumOfPageToCache=5;
     self.tableView.mj_footer=[MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(pullUpToRefresh)];
     [self jumpToRefresh:1];
     self.tableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
+    
+    //设置进入图片浏览器后返回栏的样式
+    UIBarButtonItem *backBarButtonItem=[[UIBarButtonItem alloc]init];
+    backBarButtonItem.title=@"";
+    self.navigationItem.backBarButtonItem=backBarButtonItem;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden=YES;
+    [self.tableView reloadData];//为了解决MWPhotoBrowser不能重用的问题
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];

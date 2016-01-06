@@ -30,6 +30,7 @@ static CGFloat const kContentFontSize=15;
 @property (strong,nonatomic)ShowUserInfoViewController*showUserInfoViewController;
 @property (strong,nonatomic)MWPhotoBrowser *photoBrowser;
 @property (strong,nonatomic)NSMutableArray *photos;
+@property (nonatomic)NSUInteger photo_pos;
 
 @end
 
@@ -43,7 +44,6 @@ static CGFloat const kContentFontSize=15;
     [self.faceImageView addGestureRecognizer:tapGestureRecognizer1];
     [self.nameLabel addGestureRecognizer:tapGestureRecognizer2];
     [self setSeparatorInset:UIEdgeInsetsMake(0, kMargin, 0, kMargin)];
-    _photoBrowser=[[MWPhotoBrowser alloc]initWithDelegate:self];
 }
 
 #pragma mark -实现MWPhotoBrowserDelegate协议
@@ -56,7 +56,12 @@ static CGFloat const kContentFontSize=15;
     }
     return nil;
 }
-
+-(id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser thumbPhotoAtIndex:(NSUInteger)index{
+    if(index<self.articleInfo.pictures.count){
+        return _photos[index];
+    }
+    return nil;
+}
 #pragma mark -
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
@@ -104,7 +109,13 @@ static CGFloat const kContentFontSize=15;
 #pragma mark - 填写cell内容
 -(void)setArticleInfo:(ArticleInfo *)articleInfo{
     _articleInfo=articleInfo;
+    _photo_pos=0;
+    
     __weak typeof (self) target=self;
+    
+    _photoBrowser=[[MWPhotoBrowser alloc]initWithDelegate:self];
+    _photoBrowser.displayActionButton=NO;
+   
     _photos=[[NSMutableArray alloc]initWithCapacity:_articleInfo.pictures.count];
     for(int i=0;i<_articleInfo.pictures.count;i++){
         PictureInfo *picture=_articleInfo.pictures[i];
@@ -183,9 +194,11 @@ static CGFloat const kContentFontSize=15;
                     height=(height/width)*(kCustomScreenWidth-2*kMargin);
                 }
                 UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
+                imageView.tag=_photo_pos;
+                _photo_pos++;
                 imageView.image=cachedImage;
                 imageView.userInteractionEnabled=YES;
-                UITapGestureRecognizer *tapGestureRecognizer=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(pictureTapped)];
+                UITapGestureRecognizer *tapGestureRecognizer=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(pictureTapped:)];
                 [imageView addGestureRecognizer:tapGestureRecognizer];
                 //使用YYKit提供的方法，后期争取能替换成自己的
                 NSMutableAttributedString* attachText = [NSMutableAttributedString attachmentStringWithContent:imageView contentMode:UIViewContentModeCenter attachmentSize:imageView.size alignToFont:[UIFont systemFontOfSize:kContentFontSize] alignment:YYTextVerticalAlignmentCenter];
@@ -322,12 +335,12 @@ getAttributedStringWithArticle:(ArticleInfo*)article
     }
     return result;
 }
-static int count=0;
+
 #pragma mark - 点击图片后相应的反馈
--(void)pictureTapped{
-    NSLog(@"我点击了图片 %d",count++);
+-(void)pictureTapped:(UIGestureRecognizer*)recognizer{
+    UIImageView *imageView=(UIImageView*)recognizer.view;
     UITableViewController *controller=(UITableViewController*)self.delegate;
-    [_photoBrowser setCurrentPhotoIndex:0];
+    [_photoBrowser setCurrentPhotoIndex:imageView.tag];
     [controller.navigationController pushViewController:_photoBrowser animated:YES];
 }
 @end

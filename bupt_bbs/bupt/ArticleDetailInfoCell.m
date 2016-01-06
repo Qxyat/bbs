@@ -8,7 +8,7 @@
 #import <UIImageView+WebCache.h>
 #import <SDImageCache.h>
 #import <SDWebImageDownloader.h>
-
+#import <YYKit.h>
 #import "ArticleDetailInfoCell.h"
 #import "ShowUserInfoViewController.h"
 #import "ScreenAdaptionUtilities.h"
@@ -201,7 +201,7 @@ static CGFloat const kContentFontSize=15;
                 UITapGestureRecognizer *tapGestureRecognizer=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(pictureTapped:)];
                 [imageView addGestureRecognizer:tapGestureRecognizer];
                 //使用YYKit提供的方法，后期争取能替换成自己的
-                NSMutableAttributedString* attachText = [NSMutableAttributedString attachmentStringWithContent:imageView contentMode:UIViewContentModeCenter attachmentSize:imageView.size alignToFont:[UIFont systemFontOfSize:kContentFontSize] alignment:YYTextVerticalAlignmentCenter];
+                NSMutableAttributedString* attachText = [NSMutableAttributedString attachmentStringWithContent:imageView contentMode:UIViewContentModeCenter attachmentSize:CGSizeMake(kCustomScreenWidth, height)  alignToFont:[UIFont systemFontOfSize:kContentFontSize] alignment:YYTextVerticalAlignmentCenter];
                 [res appendAttributedString:attachText];
                 [res appendAttributedString:[[NSAttributedString alloc]initWithString:@"\n\n"]];
             }

@@ -58,12 +58,11 @@
     self.timeUp=NO;
     self.getUserInfo=NO;
     [UserUtilities getLoginUserInfo:self];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        [NSThread sleepForTimeInterval:3];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         self.timeUp=YES;
         if(self.timeUp&&self.getUserInfo){
             dispatch_async(dispatch_get_main_queue(), ^{
-                 [self showRootView];
+                [self showRootView];
             });
         }
     });
@@ -108,20 +107,17 @@
         default:
             break;
     }
-  
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        [NSThread sleepForTimeInterval:3];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if(self.firstLoad){
-                [self.navigationController popViewControllerAnimated:YES];
-            }
-            else{
-                SecondLoginViewController *secondLoginViewController=[SecondLoginViewController getInstance];
-                UINavigationController *navigationController=[[UINavigationController alloc]initWithRootViewController:secondLoginViewController];
-                navigationController.navigationBar.hidden=YES;
-                [UIApplication sharedApplication].keyWindow.rootViewController=navigationController;
-            }
-        });
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if(self.firstLoad){
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        else{
+            SecondLoginViewController *secondLoginViewController=[SecondLoginViewController getInstance];
+            UINavigationController *navigationController=[[UINavigationController alloc]initWithRootViewController:secondLoginViewController];
+            navigationController.navigationBar.hidden=YES;
+            [UIApplication sharedApplication].keyWindow.rootViewController=navigationController;
+        }
+
     });
 }
 @end

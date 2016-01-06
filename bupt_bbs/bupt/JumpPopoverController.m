@@ -84,9 +84,13 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
     self.infoLabel.text=[NSString stringWithFormat:@"当前%d/%d页",self.page_cur_count,self.page_all_count];
-    [self.textField becomeFirstResponder];
+    
     
     self.textField.delegate=self;
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.textField becomeFirstResponder];
+    });
 }
 -(void)keyboardWillShow:(NSNotification*)notification{
     NSDictionary *dic=[notification userInfo];

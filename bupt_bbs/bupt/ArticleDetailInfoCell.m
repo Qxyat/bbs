@@ -201,7 +201,7 @@ static CGFloat const kContentFontSize=15;
                 UITapGestureRecognizer *tapGestureRecognizer=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(pictureTapped:)];
                 [imageView addGestureRecognizer:tapGestureRecognizer];
                 //使用YYKit提供的方法，后期争取能替换成自己的
-                NSMutableAttributedString* attachText = [NSMutableAttributedString attachmentStringWithContent:imageView contentMode:UIViewContentModeCenter attachmentSize:CGSizeMake(kCustomScreenWidth, height)  alignToFont:[UIFont systemFontOfSize:kContentFontSize] alignment:YYTextVerticalAlignmentCenter];
+                NSMutableAttributedString* attachText = [NSMutableAttributedString attachmentStringWithContent:imageView contentMode:UIViewContentModeCenter attachmentSize:CGSizeMake(kCustomScreenWidth-2*kMargin, height)  alignToFont:[UIFont systemFontOfSize:kContentFontSize] alignment:YYTextVerticalAlignmentCenter];
                 [res appendAttributedString:attachText];
                 [res appendAttributedString:[[NSAttributedString alloc]initWithString:@"\n\n"]];
             }

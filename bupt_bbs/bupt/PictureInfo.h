@@ -12,5 +12,5 @@
 
 @property (strong,nonatomic)NSString *thumbnail_url;
 @property (strong,nonatomic)NSString *original_url;
-@property (nonatomic)BOOL isFromBBs;
+@property (nonatomic)BOOL isFromBBS;
 @end

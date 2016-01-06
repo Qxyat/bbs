@@ -11,11 +11,12 @@
 #import "ArticleInfo.h"
 #import "ShowUserInfoViewControllerDelegate.h"
 #import "RefreshTableViewDelegate.h"
+#import <MWPhotoBrowser.h>
 extern CGFloat const kMargin;
 extern CGFloat const kMaxRatio;
 extern CGFloat const kFaceImageViewHeight;
 
-@interface ArticleDetailInfoCell : UITableViewCell<ShowUserInfoViewControllerDelegate>
+@interface ArticleDetailInfoCell : UITableViewCell<ShowUserInfoViewControllerDelegate,MWPhotoBrowserDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *faceImageView;
 @property (weak, nonatomic) IBOutlet UILabel *floorLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;

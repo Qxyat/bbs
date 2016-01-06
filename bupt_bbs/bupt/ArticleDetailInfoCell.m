@@ -17,6 +17,8 @@
 #import "AttachmentInfo.h"
 #import "AttachmentFile.h"
 #import "DownloadResourcesUtilities.h"
+#import "PictureInfo.h"
+#import "LoginManager.h"
 
 CGFloat const kMargin=4;
 CGFloat const kMaxRatio=1.6;
@@ -26,7 +28,8 @@ static CGFloat const kContentFontSize=15;
 @interface ArticleDetailInfoCell()
 
 @property (strong,nonatomic)ShowUserInfoViewController*showUserInfoViewController;
-
+@property (strong,nonatomic)MWPhotoBrowser *photoBrowser;
+@property (strong,nonatomic)NSMutableArray *photos;
 
 @end
 
@@ -40,8 +43,21 @@ static CGFloat const kContentFontSize=15;
     [self.faceImageView addGestureRecognizer:tapGestureRecognizer1];
     [self.nameLabel addGestureRecognizer:tapGestureRecognizer2];
     [self setSeparatorInset:UIEdgeInsetsMake(0, kMargin, 0, kMargin)];
+    _photoBrowser=[[MWPhotoBrowser alloc]initWithDelegate:self];
 }
 
+#pragma mark -实现MWPhotoBrowserDelegate协议
+-(NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser{
+    return _photos.count;
+}
+-(id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index{
+    if(index<self.articleInfo.pictures.count){
+        return _photos[index];
+    }
+    return nil;
+}
+
+#pragma mark -
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 }
@@ -89,6 +105,22 @@ static CGFloat const kContentFontSize=15;
 -(void)setArticleInfo:(ArticleInfo *)articleInfo{
     _articleInfo=articleInfo;
     __weak typeof (self) target=self;
+    _photos=[[NSMutableArray alloc]initWithCapacity:_articleInfo.pictures.count];
+    for(int i=0;i<_articleInfo.pictures.count;i++){
+        PictureInfo *picture=_articleInfo.pictures[i];
+        NSURL *url=nil;
+        if(picture.isFromBBS){
+            url=[NSURL URLWithString:
+                 [NSString stringWithFormat:@"%@?oauth_token=%@",picture.original_url,[LoginManager sharedManager].access_token]];
+        }
+        else{
+            url=[NSURL URLWithString:
+                 [NSString stringWithFormat:@"%@",picture.original_url]];
+        }
+
+        [_photos addObject:[MWPhoto photoWithURL:url]];
+    }
+    
     [self.faceImageView sd_setImageWithURL:[NSURL URLWithString:articleInfo.user.face_url] placeholderImage:[UIImage imageNamed:@"face_default.png"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         [target refreshCustomLayout];
     }];
@@ -136,6 +168,7 @@ static CGFloat const kContentFontSize=15;
               withPosition:(NSUInteger)pos
     withAttachmentUsedInfo:(NSMutableArray *)used{
     NSMutableAttributedString *res=[[NSMutableAttributedString alloc]init];
+    __weak typeof(self) target=self;
     if(used!=nil&&pos<=attachmentInfo.file.count){
         AttachmentFile *file=attachmentInfo.file[pos-1];
         if(used[pos-1]==[NSNumber numberWithBool:NO]&&[CustomUtilities isPicture:file.name]){
@@ -151,6 +184,9 @@ static CGFloat const kContentFontSize=15;
                 }
                 UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
                 imageView.image=cachedImage;
+                imageView.userInteractionEnabled=YES;
+                UITapGestureRecognizer *tapGestureRecognizer=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(pictureTapped)];
+                [imageView addGestureRecognizer:tapGestureRecognizer];
                 //使用YYKit提供的方法，后期争取能替换成自己的
                 NSMutableAttributedString* attachText = [NSMutableAttributedString attachmentStringWithContent:imageView contentMode:UIViewContentModeCenter attachmentSize:imageView.size alignToFont:[UIFont systemFontOfSize:kContentFontSize] alignment:YYTextVerticalAlignmentCenter];
                 [res appendAttributedString:attachText];
@@ -159,7 +195,7 @@ static CGFloat const kContentFontSize=15;
             else{
                 [DownloadResourcesUtilities downloadPicture:file.thumbnail_middle FromBBS:YES Completed:^{
                       dispatch_async(dispatch_get_main_queue(), ^{
-                          [self.delegate refreshTableView:file.thumbnail_middle];
+                          [target.delegate refreshTableView:file.thumbnail_middle];
                       });
                 }];
             }
@@ -285,5 +321,13 @@ getAttributedStringWithArticle:(ArticleInfo*)article
         
     }
     return result;
+}
+static int count=0;
+#pragma mark - 点击图片后相应的反馈
+-(void)pictureTapped{
+    NSLog(@"我点击了图片 %d",count++);
+    UITableViewController *controller=(UITableViewController*)self.delegate;
+    [_photoBrowser setCurrentPhotoIndex:0];
+    [controller.navigationController pushViewController:_photoBrowser animated:YES];
 }
 @end

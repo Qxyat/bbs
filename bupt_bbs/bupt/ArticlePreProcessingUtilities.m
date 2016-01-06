@@ -18,12 +18,10 @@
 @implementation ArticlePreProcessingUtilities
 #pragma mark - 预加载一页文章所需要的图片
 +(void)onePageArticlesPreProcess:(NSArray*)array{
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        for(int i=0;i<array.count;i++){
-            ArticleInfo *articleInfo=(ArticleInfo*)array[i];
-            [ArticlePreProcessingUtilities oneArticlePreProcessing:articleInfo];
-        }
-    });
+    for(int i=0;i<array.count;i++){
+        ArticleInfo *articleInfo=(ArticleInfo*)array[i];
+        [ArticlePreProcessingUtilities oneArticlePreProcessing:articleInfo];
+    }
 }
 
 #pragma mark - 预加载一篇文章所需要的图片
@@ -54,7 +52,7 @@
                 PictureInfo *picture=[[PictureInfo alloc]init];
                 picture.thumbnail_url=file.thumbnail_middle;
                 picture.original_url=file.url;
-                picture.isFromBBs=YES;
+                picture.isFromBBS=YES;
                 [articleInfo.pictures addObject:picture];
             }
         }

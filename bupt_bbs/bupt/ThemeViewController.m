@@ -84,6 +84,7 @@ static const int kNumOfPageToCache=5;
     [super viewWillDisappear:animated];
     [self hideJumpPopoverController];
     [self hideThemePopoverController];
+    [SVProgressHUD dismiss];
     self.tabBarController.tabBar.hidden=NO;
 }
 

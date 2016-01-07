@@ -91,7 +91,6 @@ static const int kNumOfPageToCache=5;
     [self hideJumpPopoverController];
     [self hideThemePopoverController];
     [SVProgressHUD dismiss];
-    self.tabBarController.tabBar.hidden=NO;
 }
 
 #pragma mark - UITableView Data Source

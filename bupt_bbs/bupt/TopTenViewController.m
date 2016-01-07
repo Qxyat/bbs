@@ -65,7 +65,10 @@ static NSString *const kCellIdentifier=@"cell";
     barButtonItem.title=@"";
     self.navigationItem.backBarButtonItem=barButtonItem;
 }
-
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    self.tabBarController.tabBar.hidden=NO;
+}
 
 #pragma mark - 显示用户个人中心
 -(void)showLeft{

@@ -5,10 +5,12 @@
 //  Created by 邱鑫玥 on 15/12/3.
 //  Copyright © 2015年 qiu. All rights reserved.
 //
+
+#import <YYKit.h>
+#import <UIImage+GIF.h>
 #import <UIImageView+WebCache.h>
 #import <SDImageCache.h>
 #import <SDWebImageDownloader.h>
-#import <YYKit.h>
 #import "ArticleDetailInfoCell.h"
 #import "ShowUserInfoViewController.h"
 #import "ScreenAdaptionUtilities.h"
@@ -19,7 +21,7 @@
 #import "DownloadResourcesUtilities.h"
 #import "PictureInfo.h"
 #import "LoginManager.h"
-
+#import "UIImage+Emoji.h"
 CGFloat const kMargin=4;
 CGFloat const kMaxRatio=1.6;
 CGFloat const kFaceImageViewHeight=30;
@@ -156,16 +158,9 @@ static CGFloat const kContentFontSize=15;
 {
     UIFont* font=[UIFont systemFontOfSize:fontSize];
     CGFloat imageWidth=font.ascender-font.descender+10;
-    NSRange range =[string rangeOfString:@"^[a-zA-z]+" options:NSRegularExpressionSearch];
-    NSString* url=[NSString stringWithFormat:@"%@/%@/%@.gif",@"http://bbs.byr.cn/img/ubb",[string substringWithRange:range],[string substringFromIndex:range.location+range.length]];
     
     UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, imageWidth, imageWidth)];
-    UIImage *cachedImage=[[SDImageCache sharedImageCache]imageFromDiskCacheForKey:url];
-    if(cachedImage){
-        imageView.image=cachedImage;
-    }
-    else
-        [imageView sd_setImageWithURL:[NSURL URLWithString:url]];
+    imageView.image=[UIImage imageNamedFromEmojiBundle:string];
     
     //使用YYKit提供的方法，后期争取能替换成自己的
     NSMutableAttributedString* attachText = [NSMutableAttributedString attachmentStringWithContent:imageView contentMode:UIViewContentModeCenter attachmentSize:imageView.size alignToFont:font alignment:YYTextVerticalAlignmentCenter];

@@ -50,6 +50,8 @@
 		41B02B711C10221500E4904B /* ArticleDetailInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41B02B701C10221500E4904B /* ArticleDetailInfoCell.xib */; };
 		41B02B741C1024F700E4904B /* ThemeUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B02B731C1024F700E4904B /* ThemeUtilities.m */; };
 		41B02B771C1033A400E4904B /* ArticleDetailInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B02B761C1033A400E4904B /* ArticleDetailInfoCell.m */; };
+		41B26AC11C3E076A0088E1FE /* Emoji.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 41B26AC01C3E076A0088E1FE /* Emoji.bundle */; };
+		41B26AC51C3E08A90088E1FE /* UIImage+Emoji.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B26AC41C3E08A90088E1FE /* UIImage+Emoji.m */; };
 		41B57D471C314AFB00B9A01B /* ArticleRoughInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B57D451C314AFB00B9A01B /* ArticleRoughInfoCell.m */; };
 		41B57D481C314AFB00B9A01B /* ArticleRoughInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41B57D461C314AFB00B9A01B /* ArticleRoughInfoCell.xib */; };
 		41B684BD1C2001BB0088395D /* ShowUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B684BB1C2001BB0088395D /* ShowUserInfoViewController.m */; };
@@ -149,6 +151,9 @@
 		41B02B731C1024F700E4904B /* ThemeUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThemeUtilities.m; sourceTree = "<group>"; };
 		41B02B751C1033A400E4904B /* ArticleDetailInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleDetailInfoCell.h; sourceTree = "<group>"; };
 		41B02B761C1033A400E4904B /* ArticleDetailInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleDetailInfoCell.m; sourceTree = "<group>"; };
+		41B26AC01C3E076A0088E1FE /* Emoji.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Emoji.bundle; sourceTree = "<group>"; };
+		41B26AC31C3E08A90088E1FE /* UIImage+Emoji.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Emoji.h"; sourceTree = "<group>"; };
+		41B26AC41C3E08A90088E1FE /* UIImage+Emoji.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Emoji.m"; sourceTree = "<group>"; };
 		41B57D441C314AFB00B9A01B /* ArticleRoughInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleRoughInfoCell.h; sourceTree = "<group>"; };
 		41B57D451C314AFB00B9A01B /* ArticleRoughInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleRoughInfoCell.m; sourceTree = "<group>"; };
 		41B57D461C314AFB00B9A01B /* ArticleRoughInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArticleRoughInfoCell.xib; sourceTree = "<group>"; };
@@ -238,6 +243,7 @@
 			children = (
 				41434F2E1BE8D5AA00FF01D9 /* AppDelegate.h */,
 				41434F2F1BE8D5AA00FF01D9 /* AppDelegate.m */,
+				41B26AC21C3E08660088E1FE /* Category */,
 				412641F71C0E9129006C4B31 /* Protocol */,
 				41CDB23C1BF9B68600172DE0 /* Constants */,
 				41E4CE9E1C045347004DD407 /* Controller */,
@@ -246,6 +252,7 @@
 				41E4CE9F1C0455A7004DD407 /* View */,
 				41E4CEA01C0455C6004DD407 /* Model */,
 				41434F3C1BE8D5AA00FF01D9 /* Info.plist */,
+				41B26AC01C3E076A0088E1FE /* Emoji.bundle */,
 				410B20211C1524A3004C0CBE /* Assets.xcassets */,
 				41434F2B1BE8D5AA00FF01D9 /* Supporting Files */,
 			);
@@ -258,6 +265,15 @@
 				41434F2C1BE8D5AA00FF01D9 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		41B26AC21C3E08660088E1FE /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				41B26AC31C3E08A90088E1FE /* UIImage+Emoji.h */,
+				41B26AC41C3E08A90088E1FE /* UIImage+Emoji.m */,
+			);
+			name = Category;
 			sourceTree = "<group>";
 		};
 		41CDB23C1BF9B68600172DE0 /* Constants */ = {
@@ -456,6 +472,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41B26AC11C3E076A0088E1FE /* Emoji.bundle in Resources */,
 				412441141C225A1E009A4172 /* FirstLoginView.xib in Resources */,
 				41B018581C23D06400AA8F88 /* LaunchView.xib in Resources */,
 				411DD2691C0D8CA600002CD3 /* UserMainInterface.storyboard in Resources */,
@@ -562,6 +579,7 @@
 				41F86ABA1C1FA8FC009DC75C /* UserUtilities.m in Sources */,
 				41AF90EB1C0467E2007FFE3C /* LoginManager.m in Sources */,
 				411DEC061C0D3131008B7EB6 /* TopTenViewController.m in Sources */,
+				41B26AC51C3E08A90088E1FE /* UIImage+Emoji.m in Sources */,
 				4129D06D1C3CB0D900BCB528 /* PictureInfo.m in Sources */,
 				4143427D1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.m in Sources */,
 				419411D51C1BEF41002E59AC /* SectionInfo.m in Sources */,

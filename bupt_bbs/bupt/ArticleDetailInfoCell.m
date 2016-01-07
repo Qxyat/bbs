@@ -266,12 +266,44 @@ getAttributedStringByRecursiveWithString:(NSString*)string
         }
         else if([scanner scanString:@"[url=http://" intoString:nil]){
             [result appendAttributedString:[[NSAttributedString alloc]initWithString:[string substringWithRange:range] attributes:attributes]];
+            NSString *url;
             scanner.scanLocation-=7;
-            [scanner scanUpToString:@"]" intoString:&tmp];
+            [scanner scanUpToString:@"]" intoString:&url];
             [scanner scanString:@"]" intoString:nil];
             [scanner scanUpToString:@"[/url]" intoString:&tmp];
-            [result appendAttributedString:[self getAttributedStringByRecursiveWithString:tmp fontColor:color fontSize:size withAttachmentInfo:attachmentInfo withAttachmentUsedInfo:used]];
+            NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithString:tmp];
+            content.font = [UIFont systemFontOfSize:size];
+            content.color =[UIColor blueColor];
+            
+            YYTextHighlight *highlight = [[YYTextHighlight alloc]init];
+            highlight.tapAction = ^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+            };
+            [content setTextHighlight:highlight range:content.rangeOfAll];
+            
+            [result appendAttributedString:content];
+
             [scanner scanString:@"[/url]" intoString:nil];
+            range.location=scanner.scanLocation;
+            range.length=0;
+        }
+        else if([scanner scanString:@"http://" intoString:nil]){
+            [result appendAttributedString:[[NSAttributedString alloc]initWithString:[string substringWithRange:range] attributes:attributes]];
+            NSString *url;
+            scanner.scanLocation-=7;
+            [scanner scanUpToString:@"\n" intoString:&url];
+           
+            NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithString:url];
+            content.font = [UIFont systemFontOfSize:size];
+            content.color =[UIColor blueColor];
+            
+            YYTextHighlight *highlight = [[YYTextHighlight alloc]init];
+            highlight.tapAction = ^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+            };
+            [content setTextHighlight:highlight range:content.rangeOfAll];
+            
+            [result appendAttributedString:content];
             range.location=scanner.scanLocation;
             range.length=0;
         }

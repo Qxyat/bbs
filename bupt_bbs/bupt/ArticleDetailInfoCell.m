@@ -6,7 +6,6 @@
 //  Copyright © 2015年 qiu. All rights reserved.
 //
 
-#import <YYKit.h>
 #import <UIImage+GIF.h>
 #import <UIImageView+WebCache.h>
 #import <SDImageCache.h>
@@ -21,7 +20,7 @@
 #import "DownloadResourcesUtilities.h"
 #import "PictureInfo.h"
 #import "LoginManager.h"
-#import "UIImage+Emoji.h"
+#import "YYImage+Emoji.h"
 CGFloat const kMargin=4;
 CGFloat const kMaxRatio=1.6;
 CGFloat const kFaceImageViewHeight=30;
@@ -69,10 +68,6 @@ static CGFloat const kContentFontSize=15;
     [super setSelected:selected animated:animated];
 }
 
--(void)layoutSubviews{
-    [super layoutSubviews];
-    [self refreshCustomLayout];
-}
 -(void)refreshCustomLayout{
     CGFloat imageviewHeight=kFaceImageViewHeight;
     CGFloat ratio=1;
@@ -113,7 +108,7 @@ static CGFloat const kContentFontSize=15;
     _articleInfo=articleInfo;
     _photo_pos=0;
     
-    __weak typeof (self) target=self;
+    __weak typeof (self) weak_self=self;
     
     _photoBrowser=[[MWPhotoBrowser alloc]initWithDelegate:self];
     _photoBrowser.displayActionButton=NO;
@@ -133,10 +128,28 @@ static CGFloat const kContentFontSize=15;
 
         [_photos addObject:[MWPhoto photoWithURL:url]];
     }
+    NSString *cachedFaceImagePath=[[SDImageCache sharedImageCache]defaultCachePathForKey:articleInfo.user.face_url];
+    YYImage *cachedFaceImage=[YYImage imageWithContentsOfFile:cachedFaceImagePath];
     
-    [self.faceImageView sd_setImageWithURL:[NSURL URLWithString:articleInfo.user.face_url] placeholderImage:[UIImage imageNamed:@"face_default.png"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        [target refreshCustomLayout];
-    }];
+    if(cachedFaceImage){
+        self.faceImageView.image=cachedFaceImage;
+        if(cachedFaceImage.animatedImageType==YYImageTypeGIF)
+            [self.faceImageView startAnimating];
+        [self refreshCustomLayout];
+    }
+    else{
+        [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:articleInfo.user.face_url] options:0 progress:nil completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+            [[SDImageCache sharedImageCache]storeImage:image recalculateFromImage:NO imageData:data forKey:articleInfo.user.face_url toDisk:YES];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                YYImage *yyImage=[[YYImage alloc]initWithData:data];
+                weak_self.faceImageView.image=yyImage;
+                if(yyImage.animatedImageType==YYImageTypeGIF)
+                    [weak_self.faceImageView startAnimating];
+                [weak_self refreshCustomLayout];
+            });
+        }];
+    }
+    
     self.floorLabel.text=[CustomUtilities getFloorString:articleInfo.position];
     self.timeLabel.text=[CustomUtilities getPostTimeString:articleInfo.post_time];
     self.nameLabel.text=articleInfo.user.userId;
@@ -159,8 +172,8 @@ static CGFloat const kContentFontSize=15;
     UIFont* font=[UIFont systemFontOfSize:fontSize];
     CGFloat imageWidth=font.ascender-font.descender+10;
     
-    UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, imageWidth, imageWidth)];
-    imageView.image=[UIImage imageNamedFromEmojiBundle:string];
+    YYAnimatedImageView *imageView=[[YYAnimatedImageView alloc]initWithFrame:CGRectMake(0, 0, imageWidth, imageWidth)];
+    imageView.image=[YYImage imageNamedFromEmojiBundle:string];
     
     //使用YYKit提供的方法，后期争取能替换成自己的
     NSMutableAttributedString* attachText = [NSMutableAttributedString attachmentStringWithContent:imageView contentMode:UIViewContentModeCenter attachmentSize:imageView.size alignToFont:font alignment:YYTextVerticalAlignmentCenter];

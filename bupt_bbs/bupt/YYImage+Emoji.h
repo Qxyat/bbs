@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <YYKit.h>
 
-@interface UIImage (Emoji)
-+(UIImage*)imageNamedFromEmojiBundle:(NSString*)imageName;
+@interface YYImage (Emoji)
++(YYImage*)imageNamedFromEmojiBundle:(NSString*)imageName;
 @end

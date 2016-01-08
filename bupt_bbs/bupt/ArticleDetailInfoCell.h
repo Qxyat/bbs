@@ -17,7 +17,7 @@ extern CGFloat const kMaxRatio;
 extern CGFloat const kFaceImageViewHeight;
 
 @interface ArticleDetailInfoCell : UITableViewCell<ShowUserInfoViewControllerDelegate,MWPhotoBrowserDelegate>
-@property (weak, nonatomic) IBOutlet UIImageView *faceImageView;
+@property (weak, nonatomic) IBOutlet YYAnimatedImageView *faceImageView;
 @property (weak, nonatomic) IBOutlet UILabel *floorLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;

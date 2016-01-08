@@ -85,18 +85,17 @@
     
     self.infoLabel.text=[NSString stringWithFormat:@"当前%d/%d页",self.page_cur_count,self.page_all_count];
     
-    
     self.textField.delegate=self;
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.textField becomeFirstResponder];
     });
 }
+
 -(void)keyboardWillShow:(NSNotification*)notification{
     NSDictionary *dic=[notification userInfo];
     CGRect keyboardRect=[[dic valueForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
 
-    
     NSNumber *duration=[dic valueForKey:UIKeyboardAnimationDurationUserInfoKey];
     NSNumber *curve=[dic objectForKey:UIKeyboardAnimationCurveUserInfoKey];
     [UIView animateWithDuration:[duration doubleValue] animations:^{
@@ -129,6 +128,7 @@
 
     } completion:^(BOOL finished) {
         [self.view removeFromSuperview];
+        [[NSNotificationCenter defaultCenter]removeObserver:self];
     }];
     [self.view layoutIfNeeded];
 }

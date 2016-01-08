@@ -6,13 +6,12 @@
 //  Copyright © 2016年 qiu. All rights reserved.
 //
 
-#import "UIImage+Emoji.h"
-#import <UIImage+GIF.h>
+#import "YYImage+Emoji.h"
 
-@implementation UIImage (Emoji)
-+(UIImage*)imageNamedFromEmojiBundle:(NSString*)imageName{
+@implementation YYImage (Emoji)
++(YYImage*)imageNamedFromEmojiBundle:(NSString*)imageName{
     NSString *bundlePath=[[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:@"Emoji.bundle"];
     NSBundle *bundle=[NSBundle bundleWithPath:bundlePath];
-    return [UIImage sd_animatedGIFWithData:[NSData dataWithContentsOfFile:[bundle pathForResource:imageName ofType:@"gif"]]];
+    return [YYImage imageWithData:[NSData dataWithContentsOfFile:[bundle pathForResource:imageName ofType:@"gif"]]];
 }
 @end

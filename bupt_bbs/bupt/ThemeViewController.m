@@ -84,7 +84,6 @@ static const int kNumOfPageToCache=5;
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden=YES;
-    [self.tableView reloadData];//为了解决MWPhotoBrowser不能重用的问题
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
@@ -92,7 +91,10 @@ static const int kNumOfPageToCache=5;
     [self hideThemePopoverController];
     [SVProgressHUD dismiss];
 }
-
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self.tableView reloadData];//为了解决MWPhotoBrowser不能重用的问题
+}
 #pragma mark - UITableView Data Source
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;

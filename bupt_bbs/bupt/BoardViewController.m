@@ -40,6 +40,10 @@ static NSString* const kCellIdentifier=@"cell";
     self.page_curent_count=1;
     self.item_page_count=30;
     
+    UIBarButtonItem *barButtonItem=[[UIBarButtonItem alloc]init];
+    barButtonItem.title=@"";
+    self.navigationItem.backBarButtonItem=barButtonItem;
+    
     [self.tableView registerNib:[UINib nibWithNibName:@"BoardArticleInfoCell" bundle:nil]
      forCellReuseIdentifier:kCellIdentifier];
     self.tableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
@@ -101,18 +105,9 @@ static NSString* const kCellIdentifier=@"cell";
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    ThemeViewController *themViewController=[[ThemeViewController alloc]init];
     ArticleInfo *articleInfo=self.data[indexPath.row];
-    themViewController.board_name=articleInfo.board_name;
-    themViewController.group_id=articleInfo.group_id;
-    themViewController.theme_title=articleInfo.title;
-    themViewController.tabBarController.tabBar.hidden=YES;
-    
-    UIBarButtonItem *barButtonItem=[[UIBarButtonItem alloc]init];
-    barButtonItem.title=@"";
-    self.navigationItem.backBarButtonItem=barButtonItem;
-    
-    [self.navigationController pushViewController:themViewController animated:YES];
+    ThemeViewController *themeViewController=[ThemeViewController getInstanceWithBoardName:articleInfo.board_name withGroupId:articleInfo.group_id];
+    [self.navigationController pushViewController:themeViewController animated:YES];
 }
 
 

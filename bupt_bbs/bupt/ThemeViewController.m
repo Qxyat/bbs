@@ -19,6 +19,7 @@
 #import "ArticlePreProcessingUtilities.h"
 #import "CustomUtilities.h"
 #import "PictureInfo.h"
+#import "ReplyViewController.h"
 
 static NSString * const kCellIdentifier=@"articledetailinfo";
 static const int kNumOfPageToCache=5;
@@ -29,6 +30,9 @@ static const int kNumOfPageToCache=5;
 
 @interface ThemeViewController ()
 
+@property (nonatomic) int group_id;
+@property (strong,nonatomic) NSString *board_name;
+@property (strong,nonatomic) NSString *theme_title;
 @property (copy,nonatomic)NSMutableArray*  data;
 @property (nonatomic)     int              page_all_count;
 @property (nonatomic)     NSRange          pageRange;
@@ -41,6 +45,14 @@ static const int kNumOfPageToCache=5;
 @end
 
 @implementation ThemeViewController
++(instancetype)getInstanceWithBoardName:(NSString *)boardName
+                            withGroupId:(int)groupId
+{
+    ThemeViewController *themeViewController=[[ThemeViewController alloc]init];
+    themeViewController.board_name=boardName;
+    themeViewController.group_id=groupId;
+    return themeViewController;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.tableView registerNib:[UINib nibWithNibName:@"ArticleDetailInfoCell" bundle:nil] forCellReuseIdentifier:kCellIdentifier];
@@ -74,8 +86,7 @@ static const int kNumOfPageToCache=5;
     self.tableView.mj_footer=[MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(pullUpToRefresh)];
     [self jumpToRefresh:1];
     self.tableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
-    
-    //设置进入图片浏览器后返回栏的样式
+
     UIBarButtonItem *backBarButtonItem=[[UIBarButtonItem alloc]init];
     backBarButtonItem.title=@"";
     self.navigationItem.backBarButtonItem=backBarButtonItem;
@@ -114,7 +125,7 @@ static const int kNumOfPageToCache=5;
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     ArticleInfo *articleInfo=_data[indexPath.row];
     CGSize size=[articleInfo.contentSize CGSizeValue];
-    return 3*kMargin+kFaceImageViewHeight+size.height+1;
+    return 4*kMargin+2*kFaceImageViewHeight+size.height+1;
 }
 -(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath{
     return  NO;
@@ -149,7 +160,8 @@ static const int kNumOfPageToCache=5;
 -(void)handleHttpSuccessResponse:(id)response{
     NSDictionary *dic=(NSDictionary*)response;
     
-    self.titleLabel.text=response[@"title"];
+    self.theme_title=dic[@"title"];
+    self.titleLabel.text=dic[@"title"];
     NSArray *tmp=[ArticleInfo getArticlesInfo:dic[@"article"]];
     self.page_all_count=[dic[@"pagination"][@"page_all_count"] intValue];
     self.page_cur_count=[dic[@"pagination"][@"page_current_count"] intValue];
@@ -260,6 +272,11 @@ static const int kNumOfPageToCache=5;
     else{
         [self hideJumpPopoverController];
     }
+}
+-(void)showQucikReplyViewController{
+    [self hideThemePopoverController];
+    ReplyViewController *viewController=[ReplyViewController getInstanceWithBoardName:self.board_name isNewTheme:NO withArticleName:self.theme_title withArticleId:self.group_id withArticleInfo:nil];
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 #pragma mark - 实现JumpPopoverControllerDelegate协议
 -(void)hideJumpPopoverController{

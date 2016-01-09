@@ -12,4 +12,5 @@
 
 -(void)hideThemePopoverController;
 -(void)showJumpPopoverController;
+-(void)showQucikReplyViewController;
 @end

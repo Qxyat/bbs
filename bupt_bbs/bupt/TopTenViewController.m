@@ -70,6 +70,10 @@ static NSString *const kCellIdentifier=@"cell";
     self.tabBarController.tabBar.hidden=NO;
 }
 
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    self.tabBarController.tabBar.hidden=YES;
+}
 #pragma mark - 显示用户个人中心
 -(void)showLeft{
     RootViewController *rootViewController=(RootViewController*)[UIApplication sharedApplication].keyWindow.rootViewController;
@@ -123,12 +127,8 @@ static NSString *const kCellIdentifier=@"cell";
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    ThemeViewController *themViewController=[[ThemeViewController alloc]init];
     ArticleInfo *articleInfo=self.data[indexPath.row];
-    themViewController.board_name=articleInfo.board_name;
-    themViewController.group_id=articleInfo.group_id;
-    themViewController.theme_title=articleInfo.title;
-    self.tabBarController.tabBar.hidden=YES;
+    ThemeViewController *themViewController=[ThemeViewController getInstanceWithBoardName:articleInfo.board_name withGroupId:articleInfo.group_id];
     [self.navigationController pushViewController:themViewController animated:YES];
 }
 

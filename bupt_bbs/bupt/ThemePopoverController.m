@@ -12,6 +12,8 @@
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIImageView *jumpImageView;
 @property (weak, nonatomic) IBOutlet UILabel *jumpLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *replyImageView;
+@property (weak, nonatomic) IBOutlet UILabel *replyLabel;
 
 @end
 
@@ -33,9 +35,15 @@
     UITapGestureRecognizer *recognizer2=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showJumpPopoverController)];
     [self.jumpImageView addGestureRecognizer:recognizer1];
     [self.jumpLabel addGestureRecognizer:recognizer2];
+    
     UITapGestureRecognizer *recognizer3=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideThemePopoverController)];
     [self.view addGestureRecognizer:recognizer3];
    
+    UITapGestureRecognizer *recognizer4=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showQucikReplyViewController)];
+    UITapGestureRecognizer *recognizer5=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showQucikReplyViewController)];
+    [self.replyImageView addGestureRecognizer:recognizer4];
+    [self.replyLabel addGestureRecognizer:recognizer5];
+    
     self.containerView.center=CGPointMake(self.containerView.center.x, self.containerView.center.y-self.containerView.frame.size.height);
     [UIView animateWithDuration:0.5 animations:^{
         self.containerView.center=CGPointMake(self.containerView.center.x, self.containerView.center.y+self.containerView.frame.size.height);
@@ -60,5 +68,7 @@
 -(void)showJumpPopoverController{
     [self.delegate showJumpPopoverController];
 }
-
+-(void)showQucikReplyViewController{
+    [self.delegate showQucikReplyViewController];
+}
 @end

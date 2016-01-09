@@ -13,9 +13,7 @@
 #import "RefreshTableViewDelegate.h"
 @interface ThemeViewController : UITableViewController<HttpResponseDelegate,ThemePopoverControllerDelegate,JumpPopoverControllerDelegate,RefreshTableViewDelegate>
 
-@property (nonatomic) int group_id;
-@property (strong,nonatomic) NSString *board_name;
-@property (strong,nonatomic) NSString *theme_title;
-
++(instancetype)getInstanceWithBoardName:(NSString *)boardName
+                            withGroupId:(int)groupId;
 -(void)jumpToRefresh:(NSUInteger) nextPage;
 @end

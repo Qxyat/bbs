@@ -62,8 +62,18 @@ static NSString *const kCellIdentifier=@"cell";
     [button sd_setBackgroundImageWithURL:[NSURL URLWithString:[LoginManager sharedManager].currentLoginUserInfo.face_url] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"face_default"]];
     UIBarButtonItem *leftBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:button];
     self.navigationItem.leftBarButtonItem=leftBarButtonItem;
+    UIBarButtonItem *barButtonItem=[[UIBarButtonItem alloc]init];
+    barButtonItem.title=@"";
+    self.navigationItem.backBarButtonItem=barButtonItem;
 }
-
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    self.tabBarController.tabBar.hidden=YES;
+}
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    self.tabBarController.tabBar.hidden=NO;
+}
 #pragma mark - 显示用户个人中心
 -(void)showLeft{
     RootViewController *rootViewController=(RootViewController*)[UIApplication sharedApplication].keyWindow.rootViewController;
@@ -108,17 +118,8 @@ static NSString *const kCellIdentifier=@"cell";
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    ThemeViewController *themViewController=[[ThemeViewController alloc]init];
     ArticleInfo *articleInfo=self.data[indexPath.row];
-    themViewController.board_name=articleInfo.board_name;
-    themViewController.group_id=articleInfo.group_id;
-    themViewController.theme_title=articleInfo.title;
-    themViewController.tabBarController.tabBar.hidden=YES;
-    
-    UIBarButtonItem *barButtonItem=[[UIBarButtonItem alloc]init];
-    barButtonItem.title=@"";
-    self.navigationItem.backBarButtonItem=barButtonItem;
-    
+    ThemeViewController *themViewController=[ThemeViewController getInstanceWithBoardName:articleInfo.board_name withGroupId:articleInfo.group_id];
     [self.navigationController pushViewController:themViewController animated:YES];
 }
 

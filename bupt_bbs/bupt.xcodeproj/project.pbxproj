@@ -22,6 +22,9 @@
 		412641F61C0E876E006C4B31 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 412641F51C0E876E006C4B31 /* UserInfo.m */; };
 		41295DD51C1E5E260021D689 /* RecommedUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41295DD41C1E5E260021D689 /* RecommedUtilities.m */; };
 		4129D06D1C3CB0D900BCB528 /* PictureInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4129D06C1C3CB0D900BCB528 /* PictureInfo.m */; };
+		41360AC91C40E25C00D3DE9C /* ReplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41360AC71C40E25C00D3DE9C /* ReplyViewController.m */; };
+		41360ACA1C40E25C00D3DE9C /* ReplyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41360AC81C40E25C00D3DE9C /* ReplyView.xib */; };
+		41360ACD1C40FF9900D3DE9C /* PostArticleUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41360ACC1C40FF9900D3DE9C /* PostArticleUtilities.m */; };
 		41404F6A1C1D142100A45B13 /* BoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41404F691C1D142100A45B13 /* BoardViewController.m */; };
 		41404F6D1C1D16E700A45B13 /* BoardUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41404F6C1C1D16E700A45B13 /* BoardUtilities.m */; };
 		41404F711C1D207900A45B13 /* BoardArticleInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41404F6F1C1D207900A45B13 /* BoardArticleInfoCell.m */; };
@@ -97,6 +100,11 @@
 		41295DD41C1E5E260021D689 /* RecommedUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommedUtilities.m; sourceTree = "<group>"; };
 		4129D06B1C3CB0D900BCB528 /* PictureInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureInfo.h; sourceTree = "<group>"; };
 		4129D06C1C3CB0D900BCB528 /* PictureInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureInfo.m; sourceTree = "<group>"; };
+		41360AC61C40E25C00D3DE9C /* ReplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplyViewController.h; sourceTree = "<group>"; };
+		41360AC71C40E25C00D3DE9C /* ReplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReplyViewController.m; sourceTree = "<group>"; };
+		41360AC81C40E25C00D3DE9C /* ReplyView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReplyView.xib; sourceTree = "<group>"; };
+		41360ACB1C40FF9900D3DE9C /* PostArticleUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostArticleUtilities.h; sourceTree = "<group>"; };
+		41360ACC1C40FF9900D3DE9C /* PostArticleUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostArticleUtilities.m; sourceTree = "<group>"; };
 		41404F681C1D142100A45B13 /* BoardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardViewController.h; sourceTree = "<group>"; };
 		41404F691C1D142100A45B13 /* BoardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardViewController.m; sourceTree = "<group>"; };
 		41404F6B1C1D16E700A45B13 /* BoardUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardUtilities.h; sourceTree = "<group>"; };
@@ -304,6 +312,8 @@
 				41295DD41C1E5E260021D689 /* RecommedUtilities.m */,
 				41D383C11C3BF2E100255BA9 /* DownloadResourcesUtilities.h */,
 				41D383C21C3BF2E100255BA9 /* DownloadResourcesUtilities.m */,
+				41360ACB1C40FF9900D3DE9C /* PostArticleUtilities.h */,
+				41360ACC1C40FF9900D3DE9C /* PostArticleUtilities.m */,
 			);
 			name = NetworkUtilities;
 			sourceTree = "<group>";
@@ -339,6 +349,8 @@
 				41B684BB1C2001BB0088395D /* ShowUserInfoViewController.m */,
 				41432A801C39053E00423DFE /* JumpPopoverController.h */,
 				41432A811C39053E00423DFE /* JumpPopoverController.m */,
+				41360AC61C40E25C00D3DE9C /* ReplyViewController.h */,
+				41360AC71C40E25C00D3DE9C /* ReplyViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -367,6 +379,7 @@
 				41404F701C1D207900A45B13 /* BoardArticleInfoCell.xib */,
 				41404F6E1C1D207900A45B13 /* BoardArticleInfoCell.h */,
 				41404F6F1C1D207900A45B13 /* BoardArticleInfoCell.m */,
+				41360AC81C40E25C00D3DE9C /* ReplyView.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -481,6 +494,7 @@
 				41F86AB71C1FA3DD009DC75C /* UserCenter.xib in Resources */,
 				410B20221C1524A3004C0CBE /* Assets.xcassets in Resources */,
 				41B684BE1C2001BB0088395D /* ShowUserInfo.xib in Resources */,
+				41360ACA1C40E25C00D3DE9C /* ReplyView.xib in Resources */,
 				41432A841C39056E00423DFE /* JumpPopoverControllerView.xib in Resources */,
 				41432A7E1C38DA3200423DFE /* ThemePopoverControllerView.xib in Resources */,
 				41B57D481C314AFB00B9A01B /* ArticleRoughInfoCell.xib in Resources */,
@@ -546,8 +560,10 @@
 				41295DD51C1E5E260021D689 /* RecommedUtilities.m in Sources */,
 				41E4CEA31C0456D7004DD407 /* LoginUtilities.m in Sources */,
 				41404F711C1D207900A45B13 /* BoardArticleInfoCell.m in Sources */,
+				41360AC91C40E25C00D3DE9C /* ReplyViewController.m in Sources */,
 				41185B8C1BFAC71A00695E9C /* SecondLoginViewController.m in Sources */,
 				41B02B6C1C0FED2500E4904B /* ThemeViewController.m in Sources */,
+				41360ACD1C40FF9900D3DE9C /* PostArticleUtilities.m in Sources */,
 				41432A821C39053E00423DFE /* JumpPopoverController.m in Sources */,
 				41432A7D1C38DA3200423DFE /* ThemePopoverController.m in Sources */,
 				41434F301BE8D5AA00FF01D9 /* AppDelegate.m in Sources */,

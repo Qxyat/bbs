@@ -12,6 +12,8 @@
                 <outlet property="containerView" destination="jKD-EZ-5Bc" id="INd-7T-bVl"/>
                 <outlet property="jumpImageView" destination="czR-fi-vvW" id="a7M-La-arR"/>
                 <outlet property="jumpLabel" destination="637-u9-FaE" id="6cr-LS-8dK"/>
+                <outlet property="replyImageView" destination="kQu-1P-mzb" id="8wB-Eg-bJT"/>
+                <outlet property="replyLabel" destination="JXK-m5-0fu" id="RqN-s7-SgW"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -24,13 +26,25 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="114"/>
                     <subviews>
                         <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="jump" translatesAutoresizingMaskIntoConstraints="NO" id="czR-fi-vvW">
-                            <rect key="frame" x="125" y="0.0" width="68.5" height="68"/>
+                            <rect key="frame" x="51" y="17" width="57" height="56.5"/>
                             <constraints>
-                                <constraint firstAttribute="width" secondItem="czR-fi-vvW" secondAttribute="height" multiplier="1:1" id="w6n-RB-4ig"/>
+                                <constraint firstAttribute="width" secondItem="czR-fi-vvW" secondAttribute="height" multiplier="1:1" id="e4Q-tL-ljn"/>
                             </constraints>
                         </imageView>
+                        <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="post" translatesAutoresizingMaskIntoConstraints="NO" id="kQu-1P-mzb">
+                            <rect key="frame" x="211.5" y="16" width="57" height="58.5"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="kQu-1P-mzb" secondAttribute="height" multiplier="33:34" id="zPH-xJ-WGp"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="快捷回复" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JXK-m5-0fu">
+                            <rect key="frame" x="206" y="74.5" width="68" height="20.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="跳页" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="637-u9-FaE">
-                            <rect key="frame" x="143" y="68" width="34" height="20.5"/>
+                            <rect key="frame" x="62" y="74" width="34" height="20.5"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -38,11 +52,16 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="637-u9-FaE" firstAttribute="centerX" secondItem="jKD-EZ-5Bc" secondAttribute="centerX" id="4W5-by-Hpx"/>
-                        <constraint firstItem="czR-fi-vvW" firstAttribute="height" secondItem="jKD-EZ-5Bc" secondAttribute="height" multiplier="0.6" id="MPS-7C-Qcr"/>
-                        <constraint firstItem="czR-fi-vvW" firstAttribute="top" secondItem="jKD-EZ-5Bc" secondAttribute="top" id="bDH-Eb-wqL"/>
-                        <constraint firstItem="637-u9-FaE" firstAttribute="top" secondItem="czR-fi-vvW" secondAttribute="bottom" id="dxu-3z-RGF"/>
-                        <constraint firstItem="czR-fi-vvW" firstAttribute="centerX" secondItem="jKD-EZ-5Bc" secondAttribute="centerX" id="fVF-vq-jox"/>
+                        <constraint firstItem="kQu-1P-mzb" firstAttribute="centerY" secondItem="czR-fi-vvW" secondAttribute="centerY" id="1C6-Sy-gIu"/>
+                        <constraint firstItem="czR-fi-vvW" firstAttribute="width" secondItem="jKD-EZ-5Bc" secondAttribute="height" multiplier="0.5" id="1jH-7Y-YfS"/>
+                        <constraint firstItem="czR-fi-vvW" firstAttribute="centerX" secondItem="jKD-EZ-5Bc" secondAttribute="trailing" multiplier="0.25" id="7PH-gZ-oQU"/>
+                        <constraint firstItem="637-u9-FaE" firstAttribute="centerX" secondItem="czR-fi-vvW" secondAttribute="centerX" id="8T3-sN-s5z"/>
+                        <constraint firstItem="kQu-1P-mzb" firstAttribute="width" secondItem="czR-fi-vvW" secondAttribute="width" id="Bdc-aM-v31"/>
+                        <constraint firstItem="637-u9-FaE" firstAttribute="top" secondItem="czR-fi-vvW" secondAttribute="bottom" id="Gvf-oR-haU"/>
+                        <constraint firstItem="czR-fi-vvW" firstAttribute="centerY" secondItem="jKD-EZ-5Bc" secondAttribute="centerY" multiplier="0.8" id="iqj-q6-dym"/>
+                        <constraint firstItem="JXK-m5-0fu" firstAttribute="top" secondItem="kQu-1P-mzb" secondAttribute="bottom" id="laf-aX-gbI"/>
+                        <constraint firstItem="kQu-1P-mzb" firstAttribute="centerX" secondItem="jKD-EZ-5Bc" secondAttribute="trailing" multiplier="0.75" id="rFe-NT-c79"/>
+                        <constraint firstItem="kQu-1P-mzb" firstAttribute="centerX" secondItem="JXK-m5-0fu" secondAttribute="centerX" id="tuE-NK-Nsg"/>
                     </constraints>
                 </view>
             </subviews>
@@ -53,7 +72,7 @@
                 <constraint firstItem="jKD-EZ-5Bc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="aUa-hH-Fdw"/>
                 <constraint firstItem="jKD-EZ-5Bc" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.2" id="snq-1A-VEL"/>
             </constraints>
-            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
             <point key="canvasLocation" x="247" y="407"/>
@@ -61,5 +80,6 @@
     </objects>
     <resources>
         <image name="jump" width="256" height="256"/>
+        <image name="post" width="169" height="127"/>
     </resources>
 </document>

@@ -21,6 +21,7 @@
 #import "PictureInfo.h"
 #import "LoginManager.h"
 #import "YYImage+Emoji.h"
+#import "ReplyViewController.h"
 CGFloat const kMargin=4;
 CGFloat const kMaxRatio=1.6;
 CGFloat const kFaceImageViewHeight=30;
@@ -44,6 +45,8 @@ static CGFloat const kContentFontSize=15;
     self.nameLabel.userInteractionEnabled=YES;
     [self.faceImageView addGestureRecognizer:tapGestureRecognizer1];
     [self.nameLabel addGestureRecognizer:tapGestureRecognizer2];
+    UITapGestureRecognizer *tapGestureRecognizer3=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(replyArticle)];
+    [self.replyImageView addGestureRecognizer:tapGestureRecognizer3];
     [self setSeparatorInset:UIEdgeInsetsMake(0, kMargin, 0, kMargin)];
 }
 
@@ -82,13 +85,13 @@ static CGFloat const kContentFontSize=15;
     imageviewWidth=imageviewHeight*ratio;
     
     self.faceImageView.frame=CGRectMake(kMargin, kMargin, imageviewWidth, imageviewHeight);
-    self.replyImageView.frame=CGRectMake(kCustomScreenWidth-kMargin-kFaceImageViewHeight, kMargin, kFaceImageViewHeight, kFaceImageViewHeight);
-    self.labelContainer.frame=CGRectMake(2*kMargin+imageviewWidth, kMargin, kCustomScreenWidth-4*kMargin-imageviewWidth-kFaceImageViewHeight, kFaceImageViewHeight);
-    self.floorLabel.frame=CGRectMake(0, 0, 0.25*self.labelContainer.frame.size.width, self.labelContainer.frame.size.height*0.5);
-    self.timeLabel.frame=CGRectMake(self.floorLabel.frame.size.width, 0, 0.75*self.labelContainer.frame.size.width, self.labelContainer.frame.size.height*0.5);
-    self.nameLabel.frame=CGRectMake(0,self.labelContainer.frame.size.height*0.5,self.labelContainer.frame.size.width, self.labelContainer.frame.size.height*0.5);
+    self.labelContainer.frame=CGRectMake(2*kMargin+imageviewWidth, kMargin, kCustomScreenWidth-3*kMargin-imageviewWidth, kFaceImageViewHeight);
+    self.nameLabel.frame=CGRectMake(0,0,self.labelContainer.frame.size.width*0.8, self.labelContainer.frame.size.height*0.5);
+    self.floorLabel.frame=CGRectMake(self.labelContainer.frame.size.width*0.85, 0, 0.1*self.labelContainer.frame.size.width, self.labelContainer.frame.size.height*0.5);
+    self.timeLabel.frame=CGRectMake(0,self.labelContainer.frame.size.height*0.5,self.labelContainer.frame.size.width, self.labelContainer.frame.size.height*0.5);
     self.contentLabel.frame=CGRectMake(kMargin,2*kMargin+kFaceImageViewHeight,  kCustomScreenWidth-2*kMargin, self.contentLabel.frame.size.height);
-    self.contentView.frame=CGRectMake(0,0,kCustomScreenWidth,3*kMargin+kFaceImageViewHeight+self.contentLabel.frame.size.height);
+    self.replyImageView.frame=CGRectMake(kCustomScreenWidth-2*kMargin-kFaceImageViewHeight, 3*kMargin+kFaceImageViewHeight+self.contentLabel.frame.size.height, kFaceImageViewHeight, kFaceImageViewHeight);
+    self.contentView.frame=CGRectMake(0,0,kCustomScreenWidth,4*kMargin+2*kFaceImageViewHeight+self.contentLabel.frame.size.height);
 }
 #pragma mark - 展示用户信息
 -(void)showUserInfo{
@@ -164,6 +167,8 @@ static CGFloat const kContentFontSize=15;
     CGRect contentLabelNewFrame=self.contentLabel.frame;
     contentLabelNewFrame.size=[articleInfo.contentSize CGSizeValue];
     self.contentLabel.frame=contentLabelNewFrame;
+    
+    [self refreshCustomLayout];
 }
 #pragma mark - 根据表情代码获取表情对应的Attributed String
 -(NSAttributedString*)getEmoji:(NSString*)string
@@ -382,5 +387,11 @@ getAttributedStringWithArticle:(ArticleInfo*)article
     UITableViewController *controller=(UITableViewController*)self.delegate;
     [_photoBrowser setCurrentPhotoIndex:imageView.tag];
     [controller.navigationController pushViewController:_photoBrowser animated:YES];
+}
+
+#pragma mark - 打开回复文章的标题
+-(void)replyArticle{
+    UITableViewController *controller=(UITableViewController*)self.delegate;
+    [controller.navigationController pushViewController:[ReplyViewController getInstanceWithBoardName:self.articleInfo.board_name isNewTheme:NO withArticleName:self.articleInfo.title withArticleId:self.articleInfo.articleId withArticleInfo:self.articleInfo ] animated:YES];
 }
 @end

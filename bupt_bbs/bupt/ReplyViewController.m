@@ -49,6 +49,7 @@
     [super viewDidLoad];
    
     self.dummyView=[[UIView alloc]initWithFrame:kCustomScreenBounds];
+    self.dummyView.backgroundColor=[UIColor clearColor];
     if(!self.isNewTheme){
         self.navigationItem.title=@"回复";
         self.titleTextField.text=[NSString stringWithFormat:@"Re:%@",self.articleName];

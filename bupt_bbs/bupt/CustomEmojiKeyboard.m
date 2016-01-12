@@ -45,6 +45,39 @@ static NSInteger kNumsOfPageForAllEmojiSets;
     frame.size.height=10+49+2*kContainerViewMargin+kContainerViewHeightInOnePage;
     frame.size.width=kCustomScreenWidth;
     if(self=[super initWithFrame:frame]){
+        self.backgroundColor=[UIColor whiteColor];
+        self.scrollView=[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kCustomScreenWidth, 2*kContainerViewMargin+kContainerViewHeightInOnePage)];
+        self.scrollView.contentSize=CGSizeMake(kNumsOfPageForAllEmojiSets*CGRectGetWidth(self.scrollView.frame), CGRectGetHeight(self.scrollView.frame));
+        self.scrollView.pagingEnabled=YES;
+        self.scrollView.showsHorizontalScrollIndicator=NO;
+        self.scrollView.showsVerticalScrollIndicator=NO;
+        self.scrollView.delegate=self;
+        self.scrollView.backgroundColor=[UIColor clearColor];
+        [self addSubview:self.scrollView];
+        
+        for(int i=0;i<kNumsOfPageForAllEmojiSets;i++){
+            [self loadScrollViewPage:i];
+        }
+        self.pageControl=[[UIPageControl alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.scrollView.frame), kCustomScreenWidth, 10)];
+        self.pageControl.numberOfPages=3;
+        [self.pageControl setPageIndicatorTintColor:[UIColor lightGrayColor]];
+        [self.pageControl setCurrentPageIndicatorTintColor:[UIColor grayColor]];
+        self.pageControl.userInteractionEnabled=NO;
+        self.pageControl.backgroundColor=[UIColor clearColor];
+        [self addSubview:self.pageControl];
+        
+        self.tabBar=[[UITabBar alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.pageControl.frame), kCustomScreenWidth, 49)];
+        self.tabBar.items=@[[[UITabBarItem alloc]initWithTitle:@"经典" image:nil tag:0],
+                            [[UITabBarItem alloc]initWithTitle:@"悠嘻猴" image:nil tag:1],
+                            [[UITabBarItem alloc]initWithTitle:@"兔斯基" image:nil tag:2],
+                            [[UITabBarItem alloc]initWithTitle:@"洋葱头" image:nil tag:3]];
+        self.tabBar.delegate=self;
+        [self.tabBar setBackgroundImage:[[UIImage alloc]init]];
+        [self.tabBar setShadowImage:[[UIImage alloc] init]];
+        self.tabBar.backgroundColor=[UIColor clearColor];
+        [self addSubview:self.tabBar];
+        
+        [self refreshPageControlAndTabbar:0];
     }
     return self;
 }
@@ -57,37 +90,6 @@ static NSInteger kNumsOfPageForAllEmojiSets;
     CGContextAddLineToPoint(context, CGRectGetMaxX(rect), CGRectGetMinY(rect));
     CGContextStrokePath(context);
     
-}
--(void)layoutSubviews{
-    self.scrollView=[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kCustomScreenWidth, 2*kContainerViewMargin+kContainerViewHeightInOnePage)];
-    self.scrollView.contentSize=CGSizeMake(kNumsOfPageForAllEmojiSets*CGRectGetWidth(self.scrollView.frame), CGRectGetHeight(self.scrollView.frame));
-    self.scrollView.pagingEnabled=YES;
-    self.scrollView.showsHorizontalScrollIndicator=NO;
-    self.scrollView.showsVerticalScrollIndicator=NO;
-    self.scrollView.delegate=self;
-    [self addSubview:self.scrollView];
-    
-    for(int i=0;i<kNumsOfPageForAllEmojiSets;i++){
-        [self loadScrollViewPage:i];
-    }
-    self.pageControl=[[UIPageControl alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.scrollView.frame), kCustomScreenWidth, 10)];
-    self.pageControl.numberOfPages=3;
-    [self.pageControl setPageIndicatorTintColor:[UIColor lightGrayColor]];
-    [self.pageControl setCurrentPageIndicatorTintColor:[UIColor grayColor]];
-    self.pageControl.userInteractionEnabled=NO;
-    [self addSubview:self.pageControl];
-    
-    self.tabBar=[[UITabBar alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.pageControl.frame), kCustomScreenWidth, 49)];
-    self.tabBar.items=@[[[UITabBarItem alloc]initWithTitle:@"经典" image:nil tag:0],
-                        [[UITabBarItem alloc]initWithTitle:@"悠嘻猴" image:nil tag:1],
-                        [[UITabBarItem alloc]initWithTitle:@"兔斯基" image:nil tag:2],
-                        [[UITabBarItem alloc]initWithTitle:@"洋葱头" image:nil tag:3]];
-    self.tabBar.delegate=self;
-    [self.tabBar setBackgroundImage:[[UIImage alloc]init]];
-    [self.tabBar setShadowImage:[[UIImage alloc] init]];
-    [self addSubview:self.tabBar];
-    
-    [self refreshPageControlAndTabbar:0];
 }
 -(void)preCaluate{
     static dispatch_once_t onceToken;
@@ -231,13 +233,15 @@ static NSInteger kNumsOfPageForAllEmojiSets;
         NSInteger row=(i-1)/colCountForEmojiInOnePage;
         NSInteger col=(i-1)%colCountForEmojiInOnePage;
         CustomEmojiContainerView *emojiView=[[CustomEmojiContainerView alloc]initWithFrame:CGRectMake(emojiContainerViewWidth*col, emojiContainerViewWidth*row, emojiContainerViewWidth, emojiContainerViewWidth)];
-        emojiView.delegate=_delegate;
+        emojiView.backgroundColor=[UIColor clearColor];
+        emojiView.delegate=self;
         emojiView.imageString=[NSString stringWithFormat:emojiStringFomrat,pos];
         [containerView addSubview:emojiView];
     }
     CustomEmojiContainerView *emojiView=[[CustomEmojiContainerView alloc]initWithFrame:CGRectMake(emojiContainerViewWidth*(colCountForEmojiInOnePage-1), emojiContainerViewHeight*(rowCountForEmojiInOnePage-1), emojiContainerViewWidth, emojiContainerViewHeight)];
-    emojiView.delegate=_delegate;
+    emojiView.delegate=self;
     emojiView.imageString=@"delete";
+    emojiView.backgroundColor=[UIColor clearColor];
     [containerView addSubview:emojiView];
     
     [view addSubview:containerView];
@@ -277,6 +281,17 @@ static NSInteger kNumsOfPageForAllEmojiSets;
         NSInteger pageIndexForCurrentEmojiSet=page-kNumsOfPageForClassicsEmoji-kNumsOfPageForYouxihouEmoji-kNumsOfPageForTusijiEmoji;
         _pageControl.numberOfPages=kNumsOfPageForYangcongtouEmoji;
         [_pageControl setCurrentPage:pageIndexForCurrentEmojiSet];
+    }
+}
+#pragma  mark - 实现CustomEmojiKeyboardDelegate协议
+-(void)addEmojiWithImage:(YYImage *)image withImageString:(NSString *)imageString{
+    if(_delegate!=nil){
+        [_delegate addEmojiWithImage:image withImageString:imageString];
+    }
+}
+-(void)deleteEmoji{
+    if(_delegate!=nil){
+        [_delegate deleteEmoji];
     }
 }
 @end

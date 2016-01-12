@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "HttpResponseDelegate.h"
+#import "CustomEmojiKeyboardDelegate.h"
 @class ArticleInfo;
 
-@interface ReplyViewController : UIViewController<HttpResponseDelegate>
+@interface ReplyViewController : UIViewController<HttpResponseDelegate,CustomEmojiKeyboardDelegate>
 +(instancetype)getInstanceWithBoardName:(NSString*)boardName
                              isNewTheme:(BOOL)isNewTheme
                         withArticleName:(NSString*)

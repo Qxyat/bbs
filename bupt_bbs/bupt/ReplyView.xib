@@ -7,11 +7,12 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ReplyViewController">
             <connections>
-                <outlet property="containerView" destination="NWP-98-Em5" id="eFN-sh-QTt"/>
-                <outlet property="contentTextField" destination="fA3-n7-JLW" id="7Qo-kw-zVp"/>
-                <outlet property="emojiLabel" destination="x8G-hS-fmZ" id="dW2-rq-akk"/>
+                <outlet property="contentTextView" destination="fA3-n7-JLW" id="8vn-VQ-vLV"/>
+                <outlet property="emojiButton" destination="3Cx-g2-f9Q" id="PkE-Si-axs"/>
+                <outlet property="pictureButton" destination="9sU-H7-kDV" id="Wm4-ln-Jwv"/>
                 <outlet property="seperatorView" destination="wcr-uk-8C9" id="9A8-hW-cQj"/>
                 <outlet property="titleTextField" destination="qau-he-6fI" id="fEQ-qk-ec2"/>
+                <outlet property="toolbar" destination="NWP-98-Em5" id="d81-u9-9zZ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -20,7 +21,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" id="qau-he-6fI">
+                <textField clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" id="qau-he-6fI">
                     <rect key="frame" x="8" y="66" width="304" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -31,23 +32,24 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" id="fA3-n7-JLW" customClass="YYTextView">
-                    <rect key="frame" x="8" y="97" width="304" height="284"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <view contentMode="scaleToFill" id="NWP-98-Em5">
+                    <rect key="frame" x="0.0" y="511" width="320" height="46"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="3Cx-g2-f9Q">
+                            <rect key="frame" x="236" y="14" width="46" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9sU-H7-kDV">
+                            <rect key="frame" x="51" y="14" width="27" height="26"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        </button>
+                    </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" id="NWP-98-Em5">
-                    <rect key="frame" x="0.0" y="511" width="320" height="57"/>
+                <view contentMode="scaleToFill" id="fA3-n7-JLW" customClass="YYTextView">
+                    <rect key="frame" x="8" y="96" width="304" height="284"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="表情" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="x8G-hS-fmZ">
-                            <rect key="frame" x="143" y="0.0" width="34" height="57"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>

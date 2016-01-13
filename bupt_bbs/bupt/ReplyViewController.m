@@ -13,10 +13,14 @@
 #import "CustomUtilities.h"
 #import "ScreenAdaptionUtilities.h"
 #import "CustomEmojiKeyboard.h"
+#import "YYImage+Emoji.h"
 
 #import <YYKit.h>
 #import <SVProgressHUD.h>
 #import <Masonry.h>
+#define kToolBarHeight 46+1
+#define kToolBarItemHeight 46
+#define kMargin 8
 @interface ReplyViewController ()
 
 @property (strong,nonatomic)NSString *boardName;
@@ -27,10 +31,12 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 @property (weak, nonatomic) IBOutlet UIView *seperatorView;
-@property (weak, nonatomic) IBOutlet YYTextView *contentTextField;
+@property (weak, nonatomic) IBOutlet YYTextView *contentTextView;
+@property (weak, nonatomic) IBOutlet UIView *toolbar;
+@property (weak, nonatomic) IBOutlet UIButton *pictureButton;
+@property (weak, nonatomic) IBOutlet UIButton *emojiButton;
+
 @property (strong,nonatomic) UIView *dummyView;
-@property (weak, nonatomic) IBOutlet UIView *containerView;
-@property (weak, nonatomic) IBOutlet UILabel *emojiLabel;
 @property (strong,nonatomic) CustomEmojiKeyboard *emojiKeyboard;
 @end
 
@@ -55,75 +61,65 @@
 -(void)loadView{
     [super loadView];
     
-    [self.titleTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_titleTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_top).with.offset(64);
-        make.width.equalTo(self.view.mas_width);
-        make.height.equalTo(self.view.mas_height).multipliedBy(0.1);
+        make.width.equalTo(self.view.mas_width).with.offset(-2*kMargin);
+        make.centerX.equalTo(self.view.mas_centerX);
+        make.height.mas_equalTo(36);
     }];
-    [self.seperatorView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleTextField.mas_bottom);
-        make.width.equalTo(self.view.mas_width);
-        make.height.mas_equalTo(1);
+    [_seperatorView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_titleTextField.mas_bottom);
+        make.width.equalTo(_titleTextField.mas_width);
+        make.centerX.equalTo(self.view.mas_centerX);
+        make.height.mas_equalTo(CGFloatFromPixel(1));
     }];
-    [self.contentTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.seperatorView.mas_bottom);
-        make.width.equalTo(self.view.mas_width);
-        make.height.equalTo(self.view.mas_height).multipliedBy(0.6);
+    [_contentTextView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_seperatorView.mas_bottom);
+        make.width.equalTo(_titleTextField.mas_width);
+        make.centerX.equalTo(self.view.mas_centerX);
+        make.height.equalTo(self.view.mas_width).multipliedBy(0.6);
     }];
-    [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_toolbar mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view.mas_bottom);
         make.width.equalTo(self.view.mas_width);
-        make.height.equalTo(self.view.mas_height).multipliedBy(0.1);
+        make.height.mas_equalTo(kToolBarHeight);
         make.centerX.equalTo(self.view.mas_centerX);
     }];
-    [self.emojiLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.containerView.mas_centerX);
-        make.centerY.equalTo(self.containerView.mas_centerY);
+    [_pictureButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(kToolBarItemHeight);
+        make.height.mas_equalTo(kToolBarItemHeight);
+        make.centerX.equalTo(_toolbar.mas_centerX).multipliedBy(0.5);
+        make.centerY.equalTo(_toolbar.mas_centerY).with.offset(0.5);
+    }];
+    [_emojiButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(kToolBarItemHeight);
+        make.height.mas_equalTo(kToolBarItemHeight);
+        make.centerX.equalTo(_toolbar.mas_centerX).multipliedBy(1.5);
+        make.centerY.equalTo(_toolbar.mas_centerY).with.offset(0.5);
     }];
     [self.view layoutIfNeeded];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
    
-    self.dummyView=[[UIView alloc]initWithFrame:kCustomScreenBounds];
-    self.dummyView.backgroundColor=[UIColor clearColor];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    if(!self.isNewTheme){
-        self.navigationItem.title=@"回复";
-        self.titleTextField.text=[NSString stringWithFormat:@"Re:%@",self.articleName];
-        if(self.articleInfo==nil){
-            self.contentTextField.attributedText=[[NSAttributedString alloc]initWithString:@"在这输入内容"];
-        }
-        else{
-            NSRange range;
-            range.location=0;
-            if(self.articleInfo.content.length>50){
-                range.length=50;
-            }
-            else{
-                range.length=self.articleInfo.content.length;
-            }
-            self.contentTextField.attributedText=[[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"\n\n【在%@的大作中提到：】\n%@",self.articleInfo.user.userId,[self.articleInfo.content substringWithRange:range]]];
-        }
-        [self.contentTextField becomeFirstResponder];
+    
+    [self _initNavigationItem];
+    [self _initTitleTextField];
+    [self _initSeperatorView];
+    [self _initcontentTextView];
+    [self _initToolbar];
+    
+    _emojiKeyboard=[[CustomEmojiKeyboard alloc]init];
+    _emojiKeyboard.delegate=self;
+    
+    if(_isNewTheme){
+        [_titleTextField becomeFirstResponder];
     }
     else{
-        self.navigationItem.title=@"新话题";
-        self.titleTextField.placeholder=@"在这输入标题";
-        self.contentTextField.placeholderText=@"在这输入内容";
-        [self.titleTextField becomeFirstResponder];
+        [_contentTextView becomeFirstResponder];
     }
-    self.contentTextField.font=[UIFont systemFontOfSize:14];
-    
-//    UIBarButtonItem *postBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"发表" style:UIBarButtonItemStylePlain target:self action:@selector(postArticle)];
-//    self.navigationItem.rightBarButtonItem=postBarButtonItem;
-    
-    UITapGestureRecognizer *tapGestureRecognizer1=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showEmojiKeyboard)];
-    [self.emojiLabel addGestureRecognizer:tapGestureRecognizer1];
-    
-    self.emojiKeyboard=[[CustomEmojiKeyboard alloc]init];
-    self.emojiKeyboard.delegate=self;
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
@@ -134,17 +130,103 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - 初始化各个view
+-(void)_initNavigationItem{
+    if(!_isNewTheme){
+        self.navigationItem.title=@"回复";
+    }
+    else{
+        self.navigationItem.title=@"新话题";
+    }
+    UIBarButtonItem *postBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"发表" style:UIBarButtonItemStylePlain target:self action:@selector(postArticle)];
+    [postBarButtonItem setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16],NSForegroundColorAttributeName:[UIColor blackColor]} forState:UIControlStateNormal];
+    self.navigationItem.rightBarButtonItem=postBarButtonItem;
+}
+-(void)_initTitleTextField{
+    _titleTextField.font=[UIFont systemFontOfSize:16];
+    //为了防止下面的内容view 滚动时 覆盖掉title
+    _titleTextField.backgroundColor=[UIColor whiteColor];
+    [self.view addSubview:_titleTextField];
+    
+    [_titleTextField mas_updateConstraints:^(MASConstraintMaker *make) {
+        
+    }];
+    if(!_isNewTheme){
+        _titleTextField.text=[NSString stringWithFormat:@"Re:%@",_articleName];
+    }
+    else{
+        _titleTextField.placeholder=@"在这里输入标题...";
+    }
+}
+-(void)_initSeperatorView{
+    _seperatorView.backgroundColor=[CustomUtilities getColor:@"BFBFBF"];
+}
+-(void)_initcontentTextView{
+    _contentTextView.showsVerticalScrollIndicator=NO;
+    _contentTextView.allowsCopyAttributedString=NO;
+    _contentTextView.textContainerInset=UIEdgeInsetsMake(12, 0, 0, 0);
+    if(!_isNewTheme){
+        if(_articleInfo==nil){
+            NSMutableAttributedString *placeholdertext=[[NSMutableAttributedString alloc]initWithString:@"在这里输入内容..."];
+            placeholdertext.color=[CustomUtilities getColor:@"B4B4B4"];
+            placeholdertext.font=[UIFont systemFontOfSize:17];
+            _contentTextView.placeholderAttributedText=placeholdertext;
+        }
+        else{
+            NSRange range;
+            range.location=0;
+            if(_articleInfo.content.length>50){
+                range.length=50;
+            }
+            else{
+                range.length=_articleInfo.content.length;
+            }
+            NSMutableAttributedString *contenttext=[[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"\n\n【在%@的大作中提到:】\n%@",_articleInfo.user.userId,[_articleInfo.content substringWithRange:range]]];
+            contenttext.font=[UIFont systemFontOfSize:17];
+            _contentTextView.attributedText=contenttext;
+        }
+    }
+    else{
+        NSMutableAttributedString *placeholdertext=[[NSMutableAttributedString alloc]initWithString:@"在这里输入内容..."];
+        placeholdertext.color=[CustomUtilities getColor:@"B4B4B4"];
+        placeholdertext.font=[UIFont systemFontOfSize:17];
+        _contentTextView.placeholderAttributedText=placeholdertext;
+    }
+}
+-(void)_initToolbar{
+    UIView *line=[[UIView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_toolbar.frame), CGFloatFromPixel(1))];
+    line.backgroundColor=[CustomUtilities getColor:@"BFBFBF"];
+    line.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [_toolbar addSubview:line];
+    
+    _toolbar.backgroundColor=[CustomUtilities getColor:@"F9F9F9"];
+    [_pictureButton setImage:[UIImage imageNamed:@"toolbarpicture"] forState:UIControlStateNormal];
+    [_pictureButton setImage:[UIImage imageNamed:@"toolbarpicturehighlighted"] forState:UIControlStateHighlighted];
+    [_pictureButton addTarget:self action:@selector(choosePicture) forControlEvents:UIControlEventTouchUpInside];
+    
+    [_emojiButton setImage:[UIImage imageNamed:@"toolbaremotion"] forState:UIControlStateNormal];
+    [_emojiButton setImage:[UIImage imageNamed:@"toolbaremotionhighlighted"] forState:UIControlStateHighlighted];
+    [_emojiButton addTarget:self action:@selector(showEmojiKeyboard) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:_toolbar];
+}
+#pragma mark - 发表
 -(void)postArticle{
     [self disableInteraction];
     [SVProgressHUD showWithStatus:@"发表中"];
-    [PostArticleUtilities postArticleWithBoardName:self.boardName withArticleTitle:self.titleTextField.text withArticleContent:self.contentTextField.text isNewTheme:self.isNewTheme withReplyArticleID:self.articleId delegate:self];
+    [PostArticleUtilities postArticleWithBoardName:_boardName withArticleTitle:_titleTextField.text withArticleContent:_contentTextView.text isNewTheme:_isNewTheme withReplyArticleID:_articleId delegate:self];
 }
 #pragma mark - 发表过程中开关别的控件响应
 -(void)disableInteraction{
-    [[UIApplication sharedApplication].keyWindow.rootViewController.view addSubview:self.dummyView];
+    if(!_dummyView){
+        _dummyView=[[UIView alloc]initWithFrame:kCustomScreenBounds];
+        _dummyView.backgroundColor=[UIColor clearColor];
+    }
+    [[UIApplication sharedApplication].keyWindow.rootViewController.view addSubview:_dummyView];
 }
 -(void)enableInteraction{
-    [self.dummyView removeFromSuperview];
+    [_dummyView removeFromSuperview];
+    _dummyView=nil;
 }
 #pragma mark - 实现HttpResponseDelegate协议
 -(void)handleHttpSuccessResponse:(id)response{
@@ -182,11 +264,8 @@
         [UIView setAnimationCurve:curve];
         [UIView setAnimationBeginsFromCurrentState:YES];
         
-        [self.containerView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        [_toolbar mas_updateConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self.view.mas_bottom).with.offset(-CGRectGetHeight(frame));
-            make.width.equalTo(self.view.mas_width);
-            make.height.equalTo(self.view.mas_height).multipliedBy(0.1);
-            make.centerX.equalTo(self.view.mas_centerX);
         }];
     }];
 }
@@ -198,33 +277,50 @@
         [UIView setAnimationCurve:curve];
         [UIView setAnimationBeginsFromCurrentState:YES];
         
-        [self.containerView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        [_toolbar mas_updateConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self.view.mas_bottom);
-            make.width.equalTo(self.view.mas_width);
-            make.height.equalTo(self.view.mas_height).multipliedBy(0.1);
-            make.centerX.equalTo(self.view.mas_centerX);
         }];
     }];
 }
 
+#pragma mark - 显示图片选择
+-(void)choosePicture{
+    
+}
 #pragma mark - 显示表情键盘
 -(void)showEmojiKeyboard{
-    if(self.contentTextField.inputView==self.emojiKeyboard){
-        self.contentTextField.inputView=nil;
-        [self.contentTextField reloadInputViews];
+    if(_contentTextView.inputView==_emojiKeyboard){
+        _contentTextView.inputView=nil;
+        [_contentTextView reloadInputViews];
+        [_emojiButton setImage:[UIImage imageNamed:@"toolbaremotion"] forState:UIControlStateNormal];
+        [_emojiButton setImage:[UIImage imageNamed:@"toolbaremotionhighlighted"] forState:UIControlStateHighlighted];
     }
     else{
-        self.contentTextField.inputView=self.emojiKeyboard;
-        [self.contentTextField reloadInputViews];
-        if(![self.contentTextField isFirstResponder])
-            [self.contentTextField becomeFirstResponder];
+        _contentTextView.inputView=_emojiKeyboard;
+        [_contentTextView reloadInputViews];
+        [_emojiButton setImage:[UIImage imageNamed:@"toolbarkeyboard"] forState:UIControlStateNormal];
+        [_emojiButton setImage:[UIImage imageNamed:@"toolbarkeyboardhighlighted"] forState:UIControlStateHighlighted];
+        
+        if(![_contentTextView isFirstResponder])
+            [_contentTextView becomeFirstResponder];
     }
 }
 #pragma mark - 实现CustomEmojiKeyboardDelegate
 -(void)addEmojiWithImage:(YYImage *)image withImageString:(NSString *)imageString{
+    UIFont*font=_contentTextView.font;
+    CGFloat imageViewWidth=font.ascender-font.descender+10;
+    YYAnimatedImageView *imageview=[[YYAnimatedImageView alloc]initWithFrame:CGRectMake(0, 0, imageViewWidth, imageViewWidth)];
+    NSRange range;
+    range.location=1;
+    range.length=imageString.length-2;
+    imageview.image=[YYImage imageNamedFromEmojiBundle:[imageString substringWithRange:range]];
+    NSMutableAttributedString *tmp=[NSMutableAttributedString attachmentStringWithContent:imageview contentMode:UIViewContentModeCenter attachmentSize:imageview.frame.size alignToFont:font alignment:YYTextVerticalAlignmentCenter];
+    NSMutableAttributedString *res=[[NSMutableAttributedString alloc]initWithAttributedString:_contentTextView.attributedText];
+    [res replaceCharactersInRange:_contentTextView.selectedRange  withAttributedString:tmp];
+    _contentTextView.attributedText=res;
     NSLog(@"%@",imageString);
 }
 -(void)deleteEmoji{
-    NSLog(@"deleteEmoji");
+    [_contentTextView deleteBackward];
 }
 @end

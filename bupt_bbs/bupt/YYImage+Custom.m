@@ -17,7 +17,7 @@
         return [YYImage imageWithContentsOfFile:[bundle pathForResource:imageName ofType:@"gif"]];
     }
     else
-        return [YYImage imageNamed:@"delete"];
+        return [YYImage imageNamed:@"emojikeyboarddelete"];
 }
 
 @end

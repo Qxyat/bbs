@@ -170,7 +170,6 @@ static CGFloat const kContentFontSize=15;
     
     [self refreshCustomLayout];
 }
-#pragma mark - 根据表情代码获取表情对应的Attributed String
 -(NSAttributedString*)getEmoji:(NSString*)string
                   withFontSize:(CGFloat)fontSize
 {
@@ -188,9 +187,6 @@ static CGFloat const kContentFontSize=15;
 
 #pragma mark - 根据图片在附件中的位置获得对应的Attributed String
 -(NSAttributedString*)
-    getPictureInAttachment:(AttachmentInfo*)attachmentInfo
-              withPosition:(NSUInteger)pos
-    withAttachmentUsedInfo:(NSMutableArray *)used{
     NSMutableAttributedString *res=[[NSMutableAttributedString alloc]init];
     __weak typeof(self) target=self;
     if(used!=nil&&pos<=attachmentInfo.file.count){
@@ -220,9 +216,6 @@ static CGFloat const kContentFontSize=15;
             }
             else{
                 [DownloadResourcesUtilities downloadPicture:file.thumbnail_middle FromBBS:YES Completed:^{
-                      dispatch_async(dispatch_get_main_queue(), ^{
-                          [target.delegate refreshTableView:file.thumbnail_middle];
-                      });
                 }];
             }
             
@@ -235,15 +228,9 @@ static CGFloat const kContentFontSize=15;
 #pragma mark - 通过递归的方式获取对应的attributedstring
 -(NSMutableAttributedString*)
 getAttributedStringByRecursiveWithString:(NSString*)string
-                               fontColor:(UIColor*)color
-                                fontSize:(CGFloat) size
-                      withAttachmentInfo:(AttachmentInfo*)
-                                          attachmentInfo
-                  withAttachmentUsedInfo:(NSMutableArray*)used
 {
     NSMutableAttributedString *result=[[NSMutableAttributedString alloc]init];
     NSDictionary *attributes=@{NSForegroundColorAttributeName:color,
-                               NSFontAttributeName:[UIFont systemFontOfSize:size]};
     NSScanner *scanner=[[NSScanner alloc]initWithString:string];
     scanner.charactersToBeSkipped=nil;
     NSString *tmp;
@@ -257,7 +244,6 @@ getAttributedStringByRecursiveWithString:(NSString*)string
             UIColor *newColor=[CustomUtilities getColor:tmp];
             [scanner scanString:@"]" intoString:nil];
             [scanner scanUpToString:@"[/color]" intoString:&tmp];
-            [result appendAttributedString:[self getAttributedStringByRecursiveWithString:tmp fontColor:newColor fontSize:size withAttachmentInfo:attachmentInfo withAttachmentUsedInfo:used]];
             [scanner scanString:@"[/color]" intoString:nil];
             range.location=scanner.scanLocation;
             range.length=0;
@@ -268,7 +254,6 @@ getAttributedStringByRecursiveWithString:(NSString*)string
             CGFloat newSize=size;
             [scanner scanString:@"]" intoString:nil];
             [scanner scanUpToString:@"[/size]" intoString:&tmp];
-            [result appendAttributedString:[self getAttributedStringByRecursiveWithString:tmp fontColor:color fontSize:newSize withAttachmentInfo:attachmentInfo withAttachmentUsedInfo:used]];
             [scanner scanString:@"[/size]" intoString:nil];
             range.location=scanner.scanLocation;
             range.length=0;
@@ -310,7 +295,6 @@ getAttributedStringByRecursiveWithString:(NSString*)string
             NSString *url;
             scanner.scanLocation-=7;
             [scanner scanUpToString:@"\n" intoString:&url];
-           
             NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithString:url];
             content.font = [UIFont systemFontOfSize:size];
             content.color =[UIColor blueColor];
@@ -339,7 +323,6 @@ getAttributedStringByRecursiveWithString:(NSString*)string
             [scanner scanUpToString:@"]" intoString:&tmp];
             [scanner scanString:@"]" intoString:nil];
             [scanner scanUpToString:@"[/face]" intoString:&tmp];
-            [result appendAttributedString:[self getAttributedStringByRecursiveWithString:tmp fontColor:color fontSize:size withAttachmentInfo:attachmentInfo withAttachmentUsedInfo:used]];
             [scanner scanString:@"[/face]" intoString:nil];
             range.location=scanner.scanLocation;
             range.length=0;
@@ -357,9 +340,6 @@ getAttributedStringByRecursiveWithString:(NSString*)string
 #pragma mark - 获取一篇文章内容对应的对应的attributedstring
 -(NSMutableAttributedString*)
 getAttributedStringWithArticle:(ArticleInfo*)article
-                     fontColor:(UIColor*)color
-                      fontSize:(CGFloat)size
-
 {
     NSMutableArray *used=nil;
     AttachmentInfo *attachmentInfo=article.attachment;
@@ -370,7 +350,6 @@ getAttributedStringWithArticle:(ArticleInfo*)article
         }
     }
     
-    NSMutableAttributedString*result=[self getAttributedStringByRecursiveWithString:article.content fontColor:color fontSize:size withAttachmentInfo:attachmentInfo withAttachmentUsedInfo:used];
     
     if(used!=nil){
         for(int i=1;i<=attachmentInfo.file.count;i++){

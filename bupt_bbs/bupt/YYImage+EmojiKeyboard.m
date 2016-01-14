@@ -6,9 +6,9 @@
 //  Copyright © 2016年 qiu. All rights reserved.
 //
 
-#import "YYImage+Custom.h"
+#import "YYImage+EmojiKeyboard.h"
 
-@implementation YYImage (Custom)
+@implementation YYImage (EmojiKeyboard)
 
 +(YYImage *)imageNamedFromEmojiBundleForEmojiKeyBoard:(NSString*)imageName{
     if(![imageName isEqualToString:@"delete"]){

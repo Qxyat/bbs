@@ -8,7 +8,7 @@
 
 #import "CustomEmojiContainerView.h"
 #import <YYKit.h>
-#import "YYImage+Custom.h"
+#import "YYImage+EmojiKeyboard.h"
 #import "CustomUtilities.h"
 @interface CustomEmojiContainerView ()
 @property (strong,nonatomic)YYAnimatedImageView *imageView;

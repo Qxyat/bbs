@@ -69,6 +69,7 @@
 		41D801DD1C14277B00845782 /* AttachmentFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D801DC1C14277B00845782 /* AttachmentFile.m */; };
 		41E4CEA31C0456D7004DD407 /* LoginUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41E4CEA21C0456D7004DD407 /* LoginUtilities.m */; };
 		41E4CEA51C04588C004DD407 /* SecondLoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41E4CEA41C04588C004DD407 /* SecondLoginView.xib */; };
+		41EE38AA1C475E3400AE75BA /* CustomYYAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE38A91C475E3400AE75BA /* CustomYYAnimatedImageView.m */; };
 		41F86AB71C1FA3DD009DC75C /* UserCenter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41F86AB61C1FA3DD009DC75C /* UserCenter.xib */; };
 		41F86ABA1C1FA8FC009DC75C /* UserUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F86AB91C1FA8FC009DC75C /* UserUtilities.m */; };
 		ADF0647870C22EAF6852BE39 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC63FE2D2B942D0F858DC8B3 /* libPods.a */; };
@@ -193,6 +194,8 @@
 		41E4CEA11C0456D7004DD407 /* LoginUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginUtilities.h; sourceTree = "<group>"; };
 		41E4CEA21C0456D7004DD407 /* LoginUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginUtilities.m; sourceTree = "<group>"; };
 		41E4CEA41C04588C004DD407 /* SecondLoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecondLoginView.xib; sourceTree = "<group>"; };
+		41EE38A81C475E3400AE75BA /* CustomYYAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomYYAnimatedImageView.h; sourceTree = "<group>"; };
+		41EE38A91C475E3400AE75BA /* CustomYYAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomYYAnimatedImageView.m; sourceTree = "<group>"; };
 		41F86AB61C1FA3DD009DC75C /* UserCenter.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserCenter.xib; sourceTree = "<group>"; };
 		41F86AB81C1FA8FC009DC75C /* UserUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserUtilities.h; sourceTree = "<group>"; };
 		41F86AB91C1FA8FC009DC75C /* UserUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserUtilities.m; sourceTree = "<group>"; };
@@ -265,6 +268,7 @@
 			children = (
 				41434F2E1BE8D5AA00FF01D9 /* AppDelegate.h */,
 				41434F2F1BE8D5AA00FF01D9 /* AppDelegate.m */,
+				41EE38A71C475E0100AE75BA /* CustomClass */,
 				41B26AC21C3E08660088E1FE /* Category */,
 				412641F71C0E9129006C4B31 /* Protocol */,
 				41CDB23C1BF9B68600172DE0 /* Constants */,
@@ -436,6 +440,15 @@
 				4129D06C1C3CB0D900BCB528 /* PictureInfo.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		41EE38A71C475E0100AE75BA /* CustomClass */ = {
+			isa = PBXGroup;
+			children = (
+				41EE38A81C475E3400AE75BA /* CustomYYAnimatedImageView.h */,
+				41EE38A91C475E3400AE75BA /* CustomYYAnimatedImageView.m */,
+			);
+			name = CustomClass;
 			sourceTree = "<group>";
 		};
 		7E7D852DBD4AFCC21B440304 /* Pods */ = {
@@ -617,6 +630,7 @@
 				419411DB1C1C0C93002E59AC /* SectionViewController.m in Sources */,
 				41B684BD1C2001BB0088395D /* ShowUserInfoViewController.m in Sources */,
 				4108B0001C0D951600CDC292 /* TopTenUtilities.m in Sources */,
+				41EE38AA1C475E3400AE75BA /* CustomYYAnimatedImageView.m in Sources */,
 				416B272F1C1BE87F00D0FFE4 /* SectionUtilities.m in Sources */,
 				412441121C2259EA009A4172 /* FirstLoginViewController.m in Sources */,
 				41CEB46E1C2B8C4A004935FF /* ScreenAdaptionUtilities.m in Sources */,

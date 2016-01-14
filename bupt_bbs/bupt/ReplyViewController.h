@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <YYKit.h>
 #import "HttpResponseDelegate.h"
 #import "CustomEmojiKeyboardDelegate.h"
 @class ArticleInfo;

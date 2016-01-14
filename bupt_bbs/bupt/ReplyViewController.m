@@ -14,13 +14,14 @@
 #import "ScreenAdaptionUtilities.h"
 #import "CustomEmojiKeyboard.h"
 #import "YYImage+Emoji.h"
-
-#import <YYKit.h>
+#import "CustomYYAnimatedImageView.h"
 #import <SVProgressHUD.h>
 #import <Masonry.h>
+
 #define kToolBarHeight 46+1
 #define kToolBarItemHeight 46
 #define kMargin 8
+
 @interface ReplyViewController ()
 
 @property (strong,nonatomic)NSString *boardName;
@@ -38,7 +39,9 @@
 
 @property (strong,nonatomic) UIView *dummyView;
 @property (strong,nonatomic) CustomEmojiKeyboard *emojiKeyboard;
+
 @end
+
 
 @implementation ReplyViewController
 
@@ -120,6 +123,7 @@
     else{
         [_contentTextView becomeFirstResponder];
     }
+    
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
@@ -142,6 +146,7 @@
     [postBarButtonItem setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16],NSForegroundColorAttributeName:[UIColor blackColor]} forState:UIControlStateNormal];
     self.navigationItem.rightBarButtonItem=postBarButtonItem;
 }
+
 -(void)_initTitleTextField{
     _titleTextField.font=[UIFont systemFontOfSize:16];
     //为了防止下面的内容view 滚动时 覆盖掉title
@@ -158,9 +163,11 @@
         _titleTextField.placeholder=@"在这里输入标题...";
     }
 }
+
 -(void)_initSeperatorView{
     _seperatorView.backgroundColor=[CustomUtilities getColor:@"BFBFBF"];
 }
+
 -(void)_initcontentTextView{
     _contentTextView.showsVerticalScrollIndicator=NO;
     _contentTextView.allowsCopyAttributedString=NO;
@@ -212,9 +219,32 @@
 }
 #pragma mark - 发表
 -(void)postArticle{
-    [self disableInteraction];
-    [SVProgressHUD showWithStatus:@"发表中"];
-    [PostArticleUtilities postArticleWithBoardName:_boardName withArticleTitle:_titleTextField.text withArticleContent:_contentTextView.text isNewTheme:_isNewTheme withReplyArticleID:_articleId delegate:self];
+    NSMutableString *contentString=[[NSMutableString alloc]init];
+    for(int i=0;i<_contentTextView.attributedText.length;i++){
+        if([_contentTextView.attributedText attribute:YYTextAttachmentAttributeName atIndex:i]){
+            YYTextAttachment *attachment=[_contentTextView.attributedText attribute:YYTextAttachmentAttributeName atIndex:i];
+            CustomYYAnimatedImageView *imageView=attachment.content;
+            [contentString appendString:imageView.imageString];
+        }
+        else
+            [contentString appendString:[_contentTextView.text substringWithRange:NSMakeRange(i, 1)]];
+    }
+    NSLog(@"%@",contentString);
+    NSString *message=nil;
+    if(_isNewTheme)
+        message=@"确认发表新话题？";
+    else
+        message=@"确认回复该话题？";
+    UIAlertController *alertController=[UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action1=[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *action2=[UIAlertAction actionWithTitle:@"发表" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self disableInteraction];
+        [SVProgressHUD showWithStatus:@"发表中"];
+        [PostArticleUtilities postArticleWithBoardName:_boardName withArticleTitle:_titleTextField.text withArticleContent:contentString isNewTheme:_isNewTheme withReplyArticleID:_articleId delegate:self];
+    }];
+    [alertController addAction:action1];
+    [alertController addAction:action2];
+    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alertController animated:YES completion:nil];
 }
 #pragma mark - 发表过程中开关别的控件响应
 -(void)disableInteraction{
@@ -309,18 +339,27 @@
 -(void)addEmojiWithImage:(YYImage *)image withImageString:(NSString *)imageString{
     UIFont*font=_contentTextView.font;
     CGFloat imageViewWidth=font.ascender-font.descender+10;
-    YYAnimatedImageView *imageview=[[YYAnimatedImageView alloc]initWithFrame:CGRectMake(0, 0, imageViewWidth, imageViewWidth)];
+    CustomYYAnimatedImageView *imageview=[[CustomYYAnimatedImageView alloc]initWithFrame:CGRectMake(0, 0, imageViewWidth, imageViewWidth)];
+    imageview.imageString=imageString;
+    
     NSRange range;
     range.location=1;
     range.length=imageString.length-2;
     imageview.image=[YYImage imageNamedFromEmojiBundle:[imageString substringWithRange:range]];
     NSMutableAttributedString *tmp=[NSMutableAttributedString attachmentStringWithContent:imageview contentMode:UIViewContentModeCenter attachmentSize:imageview.frame.size alignToFont:font alignment:YYTextVerticalAlignmentCenter];
+    
     NSMutableAttributedString *res=[[NSMutableAttributedString alloc]initWithAttributedString:_contentTextView.attributedText];
-    [res replaceCharactersInRange:_contentTextView.selectedRange  withAttributedString:tmp];
+    NSRange selectedRange=_contentTextView.selectedRange;
+    [res replaceCharactersInRange:selectedRange  withAttributedString:tmp];
     _contentTextView.attributedText=res;
-    NSLog(@"%@",imageString);
+    
+    selectedRange.location++;
+    _contentTextView.selectedRange=selectedRange;
 }
+
 -(void)deleteEmoji{
     [_contentTextView deleteBackward];
 }
+
+
 @end

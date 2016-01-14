@@ -111,7 +111,7 @@
     [self _initNavigationItem];
     [self _initTitleTextField];
     [self _initSeperatorView];
-    [self _initcontentTextView];
+    [self _initContentTextView];
     [self _initToolbar];
     
     _emojiKeyboard=[[CustomEmojiKeyboard alloc]init];
@@ -169,11 +169,12 @@
     _seperatorView.backgroundColor=[CustomUtilities getColor:@"BFBFBF"];
 }
 
--(void)_initcontentTextView{
+-(void)_initContentTextView{
     _contentTextView.showsVerticalScrollIndicator=NO;
     _contentTextView.allowsCopyAttributedString=NO;
     _contentTextView.textContainerInset=UIEdgeInsetsMake(12, 0, 0, 0);
     _contentTextView.font=[UIFont systemFontOfSize:17];
+    _contentTextView.delegate=self;
     
     if(!_isNewTheme){
         if(_articleInfo==nil){
@@ -349,7 +350,7 @@
 #pragma mark - 实现CustomEmojiKeyboardDelegate
 -(void)addEmojiWithImage:(YYImage *)image withImageString:(NSString *)imageString{
     UIFont*font=_contentTextView.font;
-    CGFloat imageViewWidth=font.ascender-font.descender+10;
+    CGFloat imageViewWidth=font.ascender-font.descender;
     CustomYYAnimatedImageView *imageview=[[CustomYYAnimatedImageView alloc]initWithFrame:CGRectMake(0, 0, imageViewWidth, imageViewWidth)];
     imageview.imageString=imageString;
     
@@ -371,5 +372,17 @@
 
 -(void)deleteEmoji{
     [_contentTextView deleteBackward];
+}
+
+#pragma mark - 实现YYTextviewDelegate协议
+-(BOOL)textView:(YYTextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    _contentTextView.font=[UIFont systemFontOfSize:17];
+    NSMutableAttributedString *tmp=[[NSMutableAttributedString alloc]initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor blackColor],NSFontAttributeName:[UIFont systemFontOfSize:17]}];
+
+    NSMutableAttributedString *res=[[NSMutableAttributedString alloc]initWithAttributedString:_contentTextView.attributedText];
+    [res replaceCharactersInRange:range  withAttributedString:tmp];
+ //   _contentTextView.attributedText=res;
+//    [_contentTextView att];
+    return YES;
 }
 @end

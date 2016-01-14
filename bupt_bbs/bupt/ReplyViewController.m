@@ -122,6 +122,7 @@
     }
     else{
         [_contentTextView becomeFirstResponder];
+        _contentTextView.selectedRange=NSMakeRange(0, 0);
     }
     
 }
@@ -173,6 +174,7 @@
     _contentTextView.allowsCopyAttributedString=NO;
     _contentTextView.textContainerInset=UIEdgeInsetsMake(12, 0, 0, 0);
     _contentTextView.font=[UIFont systemFontOfSize:17];
+    
     if(!_isNewTheme){
         if(_articleInfo==nil){
             NSMutableAttributedString *placeholdertext=[[NSMutableAttributedString alloc]initWithString:@"在这里输入内容..."];

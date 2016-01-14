@@ -157,7 +157,7 @@ static CGFloat const kContentFontSize=15;
     self.timeLabel.text=[CustomUtilities getPostTimeString:articleInfo.post_time];
     self.nameLabel.text=articleInfo.user.userId;
     
-    CGSize boundSize=CGSizeMake(kCustomScreenWidth-2*kMargin, 10000);
+    CGSize boundSize=CGSizeMake(kCustomScreenWidth-2*kMargin, CGFLOAT_MAX);
     self.articleInfo.contentAttributesString=[self getAttributedStringWithArticle:self.articleInfo fontColor:[UIColor blackColor] fontSize:kContentFontSize];
     CGSize contentSize=sizeThatFitsAttributedString(self.articleInfo.contentAttributesString, boundSize, 0);
     self.articleInfo.contentSize=[NSValue valueWithCGSize:contentSize];
@@ -170,6 +170,23 @@ static CGFloat const kContentFontSize=15;
     
     [self refreshCustomLayout];
 }
+
+
+#pragma mark - 点击图片后相应的反馈
+-(void)pictureTapped:(UIGestureRecognizer*)recognizer{
+    UIImageView *imageView=(UIImageView*)recognizer.view;
+    UITableViewController *controller=(UITableViewController*)self.delegate;
+    [_photoBrowser setCurrentPhotoIndex:imageView.tag];
+    [controller.navigationController pushViewController:_photoBrowser animated:YES];
+}
+
+#pragma mark - 打开回复文章的标题
+-(void)replyArticle{
+    UITableViewController *controller=(UITableViewController*)self.delegate;
+    [controller.navigationController pushViewController:[ReplyViewController getInstanceWithBoardName:self.articleInfo.board_name isNewTheme:NO withArticleName:self.articleInfo.title withArticleId:self.articleInfo.articleId withArticleInfo:self.articleInfo ] animated:YES];
+}
+
+#pragma mark - 根据表情代码获得表情对应的AttributedString
 -(NSAttributedString*)getEmoji:(NSString*)string
                   withFontSize:(CGFloat)fontSize
 {
@@ -187,6 +204,9 @@ static CGFloat const kContentFontSize=15;
 
 #pragma mark - 根据图片在附件中的位置获得对应的Attributed String
 -(NSAttributedString*)
+getPictureInAttachment:(AttachmentInfo*)attachmentInfo
+withPosition:(NSUInteger)pos
+withAttachmentUsedInfo:(NSMutableArray *)used{
     NSMutableAttributedString *res=[[NSMutableAttributedString alloc]init];
     __weak typeof(self) target=self;
     if(used!=nil&&pos<=attachmentInfo.file.count){
@@ -216,6 +236,9 @@ static CGFloat const kContentFontSize=15;
             }
             else{
                 [DownloadResourcesUtilities downloadPicture:file.thumbnail_middle FromBBS:YES Completed:^{
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [target.delegate refreshTableView:file.thumbnail_middle];
+                    });
                 }];
             }
             
@@ -228,9 +251,25 @@ static CGFloat const kContentFontSize=15;
 #pragma mark - 通过递归的方式获取对应的attributedstring
 -(NSMutableAttributedString*)
 getAttributedStringByRecursiveWithString:(NSString*)string
+fontColor:(UIColor*)color
+fontSize:(CGFloat) size
+isBold:(BOOL)isBold
+withAttachmentInfo:(AttachmentInfo*)
+attachmentInfo
+withAttachmentUsedInfo:(NSMutableArray*)used
 {
     NSMutableAttributedString *result=[[NSMutableAttributedString alloc]init];
+    UIFont *font;
+    
+    if(isBold){
+        font=[UIFont boldSystemFontOfSize:size];
+    }
+    else{
+        font=[UIFont systemFontOfSize:size];
+    }
+    
     NSDictionary *attributes=@{NSForegroundColorAttributeName:color,
+                               NSFontAttributeName:font};
     NSScanner *scanner=[[NSScanner alloc]initWithString:string];
     scanner.charactersToBeSkipped=nil;
     NSString *tmp;
@@ -244,6 +283,7 @@ getAttributedStringByRecursiveWithString:(NSString*)string
             UIColor *newColor=[CustomUtilities getColor:tmp];
             [scanner scanString:@"]" intoString:nil];
             [scanner scanUpToString:@"[/color]" intoString:&tmp];
+            [result appendAttributedString:[self getAttributedStringByRecursiveWithString:tmp fontColor:newColor fontSize:size isBold:isBold withAttachmentInfo:attachmentInfo withAttachmentUsedInfo:used]];
             [scanner scanString:@"[/color]" intoString:nil];
             range.location=scanner.scanLocation;
             range.length=0;
@@ -254,6 +294,7 @@ getAttributedStringByRecursiveWithString:(NSString*)string
             CGFloat newSize=size;
             [scanner scanString:@"]" intoString:nil];
             [scanner scanUpToString:@"[/size]" intoString:&tmp];
+            [result appendAttributedString:[self getAttributedStringByRecursiveWithString:tmp fontColor:color fontSize:newSize isBold:isBold withAttachmentInfo:attachmentInfo withAttachmentUsedInfo:used]];
             [scanner scanString:@"[/size]" intoString:nil];
             range.location=scanner.scanLocation;
             range.length=0;
@@ -285,7 +326,7 @@ getAttributedStringByRecursiveWithString:(NSString*)string
             [content setTextHighlight:highlight range:content.rangeOfAll];
             
             [result appendAttributedString:content];
-
+            
             [scanner scanString:@"[/url]" intoString:nil];
             range.location=scanner.scanLocation;
             range.length=0;
@@ -295,6 +336,7 @@ getAttributedStringByRecursiveWithString:(NSString*)string
             NSString *url;
             scanner.scanLocation-=7;
             [scanner scanUpToString:@"\n" intoString:&url];
+            
             NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithString:url];
             content.font = [UIFont systemFontOfSize:size];
             content.color =[UIColor blueColor];
@@ -323,7 +365,16 @@ getAttributedStringByRecursiveWithString:(NSString*)string
             [scanner scanUpToString:@"]" intoString:&tmp];
             [scanner scanString:@"]" intoString:nil];
             [scanner scanUpToString:@"[/face]" intoString:&tmp];
+            [result appendAttributedString:[self getAttributedStringByRecursiveWithString:tmp fontColor:color fontSize:size isBold:isBold withAttachmentInfo:attachmentInfo withAttachmentUsedInfo:used]];
             [scanner scanString:@"[/face]" intoString:nil];
+            range.location=scanner.scanLocation;
+            range.length=0;
+        }
+        else if([scanner scanString:@"[b]" intoString:nil]){
+            [result appendAttributedString:[[NSAttributedString alloc]initWithString:[string substringWithRange:range] attributes:attributes]];
+            [scanner scanUpToString:@"[/b]" intoString:&tmp];
+            [result appendAttributedString:[self getAttributedStringByRecursiveWithString:tmp fontColor:color fontSize:size isBold:YES withAttachmentInfo:attachmentInfo withAttachmentUsedInfo:used]];
+            [scanner scanString:@"[/b]" intoString:nil];
             range.location=scanner.scanLocation;
             range.length=0;
         }
@@ -340,6 +391,8 @@ getAttributedStringByRecursiveWithString:(NSString*)string
 #pragma mark - 获取一篇文章内容对应的对应的attributedstring
 -(NSMutableAttributedString*)
 getAttributedStringWithArticle:(ArticleInfo*)article
+fontColor:(UIColor*)color
+fontSize:(CGFloat)size
 {
     NSMutableArray *used=nil;
     AttachmentInfo *attachmentInfo=article.attachment;
@@ -350,6 +403,7 @@ getAttributedStringWithArticle:(ArticleInfo*)article
         }
     }
     
+    NSMutableAttributedString*result=[self getAttributedStringByRecursiveWithString:article.content fontColor:color fontSize:size isBold:NO withAttachmentInfo:attachmentInfo withAttachmentUsedInfo:used];
     
     if(used!=nil){
         for(int i=1;i<=attachmentInfo.file.count;i++){
@@ -358,19 +412,5 @@ getAttributedStringWithArticle:(ArticleInfo*)article
         
     }
     return result;
-}
-
-#pragma mark - 点击图片后相应的反馈
--(void)pictureTapped:(UIGestureRecognizer*)recognizer{
-    UIImageView *imageView=(UIImageView*)recognizer.view;
-    UITableViewController *controller=(UITableViewController*)self.delegate;
-    [_photoBrowser setCurrentPhotoIndex:imageView.tag];
-    [controller.navigationController pushViewController:_photoBrowser animated:YES];
-}
-
-#pragma mark - 打开回复文章的标题
--(void)replyArticle{
-    UITableViewController *controller=(UITableViewController*)self.delegate;
-    [controller.navigationController pushViewController:[ReplyViewController getInstanceWithBoardName:self.articleInfo.board_name isNewTheme:NO withArticleName:self.articleInfo.title withArticleId:self.articleInfo.articleId withArticleInfo:self.articleInfo ] animated:YES];
 }
 @end

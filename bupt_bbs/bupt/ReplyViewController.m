@@ -350,7 +350,7 @@
 #pragma mark - 实现CustomEmojiKeyboardDelegate
 -(void)addEmojiWithImage:(YYImage *)image withImageString:(NSString *)imageString{
     UIFont*font=_contentTextView.font;
-    CGFloat imageViewWidth=font.ascender-font.descender;
+    CGFloat imageViewWidth=font.ascender-font.descender+6;
     CustomYYAnimatedImageView *imageview=[[CustomYYAnimatedImageView alloc]initWithFrame:CGRectMake(0, 0, imageViewWidth, imageViewWidth)];
     imageview.imageString=imageString;
     

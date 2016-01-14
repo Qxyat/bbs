@@ -1437,13 +1437,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     NSRange newRange = NSMakeRange(range.asRange.location, text.length);
     
     
-    /**为了防止上一次输入的是图片的情况**/
-    if(_innerText.length!=0&&range.asRange.location==_innerText.length&&[_innerText attribute:YYTextAttachmentAttributeName atIndex:_innerText.length-1]){
-            [_innerText replaceCharactersInRange:range.asRange withAttributedString:[[NSAttributedString alloc]initWithString:text attributes:@{NSFontAttributeName:_font,NSForegroundColorAttributeName:_textColor}]];
-    }
-    else
-        [_innerText replaceCharactersInRange:range.asRange withString:text];//这是原有的
-    /*******************************/
+    [_innerText replaceCharactersInRange:range.asRange withString:text];
     
     [_innerText removeDiscontinuousAttributesInRange:newRange];
     if (notify) [_inputDelegate textDidChange:self];

@@ -174,14 +174,12 @@
     _contentTextView.allowsCopyAttributedString=NO;
     _contentTextView.textContainerInset=UIEdgeInsetsMake(12, 0, 0, 0);
     _contentTextView.font=[UIFont systemFontOfSize:17];
-    _contentTextView.delegate=self;
+    _contentTextView.placeholderFont=[UIFont systemFontOfSize:17];
+    _contentTextView.placeholderTextColor=[CustomUtilities getColor:@"B4B4B4"];
     
     if(!_isNewTheme){
         if(_articleInfo==nil){
-            NSMutableAttributedString *placeholdertext=[[NSMutableAttributedString alloc]initWithString:@"在这里输入内容..."];
-            placeholdertext.color=[CustomUtilities getColor:@"B4B4B4"];
-            placeholdertext.font=[UIFont systemFontOfSize:17];
-            _contentTextView.placeholderAttributedText=placeholdertext;
+            _contentTextView.placeholderText=@"在这里输入内容...";
         }
         else{
             NSRange range;
@@ -193,15 +191,12 @@
                 range.length=_articleInfo.content.length;
             }
             NSMutableAttributedString *contenttext=[[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"\n\n【在%@的大作中提到:】\n%@",_articleInfo.user.userId,[_articleInfo.content substringWithRange:range]]];
-            contenttext.font=[UIFont systemFontOfSize:17];
+            contenttext.font=_contentTextView.font;
             _contentTextView.attributedText=contenttext;
         }
     }
     else{
-        NSMutableAttributedString *placeholdertext=[[NSMutableAttributedString alloc]initWithString:@"在这里输入内容..."];
-        placeholdertext.color=[CustomUtilities getColor:@"B4B4B4"];
-        placeholdertext.font=[UIFont systemFontOfSize:17];
-        _contentTextView.placeholderAttributedText=placeholdertext;
+        _contentTextView.placeholderText=@"在这里输入内容...";
     }
 }
 -(void)_initToolbar{
@@ -359,6 +354,7 @@
     range.length=imageString.length-2;
     imageview.image=[YYImage imageNamedFromEmojiBundle:[imageString substringWithRange:range]];
     NSMutableAttributedString *tmp=[NSMutableAttributedString attachmentStringWithContent:imageview contentMode:UIViewContentModeCenter attachmentSize:imageview.frame.size alignToFont:font alignment:YYTextVerticalAlignmentCenter];
+    tmp.font=font;
     
     NSMutableAttributedString *res=[[NSMutableAttributedString alloc]initWithAttributedString:_contentTextView.attributedText];
     NSRange selectedRange=_contentTextView.selectedRange;
@@ -372,17 +368,5 @@
 
 -(void)deleteEmoji{
     [_contentTextView deleteBackward];
-}
-
-#pragma mark - 实现YYTextviewDelegate协议
--(BOOL)textView:(YYTextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
-    _contentTextView.font=[UIFont systemFontOfSize:17];
-    NSMutableAttributedString *tmp=[[NSMutableAttributedString alloc]initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor blackColor],NSFontAttributeName:[UIFont systemFontOfSize:17]}];
-
-    NSMutableAttributedString *res=[[NSMutableAttributedString alloc]initWithAttributedString:_contentTextView.attributedText];
-    [res replaceCharactersInRange:range  withAttributedString:tmp];
- //   _contentTextView.attributedText=res;
-//    [_contentTextView att];
-    return YES;
 }
 @end

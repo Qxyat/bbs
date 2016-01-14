@@ -12,7 +12,7 @@
 #import "CustomEmojiKeyboardDelegate.h"
 @class ArticleInfo;
 
-@interface ReplyViewController : UIViewController<HttpResponseDelegate,CustomEmojiKeyboardDelegate,YYTextViewDelegate>
+@interface ReplyViewController : UIViewController<HttpResponseDelegate,CustomEmojiKeyboardDelegate>
 +(instancetype)getInstanceWithBoardName:(NSString*)boardName
                              isNewTheme:(BOOL)isNewTheme
                         withArticleName:(NSString*)

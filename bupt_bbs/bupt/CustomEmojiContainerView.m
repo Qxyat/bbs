@@ -9,6 +9,7 @@
 #import "CustomEmojiContainerView.h"
 #import <YYKit.h>
 #import "YYImage+Custom.h"
+#import "CustomUtilities.h"
 @interface CustomEmojiContainerView ()
 @property (strong,nonatomic)YYAnimatedImageView *imageView;
 @end
@@ -17,9 +18,11 @@
 
 -(id)initWithFrame:(CGRect)frame{
     if(self=[super initWithFrame:frame]){
+        self.backgroundColor=[UIColor clearColor];
         _imageView=[[YYAnimatedImageView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame)-4, CGRectGetHeight(frame)-4)];
         _imageView.center=CGPointMake(CGRectGetWidth(frame)/2,CGRectGetHeight(frame)/2);
         [_imageView setContentMode:UIViewContentModeScaleAspectFit];
+        [_imageView setBackgroundColor:[UIColor clearColor]];
         [self addSubview:_imageView];
     }
     return self;

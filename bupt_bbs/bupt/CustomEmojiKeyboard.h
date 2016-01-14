@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "CustomEmojiKeyboardDelegate.h"
-@interface CustomEmojiKeyboard : UIView<UIScrollViewDelegate,UITabBarDelegate,CustomEmojiKeyboardDelegate>
+@interface CustomEmojiKeyboard : UIView<UIScrollViewDelegate,CustomEmojiKeyboardDelegate>
 @property (weak,nonatomic) id<CustomEmojiKeyboardDelegate> delegate;
 @end

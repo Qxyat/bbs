@@ -172,6 +172,7 @@
     _contentTextView.showsVerticalScrollIndicator=NO;
     _contentTextView.allowsCopyAttributedString=NO;
     _contentTextView.textContainerInset=UIEdgeInsetsMake(12, 0, 0, 0);
+    _contentTextView.font=[UIFont systemFontOfSize:17];
     if(!_isNewTheme){
         if(_articleInfo==nil){
             NSMutableAttributedString *placeholdertext=[[NSMutableAttributedString alloc]initWithString:@"在这里输入内容..."];
@@ -284,6 +285,8 @@
             break;
     }
 }
+
+
 #pragma mark - 监听键盘相关通知
 -(void)keyboardWillShow:(NSNotification*)notification{
     NSDictionary *dic=notification.userInfo;
@@ -299,6 +302,7 @@
         }];
     }];
 }
+
 -(void)keyboardWillHide:(NSNotification*)notification{
     NSDictionary *dic=notification.userInfo;
     CGFloat timeInterval=[[dic valueForKey:UIKeyboardAnimationDurationUserInfoKey]doubleValue];
@@ -313,10 +317,13 @@
     }];
 }
 
+
 #pragma mark - 显示图片选择
 -(void)choosePicture{
     
 }
+
+
 #pragma mark - 显示表情键盘
 -(void)showEmojiKeyboard{
     if(_contentTextView.inputView==_emojiKeyboard){
@@ -335,6 +342,8 @@
             [_contentTextView becomeFirstResponder];
     }
 }
+
+
 #pragma mark - 实现CustomEmojiKeyboardDelegate
 -(void)addEmojiWithImage:(YYImage *)image withImageString:(NSString *)imageString{
     UIFont*font=_contentTextView.font;
@@ -357,9 +366,8 @@
     _contentTextView.selectedRange=selectedRange;
 }
 
+
 -(void)deleteEmoji{
     [_contentTextView deleteBackward];
 }
-
-
 @end

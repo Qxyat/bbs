@@ -8,12 +8,15 @@
 
 #import "CustomEmojiKeyboard.h"
 #import "CustomEmojiContainerView.h"
+#import "CustomUtilities.h"
 
 #define kCustomScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kNumsOfClassicsEmoji    73
 #define kNumsOfYouxihouEmoji    42
 #define kNumsOfTusijiEmoji      25
 #define kNumsOfYangcongtouEmoji 59
+#define kPageControlHeight      10
+#define kToolbarHeight          36
 
 static CGFloat   kContainerViewMargin;
 static CGFloat   kContainerViewWidthInOnePage;
@@ -33,49 +36,26 @@ static NSInteger kNumsOfPageForYangcongtouEmoji;
 static NSInteger kNumsOfPageForAllEmojiSets;
 
 @interface CustomEmojiKeyboard ()
-@property (strong,nonatomic)UITabBar* tabBar;
+
+@property (strong,nonatomic)UIView* toolbar;
 @property (strong,nonatomic)UIPageControl *pageControl;
 @property (strong,nonatomic)UIScrollView *scrollView;
+@property (strong,nonatomic)NSArray *toolbarbuttons;
+
 @end
 
 @implementation CustomEmojiKeyboard
 
 -(id)initWithFrame:(CGRect)frame{
     [self preCaluate];
-    frame.size.height=10+49+2*kContainerViewMargin+kContainerViewHeightInOnePage;
+    frame.size.height=kToolbarHeight+kPageControlHeight+2*kContainerViewMargin+kContainerViewHeightInOnePage;
     frame.size.width=kCustomScreenWidth;
     if(self=[super initWithFrame:frame]){
         self.backgroundColor=[UIColor whiteColor];
-        self.scrollView=[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kCustomScreenWidth, 2*kContainerViewMargin+kContainerViewHeightInOnePage)];
-        self.scrollView.contentSize=CGSizeMake(kNumsOfPageForAllEmojiSets*CGRectGetWidth(self.scrollView.frame), CGRectGetHeight(self.scrollView.frame));
-        self.scrollView.pagingEnabled=YES;
-        self.scrollView.showsHorizontalScrollIndicator=NO;
-        self.scrollView.showsVerticalScrollIndicator=NO;
-        self.scrollView.delegate=self;
-        self.scrollView.backgroundColor=[UIColor clearColor];
-        [self addSubview:self.scrollView];
         
-        for(int i=0;i<kNumsOfPageForAllEmojiSets;i++){
-            [self loadScrollViewPage:i];
-        }
-        self.pageControl=[[UIPageControl alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.scrollView.frame), kCustomScreenWidth, 10)];
-        self.pageControl.numberOfPages=3;
-        [self.pageControl setPageIndicatorTintColor:[UIColor lightGrayColor]];
-        [self.pageControl setCurrentPageIndicatorTintColor:[UIColor grayColor]];
-        self.pageControl.userInteractionEnabled=NO;
-        self.pageControl.backgroundColor=[UIColor clearColor];
-        [self addSubview:self.pageControl];
-        
-        self.tabBar=[[UITabBar alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.pageControl.frame), kCustomScreenWidth, 49)];
-        self.tabBar.items=@[[[UITabBarItem alloc]initWithTitle:@"经典" image:nil tag:0],
-                            [[UITabBarItem alloc]initWithTitle:@"悠嘻猴" image:nil tag:1],
-                            [[UITabBarItem alloc]initWithTitle:@"兔斯基" image:nil tag:2],
-                            [[UITabBarItem alloc]initWithTitle:@"洋葱头" image:nil tag:3]];
-        self.tabBar.delegate=self;
-        [self.tabBar setBackgroundImage:[[UIImage alloc]init]];
-        [self.tabBar setShadowImage:[[UIImage alloc] init]];
-        self.tabBar.backgroundColor=[UIColor clearColor];
-        [self addSubview:self.tabBar];
+        [self _initScrollView];
+        [self _initPageControl];
+        [self _initToolbar];
         
         [self refreshPageControlAndTabbar:0];
     }
@@ -85,7 +65,7 @@ static NSInteger kNumsOfPageForAllEmojiSets;
     [super drawRect:rect];
     CGContextRef context=UIGraphicsGetCurrentContext();
     CGContextSetLineWidth(context, 1.0);
-    CGContextSetStrokeColorWithColor(context, [UIColor grayColor].CGColor);
+    CGContextSetStrokeColorWithColor(context, [CustomUtilities getColor:@"bfbfbf"].CGColor);
     CGContextMoveToPoint(context, CGRectGetMinX(rect), CGRectGetMinY(rect));
     CGContextAddLineToPoint(context, CGRectGetMaxX(rect), CGRectGetMinY(rect));
     CGContextStrokePath(context);
@@ -140,14 +120,84 @@ static NSInteger kNumsOfPageForAllEmojiSets;
     });
 }
 
-#pragma mark - 实现UIScrollViewDelegate协议
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    NSInteger page=(int)self.scrollView.contentOffset.x/(int)CGRectGetWidth(_scrollView.frame);
-    [self refreshPageControlAndTabbar:page];
+
+#pragma mark - 初始化各个view
+-(void)_initScrollView{
+    _scrollView=[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kCustomScreenWidth, 2*kContainerViewMargin+kContainerViewHeightInOnePage)];
+    _scrollView.contentSize=CGSizeMake(kNumsOfPageForAllEmojiSets*CGRectGetWidth(self.scrollView.frame), CGRectGetHeight(_scrollView.frame));
+    _scrollView.pagingEnabled=YES;
+    _scrollView.showsHorizontalScrollIndicator=NO;
+    _scrollView.showsVerticalScrollIndicator=NO;
+    _scrollView.delegate=self;
+    _scrollView.backgroundColor=[UIColor clearColor];
+    
+    for(int i=0;i<kNumsOfPageForAllEmojiSets;i++){
+        [self loadScrollViewPage:i];
+    }
+    
+    [self addSubview:_scrollView];
 }
 
-#pragma mark - 实现UITabBarDelegate协议
--(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item{
+-(void)_initPageControl{
+    _pageControl=[[UIPageControl alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_scrollView.frame), kCustomScreenWidth, kPageControlHeight)];
+    _pageControl.numberOfPages=3;
+    [_pageControl setPageIndicatorTintColor:[UIColor lightGrayColor]];
+    [_pageControl setCurrentPageIndicatorTintColor:[UIColor grayColor]];
+    _pageControl.userInteractionEnabled=NO;
+    _pageControl.backgroundColor=[UIColor clearColor];
+    [self addSubview:_pageControl];
+}
+
+-(void)_initToolbar{
+    NSArray *buttonTitles=@[@"经典",@"悠嘻猴",@"兔斯基",@"洋葱头"];
+    _toolbar = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_pageControl.frame), kCustomScreenWidth, kToolbarHeight)];
+    
+    UIImageView *bg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_toolbar.frame), CGRectGetHeight(_toolbar.frame))];
+    bg.image=[UIImage imageNamed:@"emojitoobarbackground"];
+    [_toolbar addSubview:bg];
+    
+    UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_toolbar.frame), CGRectGetHeight(_toolbar.frame))];
+    scroll.showsHorizontalScrollIndicator = NO;
+    scroll.alwaysBounceHorizontal = YES;
+    scroll.contentSize = _toolbar.frame.size;
+    [_toolbar addSubview:scroll];
+    
+    NSMutableArray *btns = [NSMutableArray new];
+    UIButton *btn;
+    for (NSUInteger i = 0; i < 4; i++){
+        btn = [self _createToolbarButton:i];
+        [btn setTitle:buttonTitles[i] forState:UIControlStateNormal];
+        btn.tag = i;
+        [scroll addSubview:btn];
+        [btns addObject:btn];
+    }
+    _toolbarbuttons=btns;
+    
+    [self addSubview:_toolbar];
+}
+- (UIButton *)_createToolbarButton:(NSInteger)index{
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame=CGRectMake(kCustomScreenWidth/4.f*index, 0, kCustomScreenWidth/4.f, kToolbarHeight);
+    btn.exclusiveTouch = YES;
+    
+    btn.titleLabel.font = [UIFont systemFontOfSize:14];
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btn setTitleColor:[CustomUtilities getColor:@"5D5C5A"] forState:UIControlStateSelected];
+    
+    UIImage *img;
+    img = [UIImage imageNamed:@"emojitoolbarnormal"];
+    img = [img resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, img.size.width - 1) resizingMode:UIImageResizingModeStretch];
+    [btn setBackgroundImage:img forState:UIControlStateNormal];
+    
+    img = [UIImage imageNamed:@"emojitoolbarselected"];
+    img = [img resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, img.size.width - 1) resizingMode:UIImageResizingModeStretch];
+    [btn setBackgroundImage:img forState:UIControlStateSelected];
+
+    [btn addTarget:self action:@selector(_toolbarBtnDidTapped:) forControlEvents:UIControlEventTouchUpInside];
+    return btn;
+}
+
+- (void)_toolbarBtnDidTapped:(UIButton *)item {
     NSInteger page=0;
     if(item.tag==0){
         page=0;
@@ -163,6 +213,14 @@ static NSInteger kNumsOfPageForAllEmojiSets;
     }
     [self scrollToPage:page];
 }
+
+#pragma mark - 实现UIScrollViewDelegate协议
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    NSInteger page=(int)self.scrollView.contentOffset.x/(int)CGRectGetWidth(_scrollView.frame);
+    [self refreshPageControlAndTabbar:page];
+}
+
+
 #pragma mark - 加载某一页
 -(void)loadScrollViewPage:(NSInteger)page{
     UIView *view=[[UIView alloc]initWithFrame:CGRectMake(page*CGRectGetWidth(_scrollView.frame), 0, CGRectGetWidth(_scrollView.frame), CGRectGetHeight(_scrollView.frame))];
@@ -257,31 +315,35 @@ static NSInteger kNumsOfPageForAllEmojiSets;
 }
 #pragma mark - 刷新Pagecontrol和Tabbar
 -(void)refreshPageControlAndTabbar:(NSInteger)page{
+    NSInteger currentTag=0;
     if(page<kNumsOfPageForClassicsEmoji){
-        [_tabBar setSelectedItem:_tabBar.items[0]];
+        currentTag=0;
         NSInteger pageIndexForCurrentEmojiSet=page;
         _pageControl.numberOfPages=kNumsOfPageForClassicsEmoji;
         [_pageControl setCurrentPage:pageIndexForCurrentEmojiSet];
     }
     else if(page<kNumsOfPageForClassicsEmoji+kNumsOfPageForYouxihouEmoji){
-        [_tabBar setSelectedItem:_tabBar.items[1]];
+       currentTag=1;
         NSInteger pageIndexForCurrentEmojiSet=page-kNumsOfPageForClassicsEmoji;
         _pageControl.numberOfPages=kNumsOfPageForYouxihouEmoji;
         [_pageControl setCurrentPage:pageIndexForCurrentEmojiSet];
     }
     else if(page<kNumsOfPageForClassicsEmoji+kNumsOfPageForYouxihouEmoji+kNumsOfPageForTusijiEmoji){
-        [_tabBar setSelectedItem:_tabBar.items[2]];
+       currentTag=2;
         NSInteger pageIndexForCurrentEmojiSet=page-kNumsOfPageForClassicsEmoji-kNumsOfPageForYouxihouEmoji;
         _pageControl.numberOfPages=kNumsOfPageForTusijiEmoji;
         [_pageControl setCurrentPage:pageIndexForCurrentEmojiSet];
         
     }
     else{
-        [_tabBar setSelectedItem:_tabBar.items[3]];
+       currentTag=3;
         NSInteger pageIndexForCurrentEmojiSet=page-kNumsOfPageForClassicsEmoji-kNumsOfPageForYouxihouEmoji-kNumsOfPageForTusijiEmoji;
         _pageControl.numberOfPages=kNumsOfPageForYangcongtouEmoji;
         [_pageControl setCurrentPage:pageIndexForCurrentEmojiSet];
     }
+    [_toolbarbuttons enumerateObjectsUsingBlock:^(UIButton* obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        obj.selected=(obj.tag==currentTag);
+    }];
 }
 #pragma  mark - 实现CustomEmojiKeyboardDelegate协议
 -(void)addEmojiWithImage:(YYImage *)image withImageString:(NSString *)imageString{

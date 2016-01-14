@@ -70,6 +70,9 @@
 		41E4CEA31C0456D7004DD407 /* LoginUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41E4CEA21C0456D7004DD407 /* LoginUtilities.m */; };
 		41E4CEA51C04588C004DD407 /* SecondLoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41E4CEA41C04588C004DD407 /* SecondLoginView.xib */; };
 		41EE38AA1C475E3400AE75BA /* CustomYYAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE38A91C475E3400AE75BA /* CustomYYAnimatedImageView.m */; };
+		41EE38AC1C477ACB00AE75BA /* emojitoobarbackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41EE38AB1C477ACB00AE75BA /* emojitoobarbackground@2x.png */; };
+		41EE38AF1C477EF800AE75BA /* emojitoolbarnormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41EE38AD1C477EF800AE75BA /* emojitoolbarnormal@2x.png */; };
+		41EE38B41C47822300AE75BA /* emojitoolbarselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41EE38B31C47822300AE75BA /* emojitoolbarselected@2x.png */; };
 		41F86AB71C1FA3DD009DC75C /* UserCenter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41F86AB61C1FA3DD009DC75C /* UserCenter.xib */; };
 		41F86ABA1C1FA8FC009DC75C /* UserUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F86AB91C1FA8FC009DC75C /* UserUtilities.m */; };
 		ADF0647870C22EAF6852BE39 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC63FE2D2B942D0F858DC8B3 /* libPods.a */; };
@@ -196,6 +199,9 @@
 		41E4CEA41C04588C004DD407 /* SecondLoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecondLoginView.xib; sourceTree = "<group>"; };
 		41EE38A81C475E3400AE75BA /* CustomYYAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomYYAnimatedImageView.h; sourceTree = "<group>"; };
 		41EE38A91C475E3400AE75BA /* CustomYYAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomYYAnimatedImageView.m; sourceTree = "<group>"; };
+		41EE38AB1C477ACB00AE75BA /* emojitoobarbackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emojitoobarbackground@2x.png"; sourceTree = "<group>"; };
+		41EE38AD1C477EF800AE75BA /* emojitoolbarnormal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emojitoolbarnormal@2x.png"; sourceTree = "<group>"; };
+		41EE38B31C47822300AE75BA /* emojitoolbarselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emojitoolbarselected@2x.png"; sourceTree = "<group>"; };
 		41F86AB61C1FA3DD009DC75C /* UserCenter.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserCenter.xib; sourceTree = "<group>"; };
 		41F86AB81C1FA8FC009DC75C /* UserUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserUtilities.h; sourceTree = "<group>"; };
 		41F86AB91C1FA8FC009DC75C /* UserUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserUtilities.m; sourceTree = "<group>"; };
@@ -299,6 +305,9 @@
 			children = (
 				41D0B2C31C45FBB500865808 /* emojikeyboarddelete@2x.png */,
 				41D0B2C51C45FBBE00865808 /* emojikeyboarddelete@3x.png */,
+				41EE38AB1C477ACB00AE75BA /* emojitoobarbackground@2x.png */,
+				41EE38AD1C477EF800AE75BA /* emojitoolbarnormal@2x.png */,
+				41EE38B31C47822300AE75BA /* emojitoolbarselected@2x.png */,
 				4174552B1C43AC3F00CC1334 /* CustomEmojiKeyboard.h */,
 				4174552C1C43AC3F00CC1334 /* CustomEmojiKeyboard.m */,
 				4174552D1C43AC3F00CC1334 /* CustomEmojiKeyboardDelegate.h */,
@@ -529,10 +538,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41EE38B41C47822300AE75BA /* emojitoolbarselected@2x.png in Resources */,
 				41B26AC11C3E076A0088E1FE /* Emoji.bundle in Resources */,
 				412441141C225A1E009A4172 /* FirstLoginView.xib in Resources */,
 				41B018581C23D06400AA8F88 /* LaunchView.xib in Resources */,
 				411DD2691C0D8CA600002CD3 /* UserMainInterface.storyboard in Resources */,
+				41EE38AF1C477EF800AE75BA /* emojitoolbarnormal@2x.png in Resources */,
+				41EE38AC1C477ACB00AE75BA /* emojitoobarbackground@2x.png in Resources */,
 				41E4CEA51C04588C004DD407 /* SecondLoginView.xib in Resources */,
 				41404F721C1D207900A45B13 /* BoardArticleInfoCell.xib in Resources */,
 				41D0B2C61C45FBBE00865808 /* emojikeyboarddelete@3x.png in Resources */,

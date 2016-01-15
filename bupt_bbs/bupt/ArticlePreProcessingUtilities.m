@@ -66,7 +66,7 @@
             AttachmentFile *file=attachmentInfo.file[pos-1];
             if([CustomUtilities isPicture:file.name]&&used[pos-1]==[NSNumber numberWithBool:NO]){
                 used[pos-1]=[NSNumber numberWithBool:YES];
-                [DownloadResourcesUtilities downloadPicture:file.thumbnail_middle FromBBS:YES Completed:nil];
+                [DownloadResourcesUtilities downloadPicture:file.url FromBBS:YES Completed:nil];
                 PictureInfo *picture=[[PictureInfo alloc]init];
                 picture.thumbnail_url=file.thumbnail_middle;
                 picture.original_url=file.url;

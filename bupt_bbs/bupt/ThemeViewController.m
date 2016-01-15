@@ -301,7 +301,7 @@ static const int kNumOfPageToCache=5;
         ArticleInfo *articleInfo=self.data[indexPath.row];
         for(int j=0;j<articleInfo.pictures.count;j++){
             PictureInfo *picture=articleInfo.pictures[j];
-            if([url isEqualToString:picture.thumbnail_url]){
+            if([url isEqualToString:picture.original_url]){
                 [self.tableView reloadData];
                 return;
             }

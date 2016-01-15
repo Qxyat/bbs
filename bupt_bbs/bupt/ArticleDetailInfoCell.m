@@ -141,8 +141,7 @@ static CGFloat const kContentFontSize=15;
         [self refreshCustomLayout];
     }
     else{
-        [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:articleInfo.user.face_url] options:0 progress:nil completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-            [[SDImageCache sharedImageCache]storeImage:image recalculateFromImage:NO imageData:data forKey:articleInfo.user.face_url toDisk:YES];
+        [DownloadResourcesUtilities downloadPicture:articleInfo.user.face_url FromBBS:YES Completed:^(UIImage *image,NSData *data){
             dispatch_async(dispatch_get_main_queue(), ^{
                 YYImage *yyImage=[[YYImage alloc]initWithData:data];
                 weak_self.faceImageView.image=yyImage;
@@ -174,7 +173,7 @@ static CGFloat const kContentFontSize=15;
 
 #pragma mark - 点击图片后相应的反馈
 -(void)pictureTapped:(UIGestureRecognizer*)recognizer{
-    UIImageView *imageView=(UIImageView*)recognizer.view;
+    YYAnimatedImageView *imageView=(YYAnimatedImageView*)recognizer.view;
     UITableViewController *controller=(UITableViewController*)self.delegate;
     [_photoBrowser setCurrentPhotoIndex:imageView.tag];
     [controller.navigationController pushViewController:_photoBrowser animated:YES];
@@ -214,15 +213,18 @@ withAttachmentUsedInfo:(NSMutableArray *)used{
         if(used[pos-1]==[NSNumber numberWithBool:NO]&&[CustomUtilities isPicture:file.name]){
             used[pos-1]=[NSNumber numberWithInt:YES];
             
-            UIImage *cachedImage=[[SDImageCache sharedImageCache]imageFromDiskCacheForKey:file.thumbnail_middle];
+            NSString *imagePath=[[SDImageCache sharedImageCache]defaultCachePathForKey:file.url];
+            YYImage *cachedImage=[YYImage imageWithContentsOfFile:imagePath];
             if(cachedImage){
                 CGFloat width=cachedImage.size.width;
                 CGFloat height=cachedImage.size.height;
                 if(width>kCustomScreenWidth-2*kMargin){
-                    width=kCustomScreenWidth-2*kMargin;
                     height=(height/width)*(kCustomScreenWidth-2*kMargin);
+                    width=kCustomScreenWidth-2*kMargin;
+                    
                 }
-                UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
+                YYAnimatedImageView *imageView=[[YYAnimatedImageView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
+                imageView.contentMode=UIViewContentModeScaleAspectFit;
                 imageView.tag=_photo_pos;
                 _photo_pos++;
                 imageView.image=cachedImage;
@@ -235,9 +237,9 @@ withAttachmentUsedInfo:(NSMutableArray *)used{
                 [res appendAttributedString:[[NSAttributedString alloc]initWithString:@"\n\n"]];
             }
             else{
-                [DownloadResourcesUtilities downloadPicture:file.thumbnail_middle FromBBS:YES Completed:^{
+                [DownloadResourcesUtilities downloadPicture:file.url FromBBS:YES Completed:^(UIImage *image,NSData *data){
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [target.delegate refreshTableView:file.thumbnail_middle];
+                        [target.delegate refreshTableView:file.url];
                     });
                 }];
             }

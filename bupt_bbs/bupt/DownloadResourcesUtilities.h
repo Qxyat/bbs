@@ -6,7 +6,7 @@
 //  Copyright © 2016年 qiu. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface DownloadResourcesUtilities : NSObject
 
@@ -14,6 +14,6 @@
            Completed:(void(^)())block;
 +(void)downloadPicture:(NSString*)string
                FromBBS:(BOOL)isFromBBS
-             Completed:(void(^)())block;
+             Completed:(void (^)(UIImage *image,NSData *data))block;
 
 @end

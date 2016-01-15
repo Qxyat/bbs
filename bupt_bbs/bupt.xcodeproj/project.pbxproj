@@ -62,6 +62,7 @@
 		41B57D481C314AFB00B9A01B /* ArticleRoughInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41B57D461C314AFB00B9A01B /* ArticleRoughInfoCell.xib */; };
 		41B684BD1C2001BB0088395D /* ShowUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B684BB1C2001BB0088395D /* ShowUserInfoViewController.m */; };
 		41B684BE1C2001BB0088395D /* ShowUserInfo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41B684BC1C2001BB0088395D /* ShowUserInfo.xib */; };
+		41BA83AA1C488C3300A35FFD /* AttachmentUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41BA83A91C488C3300A35FFD /* AttachmentUtilities.m */; };
 		41CEB46E1C2B8C4A004935FF /* ScreenAdaptionUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41CEB46D1C2B8C4A004935FF /* ScreenAdaptionUtilities.m */; };
 		41D0B2C41C45FBB500865808 /* emojikeyboarddelete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41D0B2C31C45FBB500865808 /* emojikeyboarddelete@2x.png */; };
 		41D0B2C61C45FBBE00865808 /* emojikeyboarddelete@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41D0B2C51C45FBBE00865808 /* emojikeyboarddelete@3x.png */; };
@@ -184,6 +185,9 @@
 		41B684BA1C2001BB0088395D /* ShowUserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowUserInfoViewController.h; sourceTree = "<group>"; };
 		41B684BB1C2001BB0088395D /* ShowUserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowUserInfoViewController.m; sourceTree = "<group>"; };
 		41B684BC1C2001BB0088395D /* ShowUserInfo.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShowUserInfo.xib; sourceTree = "<group>"; };
+		41BA83A81C488C3300A35FFD /* AttachmentUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentUtilities.h; sourceTree = "<group>"; };
+		41BA83A91C488C3300A35FFD /* AttachmentUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentUtilities.m; sourceTree = "<group>"; };
+		41BA83AB1C488D7100A35FFD /* AttachmentHttpResponseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentHttpResponseDelegate.h; sourceTree = "<group>"; };
 		41CDB23D1BF9B6D400172DE0 /* BBSConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSConstants.h; sourceTree = "<group>"; };
 		41CEB46C1C2B8C4A004935FF /* ScreenAdaptionUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenAdaptionUtilities.h; sourceTree = "<group>"; };
 		41CEB46D1C2B8C4A004935FF /* ScreenAdaptionUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenAdaptionUtilities.m; sourceTree = "<group>"; };
@@ -247,6 +251,7 @@
 				41432A7F1C38E53000423DFE /* ThemePopoverControllerDelegate.h */,
 				41432A851C39096200423DFE /* JumpPopoverControllerDelegate.h */,
 				41D383C41C3C071100255BA9 /* RefreshTableViewDelegate.h */,
+				41BA83AB1C488D7100A35FFD /* AttachmentHttpResponseDelegate.h */,
 			);
 			name = Protocol;
 			sourceTree = "<group>";
@@ -358,6 +363,8 @@
 				41D383C21C3BF2E100255BA9 /* DownloadResourcesUtilities.m */,
 				41360ACB1C40FF9900D3DE9C /* PostArticleUtilities.h */,
 				41360ACC1C40FF9900D3DE9C /* PostArticleUtilities.m */,
+				41BA83A81C488C3300A35FFD /* AttachmentUtilities.h */,
+				41BA83A91C488C3300A35FFD /* AttachmentUtilities.m */,
 			);
 			name = NetworkUtilities;
 			sourceTree = "<group>";
@@ -644,6 +651,7 @@
 				4108B0001C0D951600CDC292 /* TopTenUtilities.m in Sources */,
 				41EE38AA1C475E3400AE75BA /* CustomYYAnimatedImageView.m in Sources */,
 				416B272F1C1BE87F00D0FFE4 /* SectionUtilities.m in Sources */,
+				41BA83AA1C488C3300A35FFD /* AttachmentUtilities.m in Sources */,
 				412441121C2259EA009A4172 /* FirstLoginViewController.m in Sources */,
 				41CEB46E1C2B8C4A004935FF /* ScreenAdaptionUtilities.m in Sources */,
 				415AE0951C0AF5F700B1F137 /* UserCenterViewController.m in Sources */,

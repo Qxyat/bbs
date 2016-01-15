@@ -90,13 +90,10 @@
 #pragma mark - 判断一个名字是否代表图片
 +(bool)isPicture:(NSString *)string{
     NSArray* array=[string componentsSeparatedByString:@"."];
-    if([array count]>1){
-        return [array[1] caseInsensitiveCompare:@"png"]==NSOrderedSame||
-        [array[1] caseInsensitiveCompare:@"jpg"]==NSOrderedSame||
-        [array[1] caseInsensitiveCompare:@"jpeg"]==NSOrderedSame||
-        [array[1] caseInsensitiveCompare:@"gif"]==NSOrderedSame;
-    }
-    return NO;
+    return [[array lastObject] caseInsensitiveCompare:@"png"]==NSOrderedSame||
+    [[array lastObject]  caseInsensitiveCompare:@"jpg"]==NSOrderedSame||
+    [[array lastObject]  caseInsensitiveCompare:@"jpeg"]==NSOrderedSame||
+    [[array lastObject]  caseInsensitiveCompare:@"gif"]==NSOrderedSame;
 }
 #pragma mark - 获取网络请求错误代码
 +(NSInteger) getNetworkErrorCode:(NSError*)error{

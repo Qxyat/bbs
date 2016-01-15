@@ -74,6 +74,8 @@ static NSString* const kLastReplyTime=@"last_reply_time";
     articleInfo.last_reply_user_id=[dic objectForKey:kLastReplyUserId];
     articleInfo.last_reply_time=[[dic objectForKey:kLastReplyTime] intValue];
     
+    articleInfo.pictures=[[NSMutableArray alloc]init];
+    
     return articleInfo;
 }
 @end

@@ -111,7 +111,7 @@ static CGFloat const kContentFontSize=15;
     _articleInfo=articleInfo;
     _photo_pos=0;
     
-    __weak typeof (self) weak_self=self;
+    __weak typeof (self) _weakself=self;
     
     _photoBrowser=[[MWPhotoBrowser alloc]initWithDelegate:self];
     _photoBrowser.displayActionButton=NO;
@@ -131,25 +131,19 @@ static CGFloat const kContentFontSize=15;
 
         [_photos addObject:[MWPhoto photoWithURL:url]];
     }
-    NSString *cachedFaceImagePath=[[SDImageCache sharedImageCache]defaultCachePathForKey:articleInfo.user.face_url];
-    YYImage *cachedFaceImage=[YYImage imageWithContentsOfFile:cachedFaceImagePath];
+
+    YYImage *cachedFaceImage=[DownloadResourcesUtilities downloadImage:articleInfo.user.face_url FromBBS:YES Completed:^(YYImage *image) {
+        _weakself.faceImageView.image=image;
+        if(image.animatedImageType==YYImageTypeGIF)
+            [_weakself.faceImageView startAnimating];
+        [_weakself refreshCustomLayout];
+    }];
     
     if(cachedFaceImage){
         self.faceImageView.image=cachedFaceImage;
         if(cachedFaceImage.animatedImageType==YYImageTypeGIF)
             [self.faceImageView startAnimating];
         [self refreshCustomLayout];
-    }
-    else{
-        [DownloadResourcesUtilities downloadPicture:articleInfo.user.face_url FromBBS:YES Completed:^(UIImage *image,NSData *data){
-            dispatch_async(dispatch_get_main_queue(), ^{
-                YYImage *yyImage=[[YYImage alloc]initWithData:data];
-                weak_self.faceImageView.image=yyImage;
-                if(yyImage.animatedImageType==YYImageTypeGIF)
-                    [weak_self.faceImageView startAnimating];
-                [weak_self refreshCustomLayout];
-            });
-        }];
     }
     
     self.floorLabel.text=[CustomUtilities getFloorString:articleInfo.position];
@@ -203,18 +197,22 @@ static CGFloat const kContentFontSize=15;
 
 #pragma mark - 根据图片在附件中的位置获得对应的Attributed String
 -(NSAttributedString*)
-getPictureInAttachment:(AttachmentInfo*)attachmentInfo
+getImageInAttachment:(AttachmentInfo*)attachmentInfo
 withPosition:(NSUInteger)pos
 withAttachmentUsedInfo:(NSMutableArray *)used{
     NSMutableAttributedString *res=[[NSMutableAttributedString alloc]init];
-    __weak typeof(self) target=self;
+    __weak typeof(self) _weakself=self;
     if(used!=nil&&pos<=attachmentInfo.file.count){
         AttachmentFile *file=attachmentInfo.file[pos-1];
         if(used[pos-1]==[NSNumber numberWithBool:NO]&&[CustomUtilities isPicture:file.name]){
             used[pos-1]=[NSNumber numberWithInt:YES];
             
-            NSString *imagePath=[[SDImageCache sharedImageCache]defaultCachePathForKey:file.url];
-            YYImage *cachedImage=[YYImage imageWithContentsOfFile:imagePath];
+            YYImage *cachedImage=[DownloadResourcesUtilities downloadImage:file.url FromBBS:YES Completed:^(YYImage *image) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [_weakself.delegate refreshTableView:file.url];
+                });
+            }];
+            
             if(cachedImage){
                 CGFloat width=cachedImage.size.width;
                 CGFloat height=cachedImage.size.height;
@@ -223,6 +221,7 @@ withAttachmentUsedInfo:(NSMutableArray *)used{
                     width=kCustomScreenWidth-2*kMargin;
                     
                 }
+                height+=10;//图片之间的间隔
                 YYAnimatedImageView *imageView=[[YYAnimatedImageView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
                 imageView.contentMode=UIViewContentModeScaleAspectFit;
                 imageView.tag=_photo_pos;
@@ -234,22 +233,47 @@ withAttachmentUsedInfo:(NSMutableArray *)used{
                 //使用YYKit提供的方法，后期争取能替换成自己的
                 NSMutableAttributedString* attachText = [NSMutableAttributedString attachmentStringWithContent:imageView contentMode:UIViewContentModeCenter attachmentSize:CGSizeMake(kCustomScreenWidth-2*kMargin, height)  alignToFont:[UIFont systemFontOfSize:kContentFontSize] alignment:YYTextVerticalAlignmentCenter];
                 [res appendAttributedString:attachText];
-                [res appendAttributedString:[[NSAttributedString alloc]initWithString:@"\n\n"]];
             }
-            else{
-                [DownloadResourcesUtilities downloadPicture:file.url FromBBS:YES Completed:^(UIImage *image,NSData *data){
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [target.delegate refreshTableView:file.url];
-                    });
-                }];
-            }
-            
         }
     }
     
     return res;
 }
-
+#pragma mark - 从非附件中下载图片
+-(NSAttributedString *)getImageFromString:(NSString*)string{
+    NSMutableAttributedString *res=[[NSMutableAttributedString alloc]init];
+    __weak typeof(self) _weakself=self;
+    
+    YYImage *cachedImage=[DownloadResourcesUtilities downloadImage:string FromBBS:NO Completed:^(YYImage *image) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_weakself.delegate refreshTableView:string];
+        });
+    }];
+    
+    if(cachedImage){
+        CGFloat width=cachedImage.size.width;
+        CGFloat height=cachedImage.size.height;
+        if(width>kCustomScreenWidth-2*kMargin){
+            height=(height/width)*(kCustomScreenWidth-2*kMargin);
+            width=kCustomScreenWidth-2*kMargin;
+            
+        }
+        height+=10;//图片之间的间隔
+        YYAnimatedImageView *imageView=[[YYAnimatedImageView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
+        imageView.contentMode=UIViewContentModeScaleAspectFit;
+        imageView.tag=_photo_pos;
+        _photo_pos++;
+        imageView.image=cachedImage;
+        imageView.userInteractionEnabled=YES;
+        UITapGestureRecognizer *tapGestureRecognizer=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(pictureTapped:)];
+        [imageView addGestureRecognizer:tapGestureRecognizer];
+        //使用YYKit提供的方法，后期争取能替换成自己的
+        NSMutableAttributedString* attachText = [NSMutableAttributedString attachmentStringWithContent:imageView contentMode:UIViewContentModeCenter attachmentSize:CGSizeMake(kCustomScreenWidth-2*kMargin, height)  alignToFont:[UIFont systemFontOfSize:kContentFontSize] alignment:YYTextVerticalAlignmentCenter];
+        [res appendAttributedString:attachText];
+    }
+ 
+    return res;
+}
 #pragma mark - 通过递归的方式获取对应的attributedstring
 -(NSMutableAttributedString*)
 getAttributedStringByRecursiveWithString:(NSString*)string
@@ -333,6 +357,29 @@ withAttachmentUsedInfo:(NSMutableArray*)used
             range.location=scanner.scanLocation;
             range.length=0;
         }
+        else if([scanner scanString:@"[url=https://" intoString:nil]){
+            [result appendAttributedString:[[NSAttributedString alloc]initWithString:[string substringWithRange:range] attributes:attributes]];
+            NSString *url;
+            scanner.scanLocation-=8;
+            [scanner scanUpToString:@"]" intoString:&url];
+            [scanner scanString:@"]" intoString:nil];
+            [scanner scanUpToString:@"[/url]" intoString:&tmp];
+            NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithString:tmp];
+            content.font = [UIFont systemFontOfSize:size];
+            content.color =[UIColor blueColor];
+            
+            YYTextHighlight *highlight = [[YYTextHighlight alloc]init];
+            highlight.tapAction = ^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+            };
+            [content setTextHighlight:highlight range:content.rangeOfAll];
+            
+            [result appendAttributedString:content];
+            
+            [scanner scanString:@"[/url]" intoString:nil];
+            range.location=scanner.scanLocation;
+            range.length=0;
+        }
         else if([scanner scanString:@"http://" intoString:nil]){
             [result appendAttributedString:[[NSAttributedString alloc]initWithString:[string substringWithRange:range] attributes:attributes]];
             NSString *url;
@@ -353,11 +400,31 @@ withAttachmentUsedInfo:(NSMutableArray*)used
             range.location=scanner.scanLocation;
             range.length=0;
         }
+        else if([scanner scanString:@"https://" intoString:nil]){
+            [result appendAttributedString:[[NSAttributedString alloc]initWithString:[string substringWithRange:range] attributes:attributes]];
+            NSString *url;
+            scanner.scanLocation-=8;
+            [scanner scanUpToString:@"\n" intoString:&url];
+            
+            NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithString:url];
+            content.font = [UIFont systemFontOfSize:size];
+            content.color =[UIColor blueColor];
+            
+            YYTextHighlight *highlight = [[YYTextHighlight alloc]init];
+            highlight.tapAction = ^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+            };
+            [content setTextHighlight:highlight range:content.rangeOfAll];
+            
+            [result appendAttributedString:content];
+            range.location=scanner.scanLocation;
+            range.length=0;
+        }
         else if([scanner scanString:@"[upload=" intoString:nil]){
             [result appendAttributedString:[[NSAttributedString alloc]initWithString:[string substringWithRange:range] attributes:attributes]];
             int pos=1;
             [scanner scanInt:&pos];
-            [result appendAttributedString:[self getPictureInAttachment:attachmentInfo withPosition:pos withAttachmentUsedInfo:used]];
+            [result appendAttributedString:[self getImageInAttachment:attachmentInfo withPosition:pos withAttachmentUsedInfo:used]];
             [scanner scanString:@"][/upload]" intoString:nil];
             range.location=scanner.scanLocation;
             range.length=0;
@@ -377,6 +444,32 @@ withAttachmentUsedInfo:(NSMutableArray*)used
             [scanner scanUpToString:@"[/b]" intoString:&tmp];
             [result appendAttributedString:[self getAttributedStringByRecursiveWithString:tmp fontColor:color fontSize:size isBold:YES withAttachmentInfo:attachmentInfo withAttachmentUsedInfo:used]];
             [scanner scanString:@"[/b]" intoString:nil];
+            range.location=scanner.scanLocation;
+            range.length=0;
+        }
+        else if([scanner scanString:@"[img=http://" intoString:nil]){
+            [result appendAttributedString:[[NSAttributedString alloc]initWithString:[string substringWithRange:range] attributes:attributes]];
+            NSString *url;
+            scanner.scanLocation-=7;
+            [scanner scanUpToString:@"]" intoString:&url];
+            
+            [result appendAttributedString:[self getImageFromString:url]];
+            
+            [scanner scanString:@"][/img]" intoString:nil];
+
+            range.location=scanner.scanLocation;
+            range.length=0;
+        }
+        else if([scanner scanString:@"[img=https://" intoString:nil]){
+            [result appendAttributedString:[[NSAttributedString alloc]initWithString:[string substringWithRange:range] attributes:attributes]];
+            NSString *url;
+            scanner.scanLocation-=8;
+            [scanner scanUpToString:@"]" intoString:&url];
+            
+            [result appendAttributedString:[self getImageFromString:url]];
+            
+            [scanner scanString:@"][/img]" intoString:nil];
+            
             range.location=scanner.scanLocation;
             range.length=0;
         }
@@ -409,7 +502,7 @@ fontSize:(CGFloat)size
     
     if(used!=nil){
         for(int i=1;i<=attachmentInfo.file.count;i++){
-            [result appendAttributedString:[self getPictureInAttachment:attachmentInfo withPosition:i withAttachmentUsedInfo:used]];
+            [result appendAttributedString:[self getImageInAttachment:attachmentInfo withPosition:i withAttachmentUsedInfo:used]];
         }
         
     }

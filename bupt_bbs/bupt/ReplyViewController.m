@@ -320,8 +320,8 @@
 
 #pragma mark - 显示图片选择
 -(void)choosePicture{
-    NSData *data=[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test" ofType:@"png"]];
-    [AttachmentUtilities postAttachmentWithBoardName:_boardName withNeedArticleID:NO withArticleID:0 withFileName:@"test.png" withFileType:@"image/png" withFileData:data delegate:nil];
+//    NSData *data=[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test" ofType:@"png"]];
+//    [AttachmentUtilities postAttachmentWithBoardName:_boardName withNeedArticleID:NO withArticleID:0 withFileName:@"test.png" withFileType:@"image/png" withFileData:data delegate:nil];
 }
 
 

@@ -7,13 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class YYImage;
 @interface DownloadResourcesUtilities : NSObject
 
-+(void)downLoadEmoji:(NSString *)string
-           Completed:(void(^)())block;
-+(void)downloadPicture:(NSString*)string
-               FromBBS:(BOOL)isFromBBS
-             Completed:(void (^)(UIImage *image,NSData *data))block;
-
++(YYImage*)downloadImage:(NSString *)string
+                 FromBBS:(BOOL)isFromBBS
+               Completed:(void (^)(YYImage *image))block;
 @end

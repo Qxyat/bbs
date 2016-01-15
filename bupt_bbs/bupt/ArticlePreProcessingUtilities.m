@@ -37,13 +37,40 @@
     NSScanner *scanner=[[NSScanner alloc]initWithString:articleInfo.content];
     scanner.charactersToBeSkipped=nil;
    
-    articleInfo.pictures=[[NSMutableArray alloc]init];
     while(![scanner isAtEnd]){
         if([scanner scanString:@"[upload=" intoString:nil]){
             int pos=1;
             [scanner scanInt:&pos];
             [ArticlePreProcessingUtilities getPictureInArticle:articleInfo withAttachmentInfo:articleInfo.attachment withPosition:pos withAttachmentUsedInfo:attachmentWhetherUsed];
             [scanner scanString:@"][/upload]" intoString:nil];
+        }
+        else if([scanner scanString:@"[img=http://" intoString:nil]){
+            NSString *url;
+            scanner.scanLocation-=7;
+            [scanner scanUpToString:@"]" intoString:&url];
+            
+            PictureInfo *picture=[[PictureInfo alloc]init];
+            picture.thumbnail_url=url;
+            picture.original_url=url;
+            picture.isFromBBS=NO;
+            
+            [articleInfo.pictures addObject:picture];
+            
+            [scanner scanString:@"][/img]" intoString:nil];
+        }
+        else if([scanner scanString:@"[img=https://" intoString:nil]){
+            NSString *url;
+            scanner.scanLocation-=8;
+            [scanner scanUpToString:@"]" intoString:&url];
+            
+            PictureInfo *picture=[[PictureInfo alloc]init];
+            picture.thumbnail_url=url;
+            picture.original_url=url;
+            picture.isFromBBS=NO;
+            
+            [articleInfo.pictures addObject:picture];
+            
+            [scanner scanString:@"][/img]" intoString:nil];
         }
         else{
             scanner.scanLocation++;
@@ -57,6 +84,7 @@
     }
 }
 #pragma mark - 预加载附件中的图片
+//单列出来主要是怕图片的文章中插入图片的顺序和附件中的顺序不一致
 +(void)getPictureInArticle:(ArticleInfo*)articleInfo
         withAttachmentInfo:(AttachmentInfo*)attachmentInfo
               withPosition:(NSUInteger)pos
@@ -66,7 +94,8 @@
             AttachmentFile *file=attachmentInfo.file[pos-1];
             if([CustomUtilities isPicture:file.name]&&used[pos-1]==[NSNumber numberWithBool:NO]){
                 used[pos-1]=[NSNumber numberWithBool:YES];
-                [DownloadResourcesUtilities downloadPicture:file.url FromBBS:YES Completed:nil];
+                [DownloadResourcesUtilities downloadImage:file.url FromBBS:YES Completed:nil];
+                
                 PictureInfo *picture=[[PictureInfo alloc]init];
                 picture.thumbnail_url=file.thumbnail_middle;
                 picture.original_url=file.url;
@@ -75,6 +104,5 @@
             }
         }
     }
-
 }
 @end

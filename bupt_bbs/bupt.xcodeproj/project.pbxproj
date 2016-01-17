@@ -23,8 +23,8 @@
 		41295DD51C1E5E260021D689 /* RecommedUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41295DD41C1E5E260021D689 /* RecommedUtilities.m */; };
 		4129D06D1C3CB0D900BCB528 /* PictureInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4129D06C1C3CB0D900BCB528 /* PictureInfo.m */; };
 		41360AC91C40E25C00D3DE9C /* ReplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41360AC71C40E25C00D3DE9C /* ReplyViewController.m */; };
-		41360ACA1C40E25C00D3DE9C /* ReplyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41360AC81C40E25C00D3DE9C /* ReplyView.xib */; };
 		41360ACD1C40FF9900D3DE9C /* PostArticleUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41360ACC1C40FF9900D3DE9C /* PostArticleUtilities.m */; };
+		413F59DF1C4B6743006C90BE /* ReplyViewImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 413F59DE1C4B6743006C90BE /* ReplyViewImageCell.m */; };
 		41404F6A1C1D142100A45B13 /* BoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41404F691C1D142100A45B13 /* BoardViewController.m */; };
 		41404F6D1C1D16E700A45B13 /* BoardUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41404F6C1C1D16E700A45B13 /* BoardUtilities.m */; };
 		41404F711C1D207900A45B13 /* BoardArticleInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41404F6F1C1D207900A45B13 /* BoardArticleInfoCell.m */; };
@@ -112,9 +112,10 @@
 		4129D06C1C3CB0D900BCB528 /* PictureInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureInfo.m; sourceTree = "<group>"; };
 		41360AC61C40E25C00D3DE9C /* ReplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplyViewController.h; sourceTree = "<group>"; };
 		41360AC71C40E25C00D3DE9C /* ReplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReplyViewController.m; sourceTree = "<group>"; };
-		41360AC81C40E25C00D3DE9C /* ReplyView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReplyView.xib; sourceTree = "<group>"; };
 		41360ACB1C40FF9900D3DE9C /* PostArticleUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostArticleUtilities.h; sourceTree = "<group>"; };
 		41360ACC1C40FF9900D3DE9C /* PostArticleUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostArticleUtilities.m; sourceTree = "<group>"; };
+		413F59DD1C4B6743006C90BE /* ReplyViewImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplyViewImageCell.h; sourceTree = "<group>"; };
+		413F59DE1C4B6743006C90BE /* ReplyViewImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReplyViewImageCell.m; sourceTree = "<group>"; };
 		41404F681C1D142100A45B13 /* BoardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardViewController.h; sourceTree = "<group>"; };
 		41404F691C1D142100A45B13 /* BoardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardViewController.m; sourceTree = "<group>"; };
 		41404F6B1C1D16E700A45B13 /* BoardUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardUtilities.h; sourceTree = "<group>"; };
@@ -402,7 +403,8 @@
 				41432A811C39053E00423DFE /* JumpPopoverController.m */,
 				41360AC61C40E25C00D3DE9C /* ReplyViewController.h */,
 				41360AC71C40E25C00D3DE9C /* ReplyViewController.m */,
-				41360AC81C40E25C00D3DE9C /* ReplyView.xib */,
+				413F59DD1C4B6743006C90BE /* ReplyViewImageCell.h */,
+				413F59DE1C4B6743006C90BE /* ReplyViewImageCell.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -558,7 +560,6 @@
 				41F86AB71C1FA3DD009DC75C /* UserCenter.xib in Resources */,
 				410B20221C1524A3004C0CBE /* Assets.xcassets in Resources */,
 				41B684BE1C2001BB0088395D /* ShowUserInfo.xib in Resources */,
-				41360ACA1C40E25C00D3DE9C /* ReplyView.xib in Resources */,
 				41432A841C39056E00423DFE /* JumpPopoverControllerView.xib in Resources */,
 				41D0B2C41C45FBB500865808 /* emojikeyboarddelete@2x.png in Resources */,
 				41432A7E1C38DA3200423DFE /* ThemePopoverControllerView.xib in Resources */,
@@ -626,6 +627,7 @@
 				41E4CEA31C0456D7004DD407 /* LoginUtilities.m in Sources */,
 				417455341C43AC3F00CC1334 /* CustomEmojiContainerView.m in Sources */,
 				41404F711C1D207900A45B13 /* BoardArticleInfoCell.m in Sources */,
+				413F59DF1C4B6743006C90BE /* ReplyViewImageCell.m in Sources */,
 				41360AC91C40E25C00D3DE9C /* ReplyViewController.m in Sources */,
 				41185B8C1BFAC71A00695E9C /* SecondLoginViewController.m in Sources */,
 				41B02B6C1C0FED2500E4904B /* ThemeViewController.m in Sources */,

@@ -16,10 +16,15 @@
 #import "YYImage+Emoji.h"
 #import "CustomYYAnimatedImageView.h"
 #import "AttachmentUtilities.h"
+#import "ReplyViewImageCell.h"
 
 #import <SVProgressHUD.h>
 #import <Masonry.h>
 
+#define kStatusBarHeight 20
+#define kNavigationBarHeight 44
+#define kTitleTextFiledHeight 36
+#define kSeperatorViewHeight 1
 #define kToolBarHeight 46+1
 #define kToolBarItemHeight 46
 #define kMargin 8
@@ -32,16 +37,20 @@
 @property (nonatomic)int articleId;
 @property (strong,nonatomic)ArticleInfo *articleInfo;
 
-@property (weak, nonatomic) IBOutlet UITextField *titleTextField;
-@property (weak, nonatomic) IBOutlet UIView *seperatorView;
-@property (weak, nonatomic) IBOutlet YYTextView *contentTextView;
-@property (weak, nonatomic) IBOutlet UIView *toolbar;
-@property (weak, nonatomic) IBOutlet UIButton *pictureButton;
-@property (weak, nonatomic) IBOutlet UIButton *emojiButton;
+@property (strong,nonatomic) UIScrollView *scrollview;
+@property (strong,nonatomic) YYTextView *contentTextView;
+@property (strong,nonatomic) UICollectionView *imagesContainer;
 
+@property (strong,nonatomic) UITextField *titleTextField;
+@property (strong,nonatomic) UIView *seperatorView;
+
+@property (strong,nonatomic) UIView *toolbar;
+@property (strong,nonatomic) UIButton *pictureButton;
+@property (strong,nonatomic) UIButton *emojiButton;
 @property (strong,nonatomic) UIView *dummyView;
 @property (strong,nonatomic) CustomEmojiKeyboard *emojiKeyboard;
 
+@property (strong,nonatomic) NSMutableArray *imageAttachments;
 @end
 
 
@@ -53,7 +62,7 @@
                           withArticleId:(int)articleId
                         withArticleInfo:(ArticleInfo*)articleInfo
 {
-    ReplyViewController *replyViewController=[[ReplyViewController alloc]initWithNibName:@"ReplyView" bundle:nil];
+    ReplyViewController *replyViewController=[[ReplyViewController alloc]init];
     
     replyViewController.boardName=boardName;
     replyViewController.articleName=articleName;
@@ -63,57 +72,17 @@
     
     return replyViewController;
 }
--(void)loadView{
-    [super loadView];
-    
-    [_titleTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top).with.offset(64);
-        make.width.equalTo(self.view.mas_width).with.offset(-2*kMargin);
-        make.centerX.equalTo(self.view.mas_centerX);
-        make.height.mas_equalTo(36);
-    }];
-    [_seperatorView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_titleTextField.mas_bottom);
-        make.width.equalTo(_titleTextField.mas_width);
-        make.centerX.equalTo(self.view.mas_centerX);
-        make.height.mas_equalTo(CGFloatFromPixel(1));
-    }];
-    [_contentTextView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_seperatorView.mas_bottom);
-        make.width.equalTo(_titleTextField.mas_width);
-        make.centerX.equalTo(self.view.mas_centerX);
-        make.height.equalTo(self.view.mas_width).multipliedBy(0.6);
-    }];
-    [_toolbar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view.mas_bottom);
-        make.width.equalTo(self.view.mas_width);
-        make.height.mas_equalTo(kToolBarHeight);
-        make.centerX.equalTo(self.view.mas_centerX);
-    }];
-    [_pictureButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(kToolBarItemHeight);
-        make.height.mas_equalTo(kToolBarItemHeight);
-        make.centerX.equalTo(_toolbar.mas_centerX).multipliedBy(0.5);
-        make.centerY.equalTo(_toolbar.mas_centerY).with.offset(0.5);
-    }];
-    [_emojiButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(kToolBarItemHeight);
-        make.height.mas_equalTo(kToolBarItemHeight);
-        make.centerX.equalTo(_toolbar.mas_centerX).multipliedBy(1.5);
-        make.centerY.equalTo(_toolbar.mas_centerY).with.offset(0.5);
-    }];
-    [self.view layoutIfNeeded];
-}
 - (void)viewDidLoad {
     [super viewDidLoad];
-   
+    self.view.backgroundColor=[UIColor whiteColor];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
+    [self _initScrollView];
     [self _initNavigationItem];
     [self _initTitleTextField];
     [self _initSeperatorView];
-    [self _initContentTextView];
     [self _initToolbar];
     
     _emojiKeyboard=[[CustomEmojiKeyboard alloc]init];
@@ -127,57 +96,38 @@
         _contentTextView.selectedRange=NSMakeRange(0, 0);
     }
     
+    [_scrollview scrollToTop];
+    _imageAttachments=[[NSMutableArray alloc]init];
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
-    [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+}
 
 #pragma mark - 初始化各个view
--(void)_initNavigationItem{
-    if(!_isNewTheme){
-        self.navigationItem.title=@"回复";
-    }
-    else{
-        self.navigationItem.title=@"新话题";
-    }
-    UIBarButtonItem *postBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"发表" style:UIBarButtonItemStylePlain target:self action:@selector(postArticle)];
-    [postBarButtonItem setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16],NSForegroundColorAttributeName:[UIColor blackColor]} forState:UIControlStateNormal];
-    self.navigationItem.rightBarButtonItem=postBarButtonItem;
-}
-
--(void)_initTitleTextField{
-    _titleTextField.font=[UIFont systemFontOfSize:16];
-    //为了防止下面的内容view 滚动时 覆盖掉title
-    _titleTextField.backgroundColor=[UIColor whiteColor];
-    [self.view addSubview:_titleTextField];
+-(void)_initScrollView{
+    _scrollview=[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame))];
+    _scrollview.contentInset=UIEdgeInsetsMake(kTitleTextFiledHeight+kSeperatorViewHeight, 0, kToolBarHeight, 0);
+    _scrollview.showsHorizontalScrollIndicator=NO;
+    _scrollview.showsVerticalScrollIndicator=NO;
+    _scrollview.backgroundColor=[UIColor redColor];
     
-    [_titleTextField mas_updateConstraints:^(MASConstraintMaker *make) {
-        
-    }];
-    if(!_isNewTheme){
-        _titleTextField.text=[NSString stringWithFormat:@"Re:%@",_articleName];
-    }
-    else{
-        _titleTextField.placeholder=@"在这里输入标题...";
-    }
-}
-
--(void)_initSeperatorView{
-    _seperatorView.backgroundColor=[CustomUtilities getColor:@"BFBFBF"];
-}
-
--(void)_initContentTextView{
+    _contentTextView=[[YYTextView alloc] initWithFrame:self.view.frame];
     _contentTextView.showsVerticalScrollIndicator=NO;
     _contentTextView.allowsCopyAttributedString=NO;
-    _contentTextView.textContainerInset=UIEdgeInsetsMake(12, 0, 0, 0);
+    _contentTextView.textContainerInset=UIEdgeInsetsMake(12, kMargin, 0, kMargin);
     _contentTextView.font=[UIFont systemFontOfSize:17];
     _contentTextView.placeholderFont=[UIFont systemFontOfSize:17];
     _contentTextView.placeholderTextColor=[CustomUtilities getColor:@"B4B4B4"];
+    _contentTextView.delegate=self;
+    _contentTextView.scrollEnabled=NO;
+    _contentTextView.backgroundColor=[UIColor blueColor];
     
     if(!_isNewTheme){
         if(_articleInfo==nil){
@@ -200,26 +150,102 @@
     else{
         _contentTextView.placeholderText=@"在这里输入内容...";
     }
+    
+    [_scrollview addSubview:_contentTextView];
+    
+    UICollectionViewFlowLayout *flowlayout=[[UICollectionViewFlowLayout alloc]init];
+    flowlayout.scrollDirection=UICollectionViewScrollDirectionVertical;
+    flowlayout.minimumInteritemSpacing=0;
+    flowlayout.sectionInset=UIEdgeInsetsMake(0, 0, 0, 0);
+    
+    _imagesContainer=[[UICollectionView alloc]initWithFrame:self.view.frame collectionViewLayout:flowlayout];
+    _imagesContainer.contentInset=UIEdgeInsetsMake(kMargin, kMargin, kMargin, kMargin);
+    _imagesContainer.showsVerticalScrollIndicator=NO;
+    _imagesContainer.backgroundColor=[UIColor clearColor];
+    _imagesContainer.dataSource=self;
+    _imagesContainer.delegate=self;
+    _imagesContainer.scrollEnabled=NO;
+    [_imagesContainer registerClass:[ReplyViewImageCell class] forCellWithReuseIdentifier:@"cell"];
+    [_imagesContainer reloadData];
+    [_scrollview addSubview:_imagesContainer];
+    
+    [self.view addSubview:_scrollview];
+    
+    [self _refreshScrollViewFrame];
 }
+
+-(void)_initNavigationItem{
+    if(!_isNewTheme){
+        self.navigationItem.title=@"回复";
+    }
+    else{
+        self.navigationItem.title=@"新话题";
+    }
+    UIBarButtonItem *postBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"发表" style:UIBarButtonItemStylePlain target:self action:@selector(postArticle)];
+    [postBarButtonItem setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16],NSForegroundColorAttributeName:[UIColor blackColor]} forState:UIControlStateNormal];
+    self.navigationItem.rightBarButtonItem=postBarButtonItem;
+}
+
+-(void)_initTitleTextField{
+    UIView *bottomView=[[UIView alloc] initWithFrame:CGRectMake(0, kNavigationBarHeight+kStatusBarHeight, CGRectGetWidth(self.view.frame), kTitleTextFiledHeight)];
+    bottomView.backgroundColor=[UIColor whiteColor];
+    [self.view addSubview:bottomView];
+    
+    _titleTextField=[[UITextField alloc]initWithFrame:CGRectMake(kMargin, kNavigationBarHeight+kStatusBarHeight, CGRectGetWidth(self.view.frame)-2*kMargin, kTitleTextFiledHeight)];
+    _titleTextField.font=[UIFont systemFontOfSize:16];
+    //为了防止下面的内容view 滚动时 覆盖掉title
+    _titleTextField.backgroundColor=[UIColor whiteColor];
+    [self.view addSubview:_titleTextField];
+    
+    if(!_isNewTheme){
+        _titleTextField.text=[NSString stringWithFormat:@"Re:%@",_articleName];
+    }
+    else{
+        _titleTextField.placeholder=@"在这里输入标题...";
+    }
+}
+
+-(void)_initSeperatorView{
+    UIView *bottomView=[[UIView alloc] initWithFrame:CGRectMake(0, kStatusBarHeight+kNavigationBarHeight+kTitleTextFiledHeight, CGRectGetWidth(self.view.frame), kSeperatorViewHeight)];
+    bottomView.backgroundColor=[UIColor whiteColor];
+    [self.view addSubview:bottomView];
+    
+    _seperatorView=[[UIView alloc]initWithFrame:CGRectMake(kMargin, kStatusBarHeight+kNavigationBarHeight+kTitleTextFiledHeight, CGRectGetWidth(self.view.frame)-2*kMargin, kSeperatorViewHeight)];
+    [self.view addSubview:_seperatorView];
+    _seperatorView.backgroundColor=[CustomUtilities getColor:@"BFBFBF"];
+}
+
 -(void)_initToolbar{
+    _toolbar=[[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.view.frame)-kToolBarHeight, CGRectGetWidth(self.view.frame), kToolBarHeight)];
+     _toolbar.backgroundColor=[CustomUtilities getColor:@"F9F9F9"];
     UIView *line=[[UIView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_toolbar.frame), CGFloatFromPixel(1))];
     line.backgroundColor=[CustomUtilities getColor:@"BFBFBF"];
     line.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [_toolbar addSubview:line];
     
-    _toolbar.backgroundColor=[CustomUtilities getColor:@"F9F9F9"];
+    _pictureButton=[UIButton buttonWithType:UIButtonTypeCustom];
+    _pictureButton.frame=CGRectMake(0, 0, kNavigationBarHeight, kNavigationBarHeight);
+    _pictureButton.center=CGPointMake(CGRectGetWidth(_toolbar.frame)*0.25, CGRectGetHeight(_toolbar.frame)*0.5);
     [_pictureButton setImage:[UIImage imageNamed:@"toolbarpicture"] forState:UIControlStateNormal];
     [_pictureButton setImage:[UIImage imageNamed:@"toolbarpicturehighlighted"] forState:UIControlStateHighlighted];
     [_pictureButton addTarget:self action:@selector(choosePicture) forControlEvents:UIControlEventTouchUpInside];
+    [_toolbar addSubview:_pictureButton];
     
+    _emojiButton=[UIButton buttonWithType:UIButtonTypeCustom];
+    _emojiButton.frame=CGRectMake(0, 0, kNavigationBarHeight, kNavigationBarHeight);
+    _emojiButton.center=CGPointMake(CGRectGetWidth(_toolbar.frame)*0.75, CGRectGetHeight(_toolbar.frame)*0.5);
     [_emojiButton setImage:[UIImage imageNamed:@"toolbaremotion"] forState:UIControlStateNormal];
     [_emojiButton setImage:[UIImage imageNamed:@"toolbaremotionhighlighted"] forState:UIControlStateHighlighted];
     [_emojiButton addTarget:self action:@selector(showEmojiKeyboard) forControlEvents:UIControlEventTouchUpInside];
+    [_toolbar addSubview:_emojiButton];
     
     [self.view addSubview:_toolbar];
 }
 #pragma mark - 发表
 -(void)postArticle{
+    NSLog(@"_imagesContainer.contentSize %@",NSStringFromCGSize(_imagesContainer.contentSize));
+    NSLog(@"_imagesContainer.frame %@",NSStringFromCGRect(_imagesContainer.frame));
+    
     NSMutableString *contentString=[[NSMutableString alloc]init];
     for(int i=0;i<_contentTextView.attributedText.length;i++){
         if([_contentTextView.attributedText attribute:YYTextAttachmentAttributeName atIndex:i]){
@@ -297,23 +323,24 @@
         [UIView setAnimationCurve:curve];
         [UIView setAnimationBeginsFromCurrentState:YES];
         
-        [_toolbar mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.view.mas_bottom).with.offset(-CGRectGetHeight(frame));
-        }];
+        CGRect newFrame=_toolbar.frame;
+        newFrame.origin.y=CGRectGetMinY(frame)-CGRectGetHeight(_toolbar.frame);
+        _toolbar.frame=newFrame;
     }];
 }
 
 -(void)keyboardWillHide:(NSNotification*)notification{
     NSDictionary *dic=notification.userInfo;
+    CGRect frame=[[dic valueForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGFloat timeInterval=[[dic valueForKey:UIKeyboardAnimationDurationUserInfoKey]doubleValue];
     NSInteger curve=[[dic valueForKey:UIKeyboardAnimationCurveUserInfoKey]integerValue];
     [UIView animateWithDuration:timeInterval animations:^{
         [UIView setAnimationCurve:curve];
         [UIView setAnimationBeginsFromCurrentState:YES];
         
-        [_toolbar mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.view.mas_bottom);
-        }];
+        CGRect newFrame=_toolbar.frame;
+        newFrame.origin.y=CGRectGetMinY(frame)-CGRectGetHeight(_toolbar.frame);
+        _toolbar.frame=newFrame;
     }];
 }
 
@@ -322,9 +349,21 @@
 -(void)choosePicture{
 //    NSData *data=[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test" ofType:@"png"]];
 //    [AttachmentUtilities postAttachmentWithBoardName:_boardName withNeedArticleID:NO withArticleID:0 withFileName:@"test.png" withFileType:@"image/png" withFileData:data delegate:nil];
+    UIImagePickerController *controller=[[UIImagePickerController alloc]init];
+    controller.sourceType=UIImagePickerControllerSourceTypeCamera;
+    controller.delegate=self;
+    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:controller animated:YES completion:nil];
+    
 }
 
-
+#pragma mark - 实现UIImagePickerControllerDelegate协议
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+    UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
+    [_imageAttachments addObject:image];
+    [_imagesContainer reloadData];
+    [self _refreshScrollViewFrame];
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
 #pragma mark - 显示表情键盘
 -(void)showEmojiKeyboard{
     if(_contentTextView.inputView==_emojiKeyboard){
@@ -368,8 +407,46 @@
     _contentTextView.selectedRange=selectedRange;
 }
 
-
 -(void)deleteEmoji{
     [_contentTextView deleteBackward];
+}
+
+
+#pragma mark - 实现YYTextViewDelegate
+-(void)textViewDidChange:(YYTextView *)textView{
+    [self _refreshScrollViewFrame];
+}
+-(void)textViewDidBeginEditing:(YYTextView *)textView{
+    [self _refreshScrollViewFrame];
+}
+
+#pragma mark - 实现UICollectionView Datasource协议
+-(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return 1;
+}
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return [_imageAttachments count];
+}
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    ReplyViewImageCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    cell.image=_imageAttachments[indexPath.row];
+    return cell;
+}
+
+
+#pragma mark - 实现UICollectionViewDelegateFlowLayout协议
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    CGFloat width=(CGRectGetWidth(self.view.frame)-4*kMargin)/3;
+    return CGSizeMake(width, width);
+}
+
+
+#pragma mark - 更新scrollviewframe
+-(void)_refreshScrollViewFrame{
+    _scrollview.contentOffset=_contentTextView.contentOffset;
+    NSLog(@"%@",NSStringFromCGPoint(_contentTextView.contentOffset));
+    _contentTextView.frame=CGRectMake(0, 0, CGRectGetWidth(_scrollview.frame), _contentTextView.contentSize.height);
+    _imagesContainer.frame=CGRectMake(0, CGRectGetHeight(_contentTextView.frame), CGRectGetWidth(_scrollview.frame),_imagesContainer.contentSize.height);
+    _scrollview.contentSize=CGSizeMake(_scrollview.contentSize.width, CGRectGetHeight(_contentTextView.frame)+CGRectGetHeight(_imagesContainer.frame)+CGRectGetHeight(self.view.frame)/2.0);
 }
 @end

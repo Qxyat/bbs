@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RootViewController : UIViewController<UITabBarControllerDelegate>
+@interface RootViewController : UIViewController
 
 +(instancetype)getInstance;
 -(void)showLeft;

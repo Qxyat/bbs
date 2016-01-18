@@ -39,4 +39,8 @@ typedef NS_ENUM(NSInteger,NetworkErrorCode){
 
 #pragma mark - 根据颜色代码获得颜色
 +(UIColor*) getColor:(NSString *) hexColor;
+
+#pragma mark - 缩放图片
++(UIImage *)image:(UIImage *)image
+      scaleToSize:(CGSize)size;
 @end

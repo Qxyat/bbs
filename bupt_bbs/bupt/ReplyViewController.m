@@ -384,6 +384,8 @@
 #pragma mark - 实现UIImagePickerControllerDelegate协议
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
+    image=[CustomUtilities image:image scaleToSize:CGSizeMake(kImageSize, kImageSize)];
+    [AttachmentUtilities postAttachmentWithBoardName:_boardName withNeedArticleID:NO withArticleID:0 withFileName:@"1.png" withFileType:@"image/png" withFileData:UIImagePNGRepresentation(image) delegate:nil];
     [_imageAttachments addObject:image];
     [_imagesContainer reloadData];
     if(_imageAttachments.count%3==1){

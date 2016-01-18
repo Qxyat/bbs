@@ -17,7 +17,7 @@
 #import "CustomYYAnimatedImageView.h"
 #import "AttachmentUtilities.h"
 #import "ReplyViewImageCell.h"
-
+#import "CustomLinePositionModifier.h"
 #import <SVProgressHUD.h>
 #import <Masonry.h>
 
@@ -28,6 +28,7 @@
 #define kToolBarHeight 46+1
 #define kToolBarItemHeight 46
 #define kMargin 8
+#define kImageSize (kCustomScreenWidth-4*kMargin)/3
 
 @interface ReplyViewController ()
 
@@ -114,20 +115,26 @@
 -(void)_initScrollView{
     _scrollview=[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame))];
     _scrollview.contentInset=UIEdgeInsetsMake(kTitleTextFiledHeight+kSeperatorViewHeight, 0, kToolBarHeight, 0);
+    _scrollview.contentSize=CGSizeMake(CGRectGetWidth(self.view.frame), 0);
     _scrollview.showsHorizontalScrollIndicator=NO;
     _scrollview.showsVerticalScrollIndicator=NO;
-    _scrollview.backgroundColor=[UIColor redColor];
     
-    _contentTextView=[[YYTextView alloc] initWithFrame:self.view.frame];
+    _contentTextView=[[YYTextView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), _scrollview.contentSize.height)];
     _contentTextView.showsVerticalScrollIndicator=NO;
     _contentTextView.allowsCopyAttributedString=NO;
-    _contentTextView.textContainerInset=UIEdgeInsetsMake(12, kMargin, 0, kMargin);
+    _contentTextView.textContainerInset=UIEdgeInsetsMake(12, kMargin, 12, kMargin);
     _contentTextView.font=[UIFont systemFontOfSize:17];
     _contentTextView.placeholderFont=[UIFont systemFontOfSize:17];
     _contentTextView.placeholderTextColor=[CustomUtilities getColor:@"B4B4B4"];
     _contentTextView.delegate=self;
     _contentTextView.scrollEnabled=NO;
-    _contentTextView.backgroundColor=[UIColor blueColor];
+    
+    CustomLinePositionModifier *modifier = [CustomLinePositionModifier new];
+    modifier.font = [UIFont systemFontOfSize:17];
+    modifier.paddingTop = 12;
+    modifier.paddingBottom = 12;
+    modifier.lineHeightMultiple = 1.5;
+    _contentTextView.linePositionModifier = modifier;
     
     if(!_isNewTheme){
         if(_articleInfo==nil){
@@ -157,16 +164,16 @@
     flowlayout.scrollDirection=UICollectionViewScrollDirectionVertical;
     flowlayout.minimumInteritemSpacing=0;
     flowlayout.sectionInset=UIEdgeInsetsMake(0, 0, 0, 0);
-    
-    _imagesContainer=[[UICollectionView alloc]initWithFrame:self.view.frame collectionViewLayout:flowlayout];
+    _imagesContainer=[[UICollectionView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_contentTextView.frame) ,CGRectGetWidth(self.view.frame) ,0) collectionViewLayout:flowlayout];
     _imagesContainer.contentInset=UIEdgeInsetsMake(kMargin, kMargin, kMargin, kMargin);
+    _imagesContainer.contentSize=CGSizeMake(CGRectGetWidth(self.view.frame)-2*kMargin, 0);
     _imagesContainer.showsVerticalScrollIndicator=NO;
     _imagesContainer.backgroundColor=[UIColor clearColor];
     _imagesContainer.dataSource=self;
     _imagesContainer.delegate=self;
     _imagesContainer.scrollEnabled=NO;
     [_imagesContainer registerClass:[ReplyViewImageCell class] forCellWithReuseIdentifier:@"cell"];
-    [_imagesContainer reloadData];
+
     [_scrollview addSubview:_imagesContainer];
     
     [self.view addSubview:_scrollview];
@@ -350,7 +357,7 @@
 //    NSData *data=[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test" ofType:@"png"]];
 //    [AttachmentUtilities postAttachmentWithBoardName:_boardName withNeedArticleID:NO withArticleID:0 withFileName:@"test.png" withFileType:@"image/png" withFileData:data delegate:nil];
     UIImagePickerController *controller=[[UIImagePickerController alloc]init];
-    controller.sourceType=UIImagePickerControllerSourceTypeCamera;
+    controller.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
     controller.delegate=self;
     [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:controller animated:YES completion:nil];
     
@@ -361,6 +368,11 @@
     UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
     [_imageAttachments addObject:image];
     [_imagesContainer reloadData];
+    if(_imageAttachments.count%3==1){
+        NSInteger lineSpacingCount=_imageAttachments.count/3;
+  
+        _imagesContainer.contentSize=CGSizeMake(_imagesContainer.contentSize.width, kImageSize+kImageSize*lineSpacingCount+lineSpacingCount*kMargin);
+    }
     [self _refreshScrollViewFrame];
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
@@ -436,17 +448,32 @@
 
 #pragma mark - 实现UICollectionViewDelegateFlowLayout协议
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    CGFloat width=(CGRectGetWidth(self.view.frame)-4*kMargin)/3;
-    return CGSizeMake(width, width);
+    return CGSizeMake(kImageSize, kImageSize);
 }
 
 
 #pragma mark - 更新scrollviewframe
 -(void)_refreshScrollViewFrame{
-    _scrollview.contentOffset=_contentTextView.contentOffset;
-    NSLog(@"%@",NSStringFromCGPoint(_contentTextView.contentOffset));
-    _contentTextView.frame=CGRectMake(0, 0, CGRectGetWidth(_scrollview.frame), _contentTextView.contentSize.height);
-    _imagesContainer.frame=CGRectMake(0, CGRectGetHeight(_contentTextView.frame), CGRectGetWidth(_scrollview.frame),_imagesContainer.contentSize.height);
+//    NSLog(@"*****************************************");
+//    NSLog(@"_scrollview.contentOffset %@",NSStringFromCGPoint(_scrollview.contentOffset));
+//    NSLog(@"_contentTextView.contentOffset %@",NSStringFromCGPoint(_contentTextView.contentOffset));
+
+    _contentTextView.frame=CGRectMake(CGRectGetMinX(_contentTextView.frame), CGRectGetMinY(_contentTextView.frame), CGRectGetWidth(_contentTextView.frame), _contentTextView.contentSize.height+20);
+    _imagesContainer.frame=CGRectMake(CGRectGetMinX(_imagesContainer.frame), CGRectGetMaxY(_contentTextView.frame), CGRectGetWidth(_imagesContainer.frame),_imagesContainer.contentSize.height);
     _scrollview.contentSize=CGSizeMake(_scrollview.contentSize.width, CGRectGetHeight(_contentTextView.frame)+CGRectGetHeight(_imagesContainer.frame)+CGRectGetHeight(self.view.frame)/2.0);
+    
+    CGPoint point=[_contentTextView caretRectForPosition:_contentTextView.selectedTextRange.start].origin;
+   
+    CGFloat cursorY=kNavigationBarHeight+kSeperatorViewHeight+kTitleTextFiledHeight+point.y+25.5;
+//    NSLog(@"%@",NSStringFromCGRect(_toolbar.frame));
+    if(cursorY>CGRectGetMinY(_toolbar.frame)){
+        CGPoint newOffset=CGPointMake(0, -(kNavigationBarHeight+kSeperatorViewHeight+kTitleTextFiledHeight)+cursorY-CGRectGetMinY(_toolbar.frame));
+        if(newOffset.y>_scrollview.contentOffset.y)
+            _scrollview.contentOffset=newOffset;
+    }
+//     NSLog(@"_scrollview.contentOffset %@",NSStringFromCGPoint(_scrollview.contentOffset));
+//    NSLog(@"_point %@",NSStringFromCGPoint(point));
+//    NSLog(@"_contentTextView.frame %@",NSStringFromCGRect(_contentTextView.frame));
+//    NSLog(@"_scrollview.contentSize %@",NSStringFromCGSize(_scrollview.contentSize));
 }
 @end

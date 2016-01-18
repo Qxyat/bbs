@@ -70,6 +70,7 @@
 		41D801DD1C14277B00845782 /* AttachmentFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D801DC1C14277B00845782 /* AttachmentFile.m */; };
 		41E4CEA31C0456D7004DD407 /* LoginUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41E4CEA21C0456D7004DD407 /* LoginUtilities.m */; };
 		41E4CEA51C04588C004DD407 /* SecondLoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41E4CEA41C04588C004DD407 /* SecondLoginView.xib */; };
+		41EE0FE71C4CC10900844A18 /* CustomLinePositionModifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE0FE61C4CC10900844A18 /* CustomLinePositionModifier.m */; };
 		41EE38AA1C475E3400AE75BA /* CustomYYAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE38A91C475E3400AE75BA /* CustomYYAnimatedImageView.m */; };
 		41EE38AC1C477ACB00AE75BA /* emojitoobarbackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41EE38AB1C477ACB00AE75BA /* emojitoobarbackground@2x.png */; };
 		41EE38AF1C477EF800AE75BA /* emojitoolbarnormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41EE38AD1C477EF800AE75BA /* emojitoolbarnormal@2x.png */; };
@@ -202,6 +203,8 @@
 		41E4CEA11C0456D7004DD407 /* LoginUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginUtilities.h; sourceTree = "<group>"; };
 		41E4CEA21C0456D7004DD407 /* LoginUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginUtilities.m; sourceTree = "<group>"; };
 		41E4CEA41C04588C004DD407 /* SecondLoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecondLoginView.xib; sourceTree = "<group>"; };
+		41EE0FE51C4CC10900844A18 /* CustomLinePositionModifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomLinePositionModifier.h; sourceTree = "<group>"; };
+		41EE0FE61C4CC10900844A18 /* CustomLinePositionModifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomLinePositionModifier.m; sourceTree = "<group>"; };
 		41EE38A81C475E3400AE75BA /* CustomYYAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomYYAnimatedImageView.h; sourceTree = "<group>"; };
 		41EE38A91C475E3400AE75BA /* CustomYYAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomYYAnimatedImageView.m; sourceTree = "<group>"; };
 		41EE38AB1C477ACB00AE75BA /* emojitoobarbackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emojitoobarbackground@2x.png"; sourceTree = "<group>"; };
@@ -465,6 +468,8 @@
 			children = (
 				41EE38A81C475E3400AE75BA /* CustomYYAnimatedImageView.h */,
 				41EE38A91C475E3400AE75BA /* CustomYYAnimatedImageView.m */,
+				41EE0FE51C4CC10900844A18 /* CustomLinePositionModifier.h */,
+				41EE0FE61C4CC10900844A18 /* CustomLinePositionModifier.m */,
 			);
 			name = CustomClass;
 			sourceTree = "<group>";
@@ -641,6 +646,7 @@
 				41404F6D1C1D16E700A45B13 /* BoardUtilities.m in Sources */,
 				419411E11C1C372C002E59AC /* CollectionViewHeader.m in Sources */,
 				412641F31C0E86BD006C4B31 /* ArticleInfo.m in Sources */,
+				41EE0FE71C4CC10900844A18 /* CustomLinePositionModifier.m in Sources */,
 				41B018561C23D04400AA8F88 /* LaunchViewController.m in Sources */,
 				412641F61C0E876E006C4B31 /* UserInfo.m in Sources */,
 				41B02B651C0FE31B00E4904B /* AttachmentInfo.m in Sources */,

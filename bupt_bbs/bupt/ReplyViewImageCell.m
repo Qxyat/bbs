@@ -19,7 +19,7 @@
 -(id)initWithFrame:(CGRect)frame{
     if(self=[super initWithFrame:frame]){
         _imageview=[[UIImageView alloc]initWithFrame:self.contentView.bounds];
-        _imageview.backgroundColor=[UIColor redColor];
+        _imageview.contentMode=UIViewContentModeScaleAspectFit;
         [self.contentView addSubview:_imageview];
     }
     return self;

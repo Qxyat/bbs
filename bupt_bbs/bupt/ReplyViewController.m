@@ -354,13 +354,31 @@
 
 #pragma mark - 显示图片选择
 -(void)choosePicture{
-//    NSData *data=[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test" ofType:@"png"]];
-//    [AttachmentUtilities postAttachmentWithBoardName:_boardName withNeedArticleID:NO withArticleID:0 withFileName:@"test.png" withFileType:@"image/png" withFileData:data delegate:nil];
-    UIImagePickerController *controller=[[UIImagePickerController alloc]init];
-    controller.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
-    controller.delegate=self;
-    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:controller animated:YES completion:nil];
+    UIAlertController *controller=[UIAlertController alertControllerWithTitle:@"" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+    NSMutableArray *array=[[NSMutableArray alloc]init];
+    UIImagePickerController *imagePickerController=[[UIImagePickerController alloc]init];
+    imagePickerController.delegate=self;
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
+        UIAlertAction *action=[UIAlertAction actionWithTitle:@"拍摄照片" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            imagePickerController.sourceType=UIImagePickerControllerSourceTypeCamera;
+            [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:imagePickerController animated:YES completion:nil];
+        }];
+        [array addObject:action];
+    }
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
+        UIAlertAction *action=[UIAlertAction actionWithTitle:@"从相册中选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            imagePickerController.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+            [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:imagePickerController animated:YES completion:nil];
+        }];
+        [array addObject:action];
+    }
+   
+    UIAlertAction *action=[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDestructive handler:nil];
+    [array addObject:action];
     
+    for(int i=0;i<array.count;i++)
+        [controller addAction:[array objectAtIndex:i]];
+    [self presentViewController:controller animated:YES completion:nil];
 }
 
 #pragma mark - 实现UIImagePickerControllerDelegate协议

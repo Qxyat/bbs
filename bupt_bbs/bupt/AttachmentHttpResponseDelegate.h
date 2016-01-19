@@ -14,11 +14,13 @@
                                   withData:(NSData*)data
                                   withName:(NSString*)name;
 
--(void)handlePostAttachmentErrorResponse:(id)response;
+-(void)handlePostAttachmentErrorResponse:(id)response
+                               withError:(NSError*)error;
 
 -(void)handleDeleteAttachmentSuccessResponse:(id)response
                                      withPos:(NSInteger)pos;
 
--(void)handleDeleteAttachmentErrorResponse:(id)response;
+-(void)handleDeleteAttachmentErrorResponse:(id)response
+                                 withError:(NSError*)error;
 
 @end

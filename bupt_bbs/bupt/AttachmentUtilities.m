@@ -56,7 +56,6 @@
         requestURL=[NSString stringWithFormat:@"%@/attachment/%@/add.json",kRequestURL,boardName];
     }
     AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
-    manager.requestSerializer.timeoutInterval=kRequestTimeout;
     manager.responseSerializer=[AFJSONResponseSerializer serializer];
     [manager POST:requestURL parameters:dic constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         [formData appendPartWithFileData:fileData name:@"file" fileName:fileName mimeType:fileType];
@@ -65,7 +64,9 @@
             [delegate handlePostAttachmentSuccessResponse:responseObject withData:fileData withName:fileName];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
         if(delegate!=nil)
-            [delegate handlePostAttachmentErrorResponse:error];
+            [delegate handlePostAttachmentErrorResponse:
+                               operation.responseObject
+                      withError:error];
     }];
 }
 
@@ -85,12 +86,15 @@
         requestURL=[NSString stringWithFormat:@"%@/attachment/%@/delete.json",kRequestURL,boardName];
     }
     AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
-    manager.requestSerializer.timeoutInterval=kRequestTimeout;
     manager.responseSerializer=[AFJSONResponseSerializer serializer];
     [manager POST:requestURL parameters:dic success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        [delegate handleDeleteAttachmentSuccessResponse:responseObject withPos:pos];
+        if(delegate!=nil)
+            [delegate handleDeleteAttachmentSuccessResponse:responseObject withPos:pos];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
-        [delegate handleDeleteAttachmentErrorResponse:error];
+        if(delegate!=nil)
+            [delegate handleDeleteAttachmentErrorResponse:
+                               operation.responseObject
+                  withError:error];
     }];
 }
 @end

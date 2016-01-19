@@ -183,6 +183,10 @@
 }
 
 -(void)_initNavigationItem{
+    UIBarButtonItem *cancleBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action: @selector(cancleReply)];
+    self.navigationItem.leftBarButtonItem=cancleBarButtonItem;
+    
+    
     if(!_isNewTheme){
         self.navigationItem.title=@"回复";
     }
@@ -260,6 +264,9 @@
         }
         else
             [contentString appendString:[_contentTextView.text substringWithRange:NSMakeRange(i, 1)]];
+    }
+    for(int i=0;i<_imageAttachments.count;i++){
+        [contentString appendString:[NSString stringWithFormat:@"[upload=%d][/upload]",i+1]];
     }
     NSLog(@"%@",contentString);
     NSString *message=nil;
@@ -382,25 +389,17 @@
 #pragma mark - 实现UIImagePickerControllerDelegate协议
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
-   
-    if(picker.sourceType==UIImagePickerControllerSourceTypeCamera){
-        UIImageWriteToSavedPhotosAlbum(image
-                                       , self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
-    }
+    
+    image=[CustomUtilities image:image scaleToSize:CGSizeMake(1024, 1024)];
+    
     NSDate *currentDate=[NSDate date];
     NSDateFormatter *formatter=[[NSDateFormatter alloc]init];
     [formatter setDateFormat:@"YYYYMMddHHmmss"];
-    NSString* dateStrinng=[formatter stringFromDate:currentDate];;
+    NSString* dateStrinng=[formatter stringFromDate:currentDate];
+    [SVProgressHUD showWithStatus:@"图片上传中"];
     [AttachmentUtilities postAttachmentWithBoardName:_boardName withNeedArticleID:NO withArticleID:0 withFileName:[NSString stringWithFormat:@"%@.png",dateStrinng] withFileType:@"image/png" withFileData:UIImagePNGRepresentation(image) delegate:self];
 }
--(void)image:(UIImage *)image didFinishSavingWithError: (NSError *) error contextInfo: (void *) contextInfo{
-    if(error==nil){
-        [SVProgressHUD showInfoWithStatus:@"照片已保存至相册"];
-    }
-    else{
-        [SVProgressHUD showErrorWithStatus:@"照片保存至相册失败"];
-    }
-}
+
 #pragma mark - 显示表情键盘
 -(void)showEmojiKeyboard{
     if(_contentTextView.inputView==_emojiKeyboard){
@@ -523,10 +522,29 @@
     }
     [self _refreshScrollViewFrame];
 }
--(void)handlePostAttachmentErrorResponse:(id)response{
+-(void)handlePostAttachmentErrorResponse:(id)response
+                               withError:(NSError *)error{
     [_imagePickerController dismissViewControllerAnimated:YES completion:nil];
     _imagePickerController=nil;
-    [SVProgressHUD showErrorWithStatus:@"上传附件失败"];
+    if(response!=nil){
+        [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"上传附件失败\n%@",response[@"msg"]]];
+    }
+    else{
+        NSInteger errorCode=[CustomUtilities getNetworkErrorCode:error];
+        switch (errorCode) {
+            case NetworkConnectFailed:
+                 [SVProgressHUD showErrorWithStatus:@"上传附件失败\n网络连接失败"];
+                break;
+            case NetworkConnectTimeout:
+                [SVProgressHUD showErrorWithStatus:@"上传附件失败\n网络请求超时"];
+                break;
+            case NetworkConnectUnknownReason:
+                [SVProgressHUD showErrorWithStatus:@"上传附件失败\n未知原因"];
+                break;
+            default:
+                break;
+        }
+    }
 }
 -(void)handleDeleteAttachmentSuccessResponse:(id)response
                                      withPos:(NSInteger)pos{
@@ -542,8 +560,28 @@
     }
     [self _refreshScrollViewFrame];
 }
--(void)handleDeleteAttachmentErrorResponse:(id)response{
-    [SVProgressHUD showErrorWithStatus:@"删除附件失败"];
+-(void)handleDeleteAttachmentErrorResponse:(id)response
+                                 withError:(NSError *)error
+{
+    if(response!=nil){
+        [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"删除附件失败\n%@",response[@"msg"]]];
+    }
+    else{
+        NSInteger errorCode=[CustomUtilities getNetworkErrorCode:error];
+        switch (errorCode) {
+            case NetworkConnectFailed:
+                [SVProgressHUD showErrorWithStatus:@"删除附件失败\n网络连接失败"];
+                break;
+            case NetworkConnectTimeout:
+                [SVProgressHUD showErrorWithStatus:@"删除附件失败\n网络请求超时"];
+                break;
+            case NetworkConnectUnknownReason:
+                [SVProgressHUD showErrorWithStatus:@"删除附件失败\n未知原因"];
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 
@@ -559,4 +597,12 @@
     [self presentViewController:controller animated:YES completion:nil];
 }
 
+#pragma mark - 退出回复界面
+-(void)cancleReply{
+    //退出编辑页面，删除附件
+    for(int i=0;i<_imageAttachments.count;i++){
+        [AttachmentUtilities deleteAttachmentWithBoardName:_boardName withNeedArticleID:NO withArticleID:0 withFileName:_imageAttachments[i][@"Name"] withPos:i delegate:nil];
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+}
 @end

@@ -52,6 +52,7 @@
 @property (strong,nonatomic) CustomEmojiKeyboard *emojiKeyboard;
 
 @property (strong,nonatomic) NSMutableArray *imageAttachments;
+@property (strong,nonatomic) UIImagePickerController *imagePickerController;
 @end
 
 
@@ -250,9 +251,6 @@
 }
 #pragma mark - 发表
 -(void)postArticle{
-    NSLog(@"_imagesContainer.contentSize %@",NSStringFromCGSize(_imagesContainer.contentSize));
-    NSLog(@"_imagesContainer.frame %@",NSStringFromCGRect(_imagesContainer.frame));
-    
     NSMutableString *contentString=[[NSMutableString alloc]init];
     for(int i=0;i<_contentTextView.attributedText.length;i++){
         if([_contentTextView.attributedText attribute:YYTextAttachmentAttributeName atIndex:i]){
@@ -270,7 +268,7 @@
     else
         message=@"确认回复该话题？";
     UIAlertController *alertController=[UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *action1=[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *action1=[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDestructive handler:nil];
     UIAlertAction *action2=[UIAlertAction actionWithTitle:@"发表" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self disableInteraction];
         [SVProgressHUD showWithStatus:@"发表中"];
@@ -356,19 +354,19 @@
 -(void)choosePicture{
     UIAlertController *controller=[UIAlertController alertControllerWithTitle:@"" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
     NSMutableArray *array=[[NSMutableArray alloc]init];
-    UIImagePickerController *imagePickerController=[[UIImagePickerController alloc]init];
-    imagePickerController.delegate=self;
+    _imagePickerController=[[UIImagePickerController alloc]init];
+    _imagePickerController.delegate=self;
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
         UIAlertAction *action=[UIAlertAction actionWithTitle:@"拍摄照片" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            imagePickerController.sourceType=UIImagePickerControllerSourceTypeCamera;
-            [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:imagePickerController animated:YES completion:nil];
+            _imagePickerController.sourceType=UIImagePickerControllerSourceTypeCamera;
+            [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:_imagePickerController animated:YES completion:nil];
         }];
         [array addObject:action];
     }
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
         UIAlertAction *action=[UIAlertAction actionWithTitle:@"从相册中选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            imagePickerController.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
-            [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:imagePickerController animated:YES completion:nil];
+            _imagePickerController.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+            [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:_imagePickerController animated:YES completion:nil];
         }];
         [array addObject:action];
     }
@@ -384,17 +382,24 @@
 #pragma mark - 实现UIImagePickerControllerDelegate协议
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
-    image=[CustomUtilities image:image scaleToSize:CGSizeMake(kImageSize, kImageSize)];
-    [AttachmentUtilities postAttachmentWithBoardName:_boardName withNeedArticleID:NO withArticleID:0 withFileName:@"1.png" withFileType:@"image/png" withFileData:UIImagePNGRepresentation(image) delegate:nil];
-    [_imageAttachments addObject:image];
-    [_imagesContainer reloadData];
-    if(_imageAttachments.count%3==1){
-        NSInteger lineSpacingCount=_imageAttachments.count/3;
-  
-        _imagesContainer.contentSize=CGSizeMake(_imagesContainer.contentSize.width, kImageSize+kImageSize*lineSpacingCount+lineSpacingCount*kMargin);
+   
+    if(picker.sourceType==UIImagePickerControllerSourceTypeCamera){
+        UIImageWriteToSavedPhotosAlbum(image
+                                       , self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
     }
-    [self _refreshScrollViewFrame];
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    NSDate *currentDate=[NSDate date];
+    NSDateFormatter *formatter=[[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"YYYYMMddHHmmss"];
+    NSString* dateStrinng=[formatter stringFromDate:currentDate];;
+    [AttachmentUtilities postAttachmentWithBoardName:_boardName withNeedArticleID:NO withArticleID:0 withFileName:[NSString stringWithFormat:@"%@.png",dateStrinng] withFileType:@"image/png" withFileData:UIImagePNGRepresentation(image) delegate:self];
+}
+-(void)image:(UIImage *)image didFinishSavingWithError: (NSError *) error contextInfo: (void *) contextInfo{
+    if(error==nil){
+        [SVProgressHUD showInfoWithStatus:@"照片已保存至相册"];
+    }
+    else{
+        [SVProgressHUD showErrorWithStatus:@"照片保存至相册失败"];
+    }
 }
 #pragma mark - 显示表情键盘
 -(void)showEmojiKeyboard{
@@ -461,7 +466,10 @@
 }
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     ReplyViewImageCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-    cell.image=_imageAttachments[indexPath.row];
+    cell.image=_imageAttachments[indexPath.row][@"Attachment"];
+    cell.pos=indexPath.row;
+    cell.delegate=self;
+    cell.name=_imageAttachments[indexPath.row][@"Name"];
     return cell;
 }
 
@@ -496,4 +504,59 @@
 //    NSLog(@"_contentTextView.frame %@",NSStringFromCGRect(_contentTextView.frame));
 //    NSLog(@"_scrollview.contentSize %@",NSStringFromCGSize(_scrollview.contentSize));
 }
+
+
+#pragma mark - 实现AttachmentHttpResponseDelegate协议
+-(void)handlePostAttachmentSuccessResponse:(id)response
+                                  withData:(NSData *)data
+                                  withName:(NSString *)name{
+    [_imagePickerController dismissViewControllerAnimated:YES completion:nil];
+    _imagePickerController=nil;
+    [SVProgressHUD showInfoWithStatus:@"上传附件成功"];
+    UIImage *image=[UIImage imageWithData:data];
+    image=[CustomUtilities image:image scaleToSize:CGSizeMake(kImageSize, kImageSize)];
+    [_imageAttachments addObject:@{@"Attachment":image,@"Name":name}];
+    [_imagesContainer reloadData];
+    if(_imageAttachments.count%3==1){
+        NSInteger lineSpacingCount=_imageAttachments.count/3;
+        _imagesContainer.contentSize=CGSizeMake(_imagesContainer.contentSize.width, kImageSize+kImageSize*lineSpacingCount+lineSpacingCount*kMargin);
+    }
+    [self _refreshScrollViewFrame];
+}
+-(void)handlePostAttachmentErrorResponse:(id)response{
+    [_imagePickerController dismissViewControllerAnimated:YES completion:nil];
+    _imagePickerController=nil;
+    [SVProgressHUD showErrorWithStatus:@"上传附件失败"];
+}
+-(void)handleDeleteAttachmentSuccessResponse:(id)response
+                                     withPos:(NSInteger)pos{
+    [SVProgressHUD showInfoWithStatus:@"删除附件成功"];
+    [_imageAttachments removeObjectAtIndex:pos];
+    [_imagesContainer reloadData];
+    if(_imageAttachments.count==0){
+        _imagesContainer.contentSize=CGSizeZero;
+    }
+    else if(_imageAttachments.count%3==0){
+        NSInteger lineSpacingCount=_imageAttachments.count/3;
+        _imagesContainer.contentSize=CGSizeMake(_imagesContainer.contentSize.width, kImageSize+kImageSize*lineSpacingCount+lineSpacingCount*kMargin);
+    }
+    [self _refreshScrollViewFrame];
+}
+-(void)handleDeleteAttachmentErrorResponse:(id)response{
+    [SVProgressHUD showErrorWithStatus:@"删除附件失败"];
+}
+
+
+#pragma mark - 实现ReplyViewImageCellDelegate协议
+-(void)tapImageView:(NSString *)name withPosition:(NSInteger)pos{
+    UIAlertController *controller=[UIAlertController alertControllerWithTitle:nil message:@"确认删除此附件？" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action1=[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDestructive handler:nil];
+    UIAlertAction *action2=[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [AttachmentUtilities deleteAttachmentWithBoardName:_boardName withNeedArticleID:NO withArticleID:0 withFileName:name withPos:pos delegate:self];
+            }];
+    [controller addAction:action1];
+    [controller addAction:action2];
+    [self presentViewController:controller animated:YES completion:nil];
+}
+
 @end

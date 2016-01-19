@@ -22,4 +22,10 @@
                       withFileData:(NSData*)fileData
                           delegate:(id<AttachmentHttpResponseDelegate>)delegate;
 
++(void)deleteAttachmentWithBoardName:(NSString *)boardName
+                   withNeedArticleID:(BOOL)needArticleID
+                       withArticleID:(int)articleID
+                        withFileName:(NSString*)fileName
+                             withPos:(NSInteger)pos
+                            delegate:(id<AttachmentHttpResponseDelegate>)delegate;
 @end

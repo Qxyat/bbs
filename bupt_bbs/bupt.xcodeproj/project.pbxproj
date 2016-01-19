@@ -184,6 +184,7 @@
 		41B57D441C314AFB00B9A01B /* ArticleRoughInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleRoughInfoCell.h; sourceTree = "<group>"; };
 		41B57D451C314AFB00B9A01B /* ArticleRoughInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleRoughInfoCell.m; sourceTree = "<group>"; };
 		41B57D461C314AFB00B9A01B /* ArticleRoughInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArticleRoughInfoCell.xib; sourceTree = "<group>"; };
+		41B6203E1C4DD91F0007E8EE /* ReplyViewImageCellDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplyViewImageCellDelegate.h; sourceTree = "<group>"; };
 		41B684BA1C2001BB0088395D /* ShowUserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowUserInfoViewController.h; sourceTree = "<group>"; };
 		41B684BB1C2001BB0088395D /* ShowUserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowUserInfoViewController.m; sourceTree = "<group>"; };
 		41B684BC1C2001BB0088395D /* ShowUserInfo.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShowUserInfo.xib; sourceTree = "<group>"; };
@@ -256,6 +257,7 @@
 				41432A851C39096200423DFE /* JumpPopoverControllerDelegate.h */,
 				41D383C41C3C071100255BA9 /* RefreshTableViewDelegate.h */,
 				41BA83AB1C488D7100A35FFD /* AttachmentHttpResponseDelegate.h */,
+				41B6203E1C4DD91F0007E8EE /* ReplyViewImageCellDelegate.h */,
 			);
 			name = Protocol;
 			sourceTree = "<group>";

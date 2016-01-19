@@ -28,4 +28,14 @@
     _image=image;
     _imageview.image=image;
 }
+-(void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    UITouch *touch=[touches anyObject];
+    CGPoint point=[touch locationInView:self];
+    if(CGRectContainsPoint(self.bounds, point)){
+        if(_delegate!=nil){
+            [_delegate tapImageView:_name withPosition:_pos];
+        }
+    }
+
+}
 @end

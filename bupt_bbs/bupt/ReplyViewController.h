@@ -10,9 +10,12 @@
 #import <YYKit.h>
 #import "HttpResponseDelegate.h"
 #import "CustomEmojiKeyboardDelegate.h"
+#import "AttachmentHttpResponseDelegate.h"
+#import "ReplyViewImageCellDelegate.h"
+
 @class ArticleInfo;
 
-@interface ReplyViewController : UIViewController<HttpResponseDelegate,CustomEmojiKeyboardDelegate,YYTextViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface ReplyViewController : UIViewController<HttpResponseDelegate,CustomEmojiKeyboardDelegate,YYTextViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,AttachmentHttpResponseDelegate,ReplyViewImageCellDelegate>
 +(instancetype)getInstanceWithBoardName:(NSString*)boardName
                              isNewTheme:(BOOL)isNewTheme
                         withArticleName:(NSString*)

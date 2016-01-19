@@ -61,14 +61,36 @@
     [manager POST:requestURL parameters:dic constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         [formData appendPartWithFileData:fileData name:@"file" fileName:fileName mimeType:fileType];
     } success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        NSLog(@"%@ %@",responseObject[@"code"],responseObject[@"msg"]);
         if(delegate!=nil)
-            [delegate handlePostAttachmentSuccessResponse:responseObject];
+            [delegate handlePostAttachmentSuccessResponse:responseObject withData:fileData withName:fileName];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
-//        NSDictionary *dic=error.userInfo[@"com.alamofire.serialization.response.error.data"];
-//        NSLog(@"%@",error.userInfo[@"com.alamofire.serialization.response.error.data"]);
         if(delegate!=nil)
             [delegate handlePostAttachmentErrorResponse:error];
+    }];
+}
+
++(void)deleteAttachmentWithBoardName:(NSString *)boardName
+                 withNeedArticleID:(BOOL)needArticleID
+                     withArticleID:(int)articleID
+                      withFileName:(NSString*)fileName
+                           withPos:(NSInteger)pos
+                            delegate:(id<AttachmentHttpResponseDelegate>)delegate{
+    NSDictionary *dic=@{@"oauth_token":[LoginManager sharedManager].access_token,@"name":fileName
+                        };
+    NSString *requestURL;
+    if(needArticleID){
+        requestURL=[NSString stringWithFormat:@"%@/attachment/%@/delete/%d.json",kRequestURL,boardName,articleID];
+    }
+    else{
+        requestURL=[NSString stringWithFormat:@"%@/attachment/%@/delete.json",kRequestURL,boardName];
+    }
+    AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
+    manager.requestSerializer.timeoutInterval=kRequestTimeout;
+    manager.responseSerializer=[AFJSONResponseSerializer serializer];
+    [manager POST:requestURL parameters:dic success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        [delegate handleDeleteAttachmentSuccessResponse:responseObject withPos:pos];
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+        [delegate handleDeleteAttachmentErrorResponse:error];
     }];
 }
 @end

@@ -17,7 +17,7 @@ typedef NS_ENUM(NSInteger,NetworkErrorCode){
 @interface CustomUtilities : NSObject
 
 #pragma mark - 获取显示发帖时间的字符串
-+(NSString*) getPostTimeString:(NSUInteger) timeInterval;
++(NSString*) getPostTimeString:(NSInteger) timeInterval;
 
 #pragma mark - 获取显示楼层的字符串
 +(NSString*) getFloorString:(int) position;
@@ -26,7 +26,7 @@ typedef NS_ENUM(NSInteger,NetworkErrorCode){
 +(NSString *) getGenderString:(NSString *)gender;
 
 #pragma mark - 获取上次登录时间的字符串
-+(NSString*) getLastLoginTimeString:(NSUInteger)timeInterval;
++(NSString*) getLastLoginTimeString:(NSInteger)timeInterval;
 
 #pragma mark - 获取显示用户在线状态的字符串
 +(NSString*) getUserLoginStateString:(BOOL)isOnline;

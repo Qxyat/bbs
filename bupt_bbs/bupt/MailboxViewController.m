@@ -9,12 +9,28 @@
 #import "MailboxViewController.h"
 #import "ScreenAdaptionUtilities.h"
 #import "MailboxSelectPopoverController.h"
+#import "MailboxUtilities.h"
+#import "HttpResponseDelegate.h"
+#import "MailInfo.h"
+#import "CustomUtilities.h"
+#import "MailInfoCell.h"
 
-@interface MailboxViewController ()<MailboxSelectPopoverControllerDelegate>
+#import <UITableView+FDTemplateLayoutCell.h>
+#import <SVProgressHUD.h>
+
+static NSString *const kCellIdentifier=@"cell";
+
+@interface MailboxViewController ()<MailboxSelectPopoverControllerDelegate,HttpResponseDelegate>
 
 @property (strong,nonatomic)MailboxSelectPopoverController *mailboxSelectPopoverController;
 @property (strong,nonatomic)UIButton *titleview;
-@property (nonatomic)NSString* selectedMailbox;
+@property (strong,nonatomic)NSString* selectedMailbox;
+
+@property (nonatomic)       NSInteger page_all_count;
+@property (nonatomic)       NSInteger page_cur_count;
+@property (nonatomic)       NSInteger item_page_count;
+
+@property (nonatomic,strong)  NSArray   *data;
 
 @end
 
@@ -25,8 +41,16 @@
 -(void)viewDidLoad{
     [super viewDidLoad];
     
+    _selectedMailbox=@"inbox";
+    _page_cur_count=1;
+    _page_all_count=1;
+    _item_page_count=20;
+    _data=[[NSArray alloc]init];
+    
     [self _initNavigationItem];
     [self _initTableview];
+   
+    [self _refreshMailList];
 }
 
 
@@ -44,27 +68,36 @@
     self.navigationItem.titleView=_titleview;
 }
 -(void)_initTableview{
+    [self.tableView registerNib:[UINib nibWithNibName:@"MailInfoCell" bundle:nil] forCellReuseIdentifier:kCellIdentifier];
     self.tableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
-    
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
 }
 #pragma mark - 实现UITableviewDataSource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 4;
+    return _data.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
-    cell.textLabel.text=@"hello";
+    MailInfoCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
+    cell.mailInfo=_data[indexPath.row];
     return cell;
 }
+#pragma mark - 实现UITableviewDelegate
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return [tableView fd_heightForCellWithIdentifier:kCellIdentifier configuration:^(id cell) {
+        MailInfoCell* prototypeCell=(MailInfoCell*)cell;
+        prototypeCell.mailInfo=_data[indexPath.row];
+    }];
+}
+
 #pragma mark - 取消按钮
 -(void)_cancle{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-#pragma mark - 显示信箱列表
+
+
+#pragma mark - 显示选择信箱列表的控制器
 -(void)showMailboxSelectPopoverController{
     if(_mailboxSelectPopoverController==nil){
         _mailboxSelectPopoverController=[MailboxSelectPopoverController getInstance];
@@ -77,7 +110,6 @@
     }
 }
 #pragma  mark - 实现MailboxSelectPopoverControllerDelegate协议
-
 -(void)hideMailboxSelectPopoverController{
     if(_mailboxSelectPopoverController!=nil){
         [_mailboxSelectPopoverController hideMailboxSelectView];
@@ -90,10 +122,46 @@
     
     _selectedMailbox=items[pos];
     
-    NSLog(@"%@",_selectedMailbox);
     [_titleview setTitle:selectItems[pos] forState:UIControlStateNormal];
+    _page_cur_count=1;
+    _page_all_count=1;
     
+    [self _refreshMailList];
     [self hideMailboxSelectPopoverController];
 }
 
+
+#pragma mark - 刷新信箱内容
+-(void)_refreshMailList{
+    [MailboxUtilities getMailsWithMailbox:_selectedMailbox withPageNO:_page_cur_count withPagecount:_item_page_count withDelegate:self];
+}
+
+#pragma mark - 实现HttpResponseDelegate协议
+-(void)handleHttpSuccessResponse:(id)response{
+    NSDictionary *dic=(NSDictionary*)response;
+    _item_page_count=[[[dic valueForKey:@"pagination"]valueForKey:@"page_all_count"]integerValue];
+    _page_cur_count=[[[dic objectForKey:@"pagination"]valueForKey:@"page_current_count"] integerValue];
+    _data=[MailInfo getMailsInfo:[dic objectForKey:@"mail"]];
+    
+    [self.tableView reloadData];
+}
+
+-(void)handleHttpErrorResponse:(id)response{
+    NSError *error=(NSError *)response;
+    NetworkErrorCode errorCode=[CustomUtilities getNetworkErrorCode:error];
+    switch (errorCode) {
+        case NetworkConnectFailed:
+            [SVProgressHUD showErrorWithStatus:@"网络连接已断开"];
+            break;
+        case NetworkConnectTimeout:
+            [SVProgressHUD showErrorWithStatus:@"网络连接超时"];
+            break;
+        case NetworkConnectUnknownReason:
+            [SVProgressHUD showErrorWithStatus:@"好像出现了某种奇怪的问题"];
+            break;
+        default:
+            break;
+    }
+
+}
 @end

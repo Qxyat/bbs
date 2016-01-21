@@ -95,7 +95,7 @@ static NSString* const kCellIdentifier=@"cell";
 
 #pragma mark - UITableview Delegate
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return [tableView fd_heightForCellWithIdentifier:kCellIdentifier cacheByIndexPath:indexPath configuration:^(id cell) {
+    return [tableView fd_heightForCellWithIdentifier:kCellIdentifier configuration:^(id cell) {
         ArticleInfo *articleInfo=self.data[indexPath.row];
         BoardArticleInfoCell *boardArticleInfoCell=(BoardArticleInfoCell*)cell;
         boardArticleInfoCell.titleLabel.font=self.titleLabelFont;

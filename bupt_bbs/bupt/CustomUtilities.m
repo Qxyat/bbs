@@ -11,7 +11,7 @@
 @implementation CustomUtilities
 
 #pragma mark - 获取发帖时间的字符串
-+(NSString*) getPostTimeString:(NSUInteger) timeInterval{
++(NSString*) getPostTimeString:(NSInteger) timeInterval{
     NSDateFormatter *formatter=[[NSDateFormatter alloc]init];
     
     NSDate *today=[[NSDate alloc]init];
@@ -73,7 +73,7 @@
 }
 
 #pragma mark - 获取上次登录时间的字符串
-+(NSString*) getLastLoginTimeString:(NSUInteger)timeInterval{
++(NSString*) getLastLoginTimeString:(NSInteger)timeInterval{
     NSDate *date=[NSDate dateWithTimeIntervalSince1970:timeInterval];
     NSDateFormatter *formatter=[[NSDateFormatter alloc]init];
     [formatter setDateFormat:@"YY年MM月dd日  HH:mm:ss"];

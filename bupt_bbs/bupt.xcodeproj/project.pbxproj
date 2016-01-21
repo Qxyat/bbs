@@ -48,6 +48,10 @@
 		419411DB1C1C0C93002E59AC /* SectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 419411DA1C1C0C93002E59AC /* SectionViewController.m */; };
 		419411DE1C1C1573002E59AC /* BoardInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 419411DD1C1C1573002E59AC /* BoardInfo.m */; };
 		419411E11C1C372C002E59AC /* CollectionViewHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 419411E01C1C372C002E59AC /* CollectionViewHeader.m */; };
+		419E5E091C50BAFF00BE575E /* MailboxUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 419E5E081C50BAFF00BE575E /* MailboxUtilities.m */; };
+		419E5E0C1C50C08300BE575E /* MailInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 419E5E0B1C50C08300BE575E /* MailInfo.m */; };
+		419E5E0F1C50CC5000BE575E /* MailInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 419E5E0E1C50CC5000BE575E /* MailInfoCell.m */; };
+		419E5E111C50CC6500BE575E /* MailInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 419E5E101C50CC6500BE575E /* MailInfoCell.xib */; };
 		41A86EE21C05B5C7005A724D /* BBSConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A86EE11C05B5C7005A724D /* BBSConstants.m */; };
 		41AE8B071C50719C00C41256 /* MailboxSelectPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41AE8B061C50719C00C41256 /* MailboxSelectPopoverController.m */; };
 		41AF90EB1C0467E2007FFE3C /* LoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 41AF90EA1C0467E2007FFE3C /* LoginManager.m */; };
@@ -165,6 +169,13 @@
 		419411DD1C1C1573002E59AC /* BoardInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardInfo.m; sourceTree = "<group>"; };
 		419411DF1C1C372C002E59AC /* CollectionViewHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewHeader.h; sourceTree = "<group>"; };
 		419411E01C1C372C002E59AC /* CollectionViewHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewHeader.m; sourceTree = "<group>"; };
+		419E5E071C50BAFF00BE575E /* MailboxUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailboxUtilities.h; sourceTree = "<group>"; };
+		419E5E081C50BAFF00BE575E /* MailboxUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailboxUtilities.m; sourceTree = "<group>"; };
+		419E5E0A1C50C08300BE575E /* MailInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailInfo.h; sourceTree = "<group>"; };
+		419E5E0B1C50C08300BE575E /* MailInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailInfo.m; sourceTree = "<group>"; };
+		419E5E0D1C50CC5000BE575E /* MailInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailInfoCell.h; sourceTree = "<group>"; };
+		419E5E0E1C50CC5000BE575E /* MailInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailInfoCell.m; sourceTree = "<group>"; };
+		419E5E101C50CC6500BE575E /* MailInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MailInfoCell.xib; sourceTree = "<group>"; };
 		41A86EE11C05B5C7005A724D /* BBSConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBSConstants.m; sourceTree = "<group>"; };
 		41AE8B051C50719C00C41256 /* MailboxSelectPopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailboxSelectPopoverController.h; sourceTree = "<group>"; };
 		41AE8B061C50719C00C41256 /* MailboxSelectPopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailboxSelectPopoverController.m; sourceTree = "<group>"; };
@@ -375,6 +386,8 @@
 				41360ACC1C40FF9900D3DE9C /* PostArticleUtilities.m */,
 				41BA83A81C488C3300A35FFD /* AttachmentUtilities.h */,
 				41BA83A91C488C3300A35FFD /* AttachmentUtilities.m */,
+				419E5E071C50BAFF00BE575E /* MailboxUtilities.h */,
+				419E5E081C50BAFF00BE575E /* MailboxUtilities.m */,
 			);
 			name = NetworkUtilities;
 			sourceTree = "<group>";
@@ -445,6 +458,9 @@
 				41404F701C1D207900A45B13 /* BoardArticleInfoCell.xib */,
 				41404F6E1C1D207900A45B13 /* BoardArticleInfoCell.h */,
 				41404F6F1C1D207900A45B13 /* BoardArticleInfoCell.m */,
+				419E5E101C50CC6500BE575E /* MailInfoCell.xib */,
+				419E5E0D1C50CC5000BE575E /* MailInfoCell.h */,
+				419E5E0E1C50CC5000BE575E /* MailInfoCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -468,6 +484,8 @@
 				419411DD1C1C1573002E59AC /* BoardInfo.m */,
 				4129D06B1C3CB0D900BCB528 /* PictureInfo.h */,
 				4129D06C1C3CB0D900BCB528 /* PictureInfo.m */,
+				419E5E0A1C50C08300BE575E /* MailInfo.h */,
+				419E5E0B1C50C08300BE575E /* MailInfo.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -567,6 +585,7 @@
 				41B018581C23D06400AA8F88 /* LaunchView.xib in Resources */,
 				411DD2691C0D8CA600002CD3 /* UserMainInterface.storyboard in Resources */,
 				41EE38AF1C477EF800AE75BA /* emojitoolbarnormal@2x.png in Resources */,
+				419E5E111C50CC6500BE575E /* MailInfoCell.xib in Resources */,
 				41EE38AC1C477ACB00AE75BA /* emojitoobarbackground@2x.png in Resources */,
 				41E4CEA51C04588C004DD407 /* SecondLoginView.xib in Resources */,
 				41404F721C1D207900A45B13 /* BoardArticleInfoCell.xib in Resources */,
@@ -640,6 +659,8 @@
 				41E4CEA31C0456D7004DD407 /* LoginUtilities.m in Sources */,
 				417455341C43AC3F00CC1334 /* CustomEmojiContainerView.m in Sources */,
 				41404F711C1D207900A45B13 /* BoardArticleInfoCell.m in Sources */,
+				419E5E0F1C50CC5000BE575E /* MailInfoCell.m in Sources */,
+				419E5E0C1C50C08300BE575E /* MailInfo.m in Sources */,
 				413F59DF1C4B6743006C90BE /* ReplyViewImageCell.m in Sources */,
 				41360AC91C40E25C00D3DE9C /* ReplyViewController.m in Sources */,
 				41185B8C1BFAC71A00695E9C /* SecondLoginViewController.m in Sources */,
@@ -656,6 +677,7 @@
 				419411E11C1C372C002E59AC /* CollectionViewHeader.m in Sources */,
 				412641F31C0E86BD006C4B31 /* ArticleInfo.m in Sources */,
 				41EE0FE71C4CC10900844A18 /* CustomLinePositionModifier.m in Sources */,
+				419E5E091C50BAFF00BE575E /* MailboxUtilities.m in Sources */,
 				41B018561C23D04400AA8F88 /* LaunchViewController.m in Sources */,
 				412641F61C0E876E006C4B31 /* UserInfo.m in Sources */,
 				41B02B651C0FE31B00E4904B /* AttachmentInfo.m in Sources */,

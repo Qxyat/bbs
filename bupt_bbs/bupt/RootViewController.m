@@ -17,9 +17,10 @@ static CGFloat const kProportion=0.77;
 @property (nonatomic) CGFloat moveDistance;
 @property (nonatomic) CGFloat maxMoveDistance;
 
-@property (strong,nonatomic) UIView *blackCover;
 @property (strong,nonatomic) UserCenterViewController *userViewController;
 @property (strong,nonatomic) UITabBarController *userMainInterfaceViewController;
+@property (strong,nonatomic) UIView *blackCover;
+
 @property (strong,nonatomic) UITapGestureRecognizer *tapGestureRecognizer;
 
 @end

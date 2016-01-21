@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+@class UserCenterViewController;
 
 @interface RootViewController : UIViewController
 
 +(instancetype)getInstance;
 -(void)showLeft;
+-(void)showMain;
 @end

@@ -25,6 +25,7 @@
 		41360AC91C40E25C00D3DE9C /* ReplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41360AC71C40E25C00D3DE9C /* ReplyViewController.m */; };
 		41360ACD1C40FF9900D3DE9C /* PostArticleUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41360ACC1C40FF9900D3DE9C /* PostArticleUtilities.m */; };
 		413F59DF1C4B6743006C90BE /* ReplyViewImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 413F59DE1C4B6743006C90BE /* ReplyViewImageCell.m */; };
+		413FEC061C4F5B7700415D11 /* MailboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 413FEC051C4F5B7700415D11 /* MailboxViewController.m */; };
 		41404F6A1C1D142100A45B13 /* BoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41404F691C1D142100A45B13 /* BoardViewController.m */; };
 		41404F6D1C1D16E700A45B13 /* BoardUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41404F6C1C1D16E700A45B13 /* BoardUtilities.m */; };
 		41404F711C1D207900A45B13 /* BoardArticleInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41404F6F1C1D207900A45B13 /* BoardArticleInfoCell.m */; };
@@ -48,6 +49,7 @@
 		419411DE1C1C1573002E59AC /* BoardInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 419411DD1C1C1573002E59AC /* BoardInfo.m */; };
 		419411E11C1C372C002E59AC /* CollectionViewHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 419411E01C1C372C002E59AC /* CollectionViewHeader.m */; };
 		41A86EE21C05B5C7005A724D /* BBSConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A86EE11C05B5C7005A724D /* BBSConstants.m */; };
+		41AE8B071C50719C00C41256 /* MailboxSelectPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41AE8B061C50719C00C41256 /* MailboxSelectPopoverController.m */; };
 		41AF90EB1C0467E2007FFE3C /* LoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 41AF90EA1C0467E2007FFE3C /* LoginManager.m */; };
 		41B018561C23D04400AA8F88 /* LaunchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B018551C23D04400AA8F88 /* LaunchViewController.m */; };
 		41B018581C23D06400AA8F88 /* LaunchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41B018571C23D06400AA8F88 /* LaunchView.xib */; };
@@ -75,7 +77,6 @@
 		41EE38AC1C477ACB00AE75BA /* emojitoobarbackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41EE38AB1C477ACB00AE75BA /* emojitoobarbackground@2x.png */; };
 		41EE38AF1C477EF800AE75BA /* emojitoolbarnormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41EE38AD1C477EF800AE75BA /* emojitoolbarnormal@2x.png */; };
 		41EE38B41C47822300AE75BA /* emojitoolbarselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41EE38B31C47822300AE75BA /* emojitoolbarselected@2x.png */; };
-		41F86AB71C1FA3DD009DC75C /* UserCenter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41F86AB61C1FA3DD009DC75C /* UserCenter.xib */; };
 		41F86ABA1C1FA8FC009DC75C /* UserUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F86AB91C1FA8FC009DC75C /* UserUtilities.m */; };
 		ADF0647870C22EAF6852BE39 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC63FE2D2B942D0F858DC8B3 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -117,6 +118,8 @@
 		41360ACC1C40FF9900D3DE9C /* PostArticleUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostArticleUtilities.m; sourceTree = "<group>"; };
 		413F59DD1C4B6743006C90BE /* ReplyViewImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplyViewImageCell.h; sourceTree = "<group>"; };
 		413F59DE1C4B6743006C90BE /* ReplyViewImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReplyViewImageCell.m; sourceTree = "<group>"; };
+		413FEC041C4F5B7700415D11 /* MailboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailboxViewController.h; sourceTree = "<group>"; };
+		413FEC051C4F5B7700415D11 /* MailboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailboxViewController.m; sourceTree = "<group>"; };
 		41404F681C1D142100A45B13 /* BoardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardViewController.h; sourceTree = "<group>"; };
 		41404F691C1D142100A45B13 /* BoardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardViewController.m; sourceTree = "<group>"; };
 		41404F6B1C1D16E700A45B13 /* BoardUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardUtilities.h; sourceTree = "<group>"; };
@@ -163,6 +166,8 @@
 		419411DF1C1C372C002E59AC /* CollectionViewHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewHeader.h; sourceTree = "<group>"; };
 		419411E01C1C372C002E59AC /* CollectionViewHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewHeader.m; sourceTree = "<group>"; };
 		41A86EE11C05B5C7005A724D /* BBSConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBSConstants.m; sourceTree = "<group>"; };
+		41AE8B051C50719C00C41256 /* MailboxSelectPopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailboxSelectPopoverController.h; sourceTree = "<group>"; };
+		41AE8B061C50719C00C41256 /* MailboxSelectPopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailboxSelectPopoverController.m; sourceTree = "<group>"; };
 		41AF90E91C0467E2007FFE3C /* LoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginManager.h; sourceTree = "<group>"; };
 		41AF90EA1C0467E2007FFE3C /* LoginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginManager.m; sourceTree = "<group>"; };
 		41B018531C2304E700AA8F88 /* UserHttpResponseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserHttpResponseDelegate.h; sourceTree = "<group>"; };
@@ -211,7 +216,6 @@
 		41EE38AB1C477ACB00AE75BA /* emojitoobarbackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emojitoobarbackground@2x.png"; sourceTree = "<group>"; };
 		41EE38AD1C477EF800AE75BA /* emojitoolbarnormal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emojitoolbarnormal@2x.png"; sourceTree = "<group>"; };
 		41EE38B31C47822300AE75BA /* emojitoolbarselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emojitoolbarselected@2x.png"; sourceTree = "<group>"; };
-		41F86AB61C1FA3DD009DC75C /* UserCenter.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserCenter.xib; sourceTree = "<group>"; };
 		41F86AB81C1FA8FC009DC75C /* UserUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserUtilities.h; sourceTree = "<group>"; };
 		41F86AB91C1FA8FC009DC75C /* UserUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserUtilities.m; sourceTree = "<group>"; };
 		5DCAE85174F511042FCAD6F0 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -388,6 +392,10 @@
 				410EABA11C0A9EE70076F7A9 /* RootViewController.m */,
 				415AE0931C0AF5F700B1F137 /* UserCenterViewController.h */,
 				415AE0941C0AF5F700B1F137 /* UserCenterViewController.m */,
+				413FEC041C4F5B7700415D11 /* MailboxViewController.h */,
+				413FEC051C4F5B7700415D11 /* MailboxViewController.m */,
+				41AE8B051C50719C00C41256 /* MailboxSelectPopoverController.h */,
+				41AE8B061C50719C00C41256 /* MailboxSelectPopoverController.m */,
 				411DEC041C0D3131008B7EB6 /* TopTenViewController.h */,
 				411DEC051C0D3131008B7EB6 /* TopTenViewController.m */,
 				41B02B691C0FED2500E4904B /* ThemeViewController.h */,
@@ -420,7 +428,6 @@
 				412441131C225A1E009A4172 /* FirstLoginView.xib */,
 				41E4CEA41C04588C004DD407 /* SecondLoginView.xib */,
 				41B018571C23D06400AA8F88 /* LaunchView.xib */,
-				41F86AB61C1FA3DD009DC75C /* UserCenter.xib */,
 				41B684BC1C2001BB0088395D /* ShowUserInfo.xib */,
 				411DD2681C0D8CA600002CD3 /* UserMainInterface.storyboard */,
 				41B57D461C314AFB00B9A01B /* ArticleRoughInfoCell.xib */,
@@ -564,7 +571,6 @@
 				41E4CEA51C04588C004DD407 /* SecondLoginView.xib in Resources */,
 				41404F721C1D207900A45B13 /* BoardArticleInfoCell.xib in Resources */,
 				41D0B2C61C45FBBE00865808 /* emojikeyboarddelete@3x.png in Resources */,
-				41F86AB71C1FA3DD009DC75C /* UserCenter.xib in Resources */,
 				410B20221C1524A3004C0CBE /* Assets.xcassets in Resources */,
 				41B684BE1C2001BB0088395D /* ShowUserInfo.xib in Resources */,
 				41432A841C39056E00423DFE /* JumpPopoverControllerView.xib in Resources */,
@@ -639,6 +645,7 @@
 				41185B8C1BFAC71A00695E9C /* SecondLoginViewController.m in Sources */,
 				41B02B6C1C0FED2500E4904B /* ThemeViewController.m in Sources */,
 				41360ACD1C40FF9900D3DE9C /* PostArticleUtilities.m in Sources */,
+				413FEC061C4F5B7700415D11 /* MailboxViewController.m in Sources */,
 				41432A821C39053E00423DFE /* JumpPopoverController.m in Sources */,
 				41432A7D1C38DA3200423DFE /* ThemePopoverController.m in Sources */,
 				41434F301BE8D5AA00FF01D9 /* AppDelegate.m in Sources */,
@@ -667,6 +674,7 @@
 				415AE0951C0AF5F700B1F137 /* UserCenterViewController.m in Sources */,
 				419411DE1C1C1573002E59AC /* BoardInfo.m in Sources */,
 				41B02B771C1033A400E4904B /* ArticleDetailInfoCell.m in Sources */,
+				41AE8B071C50719C00C41256 /* MailboxSelectPopoverController.m in Sources */,
 				41404F6A1C1D142100A45B13 /* BoardViewController.m in Sources */,
 				419411D81C1BFD03002E59AC /* SectionAndBoardInfoCell.m in Sources */,
 				41434F2D1BE8D5AA00FF01D9 /* main.m in Sources */,

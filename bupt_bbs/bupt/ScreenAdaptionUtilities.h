@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#define kCustomScreenHeight [UIScreen mainScreen].bounds.size.height
-#define kCustomScreenWidth [UIScreen mainScreen].bounds.size.width
+#define kCustomScreenHeight CGRectGetHeight([UIScreen mainScreen].bounds)
+#define kCustomScreenWidth CGRectGetWidth([UIScreen mainScreen].bounds)
 #define kCustomScreenSize  [UIScreen mainScreen].bounds.size
 #define kCustomScreenBounds [UIScreen mainScreen].bounds
-#define kCustomNavigationBarHeight self.navigationController.navigationBar.frame.size.height
-#define kCustomStatusBarHeight [UIApplication sharedApplication].statusBarFrame.size.height;
+#define kCustomNavigationBarHeight CGRectGetHeight(self.navigationController.navigationBar.frame)
+#define kCustomStatusBarHeight CGRectGetHeight([UIApplication sharedApplication].statusBarFrame);
 #define isIPhone6OrIPhone6s kCustomScreenWidth==375&&kCustomScreenHeight==667
 #define isIPhone6PlusOrIPhone6sPlus kCustomScreenWidth==414&&kCustomScreenHeight==736
 

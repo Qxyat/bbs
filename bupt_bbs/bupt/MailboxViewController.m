@@ -14,6 +14,7 @@
 #import "MailInfo.h"
 #import "CustomUtilities.h"
 #import "MailInfoCell.h"
+#import "MailReadViewController.h"
 
 #import <UITableView+FDTemplateLayoutCell.h>
 #import <SVProgressHUD.h>
@@ -83,6 +84,8 @@ static NSString *const kCellIdentifier=@"cell";
     cell.mailInfo=_data[indexPath.row];
     return cell;
 }
+
+
 #pragma mark - 实现UITableviewDelegate
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return [tableView fd_heightForCellWithIdentifier:kCellIdentifier configuration:^(id cell) {
@@ -90,6 +93,13 @@ static NSString *const kCellIdentifier=@"cell";
         prototypeCell.mailInfo=_data[indexPath.row];
     }];
 }
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    MailInfo *mailinfo=_data[indexPath.row];
+    MailReadViewController *controller=[MailReadViewController getInstanceWithMailBoxName:_selectedMailbox withIndex:mailinfo.index];
+    [self.navigationController pushViewController:controller animated:YES];
+}
+
 
 #pragma mark - 取消按钮
 -(void)_cancle{
@@ -109,6 +119,8 @@ static NSString *const kCellIdentifier=@"cell";
         [self hideMailboxSelectPopoverController];
     }
 }
+
+
 #pragma  mark - 实现MailboxSelectPopoverControllerDelegate协议
 -(void)hideMailboxSelectPopoverController{
     if(_mailboxSelectPopoverController!=nil){
@@ -116,6 +128,7 @@ static NSString *const kCellIdentifier=@"cell";
         _mailboxSelectPopoverController=nil;
     }
 }
+
 -(void)disSelectItemAtIndex:(NSInteger)pos{
     NSArray* selectItems=@[@"收件箱",@"发件箱",@"回收站"];
     NSArray* items=@[@"inbox",@"outbox",@"deleted"];
@@ -135,6 +148,7 @@ static NSString *const kCellIdentifier=@"cell";
 -(void)_refreshMailList{
     [MailboxUtilities getMailsWithMailbox:_selectedMailbox withPageNO:_page_cur_count withPagecount:_item_page_count withDelegate:self];
 }
+
 
 #pragma mark - 实现HttpResponseDelegate协议
 -(void)handleHttpSuccessResponse:(id)response{

@@ -31,7 +31,7 @@
     
     typeof(self) _wkself=self;
     
-    if(mailInfo.isExist){
+    if(mailInfo.isUserExist){
         UserInfo *user=(UserInfo*)mailInfo.user;
         YYImage *cachedImage=[DownloadResourcesUtilities downloadImage:user.face_url FromBBS:NO Completed:^(YYImage *image) {
             _wkself.faceImageView.image=image;

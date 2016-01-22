@@ -45,11 +45,11 @@ static NSString* const kAttachmentInfo=@"attachment";
     mail.title=[dic objectForKey:kTitle];
     
     if([[dic objectForKey:kUser] isKindOfClass:[NSDictionary class]]){
-        mail.isExist=YES;
+        mail.isUserExist=YES;
         mail.user=[UserInfo getUserInfo:[dic objectForKey:kUser]];
     }
     else{
-        mail.isExist=NO;
+        mail.isUserExist=NO;
         mail.user=[dic objectForKey:kUser];
     }
     

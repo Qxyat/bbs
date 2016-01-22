@@ -9,6 +9,7 @@
 #import "MailboxUtilities.h"
 #import "BBSConstants.h"
 #import "LoginManager.h"
+
 #import <AFNetworking.h>
 
 @implementation MailboxUtilities
@@ -18,6 +19,23 @@
              withPagecount:(NSInteger)pagecount
               withDelegate:(id<HttpResponseDelegate>)delegate{
     NSString *url=[NSString stringWithFormat:@"%@/mail/%@.json",kRequestURL,mailbox];
+    NSDictionary *dic=@{@"oauth_token":[LoginManager sharedManager].access_token};
+    
+    AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
+    manager.responseSerializer=[AFJSONResponseSerializer serializer];
+    manager.requestSerializer.timeoutInterval=kRequestTimeout;
+    
+    [manager GET:url parameters:dic success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        [delegate handleHttpSuccessResponse:responseObject];
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+        [delegate handleHttpErrorResponse:error];
+    }];
+}
+
++(void)getMailWithMailbox:(NSString*)mailbox
+                withIndex:(NSInteger)index
+             withDelegate:(id<HttpResponseDelegate>)delegate{
+    NSString *url=[NSString stringWithFormat:@"%@/mail/%@/%d.json",kRequestURL,mailbox,index];
     NSDictionary *dic=@{@"oauth_token":[LoginManager sharedManager].access_token};
     
     AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];

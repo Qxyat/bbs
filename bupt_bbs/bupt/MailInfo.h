@@ -18,7 +18,7 @@
 @property (nonatomic) BOOL is_reply;
 @property (nonatomic) BOOL has_attachment;
 @property (copy,nonatomic) NSString* title;
-@property (nonatomic) BOOL isExist;
+@property (nonatomic) BOOL isUserExist;
 @property (strong,nonatomic) id user;
 @property (nonatomic) NSInteger post_time;
 @property (copy,nonatomic) NSString* box_name;
@@ -26,4 +26,5 @@
 @property (strong,nonatomic)AttachmentInfo *attachmentInfo;
 
 +(NSMutableArray*)getMailsInfo:(id)items;
++(MailInfo*)getMailInfo:(id)item;
 @end

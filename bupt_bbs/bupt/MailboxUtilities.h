@@ -8,10 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import "HttpResponseDelegate.h"
+
 @interface MailboxUtilities : NSObject
 
 +(void)getMailsWithMailbox:(NSString*)mailbox
                 withPageNO:(NSInteger)pageNO
              withPagecount:(NSInteger)pagecount
               withDelegate:(id<HttpResponseDelegate>)delegate;
+
++(void)getMailWithMailbox:(NSString*)mailbox
+                withIndex:(NSInteger)index
+             withDelegate:(id<HttpResponseDelegate>)delegate;
+
 @end

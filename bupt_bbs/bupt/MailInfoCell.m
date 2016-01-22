@@ -26,6 +26,10 @@
 
 @implementation MailInfoCell
 
+-(void)awakeFromNib{
+    _faceImageView.contentMode=UIViewContentModeScaleAspectFit;
+}
+
 -(void)setMailInfo:(MailInfo *)mailInfo{
     _mailInfo=mailInfo;
     

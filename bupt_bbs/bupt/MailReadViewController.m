@@ -20,17 +20,22 @@
 
 #import <SVProgressHUD.h>
 #import <YYKit.h>
+#import <Masonry.h>
 
 #define kMargin 8
+#define kFaceImageViewWidth 50
 static CGFloat const kContentFontSize=15;
 
 @interface MailReadViewController ()<HttpResponseDelegate>
+@property (strong, nonatomic) IBOutlet UIView *containerView;
+@property (strong, nonatomic) IBOutlet YYAnimatedImageView *faceImageView;
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *useridLabel;
+@property (strong, nonatomic) IBOutlet UILabel *posttimeLabel;
 
-@property (weak, nonatomic) IBOutlet YYAnimatedImageView *faceImageView;
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *useridLabel;
-@property (weak, nonatomic) IBOutlet UILabel *posttimeLabel;
-@property (weak, nonatomic) IBOutlet YYTextView *contentTextView;
+@property (strong, nonatomic) IBOutlet UIView *seperatorView;
+
+@property (strong, nonatomic) IBOutlet YYTextView *contentTextView;
 
 @property (nonatomic) NSInteger index;
 @property (copy,nonatomic) NSString* box_name;
@@ -42,32 +47,117 @@ static CGFloat const kContentFontSize=15;
 
 +(instancetype)getInstanceWithMailBoxName:(NSString*)box_name
                                 withIndex:(NSInteger)index{
-    MailReadViewController *controller=[[MailReadViewController alloc]initWithNibName:@"MailReadControllerView" bundle:nil];
+    MailReadViewController *controller=[[MailReadViewController alloc]init];
     controller.box_name=box_name;
     controller.index=index;
     return controller;
 }
 
+-(void)loadView{
+    [super loadView];
+    
+    self.view.backgroundColor=[UIColor whiteColor];
+    
+    _contentTextView=[[YYTextView alloc]init];
+    [self.view addSubview:_contentTextView];
+    [_contentTextView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
+    }];
+    
+    _containerView=[[UIView alloc]init];
+    [self.view addSubview:_containerView];
+    _containerView.backgroundColor=[UIColor whiteColor];
+    [_containerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top).with.offset(CGRectGetHeight(self.navigationController.navigationBar.frame)+CGRectGetHeight([UIApplication sharedApplication].statusBarFrame));
+        make.leading.equalTo(self.view.mas_leading);
+        make.trailing.equalTo(self.view.mas_trailing);
+    }];
+    
+    _faceImageView=[[YYAnimatedImageView alloc]init];
+    _faceImageView.contentMode=UIViewContentModeScaleAspectFit;
+    [_containerView addSubview:_faceImageView];
+    [_faceImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.greaterThanOrEqualTo(_containerView.mas_top).with.offset(kMargin);
+        make.leading.equalTo(_containerView.mas_leading).with.offset(kMargin);
+        make.width.mas_equalTo(kFaceImageViewWidth);
+        make.height.mas_equalTo(kFaceImageViewWidth);
+    }];
+    
+    _titleLabel=[[UILabel alloc]init];
+    _titleLabel.font=[UIFont systemFontOfSize:17];
+    _titleLabel.textAlignment=NSTextAlignmentLeft;
+    _titleLabel.numberOfLines=0;
+    [_containerView addSubview:_titleLabel];
+    [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.equalTo(_faceImageView.mas_trailing).with.offset(kMargin);
+        make.trailing.equalTo(_containerView.mas_trailing).with.offset(-kMargin);
+        make.top.equalTo(_containerView.mas_top).with.offset(kMargin);
+        make.centerY.equalTo(_faceImageView.mas_centerY);
+    }];
+    
+    _useridLabel=[[UILabel alloc]init];
+    _useridLabel.font=[UIFont systemFontOfSize:12];
+    _useridLabel.textAlignment=NSTextAlignmentCenter;
+    _useridLabel.numberOfLines=1;
+    _useridLabel.minimumScaleFactor=0.5;
+    [_containerView addSubview:_useridLabel];
+    [_useridLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.equalTo(_faceImageView.mas_leading);
+        make.trailing.equalTo(_faceImageView.mas_trailing);
+    }];
+    
+    _posttimeLabel=[[UILabel alloc]init];
+    _posttimeLabel.font=[UIFont systemFontOfSize:12];
+    _posttimeLabel.textAlignment=NSTextAlignmentLeft;
+    _posttimeLabel.numberOfLines=1;
+    _posttimeLabel.minimumScaleFactor=0.5;
+    [_containerView addSubview:_posttimeLabel];
+    [_posttimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.equalTo(_titleLabel.mas_leading);
+        make.trailing.equalTo(_titleLabel.mas_trailing);
+        make.top.equalTo(_titleLabel.mas_bottom).with.offset(kMargin);
+        make.bottom.equalTo(_containerView.mas_bottom).with.offset(-kMargin);
+        make.top.equalTo(_useridLabel.mas_top);
+        make.bottom.equalTo(_useridLabel.mas_bottom);
+    }];
+    
+    _seperatorView=[[UIView alloc]init];
+    _seperatorView.backgroundColor=[CustomUtilities getColor:@"BFBFBF"];
+    [self.view addSubview:_seperatorView];
+    [_seperatorView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.equalTo(self.view.mas_leading).with.offset(kMargin);
+        make.trailing.equalTo(self.view.mas_trailing).with.offset(-kMargin);
+        make.top.equalTo(_containerView.mas_bottom);
+        make.height.mas_equalTo(CGFloatFromPixel(1));
+    }];
+    
+    [self.view layoutIfNeeded];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _contentTextView.editable=NO;
-    
-    [self.view addSubview:_faceImageView];
-    [self.view addSubview:_titleLabel];
+    [self _initContentTextView];
     
     [self _getMailData];
 }
 
+#pragma mark - 初始化contentTextView
+-(void)_initContentTextView{
+    _contentTextView.editable=NO;
+    _contentTextView.showsVerticalScrollIndicator=NO;
+   
+    CGFloat offset=CGRectGetHeight([UIApplication sharedApplication].statusBarFrame)+CGRectGetHeight(self.navigationController.navigationBar.frame);
+   _contentTextView.contentInset=UIEdgeInsetsMake(offset, 0, 0, 0);
+    _contentTextView.textContainerInset=UIEdgeInsetsMake(kMargin, kMargin, kMargin, kMargin);
+}
+
+
 #pragma mark - 请求信件数据
 - (void)_getMailData{
+    [SVProgressHUD showWithStatus:@"信件加载中"];
     [MailboxUtilities getMailWithMailbox:_box_name withIndex:_index withDelegate:self];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 #pragma mark - 刷新界面，显示数据
 -(void)_refreshView{
@@ -102,6 +192,7 @@ static CGFloat const kContentFontSize=15;
 
 #pragma mark - 实现HttpResponseDelegate协议
 -(void)handleHttpSuccessResponse:(id)response{
+    [SVProgressHUD dismiss];
     _maildata=[MailInfo getMailInfo:response];
     [self _refreshView];
 }

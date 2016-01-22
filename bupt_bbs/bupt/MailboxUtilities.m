@@ -35,7 +35,7 @@
 +(void)getMailWithMailbox:(NSString*)mailbox
                 withIndex:(NSInteger)index
              withDelegate:(id<HttpResponseDelegate>)delegate{
-    NSString *url=[NSString stringWithFormat:@"%@/mail/%@/%d.json",kRequestURL,mailbox,index];
+    NSString *url=[NSString stringWithFormat:@"%@/mail/%@/%ld.json",kRequestURL,mailbox,(long)index];
     NSDictionary *dic=@{@"oauth_token":[LoginManager sharedManager].access_token};
     
     AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];

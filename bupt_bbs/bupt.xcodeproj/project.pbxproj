@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		41007C201C51C80700A940E1 /* MailReadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41007C1F1C51C80700A940E1 /* MailReadViewController.m */; };
-		41007C221C51CF8800A940E1 /* MailReadControllerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41007C211C51CF8800A940E1 /* MailReadControllerView.xib */; };
 		4108AFFA1C0D8FBB00CDC292 /* TopSectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4108AFF91C0D8FBB00CDC292 /* TopSectionViewController.m */; };
 		4108AFFD1C0D8FEF00CDC292 /* RecommedArticalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4108AFFC1C0D8FEF00CDC292 /* RecommedArticalViewController.m */; };
 		4108B0001C0D951600CDC292 /* TopTenUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4108AFFF1C0D951600CDC292 /* TopTenUtilities.m */; };
@@ -90,7 +89,6 @@
 /* Begin PBXFileReference section */
 		41007C1E1C51C80700A940E1 /* MailReadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailReadViewController.h; sourceTree = "<group>"; };
 		41007C1F1C51C80700A940E1 /* MailReadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailReadViewController.m; sourceTree = "<group>"; };
-		41007C211C51CF8800A940E1 /* MailReadControllerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MailReadControllerView.xib; sourceTree = "<group>"; };
 		4108AFF81C0D8FBB00CDC292 /* TopSectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopSectionViewController.h; sourceTree = "<group>"; };
 		4108AFF91C0D8FBB00CDC292 /* TopSectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopSectionViewController.m; sourceTree = "<group>"; };
 		4108AFFB1C0D8FEF00CDC292 /* RecommedArticalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommedArticalViewController.h; sourceTree = "<group>"; };
@@ -414,7 +412,6 @@
 				413FEC051C4F5B7700415D11 /* MailboxViewController.m */,
 				41007C1E1C51C80700A940E1 /* MailReadViewController.h */,
 				41007C1F1C51C80700A940E1 /* MailReadViewController.m */,
-				41007C211C51CF8800A940E1 /* MailReadControllerView.xib */,
 				41AE8B051C50719C00C41256 /* MailboxSelectPopoverController.h */,
 				41AE8B061C50719C00C41256 /* MailboxSelectPopoverController.m */,
 				411DEC041C0D3131008B7EB6 /* TopTenViewController.h */,
@@ -600,7 +597,6 @@
 				41D0B2C61C45FBBE00865808 /* emojikeyboarddelete@3x.png in Resources */,
 				410B20221C1524A3004C0CBE /* Assets.xcassets in Resources */,
 				41B684BE1C2001BB0088395D /* ShowUserInfo.xib in Resources */,
-				41007C221C51CF8800A940E1 /* MailReadControllerView.xib in Resources */,
 				41432A841C39056E00423DFE /* JumpPopoverControllerView.xib in Resources */,
 				41D0B2C41C45FBB500865808 /* emojikeyboarddelete@2x.png in Resources */,
 				41432A7E1C38DA3200423DFE /* ThemePopoverControllerView.xib in Resources */,

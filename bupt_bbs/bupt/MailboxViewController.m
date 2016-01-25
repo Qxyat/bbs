@@ -17,6 +17,7 @@
 #import "MailReadViewController.h"
 #import "CustomPopoverController.h"
 #import "JumpPopoverController.h"
+#import "MailPostViewController.h"
 
 #import <UITableView+FDTemplateLayoutCell.h>
 #import <SVProgressHUD.h>
@@ -226,6 +227,10 @@ static NSString *const kCellIdentifier=@"cell";
         else{
             [self hideJumpPopoverController];
         }
+    }
+    else if(index==1){
+        MailPostViewController* mailPostViewController=[MailPostViewController getInstanceWithIsReply:NO withBoxName:nil withReceiverId:nil withTitle:nil withContent:nil withIndex:0];
+        [self.navigationController pushViewController:mailPostViewController animated:YES];
     }
 }
 

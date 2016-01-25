@@ -236,7 +236,7 @@
     [_toolbar addSubview:line];
     
     _pictureButton=[UIButton buttonWithType:UIButtonTypeCustom];
-    _pictureButton.frame=CGRectMake(0, 0, kNavigationBarHeight, kNavigationBarHeight);
+    _pictureButton.frame=CGRectMake(0, 0, kToolBarItemHeight, kToolBarItemHeight);
     _pictureButton.center=CGPointMake(CGRectGetWidth(_toolbar.frame)*0.25, CGRectGetHeight(_toolbar.frame)*0.5);
     [_pictureButton setImage:[UIImage imageNamed:@"toolbarpicture"] forState:UIControlStateNormal];
     [_pictureButton setImage:[UIImage imageNamed:@"toolbarpicturehighlighted"] forState:UIControlStateHighlighted];
@@ -244,7 +244,7 @@
     [_toolbar addSubview:_pictureButton];
     
     _emojiButton=[UIButton buttonWithType:UIButtonTypeCustom];
-    _emojiButton.frame=CGRectMake(0, 0, kNavigationBarHeight, kNavigationBarHeight);
+    _emojiButton.frame=CGRectMake(0, 0, kToolBarItemHeight, kToolBarItemHeight);
     _emojiButton.center=CGPointMake(CGRectGetWidth(_toolbar.frame)*0.75, CGRectGetHeight(_toolbar.frame)*0.5);
     [_emojiButton setImage:[UIImage imageNamed:@"toolbaremotion"] forState:UIControlStateNormal];
     [_emojiButton setImage:[UIImage imageNamed:@"toolbaremotionhighlighted"] forState:UIControlStateHighlighted];

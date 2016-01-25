@@ -14,6 +14,8 @@
 #import "CustomEmojiKeyboardDelegate.h"
 #import "CustomYYAnimatedImageView.h"
 #import "YYImage+Emoji.h"
+#import "HttpResponseDelegate.h"
+#import "MailboxUtilities.h"
 
 #import <SVProgressHUD.h>
 #import <YYKit.h>
@@ -26,7 +28,7 @@
 #define kToolBarHeight 46+1
 #define kToolBarItemHeight 46
 
-@interface MailPostViewController ()<CustomEmojiKeyboardDelegate>
+@interface MailPostViewController ()<CustomEmojiKeyboardDelegate,HttpResponseDelegate>
 
 @property (nonatomic) BOOL isReply;
 @property (copy,nonatomic) NSString* box_name;
@@ -257,6 +259,7 @@
     _contentTextView.font=[UIFont systemFontOfSize:17];
     _contentTextView.placeholderFont=[UIFont systemFontOfSize:17];
     _contentTextView.placeholderTextColor=[CustomUtilities getColor:@"B4B4B4"];
+    _contentTextView.extraAccessoryViewHeight=kToolBarHeight;
     
     CustomLinePositionModifier *modifier = [CustomLinePositionModifier new];
     modifier.font = [UIFont systemFontOfSize:17];
@@ -296,9 +299,7 @@
         else
             [contentString appendString:[_contentTextView.text substringWithRange:NSMakeRange(i, 1)]];
     }
-    NSLog(@"%@",_receiverIdTextField.text);
-    NSLog(@"%@",_titleTextField.text);
-    NSLog(@"%@",contentString);
+    
     NSString *message=nil;
     if(_isReply)
         message=@"确认回复信件？";
@@ -307,7 +308,13 @@
     UIAlertController *alertController=[UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *action1=[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDestructive handler:nil];
     UIAlertAction *action2=[UIAlertAction actionWithTitle:@"发送" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        //[SVProgressHUD showWithStatus:@"发表中"];
+        [SVProgressHUD showWithStatus:@"信件投递中..."];
+        if(!_isReply){
+            [MailboxUtilities postNewMailWithUserId:_receiverIdTextField.text withTitle:_titleTextField.text withContent:contentString withSignature:0 withbackup:0 withDelegate:self];
+        }
+        else{
+            [MailboxUtilities postReplyMailWithBoxName:_box_name withIndex:_index withTitle:_titleTextField.text withContent:contentString withSignature:0 withbackup:0 withDelegate:self];
+        }
     }];
     [alertController addAction:action1];
     [alertController addAction:action2];
@@ -393,5 +400,28 @@
         [self.view updateConstraintsIfNeeded];
         [self.view layoutIfNeeded];
     }];
+}
+
+#pragma mark - 实现HttpResponseDelegate协议
+-(void)handleHttpSuccessResponse:(id)response{
+    [SVProgressHUD showSuccessWithStatus:@"信件发送成功"];
+}
+
+-(void)handleHttpErrorResponse:(id)response{
+    NSError *error=(NSError *)response;
+    NetworkErrorCode errorCode=[CustomUtilities getNetworkErrorCode:error];
+    switch (errorCode) {
+        case NetworkConnectFailed:
+            [SVProgressHUD showErrorWithStatus:@"网络连接已断开"];
+            break;
+        case NetworkConnectTimeout:
+            [SVProgressHUD showErrorWithStatus:@"网络连接超时"];
+            break;
+        case NetworkConnectUnknownReason:
+            [SVProgressHUD showErrorWithStatus:@"好像出现了某种奇怪的问题"];
+            break;
+        default:
+            break;
+    }
 }
 @end

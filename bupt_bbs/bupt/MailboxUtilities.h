@@ -20,4 +20,18 @@
                 withIndex:(NSInteger)index
              withDelegate:(id<HttpResponseDelegate>)delegate;
 
++(void)postNewMailWithUserId:(NSString *)userId
+                   withTitle:(NSString *)title
+                 withContent:(NSString *)content
+               withSignature:(NSInteger)signature
+                  withbackup:(NSInteger)backup
+                withDelegate:(id<HttpResponseDelegate>)delegate;
+
++(void)postReplyMailWithBoxName:(NSString *)box_name
+                      withIndex:(NSInteger )index
+                      withTitle:(NSString *)title
+                    withContent:(NSString *)content
+                  withSignature:(NSInteger)signature
+                     withbackup:(NSInteger)backup
+                   withDelegate:(id<HttpResponseDelegate>)delegate;
 @end

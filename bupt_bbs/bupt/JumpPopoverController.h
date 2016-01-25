@@ -7,12 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "JumpPopoverControllerDelegate.h"
+
+@protocol JumpPopoverControllerDelegate <NSObject>
+-(void)hideJumpPopoverController;
+-(void)jumpToRefresh:(NSUInteger) nextPage;
+@end
+
 @interface JumpPopoverController : UIViewController<UITextFieldDelegate>
-+(instancetype)getInstance;
+
++(instancetype)getInstanceWithFrame:(CGRect)frame
+                   withPageAllCount:(NSInteger)page_all_count
+                   withPageCurCount:(NSInteger)page_cur_count
+                       withDelegate:(id<JumpPopoverControllerDelegate>)delegate;
+
 -(void)hideJumpPopoverControllerView;
-@property(strong,nonatomic)id<JumpPopoverControllerDelegate>delegate;
-@property(nonatomic)CGFloat navigationBarHeight;
-@property (nonatomic)     int              page_all_count;
-@property (nonatomic)     int              page_cur_count;
+
 @end

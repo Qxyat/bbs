@@ -9,11 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "HttpResponseDelegate.h"
 #import "ThemePopoverControllerDelegate.h"
-#import "JumpPopoverControllerDelegate.h"
 #import "RefreshTableViewDelegate.h"
-@interface ThemeViewController : UITableViewController<HttpResponseDelegate,ThemePopoverControllerDelegate,JumpPopoverControllerDelegate,RefreshTableViewDelegate>
+@interface ThemeViewController : UITableViewController
 
 +(instancetype)getInstanceWithBoardName:(NSString *)boardName
                             withGroupId:(int)groupId;
 -(void)jumpToRefresh:(NSUInteger) nextPage;
+
 @end

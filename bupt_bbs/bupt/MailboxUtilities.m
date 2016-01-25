@@ -19,7 +19,9 @@
              withPagecount:(NSInteger)pagecount
               withDelegate:(id<HttpResponseDelegate>)delegate{
     NSString *url=[NSString stringWithFormat:@"%@/mail/%@.json",kRequestURL,mailbox];
-    NSDictionary *dic=@{@"oauth_token":[LoginManager sharedManager].access_token};
+    NSDictionary *dic=@{@"oauth_token":[LoginManager sharedManager].access_token,
+                        @"count":[NSNumber numberWithInteger:pagecount],
+                        @"page":[NSNumber numberWithInteger:pageNO]};
     
     AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
     manager.responseSerializer=[AFJSONResponseSerializer serializer];

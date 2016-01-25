@@ -34,11 +34,11 @@
 		41432A7D1C38DA3200423DFE /* ThemePopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41432A7B1C38DA3200423DFE /* ThemePopoverController.m */; };
 		41432A7E1C38DA3200423DFE /* ThemePopoverControllerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41432A7C1C38DA3200423DFE /* ThemePopoverControllerView.xib */; };
 		41432A821C39053E00423DFE /* JumpPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41432A811C39053E00423DFE /* JumpPopoverController.m */; };
-		41432A841C39056E00423DFE /* JumpPopoverControllerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41432A831C39056E00423DFE /* JumpPopoverControllerView.xib */; };
 		4143427D1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4143427C1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.m */; };
 		41434F2D1BE8D5AA00FF01D9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 41434F2C1BE8D5AA00FF01D9 /* main.m */; };
 		41434F301BE8D5AA00FF01D9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 41434F2F1BE8D5AA00FF01D9 /* AppDelegate.m */; };
 		4153C8361C3BB4C000A0C0F2 /* ArticlePreProcessingUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4153C8351C3BB4C000A0C0F2 /* ArticlePreProcessingUtilities.m */; };
+		415836C41C53448800D542A3 /* CustomPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 415836C31C53448800D542A3 /* CustomPopoverController.m */; };
 		415AE0951C0AF5F700B1F137 /* UserCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 415AE0941C0AF5F700B1F137 /* UserCenterViewController.m */; };
 		416B272F1C1BE87F00D0FFE4 /* SectionUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 416B272E1C1BE87F00D0FFE4 /* SectionUtilities.m */; };
 		417455321C43AC3F00CC1334 /* CustomEmojiKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 4174552C1C43AC3F00CC1334 /* CustomEmojiKeyboard.m */; };
@@ -140,8 +140,6 @@
 		41432A7F1C38E53000423DFE /* ThemePopoverControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemePopoverControllerDelegate.h; sourceTree = "<group>"; };
 		41432A801C39053E00423DFE /* JumpPopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JumpPopoverController.h; sourceTree = "<group>"; };
 		41432A811C39053E00423DFE /* JumpPopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JumpPopoverController.m; sourceTree = "<group>"; };
-		41432A831C39056E00423DFE /* JumpPopoverControllerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JumpPopoverControllerView.xib; sourceTree = "<group>"; };
-		41432A851C39096200423DFE /* JumpPopoverControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JumpPopoverControllerDelegate.h; sourceTree = "<group>"; };
 		4143427B1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaluateAttributedStringSizeUtilities.h; sourceTree = "<group>"; };
 		4143427C1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaluateAttributedStringSizeUtilities.m; sourceTree = "<group>"; };
 		41434F281BE8D5AA00FF01D9 /* 邮遍天下.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "邮遍天下.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -151,6 +149,8 @@
 		41434F3C1BE8D5AA00FF01D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4153C8341C3BB4C000A0C0F2 /* ArticlePreProcessingUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticlePreProcessingUtilities.h; sourceTree = "<group>"; };
 		4153C8351C3BB4C000A0C0F2 /* ArticlePreProcessingUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticlePreProcessingUtilities.m; sourceTree = "<group>"; };
+		415836C21C53448800D542A3 /* CustomPopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPopoverController.h; sourceTree = "<group>"; };
+		415836C31C53448800D542A3 /* CustomPopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPopoverController.m; sourceTree = "<group>"; };
 		415AE0931C0AF5F700B1F137 /* UserCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCenterViewController.h; sourceTree = "<group>"; };
 		415AE0941C0AF5F700B1F137 /* UserCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCenterViewController.m; sourceTree = "<group>"; };
 		416B272D1C1BE87F00D0FFE4 /* SectionUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionUtilities.h; sourceTree = "<group>"; };
@@ -272,7 +272,6 @@
 				412641F81C0E91A7006C4B31 /* HttpResponseDelegate.h */,
 				4124410F1C2244F2009A4172 /* ShowUserInfoViewControllerDelegate.h */,
 				41432A7F1C38E53000423DFE /* ThemePopoverControllerDelegate.h */,
-				41432A851C39096200423DFE /* JumpPopoverControllerDelegate.h */,
 				41D383C41C3C071100255BA9 /* RefreshTableViewDelegate.h */,
 				41BA83AB1C488D7100A35FFD /* AttachmentHttpResponseDelegate.h */,
 				41B6203E1C4DD91F0007E8EE /* ReplyViewImageCellDelegate.h */,
@@ -313,6 +312,7 @@
 				41E4CE9F1C0455A7004DD407 /* View */,
 				41E4CEA01C0455C6004DD407 /* Model */,
 				4174552A1C43AC1E00CC1334 /* CustomEmojiKeyboard */,
+				415836C11C53444200D542A3 /* CustomPopoverController */,
 				41434F3C1BE8D5AA00FF01D9 /* Info.plist */,
 				41B26AC01C3E076A0088E1FE /* Emoji.bundle */,
 				410B20211C1524A3004C0CBE /* Assets.xcassets */,
@@ -327,6 +327,15 @@
 				41434F2C1BE8D5AA00FF01D9 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		415836C11C53444200D542A3 /* CustomPopoverController */ = {
+			isa = PBXGroup;
+			children = (
+				415836C21C53448800D542A3 /* CustomPopoverController.h */,
+				415836C31C53448800D542A3 /* CustomPopoverController.m */,
+			);
+			name = CustomPopoverController;
 			sourceTree = "<group>";
 		};
 		4174552A1C43AC1E00CC1334 /* CustomEmojiKeyboard */ = {
@@ -455,7 +464,6 @@
 				41B02B751C1033A400E4904B /* ArticleDetailInfoCell.h */,
 				41B02B761C1033A400E4904B /* ArticleDetailInfoCell.m */,
 				41432A7C1C38DA3200423DFE /* ThemePopoverControllerView.xib */,
-				41432A831C39056E00423DFE /* JumpPopoverControllerView.xib */,
 				419411D61C1BFD03002E59AC /* SectionAndBoardInfoCell.h */,
 				419411D71C1BFD03002E59AC /* SectionAndBoardInfoCell.m */,
 				419411DF1C1C372C002E59AC /* CollectionViewHeader.h */,
@@ -597,7 +605,6 @@
 				41D0B2C61C45FBBE00865808 /* emojikeyboarddelete@3x.png in Resources */,
 				410B20221C1524A3004C0CBE /* Assets.xcassets in Resources */,
 				41B684BE1C2001BB0088395D /* ShowUserInfo.xib in Resources */,
-				41432A841C39056E00423DFE /* JumpPopoverControllerView.xib in Resources */,
 				41D0B2C41C45FBB500865808 /* emojikeyboarddelete@2x.png in Resources */,
 				41432A7E1C38DA3200423DFE /* ThemePopoverControllerView.xib in Resources */,
 				41B57D481C314AFB00B9A01B /* ArticleRoughInfoCell.xib in Resources */,
@@ -699,6 +706,7 @@
 				41BA83AA1C488C3300A35FFD /* AttachmentUtilities.m in Sources */,
 				412441121C2259EA009A4172 /* FirstLoginViewController.m in Sources */,
 				41CEB46E1C2B8C4A004935FF /* ScreenAdaptionUtilities.m in Sources */,
+				415836C41C53448800D542A3 /* CustomPopoverController.m in Sources */,
 				415AE0951C0AF5F700B1F137 /* UserCenterViewController.m in Sources */,
 				419411DE1C1C1573002E59AC /* BoardInfo.m in Sources */,
 				41B02B771C1033A400E4904B /* ArticleDetailInfoCell.m in Sources */,

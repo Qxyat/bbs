@@ -72,11 +72,13 @@
 -(void)viewDidLoad{
     [super viewDidLoad];
     
-   [UIView animateWithDuration:10 animations:^{
-       [_containerView mas_updateConstraints:^(MASConstraintMaker *make) {
-           make.bottom.equalTo(self.view.mas_top).with.offset(kContainerViewHeight);
-       }];
-   }];
+    [_containerView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.mas_top).with.offset(kContainerViewHeight);
+    }];
+    [UIView animateWithDuration:0.5 animations:^{
+        [self.view updateConstraintsIfNeeded];
+        [self.view layoutIfNeeded];
+    }];
     
     UITapGestureRecognizer *gesture=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideMailboxSelectPopoverController)];
     [self.view addGestureRecognizer:gesture];
@@ -88,10 +90,12 @@
 }
 
 -(void)hideMailboxSelectView{
+    [_containerView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.mas_top);
+    }];
     [UIView animateWithDuration:0.5 animations:^{
-        [_containerView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.view.mas_top);
-        }];
+        [self.view updateConstraintsIfNeeded];
+        [self.view layoutIfNeeded];
     } completion:^(BOOL finished) {
         [self.view removeFromSuperview];
     }];

@@ -27,15 +27,15 @@
 static CGFloat const kContentFontSize=15;
 
 @interface MailReadViewController ()<HttpResponseDelegate>
-@property (strong, nonatomic) IBOutlet UIView *containerView;
-@property (strong, nonatomic) IBOutlet YYAnimatedImageView *faceImageView;
-@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
-@property (strong, nonatomic) IBOutlet UILabel *useridLabel;
-@property (strong, nonatomic) IBOutlet UILabel *posttimeLabel;
+@property (strong, nonatomic)  UIView *containerView;
+@property (strong, nonatomic)  YYAnimatedImageView *faceImageView;
+@property (strong, nonatomic)  UILabel *titleLabel;
+@property (strong, nonatomic)  UILabel *useridLabel;
+@property (strong, nonatomic)  UILabel *posttimeLabel;
 
-@property (strong, nonatomic) IBOutlet UIView *seperatorView;
+@property (strong, nonatomic)  UIView *seperatorView;
 
-@property (strong, nonatomic) IBOutlet YYTextView *contentTextView;
+@property (strong, nonatomic)  YYTextView *contentTextView;
 
 @property (nonatomic) NSInteger index;
 @property (copy,nonatomic) NSString* box_name;
@@ -133,13 +133,30 @@ static CGFloat const kContentFontSize=15;
     
     [self.view layoutIfNeeded];
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self _initNavigationItem];
     [self _initContentTextView];
     
     [self _getMailData];
 }
+
+
+#pragma mark - 初始化navigationitem
+-(void)_initNavigationItem{
+    NSArray* selectItems=@[@"收件箱",@"发件箱",@"回收站"];
+    NSArray* items=@[@"inbox",@"outbox",@"deleted"];
+    
+    for(int i=0;i<items.count;i++)
+        if([items[i] isEqualToString:_box_name]){
+            self.navigationItem.title=selectItems[i];
+            break;
+        }
+    
+}
+
 
 #pragma mark - 初始化contentTextView
 -(void)_initContentTextView{

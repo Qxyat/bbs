@@ -15,15 +15,20 @@
 #import "CustomUtilities.h"
 #import "MailInfoCell.h"
 #import "MailReadViewController.h"
+#import "CustomPopoverController.h"
+#import "JumpPopoverController.h"
 
 #import <UITableView+FDTemplateLayoutCell.h>
 #import <SVProgressHUD.h>
 
 static NSString *const kCellIdentifier=@"cell";
 
-@interface MailboxViewController ()<MailboxSelectPopoverControllerDelegate,HttpResponseDelegate>
+@interface MailboxViewController ()<MailboxSelectPopoverControllerDelegate,HttpResponseDelegate,CustomPopoverControllerDelegate,JumpPopoverControllerDelegate>
 
 @property (strong,nonatomic)MailboxSelectPopoverController *mailboxSelectPopoverController;
+@property (strong,nonatomic)CustomPopoverController *customPopoverController;
+@property (strong,nonatomic)JumpPopoverController *jumpPopoverController;
+
 @property (strong,nonatomic)UIButton *titleview;
 @property (strong,nonatomic)NSString* selectedMailbox;
 
@@ -67,11 +72,36 @@ static NSString *const kCellIdentifier=@"cell";
     [_titleview setTitle:@"收件箱" forState:UIControlStateNormal];
     [_titleview addTarget:self action:@selector(showMailboxSelectPopoverController) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.titleView=_titleview;
+    
+    UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kCustomNavigationBarHeight-8, kCustomNavigationBarHeight-8)];
+    imageView.contentMode=UIViewContentModeScaleAspectFit;
+    imageView.image=[UIImage imageNamed:@"more"];
+    UITapGestureRecognizer *recognizer=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showCustomPopoverController)];
+    [imageView addGestureRecognizer:recognizer];
+    UIBarButtonItem *barButtonItem=[[UIBarButtonItem alloc]initWithCustomView:imageView];
+    self.navigationItem.rightBarButtonItem=barButtonItem;
 }
 -(void)_initTableview{
     [self.tableView registerNib:[UINib nibWithNibName:@"MailInfoCell" bundle:nil] forCellReuseIdentifier:kCellIdentifier];
     self.tableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
 }
+
+
+#pragma mark - 点击更多按钮
+-(void)showCustomPopoverController{
+    [self hideJumpPopoverController];
+    if(_customPopoverController==nil){
+        CGFloat yOffset=CGRectGetMaxY(self.navigationController.navigationBar.frame);
+        CGRect frame=CGRectMake(0, yOffset, kCustomScreenWidth,kCustomScreenHeight-yOffset);
+        NSArray *pictures=@[@{CustomPopoverControllerImageTypeNormal:@"btn_jump_n",CustomPopoverControllerImageTypeHighlighted: @"btn_jump_h"},@{CustomPopoverControllerImageTypeNormal:@"btn_writemail_n",CustomPopoverControllerImageTypeHighlighted:@"btn_writemail_h"}];
+        _customPopoverController=[CustomPopoverController getInstanceWithFrame:frame withItemNames:@[@"跳页",@"写信"] withItemPictures:pictures withDelegate:self];
+        [self.tableView.superview addSubview:_customPopoverController.view];
+    }
+    else{
+        [self hideCustomPopoverController];
+    }
+}
+
 #pragma mark - 实现UITableviewDataSource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -153,7 +183,7 @@ static NSString *const kCellIdentifier=@"cell";
 #pragma mark - 实现HttpResponseDelegate协议
 -(void)handleHttpSuccessResponse:(id)response{
     NSDictionary *dic=(NSDictionary*)response;
-    _item_page_count=[[[dic valueForKey:@"pagination"]valueForKey:@"page_all_count"]integerValue];
+    _page_all_count=[[[dic valueForKey:@"pagination"]valueForKey:@"page_all_count"]integerValue];
     _page_cur_count=[[[dic objectForKey:@"pagination"]valueForKey:@"page_current_count"] integerValue];
     _data=[MailInfo getMailsInfo:[dic objectForKey:@"mail"]];
     
@@ -177,5 +207,38 @@ static NSString *const kCellIdentifier=@"cell";
             break;
     }
 
+}
+
+#pragma mark - 实现CustomPopoverControllerDelegate协议
+-(void)hideCustomPopoverController{
+    if(_customPopoverController!=nil){
+        [_customPopoverController hideCustomPopoverControllerView];
+        _customPopoverController=nil;
+    }
+}
+-(void)itemTapped:(NSInteger)index{
+    [self hideCustomPopoverController];
+    if(index==0){
+        if(_jumpPopoverController==nil){
+            _jumpPopoverController=[JumpPopoverController getInstanceWithFrame:CGRectMake(0, CGRectGetMaxY(self.navigationController.navigationBar.frame), kCustomScreenWidth, kCustomScreenHeight-CGRectGetMaxY(self.navigationController.navigationBar.frame)) withPageAllCount:_page_all_count withPageCurCount:_page_cur_count withDelegate:self];
+            [self.tableView.superview addSubview:_jumpPopoverController.view];
+        }
+        else{
+            [self hideJumpPopoverController];
+        }
+    }
+}
+
+#pragma mark -实现JumpPopoverControllerDelegate
+-(void)hideJumpPopoverController{
+    if(_jumpPopoverController!=nil){
+        [_jumpPopoverController hideJumpPopoverControllerView];
+        _jumpPopoverController=nil;
+    }
+}
+-(void)jumpToRefresh:(NSUInteger)nextPage{
+    [self hideJumpPopoverController];
+    _page_cur_count=nextPage;
+    [self _refreshMailList];
 }
 @end

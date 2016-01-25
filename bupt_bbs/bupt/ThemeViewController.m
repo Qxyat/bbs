@@ -28,7 +28,7 @@ static const int kNumOfPageToCache=5;
 #define RefreshModePullDown 1
 #define RefreshModeJump 2
 
-@interface ThemeViewController ()
+@interface ThemeViewController ()<HttpResponseDelegate,ThemePopoverControllerDelegate,JumpPopoverControllerDelegate,RefreshTableViewDelegate>
 
 @property (nonatomic) int group_id;
 @property (strong,nonatomic) NSString *board_name;
@@ -240,6 +240,7 @@ static const int kNumOfPageToCache=5;
 
 #pragma mark - 显示更多内容页的PopoverController
 -(void)showThemePopoverController{
+    [self hideJumpPopoverController];
     if(self.themePopoverController==nil){
         self.themePopoverController=[ThemePopoverController getInstance];
         self.themePopoverController.delegate=self;
@@ -250,7 +251,6 @@ static const int kNumOfPageToCache=5;
     else{
         [self hideThemePopoverController];
     }
-    [self hideJumpPopoverController];
 }
 #pragma mark - 实现ThemePopoverControllerDelegate协议
 -(void)hideThemePopoverController{
@@ -262,11 +262,7 @@ static const int kNumOfPageToCache=5;
 -(void)showJumpPopoverController{
     [self hideThemePopoverController];
     if(self.jumpPopoverController==nil){
-        self.jumpPopoverController=[JumpPopoverController getInstance];
-        self.jumpPopoverController.delegate=self;
-        self.jumpPopoverController.navigationBarHeight=kCustomNavigationBarHeight;
-        self.jumpPopoverController.page_all_count=self.page_all_count;
-        self.jumpPopoverController.page_cur_count=self.page_cur_count;
+        self.jumpPopoverController=[JumpPopoverController getInstanceWithFrame:CGRectMake(0, CGRectGetMaxY(self.navigationController.navigationBar.frame), kCustomScreenWidth, kCustomScreenHeight-CGRectGetMaxY(self.navigationController.navigationBar.frame)) withPageAllCount:_page_all_count withPageCurCount:_page_cur_count withDelegate:self];
         [self.tableView.superview addSubview:self.jumpPopoverController.view];
     }
     else{

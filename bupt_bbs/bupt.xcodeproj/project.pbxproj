@@ -121,6 +121,7 @@
 		41295DD41C1E5E260021D689 /* RecommedUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommedUtilities.m; sourceTree = "<group>"; };
 		4129D06B1C3CB0D900BCB528 /* PictureInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureInfo.h; sourceTree = "<group>"; };
 		4129D06C1C3CB0D900BCB528 /* PictureInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureInfo.m; sourceTree = "<group>"; };
+		412DF8591C57D2420001CF20 /* MailHttpResponseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailHttpResponseDelegate.h; sourceTree = "<group>"; };
 		41360AC61C40E25C00D3DE9C /* ReplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplyViewController.h; sourceTree = "<group>"; };
 		41360AC71C40E25C00D3DE9C /* ReplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReplyViewController.m; sourceTree = "<group>"; };
 		41360ACB1C40FF9900D3DE9C /* PostArticleUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostArticleUtilities.h; sourceTree = "<group>"; };
@@ -275,6 +276,7 @@
 			children = (
 				412441151C2263B0009A4172 /* LoginHttpResponseDelegate.h */,
 				41B018531C2304E700AA8F88 /* UserHttpResponseDelegate.h */,
+				412DF8591C57D2420001CF20 /* MailHttpResponseDelegate.h */,
 				412641F81C0E91A7006C4B31 /* HttpResponseDelegate.h */,
 				4124410F1C2244F2009A4172 /* ShowUserInfoViewControllerDelegate.h */,
 				41432A7F1C38E53000423DFE /* ThemePopoverControllerDelegate.h */,

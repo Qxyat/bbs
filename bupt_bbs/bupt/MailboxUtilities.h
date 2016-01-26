@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "HttpResponseDelegate.h"
+#import "MailHttpResponseDelegate.h"
 
 @interface MailboxUtilities : NSObject
 
@@ -18,7 +19,7 @@
 
 +(void)getMailWithMailbox:(NSString*)mailbox
                 withIndex:(NSInteger)index
-             withDelegate:(id<HttpResponseDelegate>)delegate;
+             withDelegate:(id<MailHttpResponseDelegate>)delegate;
 
 +(void)postNewMailWithUserId:(NSString *)userId
                    withTitle:(NSString *)title
@@ -34,4 +35,15 @@
                   withSignature:(NSInteger)signature
                      withbackup:(NSInteger)backup
                    withDelegate:(id<HttpResponseDelegate>)delegate;
+
++(void)forwardMailWithBoxName:(NSString*)box_name
+                    withIndex:(NSInteger)index
+                   withTarget:(NSString*)userId
+                   withNoansi:(NSInteger)noansi
+                     withBig5:(NSInteger)big5
+                 withDelegate:(id<MailHttpResponseDelegate>)delegate;
+
++(void)deleteMailWithBoxName:(NSString*)box_name
+                   withIndex:(NSInteger)index
+                withDelegate:(id<MailHttpResponseDelegate>)delegate;
 @end

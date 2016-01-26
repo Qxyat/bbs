@@ -21,6 +21,7 @@
 #import "CustomPopoverController.h"
 #import "MailPostViewController.h"
 #import "UserInfo.h"
+#import "MailHttpResponseDelegate.h"
 
 #import <SVProgressHUD.h>
 #import <YYKit.h>
@@ -30,7 +31,7 @@
 #define kFaceImageViewWidth 50
 static CGFloat const kContentFontSize=15;
 
-@interface MailReadViewController ()<HttpResponseDelegate,CustomPopoverControllerDelegate>
+@interface MailReadViewController ()<MailHttpResponseDelegate,CustomPopoverControllerDelegate>
 @property (strong, nonatomic)  UIView *containerView;
 @property (strong, nonatomic)  YYAnimatedImageView *faceImageView;
 @property (strong, nonatomic)  UILabel *titleLabel;
@@ -221,10 +222,30 @@ static CGFloat const kContentFontSize=15;
         [self.navigationController pushViewController:mailPostViewController animated:YES];
     }
     else if(index==1){
-        
+        UIAlertController *controller=[UIAlertController alertControllerWithTitle:@"转寄信件" message:@"请输入接收人的ID" preferredStyle:UIAlertControllerStyleAlert];
+        [controller addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+            textField.placeholder=@"请输入用户ID";
+        }];
+        UIAlertAction *action1=[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        UIAlertAction *action2=[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            UITextField *textfield=controller.textFields.firstObject;
+            [SVProgressHUD showWithStatus:@"转寄中"];
+            [MailboxUtilities forwardMailWithBoxName:_box_name withIndex:_index withTarget:textfield.text withNoansi:0 withBig5:0 withDelegate:self];
+        }];
+        [controller addAction:action1];
+        [controller addAction:action2];
+        [self presentViewController:controller animated:YES completion:nil];
     }
     else if(index==2){
-        
+        UIAlertController *controller=[UIAlertController alertControllerWithTitle:@"删除信件" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action1=[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        UIAlertAction *action2=[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [SVProgressHUD showWithStatus:@"删除中"];
+            [MailboxUtilities deleteMailWithBoxName:_box_name withIndex:_index withDelegate:self];
+        }];
+        [controller addAction:action1];
+        [controller addAction:action2];
+        [self presentViewController:controller animated:YES completion:nil];
     }
 }
 
@@ -259,15 +280,14 @@ static CGFloat const kContentFontSize=15;
 }
 
 
-#pragma mark - 实现HttpResponseDelegate协议
--(void)handleHttpSuccessResponse:(id)response{
+#pragma mark - 实现MailHttpResponseDelegate协议
+-(void)handleMailInfoSuccessResponse:(id)response{
     [SVProgressHUD dismiss];
     _maildata=[MailInfo getMailInfo:response];
     [self _refreshView];
 }
 
--(void)handleHttpErrorResponse:(id)response{
-    NSError *error=(NSError *)response;
+-(void)handleMailInfoErrorResponseWithError:(NSError *)error withResponse:(id)response{
     NetworkErrorCode errorCode=[CustomUtilities getNetworkErrorCode:error];
     switch (errorCode) {
         case NetworkConnectFailed:
@@ -283,6 +303,45 @@ static CGFloat const kContentFontSize=15;
             break;
     }
     
+}
+-(void)handleMailForwardSuccessResponse:(id)response{
+    [SVProgressHUD showSuccessWithStatus:@"转寄成功"];
+}
+-(void)handleMailForwardErrorResponseWithError:(NSError *)error withResponse:(id)response{
+    NetworkErrorCode errorCode=[CustomUtilities getNetworkErrorCode:error];
+    switch (errorCode) {
+        case NetworkConnectFailed:
+            [SVProgressHUD showErrorWithStatus:@"网络连接已断开"];
+            break;
+        case NetworkConnectTimeout:
+            [SVProgressHUD showErrorWithStatus:@"网络连接超时"];
+            break;
+        case NetworkConnectUnknownReason:
+            [SVProgressHUD showErrorWithStatus:@"好像出现了某种奇怪的问题"];
+            break;
+        default:
+            break;
+    }
+}
+
+-(void)handleMailDeleteSuccessResponse:(id)response{
+    [SVProgressHUD showSuccessWithStatus:@"删除成功"];
+}
+-(void)handleMailDeleteErrorResponseWithError:(NSError *)error withResponse:(id)response{
+    NetworkErrorCode errorCode=[CustomUtilities getNetworkErrorCode:error];
+    switch (errorCode) {
+        case NetworkConnectFailed:
+            [SVProgressHUD showErrorWithStatus:@"网络连接已断开"];
+            break;
+        case NetworkConnectTimeout:
+            [SVProgressHUD showErrorWithStatus:@"网络连接超时"];
+            break;
+        case NetworkConnectUnknownReason:
+            [SVProgressHUD showErrorWithStatus:@"好像出现了某种奇怪的问题"];
+            break;
+        default:
+            break;
+    }
 }
 
 

@@ -36,7 +36,7 @@
 
 +(void)getMailWithMailbox:(NSString*)mailbox
                 withIndex:(NSInteger)index
-             withDelegate:(id<HttpResponseDelegate>)delegate{
+             withDelegate:(id<MailHttpResponseDelegate>)delegate{
     NSString *url=[NSString stringWithFormat:@"%@/mail/%@/%ld.json",kRequestURL,mailbox,(long)index];
     NSDictionary *dic=@{@"oauth_token":[LoginManager sharedManager].access_token};
     
@@ -45,9 +45,9 @@
     manager.requestSerializer.timeoutInterval=kRequestTimeout;
     
     [manager GET:url parameters:dic success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        [delegate handleHttpSuccessResponse:responseObject];
+        [delegate handleMailInfoSuccessResponse:responseObject];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
-        [delegate handleHttpErrorResponse:error];
+        [delegate handleMailInfoErrorResponseWithError:error withResponse:operation.responseObject];
     }];
 }
 
@@ -99,6 +99,41 @@
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
         [delegate handleHttpErrorResponse:error];
     }];
+}
 
++(void)forwardMailWithBoxName:(NSString*)box_name
+                    withIndex:(NSInteger)index
+                   withTarget:(NSString*)userId
+                   withNoansi:(NSInteger)noansi
+                     withBig5:(NSInteger)big5
+                 withDelegate:(id<MailHttpResponseDelegate>)delegate{
+    NSString *url=[NSString stringWithFormat:@"%@/mail/%@/forward/%ld.json",kRequestURL,box_name,(long)index];
+    NSDictionary *dic=@{@"oauth_token":[LoginManager sharedManager].access_token,
+                        @"target":userId,
+                        @"noansi":[NSNumber numberWithInteger:noansi],
+                        @"big5":[NSNumber numberWithInteger:big5]};
+    AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
+    manager.responseSerializer=[AFJSONResponseSerializer serializer];
+    
+    [manager POST:url parameters:dic success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        [delegate handleMailForwardSuccessResponse:responseObject];
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+        [delegate handleMailForwardErrorResponseWithError:error withResponse:operation.responseObject];
+    }];
+}
+
++(void)deleteMailWithBoxName:(NSString*)box_name
+                    withIndex:(NSInteger)index
+                 withDelegate:(id<MailHttpResponseDelegate>)delegate{
+    NSString *url=[NSString stringWithFormat:@"%@/mail/%@/delete/%ld.json",kRequestURL,box_name,(long)index];
+    NSDictionary *dic=@{@"oauth_token":[LoginManager sharedManager].access_token};
+    AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
+    manager.responseSerializer=[AFJSONResponseSerializer serializer];
+    
+    [manager POST:url parameters:dic success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        [delegate handleMailDeleteSuccessResponse:responseObject];
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+        [delegate handleMailDeleteErrorResponseWithError:error withResponse:operation.responseObject];
+    }];
 }
 @end

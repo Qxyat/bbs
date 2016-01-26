@@ -76,6 +76,7 @@
 		41D0B2C61C45FBBE00865808 /* emojikeyboarddelete@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41D0B2C51C45FBBE00865808 /* emojikeyboarddelete@3x.png */; };
 		41D383C31C3BF2E100255BA9 /* DownloadResourcesUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D383C21C3BF2E100255BA9 /* DownloadResourcesUtilities.m */; };
 		41D801DD1C14277B00845782 /* AttachmentFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D801DC1C14277B00845782 /* AttachmentFile.m */; };
+		41DAC4581C57101600BFAB5A /* UIBarButtonItem+Image.m in Sources */ = {isa = PBXBuildFile; fileRef = 41DAC4571C57101600BFAB5A /* UIBarButtonItem+Image.m */; };
 		41E4CEA31C0456D7004DD407 /* LoginUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41E4CEA21C0456D7004DD407 /* LoginUtilities.m */; };
 		41E4CEA51C04588C004DD407 /* SecondLoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41E4CEA41C04588C004DD407 /* SecondLoginView.xib */; };
 		41EE0FE71C4CC10900844A18 /* CustomLinePositionModifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE0FE61C4CC10900844A18 /* CustomLinePositionModifier.m */; };
@@ -223,6 +224,8 @@
 		41D383C41C3C071100255BA9 /* RefreshTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefreshTableViewDelegate.h; sourceTree = "<group>"; };
 		41D801DB1C14277B00845782 /* AttachmentFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentFile.h; sourceTree = "<group>"; };
 		41D801DC1C14277B00845782 /* AttachmentFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentFile.m; sourceTree = "<group>"; };
+		41DAC4561C57101600BFAB5A /* UIBarButtonItem+Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Image.h"; sourceTree = "<group>"; };
+		41DAC4571C57101600BFAB5A /* UIBarButtonItem+Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Image.m"; sourceTree = "<group>"; };
 		41E4CEA11C0456D7004DD407 /* LoginUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginUtilities.h; sourceTree = "<group>"; };
 		41E4CEA21C0456D7004DD407 /* LoginUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginUtilities.m; sourceTree = "<group>"; };
 		41E4CEA41C04588C004DD407 /* SecondLoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecondLoginView.xib; sourceTree = "<group>"; };
@@ -365,6 +368,8 @@
 			children = (
 				41B26AC31C3E08A90088E1FE /* YYImage+Emoji.h */,
 				41B26AC41C3E08A90088E1FE /* YYImage+Emoji.m */,
+				41DAC4561C57101600BFAB5A /* UIBarButtonItem+Image.h */,
+				41DAC4571C57101600BFAB5A /* UIBarButtonItem+Image.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -701,6 +706,7 @@
 				412641F61C0E876E006C4B31 /* UserInfo.m in Sources */,
 				41B02B651C0FE31B00E4904B /* AttachmentInfo.m in Sources */,
 				41B57D471C314AFB00B9A01B /* ArticleRoughInfoCell.m in Sources */,
+				41DAC4581C57101600BFAB5A /* UIBarButtonItem+Image.m in Sources */,
 				417455321C43AC3F00CC1334 /* CustomEmojiKeyboard.m in Sources */,
 				4108AFFA1C0D8FBB00CDC292 /* TopSectionViewController.m in Sources */,
 				4153C8361C3BB4C000A0C0F2 /* ArticlePreProcessingUtilities.m in Sources */,

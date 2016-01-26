@@ -17,6 +17,10 @@
 #import "AttachmentInfo.h"
 #import "ScreenAdaptionUtilities.h"
 #import "AttachmentFile.h"
+#import "UIBarButtonItem+Image.h"
+#import "CustomPopoverController.h"
+#import "MailPostViewController.h"
+#import "UserInfo.h"
 
 #import <SVProgressHUD.h>
 #import <YYKit.h>
@@ -26,7 +30,7 @@
 #define kFaceImageViewWidth 50
 static CGFloat const kContentFontSize=15;
 
-@interface MailReadViewController ()<HttpResponseDelegate>
+@interface MailReadViewController ()<HttpResponseDelegate,CustomPopoverControllerDelegate>
 @property (strong, nonatomic)  UIView *containerView;
 @property (strong, nonatomic)  YYAnimatedImageView *faceImageView;
 @property (strong, nonatomic)  UILabel *titleLabel;
@@ -40,6 +44,8 @@ static CGFloat const kContentFontSize=15;
 @property (nonatomic) NSInteger index;
 @property (copy,nonatomic) NSString* box_name;
 @property (strong,nonatomic) MailInfo *maildata;
+
+@property (strong,nonatomic)CustomPopoverController *customPopoverController;
 
 @end
 
@@ -155,6 +161,7 @@ static CGFloat const kContentFontSize=15;
             break;
         }
     
+    self.navigationItem.rightBarButtonItem=[UIBarButtonItem getInstanceWithNormalImage:[UIImage imageNamed:@"btn_more_n"] withHighlightedImage:[UIImage imageNamed:@"btn_more_h"] target:self action:@selector(showCustomPopoverController)];
 }
 
 
@@ -175,6 +182,51 @@ static CGFloat const kContentFontSize=15;
     [MailboxUtilities getMailWithMailbox:_box_name withIndex:_index withDelegate:self];
 }
 
+
+#pragma mark - 显示PopoverController
+-(void)showCustomPopoverController{
+    if(_customPopoverController==nil){
+        CGFloat yOffset=CGRectGetMaxY(self.navigationController.navigationBar.frame);
+        CGRect frame=CGRectMake(0, yOffset, kCustomScreenWidth,kCustomScreenHeight-yOffset);
+        NSArray *itemNames=@[@"回复",@"转寄",@"删除"];
+        NSArray *pictures=@[@{CustomPopoverControllerImageTypeNormal:@"btn_replymail_n",CustomPopoverControllerImageTypeHighlighted: @"btn_replymail_h"},@{CustomPopoverControllerImageTypeNormal:@"btn_forward_n",CustomPopoverControllerImageTypeHighlighted:@"btn_forward_h"},@{CustomPopoverControllerImageTypeNormal:@"btn_delete_n",CustomPopoverControllerImageTypeHighlighted:@"btn_delete_h"}];
+        _customPopoverController=[CustomPopoverController getInstanceWithFrame:frame withItemNames:itemNames withItemPictures:pictures withDelegate:self];
+        [self.view addSubview:_customPopoverController.view];
+    }
+    else{
+        [self hideCustomPopoverController];
+    }
+
+}
+
+#pragma mark - 实现CustomPopoverControllerDelegate协议
+-(void)hideCustomPopoverController{
+    if(_customPopoverController!=nil){
+        [_customPopoverController hideCustomPopoverControllerView];
+        _customPopoverController=nil;
+    }
+}
+-(void)itemTapped:(NSInteger)index{
+    [self hideCustomPopoverController];
+    if(index==0){
+        NSString *userId;
+        if(_maildata.isUserExist){
+            UserInfo* userinfo=_maildata.user;
+            userId=userinfo.userId;
+        }
+        else{
+            userId=_maildata.user;
+        }
+        MailPostViewController* mailPostViewController=[MailPostViewController getInstanceWithIsReply:YES       withBoxName:_box_name withReceiverId:userId     withTitle:_maildata.title withContent:_maildata.content withIndex:_maildata.index];
+        [self.navigationController pushViewController:mailPostViewController animated:YES];
+    }
+    else if(index==1){
+        
+    }
+    else if(index==2){
+        
+    }
+}
 
 #pragma mark - 刷新界面，显示数据
 -(void)_refreshView{

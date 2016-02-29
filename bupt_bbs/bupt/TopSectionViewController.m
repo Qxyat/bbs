@@ -20,31 +20,40 @@
 #import <SVProgressHUD.h>
 
 @interface TopSectionViewController ()
+
 @property (copy,nonatomic) NSArray* data;
+@property (strong,nonatomic) UICollectionView *collectionView;
+
 @end
 
 @implementation TopSectionViewController
 
++(instancetype)getInstance{
+    TopSectionViewController *topSectionViewController=[[TopSectionViewController alloc] init];
+    return topSectionViewController;
+}
+-(void)loadView{
+    [super loadView];
+    
+    self.collectionView=[[UICollectionView alloc]initWithFrame:kCustomScreenBounds collectionViewLayout:[[UICollectionViewFlowLayout alloc]init]];
+    self.collectionView.backgroundColor=[UIColor whiteColor];
+    self.collectionView.delegate=self;
+    self.collectionView.dataSource=self;
+    
+    [self.view addSubview:self.collectionView];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.collectionView.backgroundColor=[UIColor whiteColor];
-    [self.collectionView registerClass:[SectionAndBoardInfoCell class] forCellWithReuseIdentifier:@"cell"];
     
+    [self _initNavigationItem];
+    
+    [self.collectionView registerClass:[SectionAndBoardInfoCell class] forCellWithReuseIdentifier:@"cell"];
     UICollectionViewLayout *layout=self.collectionView.collectionViewLayout;
     UICollectionViewFlowLayout *flow=(UICollectionViewFlowLayout*)layout;
     flow.sectionInset=UIEdgeInsetsMake(10, 10, 10, 10);
     
     self.collectionView.mj_header=[MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
     [self.collectionView.mj_header beginRefreshing];
-
-    UIButton *button=[[UIButton alloc]init];
-    button.frame=CGRectMake(0, 0, kCustomNavigationBarHeight-8, kCustomNavigationBarHeight-8);
-    button.layer.cornerRadius=(kCustomNavigationBarHeight-8)/2;
-    button.layer.masksToBounds=YES;
-    [button addTarget:self action:@selector(showLeft) forControlEvents:UIControlEventTouchUpInside];
-    [button sd_setBackgroundImageWithURL:[NSURL URLWithString:[LoginManager     sharedManager].currentLoginUserInfo.face_url] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"face_default"]];
-    UIBarButtonItem *leftBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:button];
-    self.navigationItem.leftBarButtonItem=leftBarButtonItem;
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
@@ -54,6 +63,21 @@
     [super viewDidDisappear:animated];
     self.tabBarController.tabBar.hidden=YES;
 }
+
+#pragma mark - 初始化NavigationItem
+-(void)_initNavigationItem{
+    self.navigationItem.title=@"全部讨论区";
+    UIButton *button=[[UIButton alloc]init];
+    button.frame=CGRectMake(0, 0, kCustomNavigationBarHeight-8, kCustomNavigationBarHeight-8);
+    button.layer.cornerRadius=(kCustomNavigationBarHeight-8)/2;
+    button.layer.masksToBounds=YES;
+    [button addTarget:self action:@selector(showLeft) forControlEvents:UIControlEventTouchUpInside];
+    [button sd_setBackgroundImageWithURL:[NSURL URLWithString:[LoginManager     sharedManager].currentLoginUserInfo.face_url] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"face_default"]];
+    UIBarButtonItem *leftBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:button];
+    self.navigationItem.leftBarButtonItem=leftBarButtonItem;
+}
+
+
 #pragma mark - 显示用户个人中心
 -(void)showLeft{
     RootViewController *rootViewController=(RootViewController*)[UIApplication sharedApplication].keyWindow.rootViewController;

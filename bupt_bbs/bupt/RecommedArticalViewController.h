@@ -11,4 +11,6 @@
 
 @interface RecommedArticalViewController : UITableViewController<HttpResponseDelegate>
 
++(instancetype)getInstance;
+
 @end

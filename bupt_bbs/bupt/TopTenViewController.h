@@ -10,4 +10,5 @@
 #import "HttpResponseDelegate.h"
 @interface TopTenViewController : UITableViewController<HttpResponseDelegate>
 
++(instancetype)getInstance;
 @end

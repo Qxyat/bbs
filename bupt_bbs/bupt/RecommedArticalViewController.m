@@ -32,9 +32,14 @@ static NSString *const kCellIdentifier=@"cell";
 
 @implementation RecommedArticalViewController
 
++(instancetype)getInstance{
+    return [[RecommedArticalViewController alloc]init];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self _initNavigationItem];
+   
     [self.tableView registerNib:[UINib nibWithNibName:@"ArticleRoughInfoCell" bundle:nil] forCellReuseIdentifier:kCellIdentifier];
     self.tableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
 
@@ -53,6 +58,19 @@ static NSString *const kCellIdentifier=@"cell";
         self.titleLabelFont=[UIFont systemFontOfSize:kIPhone5TitleLabelFontSize];
         self.boardLabelFont=[UIFont systemFontOfSize:kIPhone5BoardLabelFontSize];
     }
+}
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    self.tabBarController.tabBar.hidden=YES;
+}
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    self.tabBarController.tabBar.hidden=NO;
+}
+
+#pragma mark - 初始化NavigationItem
+-(void)_initNavigationItem{
+    self.navigationItem.title=@"推荐文章";
     
     UIButton *button=[[UIButton alloc]init];
     button.frame=CGRectMake(0, 0, kCustomNavigationBarHeight-8, kCustomNavigationBarHeight-8);
@@ -65,14 +83,6 @@ static NSString *const kCellIdentifier=@"cell";
     UIBarButtonItem *barButtonItem=[[UIBarButtonItem alloc]init];
     barButtonItem.title=@"";
     self.navigationItem.backBarButtonItem=barButtonItem;
-}
--(void)viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
-    self.tabBarController.tabBar.hidden=YES;
-}
--(void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    self.tabBarController.tabBar.hidden=NO;
 }
 #pragma mark - 显示用户个人中心
 -(void)showLeft{

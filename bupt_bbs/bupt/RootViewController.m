@@ -9,8 +9,11 @@
 #import "RootViewController.h"
 #import "UserCenterViewController.h"
 #import "LoginManager.h"
-#import <UIImageView+WebCache.h>
 #import "ScreenAdaptionUtilities.h"
+#import "UserMainInterfaceViewController.h"
+
+#import <UIImageView+WebCache.h>
+
 static CGFloat const kProportion=0.77;
 
 @interface RootViewController()
@@ -52,7 +55,9 @@ static CGFloat const kProportion=0.77;
     self.blackCover.backgroundColor=[UIColor blackColor];
     [self.view addSubview:self.blackCover];
     
-    [self getuserMainInterfaceViewController];
+    self.userMainInterfaceViewController=[UserMainInterfaceViewController getInstance];
+    self.userMainInterfaceViewController.selectedIndex=1;
+    
     [self.view addSubview:self.userMainInterfaceViewController.view];
     
     UIPanGestureRecognizer *panGestureRecognizer=[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGestureEvent:)];
@@ -60,12 +65,6 @@ static CGFloat const kProportion=0.77;
     self.tapGestureRecognizer=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMain)];
     self.tapGestureRecognizer.enabled=NO;
     [self.userMainInterfaceViewController.view addGestureRecognizer:self.tapGestureRecognizer];
-}
-
--(void)getuserMainInterfaceViewController{
-    UIStoryboard *strotyboard=[UIStoryboard storyboardWithName:@"UserMainInterface" bundle:nil];
-    self.userMainInterfaceViewController=[strotyboard instantiateViewControllerWithIdentifier:@"userinterface"];
-    self.userMainInterfaceViewController.selectedIndex=1;
 }
 
 #pragma mark -

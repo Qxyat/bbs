@@ -15,7 +15,7 @@
 		410B20221C1524A3004C0CBE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 410B20211C1524A3004C0CBE /* Assets.xcassets */; };
 		410EABA21C0A9EE70076F7A9 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 410EABA11C0A9EE70076F7A9 /* RootViewController.m */; };
 		41185B8C1BFAC71A00695E9C /* SecondLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41185B8B1BFAC71A00695E9C /* SecondLoginViewController.m */; };
-		411DD2691C0D8CA600002CD3 /* UserMainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 411DD2681C0D8CA600002CD3 /* UserMainInterface.storyboard */; };
+		411DC6621C846BD6003BE738 /* UserMainInterfaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 411DC6611C846BD6003BE738 /* UserMainInterfaceViewController.m */; };
 		411DEC061C0D3131008B7EB6 /* TopTenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 411DEC051C0D3131008B7EB6 /* TopTenViewController.m */; };
 		412441121C2259EA009A4172 /* FirstLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 412441111C2259EA009A4172 /* FirstLoginViewController.m */; };
 		412441141C225A1E009A4172 /* FirstLoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 412441131C225A1E009A4172 /* FirstLoginView.xib */; };
@@ -104,7 +104,8 @@
 		410EABA11C0A9EE70076F7A9 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		41185B8A1BFAC71A00695E9C /* SecondLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondLoginViewController.h; sourceTree = "<group>"; };
 		41185B8B1BFAC71A00695E9C /* SecondLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondLoginViewController.m; sourceTree = "<group>"; };
-		411DD2681C0D8CA600002CD3 /* UserMainInterface.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = UserMainInterface.storyboard; sourceTree = "<group>"; };
+		411DC6601C846BD6003BE738 /* UserMainInterfaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserMainInterfaceViewController.h; sourceTree = "<group>"; };
+		411DC6611C846BD6003BE738 /* UserMainInterfaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserMainInterfaceViewController.m; sourceTree = "<group>"; };
 		411DEC041C0D3131008B7EB6 /* TopTenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopTenViewController.h; sourceTree = "<group>"; };
 		411DEC051C0D3131008B7EB6 /* TopTenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopTenViewController.m; sourceTree = "<group>"; };
 		4124410F1C2244F2009A4172 /* ShowUserInfoViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowUserInfoViewControllerDelegate.h; sourceTree = "<group>"; };
@@ -427,6 +428,8 @@
 				410EABA11C0A9EE70076F7A9 /* RootViewController.m */,
 				415AE0931C0AF5F700B1F137 /* UserCenterViewController.h */,
 				415AE0941C0AF5F700B1F137 /* UserCenterViewController.m */,
+				411DC6601C846BD6003BE738 /* UserMainInterfaceViewController.h */,
+				411DC6611C846BD6003BE738 /* UserMainInterfaceViewController.m */,
 				413FEC041C4F5B7700415D11 /* MailboxViewController.h */,
 				413FEC051C4F5B7700415D11 /* MailboxViewController.m */,
 				41007C1E1C51C80700A940E1 /* MailReadViewController.h */,
@@ -468,7 +471,6 @@
 				41E4CEA41C04588C004DD407 /* SecondLoginView.xib */,
 				41B018571C23D06400AA8F88 /* LaunchView.xib */,
 				41B684BC1C2001BB0088395D /* ShowUserInfo.xib */,
-				411DD2681C0D8CA600002CD3 /* UserMainInterface.storyboard */,
 				41B57D461C314AFB00B9A01B /* ArticleRoughInfoCell.xib */,
 				41B57D441C314AFB00B9A01B /* ArticleRoughInfoCell.h */,
 				41B57D451C314AFB00B9A01B /* ArticleRoughInfoCell.m */,
@@ -608,7 +610,6 @@
 				41B26AC11C3E076A0088E1FE /* Emoji.bundle in Resources */,
 				412441141C225A1E009A4172 /* FirstLoginView.xib in Resources */,
 				41B018581C23D06400AA8F88 /* LaunchView.xib in Resources */,
-				411DD2691C0D8CA600002CD3 /* UserMainInterface.storyboard in Resources */,
 				41EE38AF1C477EF800AE75BA /* emojitoolbarnormal@2x.png in Resources */,
 				419E5E111C50CC6500BE575E /* MailInfoCell.xib in Resources */,
 				41EE38AC1C477ACB00AE75BA /* emojitoobarbackground@2x.png in Resources */,
@@ -739,6 +740,7 @@
 				41D383C31C3BF2E100255BA9 /* DownloadResourcesUtilities.m in Sources */,
 				410EABA21C0A9EE70076F7A9 /* RootViewController.m in Sources */,
 				410B20201C151842004C0CBE /* CustomUtilities.m in Sources */,
+				411DC6621C846BD6003BE738 /* UserMainInterfaceViewController.m in Sources */,
 				417455331C43AC3F00CC1334 /* YYImage+EmojiKeyboard.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

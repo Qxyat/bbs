@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "HttpResponseDelegate.h"
 
-@interface TopSectionViewController : UICollectionViewController<HttpResponseDelegate,UICollectionViewDelegateFlowLayout>
+@interface TopSectionViewController : UIViewController<HttpResponseDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UICollectionViewDataSource>
+
++(instancetype)getInstance;
 
 @end

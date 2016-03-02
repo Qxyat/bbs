@@ -10,6 +10,7 @@
 #import "TopSectionViewController.h"
 #import "TopTenViewController.h"
 #import "RecommedArticalViewController.h"
+#import "BoardViewController.h"
 
 @interface UserMainInterfaceViewController ()
 
@@ -46,6 +47,18 @@
         RecommedArticalViewController *recommendArticalViewController=[RecommedArticalViewController getInstance];
         UINavigationController *navigationController=[[UINavigationController alloc]initWithRootViewController:recommendArticalViewController];
         navigationController.tabBarItem=[[UITabBarItem alloc]initWithTitle:@"推荐文章" image:nil selectedImage:nil];
+        [items addObject:navigationController];
+    }
+    {
+        BoardViewController *boardViewController=[BoardViewController getInstanceWithBoardName:@"Job" withBoardDescription:@"毕业生找工作" withCouldBack:NO];
+        UINavigationController *navigationController=[[UINavigationController alloc]initWithRootViewController:boardViewController];
+        navigationController.tabBarItem=[[UITabBarItem alloc]initWithTitle:@"毕业生找工作" image:nil selectedImage:nil];
+        [items addObject:navigationController];
+    }
+    {
+        BoardViewController *boardViewController=[BoardViewController getInstanceWithBoardName:@"ParttimeJob" withBoardDescription:@"兼职实习信息" withCouldBack:NO];
+        UINavigationController *navigationController=[[UINavigationController alloc]initWithRootViewController:boardViewController];
+        navigationController.tabBarItem=[[UITabBarItem alloc]initWithTitle:@"兼职实习信息" image:nil selectedImage:nil];
         [items addObject:navigationController];
     }
     self.viewControllers=items;

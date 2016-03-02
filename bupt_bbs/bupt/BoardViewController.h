@@ -11,7 +11,10 @@
 
 @interface BoardViewController : UITableViewController<HttpResponseDelegate>
 
-@property(strong,nonatomic)NSString *name;
-@property(strong,nonatomic)NSString *board_description;
+
+
++(instancetype)getInstanceWithBoardName:(NSString *)name
+                   withBoardDescription:(NSString *)board_description
+                          withCouldBack:(BOOL)couldBack;
 
 @end

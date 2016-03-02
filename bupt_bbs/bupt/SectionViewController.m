@@ -126,10 +126,9 @@ static NSString *const kHeaderCellIdentifier=@"headerCell";
             [self.navigationController pushViewController:sectionViewController animated:YES];
         }
         else{
-            BoardViewController *boardViewController=[[BoardViewController alloc]init];
+            
             BoardInfo *boardInfo=self.board_data[indexPath.row];
-            boardViewController.name=boardInfo.name;
-            boardViewController.board_description=boardInfo.board_description;
+            BoardViewController *boardViewController=[BoardViewController getInstanceWithBoardName:boardInfo.name withBoardDescription:boardInfo.board_description withCouldBack:YES];
             [self.navigationController pushViewController:boardViewController animated:YES];
         }
     }
@@ -143,10 +142,8 @@ static NSString *const kHeaderCellIdentifier=@"headerCell";
             [self.navigationController pushViewController:sectionViewController animated:YES];
         }
         else{
-            BoardViewController *boardViewController=[[BoardViewController alloc]init];
             BoardInfo *boardInfo=self.board_data[indexPath.row];
-            boardViewController.name=boardInfo.name;
-            boardViewController.board_description=boardInfo.board_description;
+            BoardViewController *boardViewController=[BoardViewController getInstanceWithBoardName:boardInfo.name withBoardDescription:boardInfo.board_description withCouldBack:YES];
             [self.navigationController pushViewController:boardViewController animated:YES];
         }
     }

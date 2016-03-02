@@ -36,7 +36,7 @@ static CGFloat kItemContainerViewWidth;
 @implementation CustomPopoverController
 
 +(instancetype)getInstanceWithFrame:(CGRect)frame
-                          withItemNames:(NSArray*)itemNames
+                      withItemNames:(NSArray*)itemNames
                    withItemPictures:(NSArray*)itemPictures
                        withDelegate:(id<CustomPopoverControllerDelegate>)delegate;
 {

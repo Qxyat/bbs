@@ -13,6 +13,7 @@
 #import "DownloadResourcesUtilities.h"
 #import "MailboxViewController.h"
 #import "RootViewController.h"
+#import "FavoriteViewController.h"
 
 #import <Masonry.h>
 #import <YYKit.h>
@@ -22,6 +23,9 @@
 @property (strong, nonatomic) YYAnimatedImageView *faceImageView;
 @property (strong, nonatomic) UIImageView *mailboxImageView;
 @property (strong, nonatomic) UIButton *mailboxButton;
+
+@property (strong, nonatomic) UIImageView *favoriteImageView;
+@property (strong, nonatomic) UIButton *favoriteButton;
 
 @property (strong, nonatomic) UILabel *userIdLabel;
 @property (strong, nonatomic) UIButton *quitButton;
@@ -70,9 +74,8 @@
         make.height.equalTo(_containerView.mas_height).multipliedBy(0.05);
     }];
     
-    _mailboxImageView=[[UIImageView alloc]init];
-    _mailboxImageView.contentMode=UIViewContentModeScaleAspectFit;
-    _mailboxImageView.image=[UIImage imageNamed:@"Mailbox"];
+    _mailboxImageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Mailbox"]];
+    _mailboxImageView.contentMode=UIViewContentModeScaleToFill;
     [_containerView addSubview:_mailboxImageView];
     [_mailboxImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(_containerView.mas_trailing).multipliedBy(0.3);
@@ -94,6 +97,32 @@
         make.leading.equalTo(_containerView.mas_trailing).multipliedBy(0.4);
         make.height.equalTo(_mailboxImageView.mas_height);
         make.top.equalTo(_mailboxImageView.mas_top);
+        make.width.equalTo(_containerView.mas_width).multipliedBy(0.4);
+    }];
+    
+    _favoriteImageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"favorite"]];
+    _favoriteImageView.contentMode=UIViewContentModeScaleAspectFit;
+    [_containerView addSubview:_favoriteImageView];
+    [_favoriteImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.equalTo(_containerView.mas_trailing).multipliedBy(0.3);
+        make.width.equalTo(_containerView.mas_width).multipliedBy(0.1);
+        make.height.equalTo(_containerView.mas_height).multipliedBy(0.05);
+        make.top.equalTo(_containerView.mas_bottom).multipliedBy(0.6);
+    }];
+    
+    _favoriteButton=[UIButton buttonWithType:UIButtonTypeCustom];
+    _favoriteButton.titleLabel.font=[UIFont systemFontOfSize:16];
+    _favoriteButton.titleLabel.minimumScaleFactor=0.6;
+    _favoriteButton.titleLabel.textAlignment=NSTextAlignmentCenter;
+    [_favoriteButton setTitle:@"我的收藏" forState:UIControlStateNormal];
+    [_favoriteButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [_favoriteButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    [_favoriteButton addTarget:self action:@selector(favoriteButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    [_containerView addSubview:_favoriteButton];
+    [_favoriteButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.equalTo(_containerView.mas_trailing).multipliedBy(0.4);
+        make.height.equalTo(_favoriteImageView.mas_height);
+        make.top.equalTo(_favoriteImageView.mas_top);
         make.width.equalTo(_containerView.mas_width).multipliedBy(0.4);
     }];
     
@@ -168,6 +197,15 @@
     
     MailboxViewController *mailboxViewController=[MailboxViewController getInstance];
     UINavigationController *navigationController=[[UINavigationController alloc]initWithRootViewController:mailboxViewController];
+    [rootViewController presentViewController:navigationController animated:YES completion:nil];
+}
+
+#pragma mark - 收藏按钮
+-(void)favoriteButtonPressed{
+    RootViewController *rootViewController=(RootViewController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+    
+    FavoriteViewController *favoriteViewController=[FavoriteViewController getInstance];
+    UINavigationController *navigationController=[[UINavigationController alloc]initWithRootViewController:favoriteViewController];
     [rootViewController presentViewController:navigationController animated:YES completion:nil];
 }
 @end

@@ -86,7 +86,17 @@ static NSString* const kCellIdentifier=@"cell";
     [self hideCustomPopoverController];
     [self hideJumpPopoverController];
 }
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if(!_couldBack)
+        self.tabBarController.tabBar.hidden=NO;
+}
 
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    if(!_couldBack)
+        self.tabBarController.tabBar.hidden=YES;
+}
 #pragma mark - 初始化NavigationItem
 -(void)_initNavigationItem{
     self.navigationItem.title=_board_description;

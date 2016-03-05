@@ -41,9 +41,9 @@
 		415836C41C53448800D542A3 /* CustomPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 415836C31C53448800D542A3 /* CustomPopoverController.m */; };
 		415AE0951C0AF5F700B1F137 /* UserCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 415AE0941C0AF5F700B1F137 /* UserCenterViewController.m */; };
 		416B272F1C1BE87F00D0FFE4 /* SectionUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 416B272E1C1BE87F00D0FFE4 /* SectionUtilities.m */; };
-		417455321C43AC3F00CC1334 /* CustomEmojiKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 4174552C1C43AC3F00CC1334 /* CustomEmojiKeyboard.m */; };
-		417455331C43AC3F00CC1334 /* YYImage+EmojiKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 4174552F1C43AC3F00CC1334 /* YYImage+EmojiKeyboard.m */; };
-		417455341C43AC3F00CC1334 /* CustomEmojiContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 417455311C43AC3F00CC1334 /* CustomEmojiContainerView.m */; };
+		417455321C43AC3F00CC1334 /* QCEmojiKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 4174552C1C43AC3F00CC1334 /* QCEmojiKeyboard.m */; };
+		417455331C43AC3F00CC1334 /* YYImage+QCEmojiKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 4174552F1C43AC3F00CC1334 /* YYImage+QCEmojiKeyboard.m */; };
+		417455341C43AC3F00CC1334 /* QCEmojiContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 417455311C43AC3F00CC1334 /* QCEmojiContainerView.m */; };
 		419411D51C1BEF41002E59AC /* SectionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 419411D41C1BEF41002E59AC /* SectionInfo.m */; };
 		419411D81C1BFD03002E59AC /* SectionAndBoardInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 419411D71C1BFD03002E59AC /* SectionAndBoardInfoCell.m */; };
 		419411DB1C1C0C93002E59AC /* SectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 419411DA1C1C0C93002E59AC /* SectionViewController.m */; };
@@ -161,13 +161,13 @@
 		415AE0941C0AF5F700B1F137 /* UserCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCenterViewController.m; sourceTree = "<group>"; };
 		416B272D1C1BE87F00D0FFE4 /* SectionUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionUtilities.h; sourceTree = "<group>"; };
 		416B272E1C1BE87F00D0FFE4 /* SectionUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionUtilities.m; sourceTree = "<group>"; };
-		4174552B1C43AC3F00CC1334 /* CustomEmojiKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomEmojiKeyboard.h; sourceTree = "<group>"; };
-		4174552C1C43AC3F00CC1334 /* CustomEmojiKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomEmojiKeyboard.m; sourceTree = "<group>"; };
-		4174552D1C43AC3F00CC1334 /* CustomEmojiKeyboardDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomEmojiKeyboardDelegate.h; sourceTree = "<group>"; };
-		4174552E1C43AC3F00CC1334 /* YYImage+EmojiKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "YYImage+EmojiKeyboard.h"; sourceTree = "<group>"; };
-		4174552F1C43AC3F00CC1334 /* YYImage+EmojiKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "YYImage+EmojiKeyboard.m"; sourceTree = "<group>"; };
-		417455301C43AC3F00CC1334 /* CustomEmojiContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomEmojiContainerView.h; sourceTree = "<group>"; };
-		417455311C43AC3F00CC1334 /* CustomEmojiContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomEmojiContainerView.m; sourceTree = "<group>"; };
+		4174552B1C43AC3F00CC1334 /* QCEmojiKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QCEmojiKeyboard.h; sourceTree = "<group>"; };
+		4174552C1C43AC3F00CC1334 /* QCEmojiKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QCEmojiKeyboard.m; sourceTree = "<group>"; };
+		4174552D1C43AC3F00CC1334 /* QCEmojiKeyboardDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QCEmojiKeyboardDelegate.h; sourceTree = "<group>"; };
+		4174552E1C43AC3F00CC1334 /* YYImage+QCEmojiKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "YYImage+QCEmojiKeyboard.h"; sourceTree = "<group>"; };
+		4174552F1C43AC3F00CC1334 /* YYImage+QCEmojiKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "YYImage+QCEmojiKeyboard.m"; sourceTree = "<group>"; };
+		417455301C43AC3F00CC1334 /* QCEmojiContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QCEmojiContainerView.h; sourceTree = "<group>"; };
+		417455311C43AC3F00CC1334 /* QCEmojiContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QCEmojiContainerView.m; sourceTree = "<group>"; };
 		419411D31C1BEF41002E59AC /* SectionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionInfo.h; sourceTree = "<group>"; };
 		419411D41C1BEF41002E59AC /* SectionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionInfo.m; sourceTree = "<group>"; };
 		419411D61C1BFD03002E59AC /* SectionAndBoardInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionAndBoardInfoCell.h; sourceTree = "<group>"; };
@@ -326,7 +326,7 @@
 				410B201D1C1517F2004C0CBE /* CustomUtilities */,
 				41E4CE9F1C0455A7004DD407 /* View */,
 				41E4CEA01C0455C6004DD407 /* Model */,
-				4174552A1C43AC1E00CC1334 /* CustomEmojiKeyboard */,
+				4174552A1C43AC1E00CC1334 /* QCEmojiKeyboard */,
 				415836C11C53444200D542A3 /* CustomPopoverController */,
 				41434F3C1BE8D5AA00FF01D9 /* Info.plist */,
 				41B26AC01C3E076A0088E1FE /* Emoji.bundle */,
@@ -353,7 +353,7 @@
 			name = CustomPopoverController;
 			sourceTree = "<group>";
 		};
-		4174552A1C43AC1E00CC1334 /* CustomEmojiKeyboard */ = {
+		4174552A1C43AC1E00CC1334 /* QCEmojiKeyboard */ = {
 			isa = PBXGroup;
 			children = (
 				41D0B2C31C45FBB500865808 /* emojikeyboarddelete@2x.png */,
@@ -361,15 +361,15 @@
 				41EE38AB1C477ACB00AE75BA /* emojitoobarbackground@2x.png */,
 				41EE38AD1C477EF800AE75BA /* emojitoolbarnormal@2x.png */,
 				41EE38B31C47822300AE75BA /* emojitoolbarselected@2x.png */,
-				4174552B1C43AC3F00CC1334 /* CustomEmojiKeyboard.h */,
-				4174552C1C43AC3F00CC1334 /* CustomEmojiKeyboard.m */,
-				4174552D1C43AC3F00CC1334 /* CustomEmojiKeyboardDelegate.h */,
-				4174552E1C43AC3F00CC1334 /* YYImage+EmojiKeyboard.h */,
-				4174552F1C43AC3F00CC1334 /* YYImage+EmojiKeyboard.m */,
-				417455301C43AC3F00CC1334 /* CustomEmojiContainerView.h */,
-				417455311C43AC3F00CC1334 /* CustomEmojiContainerView.m */,
+				4174552B1C43AC3F00CC1334 /* QCEmojiKeyboard.h */,
+				4174552C1C43AC3F00CC1334 /* QCEmojiKeyboard.m */,
+				4174552D1C43AC3F00CC1334 /* QCEmojiKeyboardDelegate.h */,
+				4174552E1C43AC3F00CC1334 /* YYImage+QCEmojiKeyboard.h */,
+				4174552F1C43AC3F00CC1334 /* YYImage+QCEmojiKeyboard.m */,
+				417455301C43AC3F00CC1334 /* QCEmojiContainerView.h */,
+				417455311C43AC3F00CC1334 /* QCEmojiContainerView.m */,
 			);
-			name = CustomEmojiKeyboard;
+			name = QCEmojiKeyboard;
 			sourceTree = "<group>";
 		};
 		41B26AC21C3E08660088E1FE /* Category */ = {
@@ -692,7 +692,7 @@
 			files = (
 				41295DD51C1E5E260021D689 /* RecommedUtilities.m in Sources */,
 				41E4CEA31C0456D7004DD407 /* LoginUtilities.m in Sources */,
-				417455341C43AC3F00CC1334 /* CustomEmojiContainerView.m in Sources */,
+				417455341C43AC3F00CC1334 /* QCEmojiContainerView.m in Sources */,
 				41404F711C1D207900A45B13 /* BoardArticleInfoCell.m in Sources */,
 				419E5E0F1C50CC5000BE575E /* MailInfoCell.m in Sources */,
 				419E5E0C1C50C08300BE575E /* MailInfo.m in Sources */,
@@ -720,7 +720,7 @@
 				41B02B651C0FE31B00E4904B /* AttachmentInfo.m in Sources */,
 				41B57D471C314AFB00B9A01B /* ArticleRoughInfoCell.m in Sources */,
 				41DAC4581C57101600BFAB5A /* UIBarButtonItem+Image.m in Sources */,
-				417455321C43AC3F00CC1334 /* CustomEmojiKeyboard.m in Sources */,
+				417455321C43AC3F00CC1334 /* QCEmojiKeyboard.m in Sources */,
 				4108AFFA1C0D8FBB00CDC292 /* TopSectionViewController.m in Sources */,
 				4153C8361C3BB4C000A0C0F2 /* ArticlePreProcessingUtilities.m in Sources */,
 				419411DB1C1C0C93002E59AC /* SectionViewController.m in Sources */,
@@ -753,7 +753,7 @@
 				410EABA21C0A9EE70076F7A9 /* RootViewController.m in Sources */,
 				410B20201C151842004C0CBE /* CustomUtilities.m in Sources */,
 				411DC6621C846BD6003BE738 /* UserMainInterfaceViewController.m in Sources */,
-				417455331C43AC3F00CC1334 /* YYImage+EmojiKeyboard.m in Sources */,
+				417455331C43AC3F00CC1334 /* YYImage+QCEmojiKeyboard.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,7 +12,7 @@
 #import "PostArticleUtilities.h"
 #import "CustomUtilities.h"
 #import "ScreenAdaptionUtilities.h"
-#import "CustomEmojiKeyboard.h"
+#import "QCEmojiKeyboard.h"
 #import "YYImage+Emoji.h"
 #import "CustomYYAnimatedImageView.h"
 #import "AttachmentUtilities.h"
@@ -49,7 +49,7 @@
 @property (strong,nonatomic) UIButton *pictureButton;
 @property (strong,nonatomic) UIButton *emojiButton;
 @property (strong,nonatomic) UIView *dummyView;
-@property (strong,nonatomic) CustomEmojiKeyboard *emojiKeyboard;
+@property (strong,nonatomic) QCEmojiKeyboard *emojiKeyboard;
 
 @property (strong,nonatomic) NSMutableArray *imageAttachments;
 @property (strong,nonatomic) UIImagePickerController *imagePickerController;
@@ -87,7 +87,7 @@
     [self _initSeperatorView];
     [self _initToolbar];
     
-    _emojiKeyboard=[[CustomEmojiKeyboard alloc]init];
+    _emojiKeyboard=[[QCEmojiKeyboard alloc]init];
     _emojiKeyboard.delegate=self;
     
     if(_isNewTheme){

@@ -10,8 +10,8 @@
 #import "CustomUtilities.h"
 #import "CustomLinePositionModifier.h"
 #import "ScreenAdaptionUtilities.h"
-#import "CustomEmojiKeyboard.h"
-#import "CustomEmojiKeyboardDelegate.h"
+#import "QCEmojiKeyboard.h"
+#import "QCEmojiKeyboardDelegate.h"
 #import "CustomYYAnimatedImageView.h"
 #import "YYImage+Emoji.h"
 #import "HttpResponseDelegate.h"
@@ -28,7 +28,7 @@
 #define kToolBarHeight 46+1
 #define kToolBarItemHeight 46
 
-@interface MailPostViewController ()<CustomEmojiKeyboardDelegate,HttpResponseDelegate>
+@interface MailPostViewController ()<QCEmojiKeyboardDelegate,HttpResponseDelegate>
 
 @property (nonatomic) BOOL isReply;
 @property (copy,nonatomic) NSString* box_name;
@@ -48,7 +48,7 @@
 @property (strong,nonatomic)UIView *toolbar;
 @property (strong,nonatomic)UIButton *emojiButton;
 
-@property (strong,nonatomic)CustomEmojiKeyboard *emojiKeyboard;
+@property (strong,nonatomic)QCEmojiKeyboard *emojiKeyboard;
 @end
 
 @implementation MailPostViewController
@@ -215,7 +215,7 @@
         _contentTextView.selectedRange=NSMakeRange(0, 0);
     }
     
-    _emojiKeyboard=[[CustomEmojiKeyboard alloc]init];
+    _emojiKeyboard=[[QCEmojiKeyboard alloc]init];
     _emojiKeyboard.delegate=self;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];

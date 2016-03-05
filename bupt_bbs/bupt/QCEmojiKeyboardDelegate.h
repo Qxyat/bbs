@@ -7,9 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+
 @class YYImage;
-@protocol CustomEmojiKeyboardDelegate <NSObject>
+
+@protocol QCEmojiKeyboardDelegate <NSObject>
+
 -(void)addEmojiWithImage:(YYImage*)image
          withImageString:(NSString *)imageString;
 -(void)deleteEmoji;
+
 @end

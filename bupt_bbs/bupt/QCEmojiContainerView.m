@@ -6,9 +6,9 @@
 //  Copyright © 2016年 qiu. All rights reserved.
 //
 
-#import "CustomEmojiContainerView.h"
+#import "QCEmojiContainerView.h"
 #import <YYKit.h>
-#import "YYImage+EmojiKeyboard.h"
+#import "YYImage+QCEmojiKeyboard.h"
 #import "CustomUtilities.h"
 @interface CustomEmojiContainerView ()
 @property (strong,nonatomic)YYAnimatedImageView *imageView;

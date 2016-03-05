@@ -8,6 +8,8 @@
 
 #import <YYKit/YYKit.h>
 
-@interface YYImage (EmojiKeyboard)
+@interface YYImage (QCEmojiKeyboard)
+
 +(YYImage *)imageNamedFromEmojiBundleForEmojiKeyBoard:(NSString*)imageName;
+
 @end

@@ -6,8 +6,8 @@
 //  Copyright © 2016年 qiu. All rights reserved.
 //
 
-#import "CustomEmojiKeyboard.h"
-#import "CustomEmojiContainerView.h"
+#import "QCEmojiKeyboard.h"
+#import "QCEmojiContainerView.h"
 #import "CustomUtilities.h"
 
 #define kCustomScreenWidth [UIScreen mainScreen].bounds.size.width
@@ -35,7 +35,7 @@ static NSInteger kNumsOfPageForTusijiEmoji;
 static NSInteger kNumsOfPageForYangcongtouEmoji;
 static NSInteger kNumsOfPageForAllEmojiSets;
 
-@interface CustomEmojiKeyboard ()
+@interface QCEmojiKeyboard ()
 
 @property (strong,nonatomic)UIView* toolbar;
 @property (strong,nonatomic)UIPageControl *pageControl;
@@ -44,7 +44,7 @@ static NSInteger kNumsOfPageForAllEmojiSets;
 
 @end
 
-@implementation CustomEmojiKeyboard
+@implementation QCEmojiKeyboard
 
 -(id)initWithFrame:(CGRect)frame{
     [self preCaluate];

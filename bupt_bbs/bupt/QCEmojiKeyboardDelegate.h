@@ -14,6 +14,7 @@
 
 -(void)addEmojiWithImage:(YYImage*)image
          withImageString:(NSString *)imageString;
+
 -(void)deleteEmoji;
 
 @end

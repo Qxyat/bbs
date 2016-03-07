@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <YYKit.h>
 #import "QCEmojiKeyboardDelegate.h"
 
-@interface CustomEmojiContainerView : UIView
+@interface QCEmojiCell : UICollectionViewCell
 
-@property (weak,nonatomic) id<QCEmojiKeyboardDelegate> delegate;
 @property (strong,nonatomic) NSString *imageString;
+@property (strong,nonatomic) YYImage *image;
 
 @end

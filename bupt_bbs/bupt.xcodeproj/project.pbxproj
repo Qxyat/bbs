@@ -43,7 +43,7 @@
 		416B272F1C1BE87F00D0FFE4 /* SectionUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 416B272E1C1BE87F00D0FFE4 /* SectionUtilities.m */; };
 		417455321C43AC3F00CC1334 /* QCEmojiKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 4174552C1C43AC3F00CC1334 /* QCEmojiKeyboard.m */; };
 		417455331C43AC3F00CC1334 /* YYImage+QCEmojiKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 4174552F1C43AC3F00CC1334 /* YYImage+QCEmojiKeyboard.m */; };
-		417455341C43AC3F00CC1334 /* QCEmojiContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 417455311C43AC3F00CC1334 /* QCEmojiContainerView.m */; };
+		417455341C43AC3F00CC1334 /* QCEmojiCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 417455311C43AC3F00CC1334 /* QCEmojiCell.m */; };
 		419411D51C1BEF41002E59AC /* SectionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 419411D41C1BEF41002E59AC /* SectionInfo.m */; };
 		419411D81C1BFD03002E59AC /* SectionAndBoardInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 419411D71C1BFD03002E59AC /* SectionAndBoardInfoCell.m */; };
 		419411DB1C1C0C93002E59AC /* SectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 419411DA1C1C0C93002E59AC /* SectionViewController.m */; };
@@ -73,9 +73,11 @@
 		41C4317E1C85C4E100A494D4 /* FavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C4317D1C85C4E100A494D4 /* FavoriteViewController.m */; };
 		41C431811C85C54D00A494D4 /* FavoriteUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C431801C85C54D00A494D4 /* FavoriteUtilities.m */; };
 		41C49DE51C55F89200E6A7EA /* MailPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C49DE41C55F89200E6A7EA /* MailPostViewController.m */; };
+		41CC381C1C8D75B00059D9E1 /* Emoji.plist in Resources */ = {isa = PBXBuildFile; fileRef = 41CC381B1C8D75B00059D9E1 /* Emoji.plist */; };
+		41CC381F1C8D7D540059D9E1 /* QCEmojiUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41CC381E1C8D7D540059D9E1 /* QCEmojiUtilities.m */; };
 		41CEB46E1C2B8C4A004935FF /* ScreenAdaptionUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41CEB46D1C2B8C4A004935FF /* ScreenAdaptionUtilities.m */; };
-		41D0B2C41C45FBB500865808 /* emojikeyboarddelete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41D0B2C31C45FBB500865808 /* emojikeyboarddelete@2x.png */; };
-		41D0B2C61C45FBBE00865808 /* emojikeyboarddelete@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41D0B2C51C45FBBE00865808 /* emojikeyboarddelete@3x.png */; };
+		41D0B2C41C45FBB500865808 /* QCEmojiKeyboardDelete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41D0B2C31C45FBB500865808 /* QCEmojiKeyboardDelete@2x.png */; };
+		41D0B2C61C45FBBE00865808 /* QCEmojiKeyboardDelete@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41D0B2C51C45FBBE00865808 /* QCEmojiKeyboardDelete@3x.png */; };
 		41D383C31C3BF2E100255BA9 /* DownloadResourcesUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D383C21C3BF2E100255BA9 /* DownloadResourcesUtilities.m */; };
 		41D801DD1C14277B00845782 /* AttachmentFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D801DC1C14277B00845782 /* AttachmentFile.m */; };
 		41DAC4581C57101600BFAB5A /* UIBarButtonItem+Image.m in Sources */ = {isa = PBXBuildFile; fileRef = 41DAC4571C57101600BFAB5A /* UIBarButtonItem+Image.m */; };
@@ -83,9 +85,9 @@
 		41E4CEA51C04588C004DD407 /* SecondLoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41E4CEA41C04588C004DD407 /* SecondLoginView.xib */; };
 		41EE0FE71C4CC10900844A18 /* CustomLinePositionModifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE0FE61C4CC10900844A18 /* CustomLinePositionModifier.m */; };
 		41EE38AA1C475E3400AE75BA /* CustomYYAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE38A91C475E3400AE75BA /* CustomYYAnimatedImageView.m */; };
-		41EE38AC1C477ACB00AE75BA /* emojitoobarbackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41EE38AB1C477ACB00AE75BA /* emojitoobarbackground@2x.png */; };
-		41EE38AF1C477EF800AE75BA /* emojitoolbarnormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41EE38AD1C477EF800AE75BA /* emojitoolbarnormal@2x.png */; };
-		41EE38B41C47822300AE75BA /* emojitoolbarselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41EE38B31C47822300AE75BA /* emojitoolbarselected@2x.png */; };
+		41EE38AC1C477ACB00AE75BA /* QCEmojiKeyboardToolbarBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41EE38AB1C477ACB00AE75BA /* QCEmojiKeyboardToolbarBackground@2x.png */; };
+		41EE38AF1C477EF800AE75BA /* QCEmojiKeyboardToolbarItemNormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41EE38AD1C477EF800AE75BA /* QCEmojiKeyboardToolbarItemNormal@2x.png */; };
+		41EE38B41C47822300AE75BA /* QCEmojiKeyboardToolbarItemSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41EE38B31C47822300AE75BA /* QCEmojiKeyboardToolbarItemSelected@2x.png */; };
 		41F86ABA1C1FA8FC009DC75C /* UserUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F86AB91C1FA8FC009DC75C /* UserUtilities.m */; };
 		ADF0647870C22EAF6852BE39 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC63FE2D2B942D0F858DC8B3 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -166,8 +168,8 @@
 		4174552D1C43AC3F00CC1334 /* QCEmojiKeyboardDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QCEmojiKeyboardDelegate.h; sourceTree = "<group>"; };
 		4174552E1C43AC3F00CC1334 /* YYImage+QCEmojiKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "YYImage+QCEmojiKeyboard.h"; sourceTree = "<group>"; };
 		4174552F1C43AC3F00CC1334 /* YYImage+QCEmojiKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "YYImage+QCEmojiKeyboard.m"; sourceTree = "<group>"; };
-		417455301C43AC3F00CC1334 /* QCEmojiContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QCEmojiContainerView.h; sourceTree = "<group>"; };
-		417455311C43AC3F00CC1334 /* QCEmojiContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QCEmojiContainerView.m; sourceTree = "<group>"; };
+		417455301C43AC3F00CC1334 /* QCEmojiCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QCEmojiCell.h; sourceTree = "<group>"; };
+		417455311C43AC3F00CC1334 /* QCEmojiCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QCEmojiCell.m; sourceTree = "<group>"; };
 		419411D31C1BEF41002E59AC /* SectionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionInfo.h; sourceTree = "<group>"; };
 		419411D41C1BEF41002E59AC /* SectionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionInfo.m; sourceTree = "<group>"; };
 		419411D61C1BFD03002E59AC /* SectionAndBoardInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionAndBoardInfoCell.h; sourceTree = "<group>"; };
@@ -222,11 +224,14 @@
 		41C431801C85C54D00A494D4 /* FavoriteUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteUtilities.m; sourceTree = "<group>"; };
 		41C49DE31C55F89200E6A7EA /* MailPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailPostViewController.h; sourceTree = "<group>"; };
 		41C49DE41C55F89200E6A7EA /* MailPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailPostViewController.m; sourceTree = "<group>"; };
+		41CC381B1C8D75B00059D9E1 /* Emoji.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Emoji.plist; sourceTree = "<group>"; };
+		41CC381D1C8D7D540059D9E1 /* QCEmojiUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QCEmojiUtilities.h; sourceTree = "<group>"; };
+		41CC381E1C8D7D540059D9E1 /* QCEmojiUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QCEmojiUtilities.m; sourceTree = "<group>"; };
 		41CDB23D1BF9B6D400172DE0 /* BBSConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSConstants.h; sourceTree = "<group>"; };
 		41CEB46C1C2B8C4A004935FF /* ScreenAdaptionUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenAdaptionUtilities.h; sourceTree = "<group>"; };
 		41CEB46D1C2B8C4A004935FF /* ScreenAdaptionUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenAdaptionUtilities.m; sourceTree = "<group>"; };
-		41D0B2C31C45FBB500865808 /* emojikeyboarddelete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emojikeyboarddelete@2x.png"; sourceTree = "<group>"; };
-		41D0B2C51C45FBBE00865808 /* emojikeyboarddelete@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emojikeyboarddelete@3x.png"; sourceTree = "<group>"; };
+		41D0B2C31C45FBB500865808 /* QCEmojiKeyboardDelete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "QCEmojiKeyboardDelete@2x.png"; sourceTree = "<group>"; };
+		41D0B2C51C45FBBE00865808 /* QCEmojiKeyboardDelete@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "QCEmojiKeyboardDelete@3x.png"; sourceTree = "<group>"; };
 		41D383C11C3BF2E100255BA9 /* DownloadResourcesUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadResourcesUtilities.h; sourceTree = "<group>"; };
 		41D383C21C3BF2E100255BA9 /* DownloadResourcesUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadResourcesUtilities.m; sourceTree = "<group>"; };
 		41D383C41C3C071100255BA9 /* RefreshTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefreshTableViewDelegate.h; sourceTree = "<group>"; };
@@ -241,9 +246,9 @@
 		41EE0FE61C4CC10900844A18 /* CustomLinePositionModifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomLinePositionModifier.m; sourceTree = "<group>"; };
 		41EE38A81C475E3400AE75BA /* CustomYYAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomYYAnimatedImageView.h; sourceTree = "<group>"; };
 		41EE38A91C475E3400AE75BA /* CustomYYAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomYYAnimatedImageView.m; sourceTree = "<group>"; };
-		41EE38AB1C477ACB00AE75BA /* emojitoobarbackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emojitoobarbackground@2x.png"; sourceTree = "<group>"; };
-		41EE38AD1C477EF800AE75BA /* emojitoolbarnormal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emojitoolbarnormal@2x.png"; sourceTree = "<group>"; };
-		41EE38B31C47822300AE75BA /* emojitoolbarselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emojitoolbarselected@2x.png"; sourceTree = "<group>"; };
+		41EE38AB1C477ACB00AE75BA /* QCEmojiKeyboardToolbarBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "QCEmojiKeyboardToolbarBackground@2x.png"; sourceTree = "<group>"; };
+		41EE38AD1C477EF800AE75BA /* QCEmojiKeyboardToolbarItemNormal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "QCEmojiKeyboardToolbarItemNormal@2x.png"; sourceTree = "<group>"; };
+		41EE38B31C47822300AE75BA /* QCEmojiKeyboardToolbarItemSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "QCEmojiKeyboardToolbarItemSelected@2x.png"; sourceTree = "<group>"; };
 		41F86AB81C1FA8FC009DC75C /* UserUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserUtilities.h; sourceTree = "<group>"; };
 		41F86AB91C1FA8FC009DC75C /* UserUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserUtilities.m; sourceTree = "<group>"; };
 		5DCAE85174F511042FCAD6F0 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -329,7 +334,6 @@
 				4174552A1C43AC1E00CC1334 /* QCEmojiKeyboard */,
 				415836C11C53444200D542A3 /* CustomPopoverController */,
 				41434F3C1BE8D5AA00FF01D9 /* Info.plist */,
-				41B26AC01C3E076A0088E1FE /* Emoji.bundle */,
 				410B20211C1524A3004C0CBE /* Assets.xcassets */,
 				41434F2B1BE8D5AA00FF01D9 /* Supporting Files */,
 			);
@@ -356,18 +360,22 @@
 		4174552A1C43AC1E00CC1334 /* QCEmojiKeyboard */ = {
 			isa = PBXGroup;
 			children = (
-				41D0B2C31C45FBB500865808 /* emojikeyboarddelete@2x.png */,
-				41D0B2C51C45FBBE00865808 /* emojikeyboarddelete@3x.png */,
-				41EE38AB1C477ACB00AE75BA /* emojitoobarbackground@2x.png */,
-				41EE38AD1C477EF800AE75BA /* emojitoolbarnormal@2x.png */,
-				41EE38B31C47822300AE75BA /* emojitoolbarselected@2x.png */,
+				41CC381B1C8D75B00059D9E1 /* Emoji.plist */,
+				41B26AC01C3E076A0088E1FE /* Emoji.bundle */,
+				41D0B2C31C45FBB500865808 /* QCEmojiKeyboardDelete@2x.png */,
+				41D0B2C51C45FBBE00865808 /* QCEmojiKeyboardDelete@3x.png */,
+				41EE38AB1C477ACB00AE75BA /* QCEmojiKeyboardToolbarBackground@2x.png */,
+				41EE38AD1C477EF800AE75BA /* QCEmojiKeyboardToolbarItemNormal@2x.png */,
+				41EE38B31C47822300AE75BA /* QCEmojiKeyboardToolbarItemSelected@2x.png */,
 				4174552B1C43AC3F00CC1334 /* QCEmojiKeyboard.h */,
 				4174552C1C43AC3F00CC1334 /* QCEmojiKeyboard.m */,
 				4174552D1C43AC3F00CC1334 /* QCEmojiKeyboardDelegate.h */,
 				4174552E1C43AC3F00CC1334 /* YYImage+QCEmojiKeyboard.h */,
 				4174552F1C43AC3F00CC1334 /* YYImage+QCEmojiKeyboard.m */,
-				417455301C43AC3F00CC1334 /* QCEmojiContainerView.h */,
-				417455311C43AC3F00CC1334 /* QCEmojiContainerView.m */,
+				417455301C43AC3F00CC1334 /* QCEmojiCell.h */,
+				417455311C43AC3F00CC1334 /* QCEmojiCell.m */,
+				41CC381D1C8D7D540059D9E1 /* QCEmojiUtilities.h */,
+				41CC381E1C8D7D540059D9E1 /* QCEmojiUtilities.m */,
 			);
 			name = QCEmojiKeyboard;
 			sourceTree = "<group>";
@@ -616,19 +624,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				41EE38B41C47822300AE75BA /* emojitoolbarselected@2x.png in Resources */,
+				41EE38B41C47822300AE75BA /* QCEmojiKeyboardToolbarItemSelected@2x.png in Resources */,
 				41B26AC11C3E076A0088E1FE /* Emoji.bundle in Resources */,
 				412441141C225A1E009A4172 /* FirstLoginView.xib in Resources */,
 				41B018581C23D06400AA8F88 /* LaunchView.xib in Resources */,
-				41EE38AF1C477EF800AE75BA /* emojitoolbarnormal@2x.png in Resources */,
+				41CC381C1C8D75B00059D9E1 /* Emoji.plist in Resources */,
+				41EE38AF1C477EF800AE75BA /* QCEmojiKeyboardToolbarItemNormal@2x.png in Resources */,
 				419E5E111C50CC6500BE575E /* MailInfoCell.xib in Resources */,
-				41EE38AC1C477ACB00AE75BA /* emojitoobarbackground@2x.png in Resources */,
+				41EE38AC1C477ACB00AE75BA /* QCEmojiKeyboardToolbarBackground@2x.png in Resources */,
 				41E4CEA51C04588C004DD407 /* SecondLoginView.xib in Resources */,
 				41404F721C1D207900A45B13 /* BoardArticleInfoCell.xib in Resources */,
-				41D0B2C61C45FBBE00865808 /* emojikeyboarddelete@3x.png in Resources */,
+				41D0B2C61C45FBBE00865808 /* QCEmojiKeyboardDelete@3x.png in Resources */,
 				410B20221C1524A3004C0CBE /* Assets.xcassets in Resources */,
 				41B684BE1C2001BB0088395D /* ShowUserInfo.xib in Resources */,
-				41D0B2C41C45FBB500865808 /* emojikeyboarddelete@2x.png in Resources */,
+				41D0B2C41C45FBB500865808 /* QCEmojiKeyboardDelete@2x.png in Resources */,
 				41432A7E1C38DA3200423DFE /* ThemePopoverControllerView.xib in Resources */,
 				41B57D481C314AFB00B9A01B /* ArticleRoughInfoCell.xib in Resources */,
 				41B02B711C10221500E4904B /* ArticleDetailInfoCell.xib in Resources */,
@@ -692,7 +701,7 @@
 			files = (
 				41295DD51C1E5E260021D689 /* RecommedUtilities.m in Sources */,
 				41E4CEA31C0456D7004DD407 /* LoginUtilities.m in Sources */,
-				417455341C43AC3F00CC1334 /* QCEmojiContainerView.m in Sources */,
+				417455341C43AC3F00CC1334 /* QCEmojiCell.m in Sources */,
 				41404F711C1D207900A45B13 /* BoardArticleInfoCell.m in Sources */,
 				419E5E0F1C50CC5000BE575E /* MailInfoCell.m in Sources */,
 				419E5E0C1C50C08300BE575E /* MailInfo.m in Sources */,
@@ -705,6 +714,7 @@
 				41432A821C39053E00423DFE /* JumpPopoverController.m in Sources */,
 				41432A7D1C38DA3200423DFE /* ThemePopoverController.m in Sources */,
 				41434F301BE8D5AA00FF01D9 /* AppDelegate.m in Sources */,
+				41CC381F1C8D7D540059D9E1 /* QCEmojiUtilities.m in Sources */,
 				41C49DE51C55F89200E6A7EA /* MailPostViewController.m in Sources */,
 				41D801DD1C14277B00845782 /* AttachmentFile.m in Sources */,
 				4108AFFD1C0D8FEF00CDC292 /* RecommedArticalViewController.m in Sources */,

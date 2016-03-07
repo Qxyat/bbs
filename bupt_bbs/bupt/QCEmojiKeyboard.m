@@ -7,353 +7,255 @@
 //
 
 #import "QCEmojiKeyboard.h"
-#import "QCEmojiContainerView.h"
-#import "CustomUtilities.h"
+#import "QCEmojiCell.h"
+#import "QCEmojiUtilities.h"
 
-#define kCustomScreenWidth [UIScreen mainScreen].bounds.size.width
-#define kNumsOfClassicsEmoji    73
-#define kNumsOfYouxihouEmoji    42
-#define kNumsOfTusijiEmoji      25
-#define kNumsOfYangcongtouEmoji 59
-#define kPageControlHeight      10
-#define kToolbarHeight          36
 
-static CGFloat   kContainerViewMargin;
-static CGFloat   kContainerViewWidthInOnePage;
-static CGFloat   kContainerViewHeightInOnePage;
-static NSInteger kRowCountForClassicsEmojiInOnePage;
-static NSInteger kColCountForClassicsEmojiInOnePage;
-static NSInteger kRowCountForOtherEmojiInOnePage;
-static NSInteger kColCountForOtherEmojiInOnePage;
-static CGFloat   kClassicsEmojiContainerViewWidth;
-static CGFloat   kClassicsEmojiContainerViewHeight;
-static CGFloat   kOtherEmojiContainerViewWidth;
-static CGFloat   kOtherEmojiContainerViewHeight;
-static NSInteger kNumsOfPageForClassicsEmoji;
-static NSInteger kNumsOfPageForYouxihouEmoji;
-static NSInteger kNumsOfPageForTusijiEmoji;
-static NSInteger kNumsOfPageForYangcongtouEmoji;
-static NSInteger kNumsOfPageForAllEmojiSets;
 
-@interface QCEmojiKeyboard ()
+#define kQCScreenWidth CGRectGetWidth([UIScreen mainScreen].bounds)
+
+static NSString*  const kQCEmojiCellName=@"EmojiCell";
+
+static NSString*  const kQCEmojiGroupName=@"EmojiGroupName";
+static NSString*  const kQCEmojiGroupPreixID=@"EmojiGroupPrefixID";
+static NSString * const kQCEmojiGroupCurCount=@"EmojiGroupCurCount";
+static NSString*  const kQCEmojiGroupBeginIndex=@"EmojiGroupBeginIndex";
+static NSString*  const kQCEmojiGroupEndIndex=@"EmojiGroupEndIndex";
+static NSString*  const kQCEmojiGroupStartPageIndex=@"EmojiGroupStartPageIndex";
+static NSString*  const kQCEmojiGroupPageCount=@"EmojiGroupPageCount";
+
+static NSUInteger const kQCEmojiKeyboardHeight=216;
+static NSUInteger const kQCEmojiOnePageCount=21;
+static NSUInteger const kQCEmojiColCount=7;
+static CGFloat    const kQCEmojiItemHeight=50.0;
+static CGFloat    const kQCEmojiToolbarHeight=36.0;
+static NSUInteger const kQCEmojiToolbarOnePageItemCount=4;
+
+@interface QCEmojiKeyboard ()<UICollectionViewDataSource,UICollectionViewDelegate,UIScrollViewDelegate>
 
 @property (strong,nonatomic)UIView* toolbar;
 @property (strong,nonatomic)UIPageControl *pageControl;
-@property (strong,nonatomic)UIScrollView *scrollView;
-@property (strong,nonatomic)NSArray *toolbarbuttons;
+@property (strong,nonatomic)UICollectionView *collectionView;
+@property (copy,nonatomic)NSArray *toolbarButtons;
+@property (strong,nonatomic)NSArray *emojiGroups;
+@property (strong,nonatomic)NSArray *emojiGroupsInfo;
+@property (nonatomic)NSUInteger emojiGroupsTotalPageCount;
 
 @end
 
 @implementation QCEmojiKeyboard
 
--(id)initWithFrame:(CGRect)frame{
-    [self preCaluate];
-    frame.size.height=kToolbarHeight+kPageControlHeight+2*kContainerViewMargin+kContainerViewHeightInOnePage;
-    frame.size.width=kCustomScreenWidth;
-    if(self=[super initWithFrame:frame]){
-        self.backgroundColor=[UIColor whiteColor];
-        
-        [self _initScrollView];
+-(instancetype)sharedQCEmojiKeyboard{
+    static QCEmojiKeyboard *qcEmojiKeyboard;
+    static dispatch_once_t token;
+    dispatch_once(&token, ^{
+        qcEmojiKeyboard=[[QCEmojiKeyboard alloc]init];
+    });
+    return qcEmojiKeyboard;
+}
+-(id)init{
+    if(self=[super init]){
+        self.frame=CGRectMake(0, 0, kQCScreenWidth, kQCEmojiKeyboardHeight);
+        self.backgroundColor=[QCEmojiUtilities getColor:@"f9f9f9"];
+        [self _initEmojiGroups];
+        [self _initCollectionView];
         [self _initPageControl];
         [self _initToolbar];
-        
-        [self refreshPageControlAndTabbar:0];
+        [self _scrollToPage:0];
     }
+
     return self;
 }
 -(void)drawRect:(CGRect)rect{
     [super drawRect:rect];
     CGContextRef context=UIGraphicsGetCurrentContext();
     CGContextSetLineWidth(context, 1.0);
-    CGContextSetStrokeColorWithColor(context, [CustomUtilities getColor:@"bfbfbf"].CGColor);
+    CGContextSetStrokeColorWithColor(context, [QCEmojiUtilities getColor:@"bfbfbf"].CGColor);
     CGContextMoveToPoint(context, CGRectGetMinX(rect), CGRectGetMinY(rect));
     CGContextAddLineToPoint(context, CGRectGetMaxX(rect), CGRectGetMinY(rect));
     CGContextStrokePath(context);
-    
 }
--(void)preCaluate{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        if(kCustomScreenWidth==320){
-            kContainerViewWidthInOnePage=300;
-            kColCountForOtherEmojiInOnePage=7;
-        }
-        else if(kCustomScreenWidth==375){
-            kContainerViewWidthInOnePage=360;
-            kColCountForOtherEmojiInOnePage=8;
-        }
-        else if(kCustomScreenWidth==414){
-            kContainerViewWidthInOnePage=400;
-            kColCountForOtherEmojiInOnePage=9;
-        }
-        kContainerViewMargin=(kCustomScreenWidth-kContainerViewWidthInOnePage)/2;
-        kRowCountForOtherEmojiInOnePage=3;
-        kRowCountForClassicsEmojiInOnePage=kRowCountForOtherEmojiInOnePage;
-        kColCountForClassicsEmojiInOnePage=kColCountForOtherEmojiInOnePage+1;
-        kClassicsEmojiContainerViewWidth=kContainerViewWidthInOnePage/kColCountForClassicsEmojiInOnePage;
-        kClassicsEmojiContainerViewHeight=kClassicsEmojiContainerViewWidth;
-        kOtherEmojiContainerViewWidth=kContainerViewWidthInOnePage/kColCountForOtherEmojiInOnePage;
-        kOtherEmojiContainerViewHeight=kOtherEmojiContainerViewWidth;
-        kContainerViewHeightInOnePage=kRowCountForOtherEmojiInOnePage*kOtherEmojiContainerViewHeight;
-        
-        //计算一页能显示多少个经典表情，并且需要多少页
-        {
-            NSInteger nums=kRowCountForClassicsEmojiInOnePage*kColCountForClassicsEmojiInOnePage-1;
-            kNumsOfPageForClassicsEmoji=kNumsOfClassicsEmoji/nums+(kNumsOfClassicsEmoji%nums==0?0:1);
-        }
-        //计算一页能显示多少个悠嘻猴表情，并且需要多少页
-        {
-            NSInteger nums=kRowCountForOtherEmojiInOnePage*kColCountForOtherEmojiInOnePage-1;
-            kNumsOfPageForYouxihouEmoji=kNumsOfYouxihouEmoji/nums+(kNumsOfYouxihouEmoji%nums==0?0:1);
-        }
-        //计算一页能显示多少个兔斯基表情，并且需要多少页
-        {
-            NSInteger nums=kRowCountForOtherEmojiInOnePage*kColCountForOtherEmojiInOnePage-1;
-            kNumsOfPageForTusijiEmoji=kNumsOfTusijiEmoji/nums+(kNumsOfTusijiEmoji%nums==0?0:1);
-        }
-        //计算一页能显示多少个洋葱头表情，并且需要多少页
-        {
-            NSInteger nums=kRowCountForOtherEmojiInOnePage*kColCountForOtherEmojiInOnePage-1;
-            kNumsOfPageForYangcongtouEmoji=kNumsOfYangcongtouEmoji/nums+(kNumsOfYangcongtouEmoji%nums==0?0:1);
-        }
-        kNumsOfPageForAllEmojiSets=kNumsOfPageForClassicsEmoji+kNumsOfPageForYouxihouEmoji+kNumsOfPageForTusijiEmoji+kNumsOfPageForYangcongtouEmoji;
-    });
-}
-
 
 #pragma mark - 初始化各个view
--(void)_initScrollView{
-    _scrollView=[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kCustomScreenWidth, 2*kContainerViewMargin+kContainerViewHeightInOnePage)];
-    _scrollView.contentSize=CGSizeMake(kNumsOfPageForAllEmojiSets*CGRectGetWidth(self.scrollView.frame), CGRectGetHeight(_scrollView.frame));
-    _scrollView.pagingEnabled=YES;
-    _scrollView.showsHorizontalScrollIndicator=NO;
-    _scrollView.showsVerticalScrollIndicator=NO;
-    _scrollView.delegate=self;
-    _scrollView.backgroundColor=[UIColor clearColor];
+-(void)_initEmojiGroups{
+    NSString *emojiSettingFilePath=[[NSBundle mainBundle]pathForResource:@"Emoji" ofType:@"plist"];
+    _emojiGroups=[[NSArray alloc]initWithContentsOfFile:emojiSettingFilePath];
     
-    for(int i=0;i<kNumsOfPageForAllEmojiSets;i++){
-        [self loadScrollViewPage:i];
+    NSUInteger index=0;
+    NSMutableArray *emojiGroupsInfo=[[NSMutableArray alloc]initWithCapacity:_emojiGroups.count];
+    
+    for(NSUInteger i=0;i<_emojiGroups.count;i++){
+        NSUInteger numOfEmojis=[_emojiGroups[i][kQCEmojiGroupCurCount] integerValue];
+        NSUInteger pageCount=numOfEmojis/(kQCEmojiOnePageCount-1);
+        if(numOfEmojis%(kQCEmojiOnePageCount-1)!=0){
+            pageCount+=1;
+        }
+        NSMutableDictionary *dic=[[NSMutableDictionary alloc]init];
+        [dic setObject:@(index) forKey:kQCEmojiGroupStartPageIndex];
+        [dic setObject:@(pageCount) forKey:kQCEmojiGroupPageCount];
+        [emojiGroupsInfo addObject:dic];
+        index+=pageCount;
     }
-    
-    [self addSubview:_scrollView];
+    _emojiGroupsTotalPageCount=index;
+    _emojiGroupsInfo=emojiGroupsInfo;
 }
-
+-(void)_initCollectionView{
+    NSUInteger itemWitdh=(kQCScreenWidth-2*10)/kQCEmojiColCount;
+    CGFloat padding=(kQCScreenWidth-kQCEmojiColCount*itemWitdh)/2.0;
+    CGFloat leftPadding=padding;
+    CGFloat rightPadding=kQCScreenWidth-leftPadding-kQCEmojiColCount*itemWitdh;
+    
+    UICollectionViewFlowLayout *layout=[[UICollectionViewFlowLayout alloc]init];
+    layout.scrollDirection=UICollectionViewScrollDirectionHorizontal;
+    layout.itemSize=CGSizeMake(itemWitdh, kQCEmojiItemHeight);
+    layout.minimumLineSpacing=0;
+    layout.minimumInteritemSpacing=0;
+    layout.sectionInset=UIEdgeInsetsMake(0, leftPadding, 0, rightPadding);
+    
+    _collectionView=[[UICollectionView alloc]initWithFrame:CGRectMake(0, 5, kQCScreenWidth, kQCEmojiItemHeight*3) collectionViewLayout:layout];
+    _collectionView.backgroundColor=[UIColor clearColor];
+    _collectionView.pagingEnabled=YES;
+    [_collectionView registerClass:[QCEmojiCell class] forCellWithReuseIdentifier:kQCEmojiCellName];
+    _collectionView.dataSource=self;
+    _collectionView.delegate=self;
+    
+    [self addSubview:_collectionView];
+}
 -(void)_initPageControl{
-    _pageControl=[[UIPageControl alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_scrollView.frame), kCustomScreenWidth, kPageControlHeight)];
-    _pageControl.numberOfPages=3;
-    [_pageControl setPageIndicatorTintColor:[UIColor lightGrayColor]];
+    _pageControl=[[UIPageControl alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_collectionView.frame), kQCScreenWidth, 20)];
     [_pageControl setCurrentPageIndicatorTintColor:[UIColor grayColor]];
+    [_pageControl setPageIndicatorTintColor:[UIColor lightGrayColor]];
     _pageControl.userInteractionEnabled=NO;
-    _pageControl.backgroundColor=[UIColor clearColor];
+    
     [self addSubview:_pageControl];
 }
-
 -(void)_initToolbar{
-    NSArray *buttonTitles=@[@"经典",@"悠嘻猴",@"兔斯基",@"洋葱头"];
-    _toolbar = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_pageControl.frame), kCustomScreenWidth, kToolbarHeight)];
-    
-    UIImageView *bg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_toolbar.frame), CGRectGetHeight(_toolbar.frame))];
-    bg.image=[UIImage imageNamed:@"emojitoobarbackground"];
+    _toolbar=[[UIView alloc]initWithFrame:CGRectMake(0, kQCEmojiKeyboardHeight-kQCEmojiToolbarHeight, kQCScreenWidth, kQCEmojiToolbarHeight)];
+    UIImageView *bg=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_toolbar.frame), CGRectGetHeight(_toolbar.frame))];
+    bg.image=[UIImage imageNamed:@"QCEmojiKeyboardToolbarBackground"];
     [_toolbar addSubview:bg];
     
-    UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_toolbar.frame), CGRectGetHeight(_toolbar.frame))];
-    scroll.showsHorizontalScrollIndicator = NO;
-    scroll.alwaysBounceHorizontal = YES;
-    scroll.contentSize = _toolbar.frame.size;
-    [_toolbar addSubview:scroll];
+    UIScrollView *scrollView=[[UIScrollView alloc]initWithFrame:bg.frame];
+    scrollView.showsHorizontalScrollIndicator=NO;
+    scrollView.showsVerticalScrollIndicator=NO;
+    scrollView.alwaysBounceHorizontal=YES;
+    [_toolbar addSubview:scrollView];
     
-    NSMutableArray *btns = [NSMutableArray new];
-    UIButton *btn;
-    for (NSUInteger i = 0; i < 4; i++){
-        btn = [self _createToolbarButton:i];
-        [btn setTitle:buttonTitles[i] forState:UIControlStateNormal];
-        btn.tag = i;
-        [scroll addSubview:btn];
-        [btns addObject:btn];
+    NSMutableArray *buttons=[[NSMutableArray alloc]initWithCapacity:_emojiGroups.count];
+    for(NSUInteger i=0;i<_emojiGroups.count;i++){
+        UIButton *button=[self _createToolbarButtonAtIndex:i];
+        [button setTitle:_emojiGroups[i][kQCEmojiGroupName] forState:UIControlStateNormal];
+        [scrollView addSubview:button];
+        [buttons addObject:button];
     }
-    _toolbarbuttons=btns;
-    
+    _toolbarButtons=buttons;
     [self addSubview:_toolbar];
 }
-- (UIButton *)_createToolbarButton:(NSInteger)index{
+
+
+- (UIButton *)_createToolbarButtonAtIndex:(NSInteger)index{
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame=CGRectMake(kCustomScreenWidth/4.f*index, 0, kCustomScreenWidth/4.f, kToolbarHeight);
+    btn.tag=index;
+    btn.frame=CGRectMake(kQCScreenWidth/kQCEmojiToolbarOnePageItemCount*index, 0, kQCScreenWidth/kQCEmojiToolbarOnePageItemCount, kQCEmojiToolbarHeight);
     btn.exclusiveTouch = YES;
     
     btn.titleLabel.font = [UIFont systemFontOfSize:14];
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [btn setTitleColor:[CustomUtilities getColor:@"5D5C5A"] forState:UIControlStateSelected];
+    [btn setTitleColor:[QCEmojiUtilities getColor:@"5D5C5A"] forState:UIControlStateSelected];
     
     UIImage *img;
-    img = [UIImage imageNamed:@"emojitoolbarnormal"];
+    img = [UIImage imageNamed:@"QCEmojiKeyboardToolbarItemNormal"];
     img = [img resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, img.size.width - 1) resizingMode:UIImageResizingModeStretch];
     [btn setBackgroundImage:img forState:UIControlStateNormal];
     
-    img = [UIImage imageNamed:@"emojitoolbarselected"];
+    img = [UIImage imageNamed:@"QCEmojiKeyboardToolbarItemSelected"];
     img = [img resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, img.size.width - 1) resizingMode:UIImageResizingModeStretch];
     [btn setBackgroundImage:img forState:UIControlStateSelected];
 
-    [btn addTarget:self action:@selector(_toolbarBtnDidTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [btn addTarget:self action:@selector(_toolbarButtonDidTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
     return btn;
 }
 
-- (void)_toolbarBtnDidTapped:(UIButton *)item {
-    NSInteger page=0;
-    if(item.tag==0){
-        page=0;
-    }
-    else if(item.tag==1){
-        page=kNumsOfPageForClassicsEmoji;
-    }
-    else if(item.tag==2){
-        page=kNumsOfPageForClassicsEmoji+kNumsOfPageForYouxihouEmoji;
-    }
-    else if(item.tag==3){
-        page=kNumsOfPageForClassicsEmoji+kNumsOfPageForYouxihouEmoji+kNumsOfPageForTusijiEmoji;
-    }
-    [self scrollToPage:page];
+- (void)_toolbarButtonDidTapped:(UIButton *)item {
+    [self _scrollToPage:[_emojiGroupsInfo[item.tag][kQCEmojiGroupStartPageIndex] integerValue]];
 }
 
-#pragma mark - 实现UIScrollViewDelegate协议
+#pragma mark - 实现UIScrollviewDelegate
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    NSInteger page=(int)self.scrollView.contentOffset.x/(int)CGRectGetWidth(_scrollView.frame);
-    [self refreshPageControlAndTabbar:page];
+    NSUInteger index=(scrollView.contentOffset.x/CGRectGetWidth(scrollView.frame));
+    [self _refreshPageControlAndToolbar:index];
+}
+#pragma mark - 实现UICollectionViewDataSource协议
+-(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return _emojiGroupsTotalPageCount;
+}
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return kQCEmojiOnePageCount;
+}
+-(UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    QCEmojiCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:kQCEmojiCellName forIndexPath:indexPath];
+    cell.imageString=nil;
+    if(indexPath.row!=kQCEmojiOnePageCount-1)
+        cell.imageString=[self _getEmojiStringAtIndexPath:indexPath];
+    else
+        cell.imageString=@"delete";
+    return cell;
+}
+-(NSString*)_getEmojiStringAtIndexPath:(NSIndexPath *)indexPath{
+    for(int i=_emojiGroupsInfo.count-1;i>=0;i--){
+        if(indexPath.section>=[_emojiGroupsInfo[i][kQCEmojiGroupStartPageIndex]integerValue]){
+            NSString *prefix=_emojiGroups[i][kQCEmojiGroupPreixID];
+            NSUInteger transferRow=(indexPath.row)%3;
+            NSUInteger transferCol=(indexPath.row)/3;
+            NSUInteger curEmojiGroupIndex=(indexPath.section-[_emojiGroupsInfo[i][kQCEmojiGroupStartPageIndex]integerValue])*(kQCEmojiOnePageCount-1)+transferRow*kQCEmojiColCount+transferCol+1;
+            if(curEmojiGroupIndex>[_emojiGroups[i][kQCEmojiGroupCurCount] integerValue]){
+                return nil;
+            }
+            NSString *postfix=[NSString stringWithFormat:@"%d",[_emojiGroups[i][kQCEmojiGroupBeginIndex] integerValue]+curEmojiGroupIndex-1];
+            return [prefix stringByAppendingString:postfix];
+        }
+    }
+    return nil;
+}
+#pragma mark - 实现UICollectionViewDelegate协议
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    QCEmojiCell *cell=(QCEmojiCell*)[collectionView cellForItemAtIndexPath:indexPath];
+    
+    if(cell.imageString!=nil){
+        if([cell.imageString isEqualToString:@"[delete]"]){
+            [_delegate deleteEmoji];
+        }
+        else{
+            [_delegate addEmojiWithImage:cell.image withImageString:cell.imageString];
+        }
+    }
 }
 
-
-#pragma mark - 加载某一页
--(void)loadScrollViewPage:(NSInteger)page{
-    UIView *view=[[UIView alloc]initWithFrame:CGRectMake(page*CGRectGetWidth(_scrollView.frame), 0, CGRectGetWidth(_scrollView.frame), CGRectGetHeight(_scrollView.frame))];
-    UIView *containerView=[[UIView alloc]initWithFrame:CGRectMake(kContainerViewMargin, kContainerViewMargin, kContainerViewWidthInOnePage, kContainerViewHeightInOnePage)];
-    
-    NSInteger rowCountForEmojiInOnePage=0;
-    NSInteger colCountForEmojiInOnePage=0;
-    NSInteger numsOfEmojiInOnePage=0;
-    NSInteger pageIndexForCurrentEmojiSet=0;
-    NSInteger emojiIndexOffsetForCurrentEmojiSet=0;
-    NSInteger emojiIndexOffsetForCurrentEmojiSetModify=0;
-    NSInteger totalNumsOfEmoji=0;
-    NSString *emojiStringFomrat=nil;
-    CGFloat emojiContainerViewWidth=0;
-    CGFloat emojiContainerViewHeight=0;
-    
-    if(page<kNumsOfPageForClassicsEmoji){
-        rowCountForEmojiInOnePage=kRowCountForClassicsEmojiInOnePage;
-        colCountForEmojiInOnePage=kColCountForClassicsEmojiInOnePage;
-        numsOfEmojiInOnePage=rowCountForEmojiInOnePage*colCountForEmojiInOnePage-1;
-        pageIndexForCurrentEmojiSet=page;
-        emojiIndexOffsetForCurrentEmojiSet=pageIndexForCurrentEmojiSet*numsOfEmojiInOnePage;
-        emojiIndexOffsetForCurrentEmojiSetModify=0;
-        totalNumsOfEmoji=kNumsOfClassicsEmoji;
-        emojiStringFomrat=@"em%d";
-        emojiContainerViewWidth=kClassicsEmojiContainerViewWidth;
-        emojiContainerViewHeight=kClassicsEmojiContainerViewHeight;
-    }
-    else if(page<kNumsOfPageForClassicsEmoji+kNumsOfPageForYouxihouEmoji){
-        rowCountForEmojiInOnePage=kRowCountForOtherEmojiInOnePage;
-        colCountForEmojiInOnePage=kColCountForOtherEmojiInOnePage;
-        numsOfEmojiInOnePage=rowCountForEmojiInOnePage*colCountForEmojiInOnePage-1;
-        pageIndexForCurrentEmojiSet=page-kNumsOfPageForClassicsEmoji;
-        emojiIndexOffsetForCurrentEmojiSet=pageIndexForCurrentEmojiSet*numsOfEmojiInOnePage;
-        emojiIndexOffsetForCurrentEmojiSetModify=1;
-        totalNumsOfEmoji=kNumsOfYouxihouEmoji;
-        emojiStringFomrat=@"ema%d";
-        emojiContainerViewWidth=kOtherEmojiContainerViewWidth;
-        emojiContainerViewHeight=kOtherEmojiContainerViewHeight;
-    }
-    else if(page<kNumsOfPageForClassicsEmoji+kNumsOfPageForYouxihouEmoji+kNumsOfPageForTusijiEmoji){
-        rowCountForEmojiInOnePage=kRowCountForOtherEmojiInOnePage;
-        colCountForEmojiInOnePage=kColCountForOtherEmojiInOnePage;
-        numsOfEmojiInOnePage=rowCountForEmojiInOnePage*colCountForEmojiInOnePage-1;
-        pageIndexForCurrentEmojiSet=page-kNumsOfPageForClassicsEmoji-kNumsOfPageForYouxihouEmoji;
-        emojiIndexOffsetForCurrentEmojiSet=pageIndexForCurrentEmojiSet*numsOfEmojiInOnePage;
-        emojiIndexOffsetForCurrentEmojiSetModify=1;
-        totalNumsOfEmoji=kNumsOfTusijiEmoji;
-        emojiStringFomrat=@"emb%d";
-        emojiContainerViewWidth=kOtherEmojiContainerViewWidth;
-        emojiContainerViewHeight=kOtherEmojiContainerViewHeight;
-    }
-    else{
-        rowCountForEmojiInOnePage=kRowCountForOtherEmojiInOnePage;
-        colCountForEmojiInOnePage=kColCountForOtherEmojiInOnePage;
-        numsOfEmojiInOnePage=rowCountForEmojiInOnePage*colCountForEmojiInOnePage-1;
-        pageIndexForCurrentEmojiSet=page-kNumsOfPageForClassicsEmoji-kNumsOfPageForYouxihouEmoji-kNumsOfPageForTusijiEmoji;
-        emojiIndexOffsetForCurrentEmojiSet=pageIndexForCurrentEmojiSet*numsOfEmojiInOnePage;
-        emojiIndexOffsetForCurrentEmojiSetModify=1;
-        totalNumsOfEmoji=kNumsOfYangcongtouEmoji;
-        emojiStringFomrat=@"emc%d";
-        emojiContainerViewWidth=kOtherEmojiContainerViewWidth;
-        emojiContainerViewHeight=kOtherEmojiContainerViewHeight;
-    }
-    
-    for(int i=1;i<=MIN(numsOfEmojiInOnePage, totalNumsOfEmoji-emojiIndexOffsetForCurrentEmojiSet);i++){
-        NSInteger pos=emojiIndexOffsetForCurrentEmojiSet+i-emojiIndexOffsetForCurrentEmojiSetModify;
-        NSInteger row=(i-1)/colCountForEmojiInOnePage;
-        NSInteger col=(i-1)%colCountForEmojiInOnePage;
-        CustomEmojiContainerView *emojiView=[[CustomEmojiContainerView alloc]initWithFrame:CGRectMake(emojiContainerViewWidth*col, emojiContainerViewWidth*row, emojiContainerViewWidth, emojiContainerViewWidth)];
-        emojiView.backgroundColor=[UIColor clearColor];
-        emojiView.delegate=self;
-        emojiView.imageString=[NSString stringWithFormat:emojiStringFomrat,pos];
-        [containerView addSubview:emojiView];
-    }
-    CustomEmojiContainerView *emojiView=[[CustomEmojiContainerView alloc]initWithFrame:CGRectMake(emojiContainerViewWidth*(colCountForEmojiInOnePage-1), emojiContainerViewHeight*(rowCountForEmojiInOnePage-1), emojiContainerViewWidth, emojiContainerViewHeight)];
-    emojiView.delegate=self;
-    emojiView.imageString=@"delete";
-    emojiView.backgroundColor=[UIColor clearColor];
-    [containerView addSubview:emojiView];
-    
-    [view addSubview:containerView];
-    [_scrollView addSubview:view];
-}
 
 #pragma mark - 点击tabbar显示某一页
--(void)scrollToPage:(NSInteger)page{
-    CGRect rect=_scrollView.bounds;
-    rect.origin.x=CGRectGetWidth(rect)*page;
-    [_scrollView scrollRectToVisible:rect animated:YES];
-    [self refreshPageControlAndTabbar:page];
+-(void)_scrollToPage:(NSInteger)pageIndex{
+    CGRect rect=_collectionView.bounds;
+    rect.origin.x=CGRectGetWidth(rect)*pageIndex;
+    [_collectionView scrollRectToVisible:rect animated:NO];
+    [self _refreshPageControlAndToolbar:pageIndex];
 }
-#pragma mark - 刷新Pagecontrol和Tabbar
--(void)refreshPageControlAndTabbar:(NSInteger)page{
+
+
+#pragma mark - 刷新Pagecontrol和Toolbar
+-(void)_refreshPageControlAndToolbar:(NSInteger)pageIndex{
     NSInteger currentTag=0;
-    if(page<kNumsOfPageForClassicsEmoji){
-        currentTag=0;
-        NSInteger pageIndexForCurrentEmojiSet=page;
-        _pageControl.numberOfPages=kNumsOfPageForClassicsEmoji;
-        [_pageControl setCurrentPage:pageIndexForCurrentEmojiSet];
+    for(int i=_emojiGroupsInfo.count-1;i>=0;i--){
+        if(pageIndex>=[_emojiGroupsInfo[i][kQCEmojiGroupStartPageIndex]integerValue]){
+            currentTag=i;
+            NSInteger pageIndexForCurrentEmojiSet=pageIndex-[_emojiGroupsInfo[i][kQCEmojiGroupStartPageIndex]integerValue];
+            _pageControl.numberOfPages=[_emojiGroupsInfo[i][kQCEmojiGroupPageCount] integerValue];
+            _pageControl.currentPage=pageIndexForCurrentEmojiSet;
+            break;
+        }
     }
-    else if(page<kNumsOfPageForClassicsEmoji+kNumsOfPageForYouxihouEmoji){
-       currentTag=1;
-        NSInteger pageIndexForCurrentEmojiSet=page-kNumsOfPageForClassicsEmoji;
-        _pageControl.numberOfPages=kNumsOfPageForYouxihouEmoji;
-        [_pageControl setCurrentPage:pageIndexForCurrentEmojiSet];
-    }
-    else if(page<kNumsOfPageForClassicsEmoji+kNumsOfPageForYouxihouEmoji+kNumsOfPageForTusijiEmoji){
-       currentTag=2;
-        NSInteger pageIndexForCurrentEmojiSet=page-kNumsOfPageForClassicsEmoji-kNumsOfPageForYouxihouEmoji;
-        _pageControl.numberOfPages=kNumsOfPageForTusijiEmoji;
-        [_pageControl setCurrentPage:pageIndexForCurrentEmojiSet];
-        
-    }
-    else{
-       currentTag=3;
-        NSInteger pageIndexForCurrentEmojiSet=page-kNumsOfPageForClassicsEmoji-kNumsOfPageForYouxihouEmoji-kNumsOfPageForTusijiEmoji;
-        _pageControl.numberOfPages=kNumsOfPageForYangcongtouEmoji;
-        [_pageControl setCurrentPage:pageIndexForCurrentEmojiSet];
-    }
-    [_toolbarbuttons enumerateObjectsUsingBlock:^(UIButton* obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [_toolbarButtons enumerateObjectsUsingBlock:^(UIButton* obj, NSUInteger idx, BOOL * _Nonnull stop) {
         obj.selected=(obj.tag==currentTag);
     }];
-}
-#pragma  mark - 实现CustomEmojiKeyboardDelegate协议
--(void)addEmojiWithImage:(YYImage *)image withImageString:(NSString *)imageString{
-    if(_delegate!=nil){
-        [_delegate addEmojiWithImage:image withImageString:imageString];
-    }
-}
--(void)deleteEmoji{
-    if(_delegate!=nil){
-        [_delegate deleteEmoji];
-    }
 }
 @end

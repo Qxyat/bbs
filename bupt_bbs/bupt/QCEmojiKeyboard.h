@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "QCEmojiKeyboardDelegate.h"
 
-@interface QCEmojiKeyboard : UIView<UIScrollViewDelegate,QCEmojiKeyboardDelegate>
+@interface QCEmojiKeyboard : UIView<UIScrollViewDelegate>
 
 @property (weak,nonatomic) id<QCEmojiKeyboardDelegate> delegate;
 

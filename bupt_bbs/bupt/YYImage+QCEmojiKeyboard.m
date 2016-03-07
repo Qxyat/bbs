@@ -11,13 +11,15 @@
 @implementation YYImage (QCEmojiKeyboard)
 
 +(YYImage *)imageNamedFromEmojiBundleForEmojiKeyBoard:(NSString*)imageName{
+    if(imageName==nil)
+        return nil;
     if(![imageName isEqualToString:@"delete"]){
         NSString *bundlePath=[[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:@"Emoji.bundle"];
         NSBundle *bundle=[NSBundle bundleWithPath:bundlePath];
         return [YYImage imageWithContentsOfFile:[bundle pathForResource:imageName ofType:@"gif"]];
     }
     else
-        return [YYImage imageNamed:@"emojikeyboarddelete"];
+        return [YYImage imageNamed:@"QCEmojiKeyboardDelete"];
 }
 
 @end

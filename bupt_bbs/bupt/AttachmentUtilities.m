@@ -61,10 +61,10 @@
         [formData appendPartWithFileData:fileData name:@"file" fileName:fileName mimeType:fileType];
     } success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
         if(delegate!=nil)
-            [delegate handlePostAttachmentSuccessResponse:responseObject withData:fileData withName:fileName];
+            [delegate handlePostAttachmentSuccessWithResponse:responseObject withData:fileData withName:fileName];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
         if(delegate!=nil)
-            [delegate handlePostAttachmentErrorResponse:
+            [delegate handlePostAttachmentErrorWithResponse:
                                operation.responseObject
                       withError:error];
     }];
@@ -89,10 +89,10 @@
     manager.responseSerializer=[AFJSONResponseSerializer serializer];
     [manager POST:requestURL parameters:dic success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
         if(delegate!=nil)
-            [delegate handleDeleteAttachmentSuccessResponse:responseObject withPos:pos];
+            [delegate handleDeleteAttachmentSuccessWithResponse:responseObject withPos:pos];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
         if(delegate!=nil)
-            [delegate handleDeleteAttachmentErrorResponse:
+            [delegate handleDeleteAttachmentErrorWithResponse:
                                operation.responseObject
                   withError:error];
     }];

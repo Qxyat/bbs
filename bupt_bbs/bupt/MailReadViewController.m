@@ -286,62 +286,25 @@ static CGFloat const kContentFontSize=15;
     _maildata=[MailInfo getMailInfo:response];
     [self _refreshView];
 }
-
--(void)handleMailInfoErrorResponseWithError:(NSError *)error withResponse:(id)response{
-    NetworkErrorCode errorCode=[CustomUtilities getNetworkErrorCode:error];
-    switch (errorCode) {
-        case NetworkConnectFailed:
-            [SVProgressHUD showErrorWithStatus:@"网络连接已断开"];
-            break;
-        case NetworkConnectTimeout:
-            [SVProgressHUD showErrorWithStatus:@"网络连接超时"];
-            break;
-        case NetworkConnectUnknownReason:
-            [SVProgressHUD showErrorWithStatus:@"好像出现了某种奇怪的问题"];
-            break;
-        default:
-            break;
-    }
-    
+-(void)handleMailInfoErrorWithResponse:(id)response withError:(NSError *)error{
+    NSString *errorString=[CustomUtilities getNetworkErrorInfoWithResponse:response withError:error];
+    [SVProgressHUD showErrorWithStatus:errorString];
 }
--(void)handleMailForwardSuccessResponse:(id)response{
+
+-(void)handleMailForwardSuccessWithResponse:(id)response{
     [SVProgressHUD showSuccessWithStatus:@"转寄成功"];
 }
--(void)handleMailForwardErrorResponseWithError:(NSError *)error withResponse:(id)response{
-    NetworkErrorCode errorCode=[CustomUtilities getNetworkErrorCode:error];
-    switch (errorCode) {
-        case NetworkConnectFailed:
-            [SVProgressHUD showErrorWithStatus:@"网络连接已断开"];
-            break;
-        case NetworkConnectTimeout:
-            [SVProgressHUD showErrorWithStatus:@"网络连接超时"];
-            break;
-        case NetworkConnectUnknownReason:
-            [SVProgressHUD showErrorWithStatus:@"好像出现了某种奇怪的问题"];
-            break;
-        default:
-            break;
-    }
+-(void)handleMailForwardErrorWithResponse:(id)response withError:(NSError *)error{
+    NSString *errorString=[CustomUtilities getNetworkErrorInfoWithResponse:response withError:error];
+    [SVProgressHUD showErrorWithStatus:errorString];
 }
 
--(void)handleMailDeleteSuccessResponse:(id)response{
+-(void)handleMailDeleteSuccessWithResponse:(id)response{
     [SVProgressHUD showSuccessWithStatus:@"删除成功"];
 }
--(void)handleMailDeleteErrorResponseWithError:(NSError *)error withResponse:(id)response{
-    NetworkErrorCode errorCode=[CustomUtilities getNetworkErrorCode:error];
-    switch (errorCode) {
-        case NetworkConnectFailed:
-            [SVProgressHUD showErrorWithStatus:@"网络连接已断开"];
-            break;
-        case NetworkConnectTimeout:
-            [SVProgressHUD showErrorWithStatus:@"网络连接超时"];
-            break;
-        case NetworkConnectUnknownReason:
-            [SVProgressHUD showErrorWithStatus:@"好像出现了某种奇怪的问题"];
-            break;
-        default:
-            break;
-    }
+-(void)handleMailDeleteErrorWithResponse:(id)response withError:(NSError *)error{
+    NSString *errorString=[CustomUtilities getNetworkErrorInfoWithResponse:response withError:error];
+    [SVProgressHUD showErrorWithStatus:errorString];
 }
 
 

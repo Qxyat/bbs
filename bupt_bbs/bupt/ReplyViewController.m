@@ -304,30 +304,18 @@
     _dummyView=nil;
 }
 #pragma mark - 实现HttpResponseDelegate协议
--(void)handleHttpSuccessResponse:(id)response{
+-(void)handleHttpSuccessWithResponse:(id)response{
     [self enableInteraction];
     [SVProgressHUD showSuccessWithStatus:@"发表成功"];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.navigationController popViewControllerAnimated:YES];
     });
 }
--(void)handleHttpErrorResponse:(id)response{
+-(void)handleHttpErrorWithResponse:(id)response
+                         withError:(NSError *)error{
     [self enableInteraction];
-    NSError *error=(NSError *)response;
-    NetworkErrorCode errorCode=[CustomUtilities getNetworkErrorCode:error];
-    switch (errorCode) {
-        case NetworkConnectFailed:
-            [SVProgressHUD showErrorWithStatus:@"网络连接已断开"];
-            break;
-        case NetworkConnectTimeout:
-            [SVProgressHUD showErrorWithStatus:@"网络连接超时"];
-            break;
-        case NetworkConnectUnknownReason:
-            [SVProgressHUD showErrorWithStatus:@"好像出现了某种奇怪的问题"];
-            break;
-        default:
-            break;
-    }
+    NSString *errorString=[CustomUtilities getNetworkErrorInfoWithResponse:response withError:error];
+    [SVProgressHUD showErrorWithStatus:errorString];
 }
 
 
@@ -512,7 +500,7 @@
 
 
 #pragma mark - 实现AttachmentHttpResponseDelegate协议
--(void)handlePostAttachmentSuccessResponse:(id)response
+-(void)handlePostAttachmentSuccessWithResponse:(id)response
                                   withData:(NSData *)data
                                   withName:(NSString *)name{
     [_imagePickerController dismissViewControllerAnimated:YES completion:nil];
@@ -528,31 +516,15 @@
     }
     [self _refreshScrollViewFrame];
 }
--(void)handlePostAttachmentErrorResponse:(id)response
+-(void)handlePostAttachmentErrorWithResponse:(id)response
                                withError:(NSError *)error{
     [_imagePickerController dismissViewControllerAnimated:YES completion:nil];
     _imagePickerController=nil;
-    if(response!=nil){
-        [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"上传附件失败\n%@",response[@"msg"]]];
-    }
-    else{
-        NSInteger errorCode=[CustomUtilities getNetworkErrorCode:error];
-        switch (errorCode) {
-            case NetworkConnectFailed:
-                 [SVProgressHUD showErrorWithStatus:@"上传附件失败\n网络连接失败"];
-                break;
-            case NetworkConnectTimeout:
-                [SVProgressHUD showErrorWithStatus:@"上传附件失败\n网络请求超时"];
-                break;
-            case NetworkConnectUnknownReason:
-                [SVProgressHUD showErrorWithStatus:@"上传附件失败\n未知原因"];
-                break;
-            default:
-                break;
-        }
-    }
+    
+    NSString *errorString=[CustomUtilities getNetworkErrorInfoWithResponse:response withError:error];
+    [SVProgressHUD showErrorWithStatus:errorString];
 }
--(void)handleDeleteAttachmentSuccessResponse:(id)response
+-(void)handleDeleteAttachmentSuccessWithResponse:(id)response
                                      withPos:(NSInteger)pos{
     [SVProgressHUD showInfoWithStatus:@"删除附件成功"];
     [_imageAttachments removeObjectAtIndex:pos];
@@ -566,28 +538,11 @@
     }
     [self _refreshScrollViewFrame];
 }
--(void)handleDeleteAttachmentErrorResponse:(id)response
+-(void)handleDeleteAttachmentErrorWithResponse:(id)response
                                  withError:(NSError *)error
 {
-    if(response!=nil){
-        [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"删除附件失败\n%@",response[@"msg"]]];
-    }
-    else{
-        NSInteger errorCode=[CustomUtilities getNetworkErrorCode:error];
-        switch (errorCode) {
-            case NetworkConnectFailed:
-                [SVProgressHUD showErrorWithStatus:@"删除附件失败\n网络连接失败"];
-                break;
-            case NetworkConnectTimeout:
-                [SVProgressHUD showErrorWithStatus:@"删除附件失败\n网络请求超时"];
-                break;
-            case NetworkConnectUnknownReason:
-                [SVProgressHUD showErrorWithStatus:@"删除附件失败\n未知原因"];
-                break;
-            default:
-                break;
-        }
-    }
+    NSString *errorString=[CustomUtilities getNetworkErrorInfoWithResponse:response withError:error];
+    [SVProgressHUD showErrorWithStatus:errorString];
 }
 
 

@@ -174,22 +174,9 @@
     [SVProgressHUD showErrorWithStatus:@"账号密码错误"];
     [self hideLoadingview:NO];
 }
--(void)handleLoginRealErrorResponse:(id)response{
-    NSError *error=(NSError *)response;
-    NetworkErrorCode errorCode=[CustomUtilities getNetworkErrorCode:error];
-    switch (errorCode) {
-        case NetworkConnectFailed:
-            [SVProgressHUD showErrorWithStatus:@"网络连接已断开"];
-            break;
-        case NetworkConnectTimeout:
-            [SVProgressHUD showErrorWithStatus:@"网络连接超时"];
-            break;
-        case NetworkConnectUnknownReason:
-            [SVProgressHUD showErrorWithStatus:@"好像出现了某种奇怪的问题"];
-            break;
-        default:
-            break;
-    }
+-(void)handleLoginRealErrorResponse:(NSError *)error{
+    NSString *errorString=[CustomUtilities getNetworkErrorInfoWithResponse:nil withError:error];
+    [SVProgressHUD showErrorWithStatus:errorString];
     [self hideLoadingview:NO];
 }
 #pragma mark - 点击取消按钮

@@ -10,17 +10,17 @@
 
 @protocol AttachmentHttpResponseDelegate <NSObject>
 
--(void)handlePostAttachmentSuccessResponse:(id)response
+-(void)handlePostAttachmentSuccessWithResponse:(id)response
                                   withData:(NSData*)data
                                   withName:(NSString*)name;
 
--(void)handlePostAttachmentErrorResponse:(id)response
+-(void)handlePostAttachmentErrorWithResponse:(id)response
                                withError:(NSError*)error;
 
--(void)handleDeleteAttachmentSuccessResponse:(id)response
+-(void)handleDeleteAttachmentSuccessWithResponse:(id)response
                                      withPos:(NSInteger)pos;
 
--(void)handleDeleteAttachmentErrorResponse:(id)response
+-(void)handleDeleteAttachmentErrorWithResponse:(id)response
                                  withError:(NSError*)error;
 
 @end

@@ -21,9 +21,9 @@
     manager.requestSerializer.timeoutInterval=kRequestTimeout;
     manager.responseSerializer=[AFJSONResponseSerializer serializer];
     [manager GET:url parameters:dic success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        [delegate handleUserInfoSuccessResponse:responseObject];
+        [delegate handleUserInfoSuccessWithResponse:responseObject];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
-        [delegate handleUserInfoErrorResponse:error];
+        [delegate handleUserInfoErrorWithResponse:operation.responseObject withError:error];
     }];
 }
 

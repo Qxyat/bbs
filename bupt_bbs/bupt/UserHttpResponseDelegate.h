@@ -10,7 +10,8 @@
 
 @protocol UserHttpResponseDelegate <NSObject>
 
--(void)handleUserInfoSuccessResponse:(id)response;
--(void)handleUserInfoErrorResponse:(id)response;
+-(void)handleUserInfoSuccessWithResponse:(id)response;
+-(void)handleUserInfoErrorWithResponse:(id)response
+                             withError:(NSError *)error;
 
 @end

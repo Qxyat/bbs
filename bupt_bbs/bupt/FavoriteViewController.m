@@ -9,7 +9,9 @@
 #import "FavoriteViewController.h"
 #import "FavoriteUtilities.h"
 #import "HttpResponseDelegate.h"
+#import "CustomUtilities.h"
 
+#import <SVProgressHUD.h>
 #import <MJRefresh.h>
 
 @interface FavoriteViewController ()<HttpResponseDelegate>
@@ -63,12 +65,14 @@
 }
 
 #pragma mark - 实现HttpResponseDelegate
--(void)handleHttpSuccessResponse:(id)response{
+-(void)handleHttpSuccessWithResponse:(id)response{
     NSLog(@"%@",response);
     [self.tableView.mj_header endRefreshing];
 }
--(void)handleHttpErrorResponse:(id)response{
-    NSLog(@"%@",response);
+-(void)handleHttpErrorWithResponse:(id)response
+                         withError:(NSError *)error{
+    NSString *errorString=[CustomUtilities getNetworkErrorInfoWithResponse:response withError:error];
+    [SVProgressHUD showErrorWithStatus:errorString];
     [self.tableView.mj_header endRefreshing];
 }
 

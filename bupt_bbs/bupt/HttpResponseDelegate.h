@@ -11,8 +11,9 @@
 @protocol HttpResponseDelegate <NSObject>
 
 @required
--(void)handleHttpSuccessResponse:(id)response;
--(void)handleHttpErrorResponse:(id)response;
+-(void)handleHttpSuccessWithResponse:(id)response;
+-(void)handleHttpErrorWithResponse:(id)response
+                         withError:(NSError *)error;
 
 @optional
 -(void)handleSubSectionResponse:(id)response;

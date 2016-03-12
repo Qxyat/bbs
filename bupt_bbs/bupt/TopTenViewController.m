@@ -145,28 +145,16 @@ static NSString *const kCellIdentifier=@"cell";
 }
 
 #pragma  mark - 实现HttpResponseDelegate
--(void)handleHttpSuccessResponse:(id)response{
+-(void)handleHttpSuccessWithResponse:(id)response{
     NSDictionary *dic=(NSDictionary*)response;
     self.data=[ArticleInfo getArticlesInfo:dic[@"article"]];
     [self.tableView reloadData];
     [self.tableView.mj_header endRefreshing];
 }
--(void)handleHttpErrorResponse:(id)response{
-    NSError *error=(NSError *)response;
-    NetworkErrorCode errorCode=[CustomUtilities getNetworkErrorCode:error];
-    switch (errorCode) {
-        case NetworkConnectFailed:
-            [SVProgressHUD showErrorWithStatus:@"网络连接已断开"];
-            break;
-        case NetworkConnectTimeout:
-            [SVProgressHUD showErrorWithStatus:@"网络连接超时"];
-            break;
-        case NetworkConnectUnknownReason:
-            [SVProgressHUD showErrorWithStatus:@"好像出现了某种奇怪的问题"];
-            break;
-        default:
-            break;
-    }
+-(void)handleHttpErrorWithResponse:(id)response
+                         withError:(NSError *)error{
+    NSString *errorString=[CustomUtilities getNetworkErrorInfoWithResponse:response withError:error];
+    [SVProgressHUD showErrorWithStatus:errorString];
     [self.tableView.mj_header endRefreshing];
 }
 @end

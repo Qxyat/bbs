@@ -11,15 +11,18 @@
 @protocol MailHttpResponseDelegate <NSObject>
 
 @optional
--(void)handleMailInfoSuccessResponse:(id)response;
--(void)handleMailInfoErrorResponseWithError:(NSError*)error
-                               withResponse:(id)response;
+-(void)handleMailInfoSuccessWithResponse:(id)response;
+-(void)handleMailInfoErrorWithResponse:(id)response
+                             withError:(NSError*)error;
 
--(void)handleMailForwardSuccessResponse:(id)response;
--(void)handleMailForwardErrorResponseWithError:(NSError*)error
-                               withResponse:(id)response;
 
--(void)handleMailDeleteSuccessResponse:(id)response;
--(void)handleMailDeleteErrorResponseWithError:(NSError*)error
-                                  withResponse:(id)response;
+-(void)handleMailForwardSuccessWithResponse:(id)response;
+-(void)handleMailForwardErrorWithResponse:(id)response
+                                withError:(NSError*)error;
+
+
+-(void)handleMailDeleteSuccessWithResponse:(id)response;
+-(void)handleMailDeleteErrorWithResponse:(id)response
+                               withError:(NSError*)error;
+
 @end

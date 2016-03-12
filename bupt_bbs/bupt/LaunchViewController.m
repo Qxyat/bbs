@@ -81,33 +81,22 @@
     [UIApplication sharedApplication].keyWindow.rootViewController=controller;
 }
 #pragma mark - 实现UserHttpResponseDelegate协议
--(void)handleUserInfoSuccessResponse:(id)response{
+-(void)handleUserInfoSuccessWithResponse:(id)response{
     LoginManager *manager=[LoginManager sharedManager];
     manager.currentLoginUserInfo=[UserInfo getUserInfo:response];
     self.getUserInfo=YES;
     if(self.getUserInfo&&self.timeUp)
         [self showRootView];
 }
--(void)handleUserInfoErrorResponse:(id)response{
+-(void)handleUserInfoErrorWithResponse:(id)response
+                             withError:(NSError *)error{
     self.indicator.hidden=YES ;
     [[LoginManager sharedManager] deleteLoginConfiguration];
     
     [SVProgressHUD show];
-    NSError *error=(NSError *)response;
-    NetworkErrorCode errorCode=[CustomUtilities getNetworkErrorCode:error];
-    switch (errorCode) {
-        case NetworkConnectFailed:
-            [SVProgressHUD showErrorWithStatus:@"网络连接已断开，请重新登录"];
-            break;
-        case NetworkConnectTimeout:
-            [SVProgressHUD showErrorWithStatus:@"网络连接超时，请重新登录"];
-            break;
-        case NetworkConnectUnknownReason:
-            [SVProgressHUD showErrorWithStatus:@"获取用户信息失败，请重新登录"];
-            break;
-        default:
-            break;
-    }
+    NSString *errorString=[CustomUtilities getNetworkErrorInfoWithResponse:response withError:error];
+    [SVProgressHUD showErrorWithStatus:errorString];
+    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if(self.firstLoad){
             [self.navigationController popViewControllerAnimated:YES];
@@ -118,7 +107,6 @@
             navigationController.navigationBar.hidden=YES;
             [UIApplication sharedApplication].keyWindow.rootViewController=navigationController;
         }
-
     });
 }
 @end

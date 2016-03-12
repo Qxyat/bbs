@@ -24,11 +24,11 @@
     manager.requestSerializer=requestSerializer;
     [manager GET:url parameters:dic success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
         if(delegate!=nil){
-            [delegate handleHttpSuccessResponse:responseObject];
+            [delegate handleHttpSuccessWithResponse:responseObject];
         }
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
         if(delegate!=nil){
-            [delegate handleHttpErrorResponse:error];
+            [delegate handleHttpErrorWithResponse:operation.error withError:error];
         }
     }];
 }

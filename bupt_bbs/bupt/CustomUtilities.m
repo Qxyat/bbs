@@ -96,14 +96,11 @@
     [[array lastObject]  caseInsensitiveCompare:@"gif"]==NSOrderedSame;
 }
 #pragma mark - 获取网络请求错误代码
-+(NSInteger) getNetworkErrorCode:(NSError*)error{
-    if([error.userInfo[@"NSLocalizedDescription"] isEqualToString:@"The Internet connection appears to be offline."])
-        return NetworkConnectFailed;
-    else if([error.userInfo[@"NSLocalizedDescription"] isEqualToString:@"The request timed out."]){
-        return NetworkConnectTimeout;
-    }
-    else
-        return NetworkConnectUnknownReason;
++(NSString *)getNetworkErrorInfoWithResponse:(id)response
+                                   withError:(NSError*)error{
+    if(response!=nil)
+        return response[@"msg"];
+    return error.userInfo[@"NSLocalizedDescription"];
 }
 #pragma mark - 根据颜色代码获得颜色
 +(UIColor*) getColor:(NSString *) hexColor

@@ -8,12 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSInteger,NetworkErrorCode){
-    NetworkConnectUnknownReason,
-    NetworkConnectTimeout,
-    NetworkConnectFailed,
-};
-
 @interface CustomUtilities : NSObject
 
 #pragma mark - 获取显示发帖时间的字符串
@@ -34,8 +28,8 @@ typedef NS_ENUM(NSInteger,NetworkErrorCode){
 #pragma mark - 判断一个名字是否代表图片
 +(bool)isPicture:(NSString *)string;
 
-#pragma mark - 获取网络请求错误代码
-+(NSInteger) getNetworkErrorCode:(NSError*)error;
+#pragma mark - 获取网络请求错误信息
++(NSString *)getNetworkErrorInfoWithResponse:(id)response withError:(NSError*)error;
 
 #pragma mark - 根据颜色代码获得颜色
 +(UIColor*) getColor:(NSString *) hexColor;

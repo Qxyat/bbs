@@ -29,9 +29,10 @@
     manager.responseSerializer=[[AFJSONResponseSerializer alloc]init];
     
     [manager GET:requestUrl parameters:parameters success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        [delegate handleHttpSuccessResponse:responseObject];
+        [delegate handleHttpSuccessWithResponse:responseObject];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
-        [delegate handleHttpErrorResponse:error];
+        [delegate handleHttpErrorWithResponse:operation.responseObject
+         withError:error];
     }];
 
 }

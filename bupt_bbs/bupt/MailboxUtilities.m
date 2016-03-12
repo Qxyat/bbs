@@ -28,9 +28,9 @@
     manager.requestSerializer.timeoutInterval=kRequestTimeout;
     
     [manager GET:url parameters:dic success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        [delegate handleHttpSuccessResponse:responseObject];
+        [delegate handleHttpSuccessWithResponse:responseObject];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
-        [delegate handleHttpErrorResponse:error];
+        [delegate handleHttpErrorWithResponse:operation.responseObject withError:error];
     }];
 }
 
@@ -45,9 +45,9 @@
     manager.requestSerializer.timeoutInterval=kRequestTimeout;
     
     [manager GET:url parameters:dic success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        [delegate handleMailInfoSuccessResponse:responseObject];
+        [delegate handleMailInfoSuccessWithResponse:responseObject];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
-        [delegate handleMailInfoErrorResponseWithError:error withResponse:operation.responseObject];
+        [delegate handleMailInfoErrorWithResponse:operation.responseObject withError:error];
     }];
 }
 
@@ -70,9 +70,9 @@
     manager.responseSerializer=[AFJSONResponseSerializer serializer];
     
     [manager POST:url parameters:dic success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        [delegate handleHttpSuccessResponse:responseObject];
+        [delegate handleHttpSuccessWithResponse:responseObject];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
-        [delegate handleHttpErrorResponse:error];
+        [delegate handleHttpErrorWithResponse:operation.responseObject withError:error];
     }];
 }
 
@@ -95,9 +95,9 @@
     manager.responseSerializer=[AFJSONResponseSerializer serializer];
     
     [manager POST:url parameters:dic success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        [delegate handleHttpSuccessResponse:responseObject];
+        [delegate handleHttpSuccessWithResponse:responseObject];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
-        [delegate handleHttpErrorResponse:error];
+        [delegate handleHttpErrorWithResponse:operation.responseObject withError:error];
     }];
 }
 
@@ -116,9 +116,9 @@
     manager.responseSerializer=[AFJSONResponseSerializer serializer];
     
     [manager POST:url parameters:dic success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        [delegate handleMailForwardSuccessResponse:responseObject];
+        [delegate handleMailForwardSuccessWithResponse:responseObject];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
-        [delegate handleMailForwardErrorResponseWithError:error withResponse:operation.responseObject];
+        [delegate handleMailForwardErrorWithResponse:operation.responseObject withError:error];
     }];
 }
 
@@ -131,9 +131,9 @@
     manager.responseSerializer=[AFJSONResponseSerializer serializer];
     
     [manager POST:url parameters:dic success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        [delegate handleMailDeleteSuccessResponse:responseObject];
+        [delegate handleMailDeleteSuccessWithResponse:responseObject];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
-        [delegate handleMailDeleteErrorResponseWithError:error withResponse:operation.responseObject];
+        [delegate handleMailDeleteErrorWithResponse:operation withError:error];
     }];
 }
 @end

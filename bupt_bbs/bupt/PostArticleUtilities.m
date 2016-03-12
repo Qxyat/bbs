@@ -30,9 +30,9 @@
     }
     manaer.requestSerializer.timeoutInterval=kRequestTimeout;
     [manaer POST:url parameters:dic success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        [delegate handleHttpSuccessResponse:nil];
+        [delegate handleHttpSuccessWithResponse:nil];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
-        [delegate handleHttpSuccessResponse:error];
+        [delegate handleHttpErrorWithResponse:operation.responseObject withError:error];
     }];
 }
 

@@ -162,7 +162,7 @@ static NSString *const kHeaderCellIdentifier=@"headerCell";
 }
 
 #pragma mark - 实现HttpResponseDelegate协议
--(void)handleHttpSuccessResponse:(id)response{
+-(void)handleHttpSuccessWithResponse:(id)response{
     NSDictionary *dic=(NSDictionary*)response;
     NSArray *sub_sections=dic[@"sub_section"];
     if(sub_sections.count>0){
@@ -186,22 +186,11 @@ static NSString *const kHeaderCellIdentifier=@"headerCell";
     [self.collectionView.mj_header endRefreshing];
     [self.collectionView reloadData];
 }
--(void)handleHttpErrorResponse:(id)response{
-    NSError *error=(NSError *)response;
-    NetworkErrorCode errorCode=[CustomUtilities getNetworkErrorCode:error];
-    switch (errorCode) {
-        case NetworkConnectFailed:
-            [SVProgressHUD showErrorWithStatus:@"网络连接已断开"];
-            break;
-        case NetworkConnectTimeout:
-            [SVProgressHUD showErrorWithStatus:@"网络连接超时"];
-            break;
-        case NetworkConnectUnknownReason:
-            [SVProgressHUD showErrorWithStatus:@"好像出现了某种奇怪的问题"];
-            break;
-        default:
-            break;
-    }
+-(void)handleHttpErrorWithResponse:(id)response
+                         withError:(NSError *)error{
+    NSString *errorString=[CustomUtilities getNetworkErrorInfoWithResponse:response withError:error];
+    [SVProgressHUD showErrorWithStatus:errorString];
+    
     [self.collectionView.mj_header endRefreshing];
 }
 -(void)handleSubSectionResponse:(id)response{

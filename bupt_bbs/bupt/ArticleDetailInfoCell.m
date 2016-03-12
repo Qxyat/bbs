@@ -22,6 +22,7 @@
 #import "LoginManager.h"
 #import "YYImage+Emoji.h"
 #import "ReplyViewController.h"
+#import "UserInfo.h"
 CGFloat const kMargin=4;
 CGFloat const kMaxRatio=1.6;
 CGFloat const kFaceImageViewHeight=30;

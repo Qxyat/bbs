@@ -9,6 +9,7 @@
 #import "ShowUserInfoViewController.h"
 #import <UIImageView+WebCache.h>
 #import "CustomUtilities.h"
+#import "UserInfo.h"
 @interface ShowUserInfoViewController ()
 @property (nonatomic) CGFloat screenWidth;
 @property (nonatomic) CGFloat screenHeight;

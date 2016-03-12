@@ -14,11 +14,12 @@
 #import "MailboxViewController.h"
 #import "RootViewController.h"
 #import "FavoriteViewController.h"
-
+#import "ShowUserInfoViewControllerDelegate.h"
+#import "UserInfo.h"
 #import <Masonry.h>
 #import <YYKit.h>
 
-@interface UserCenterViewController ()
+@interface UserCenterViewController ()<ShowUserInfoViewControllerDelegate>
 @property (strong, nonatomic) UIView *containerView;
 @property (strong, nonatomic) YYAnimatedImageView *faceImageView;
 @property (strong, nonatomic) UIImageView *mailboxImageView;

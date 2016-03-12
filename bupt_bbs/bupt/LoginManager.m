@@ -7,6 +7,8 @@
 //
 
 #import "LoginManager.h"
+#import "UserInfo.h"
+
 static NSString *const kLoginConfigurationKey=@"LoginConfiguration";
 
 static NSString *const kAccessTokenKey=@"access_token";

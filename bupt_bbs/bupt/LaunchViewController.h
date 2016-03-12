@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UserHttpResponseDelegate.h"
 
-@interface LaunchViewController : UIViewController<UserHttpResponseDelegate>
+
+@interface LaunchViewController : UIViewController
 
 +(instancetype)getInstanceWithUserId:(NSString*)userid
                                       FaceUrl:(NSString*)faceUrl

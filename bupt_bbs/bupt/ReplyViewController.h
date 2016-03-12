@@ -7,16 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <YYKit.h>
-#import "HttpResponseDelegate.h"
-#import "QCEmojiKeyboardDelegate.h"
-#import "AttachmentHttpResponseDelegate.h"
-#import "ReplyViewImageCellDelegate.h"
 
 @class ArticleInfo;
 
-@interface ReplyViewController : UIViewController<HttpResponseDelegate,QCEmojiKeyboardDelegate,YYTextViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,AttachmentHttpResponseDelegate,ReplyViewImageCellDelegate>
-
+@interface ReplyViewController : UIViewController
 +(instancetype)getInstanceWithBoardName:(NSString*)boardName
                              isNewTheme:(BOOL)isNewTheme
                         withArticleName:(NSString*)

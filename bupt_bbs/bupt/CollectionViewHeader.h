@@ -11,4 +11,5 @@
 @interface CollectionViewHeader : UICollectionViewCell
 
 @property(strong,nonatomic)UILabel *headerLabel;
+
 @end

@@ -15,7 +15,11 @@
 #import "LoginManager.h"
 #import "LaunchViewController.h"
 #import "CustomUtilities.h"
-@interface FirstLoginViewController ()
+
+#import "LoginHttpResponseDelegate.h"
+#import "UserHttpResponseDelegate.h"
+
+@interface FirstLoginViewController ()<UITextFieldDelegate,LoginHttpResponseDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UITextField *usernameTextField;

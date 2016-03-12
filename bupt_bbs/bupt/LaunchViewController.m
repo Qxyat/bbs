@@ -15,8 +15,9 @@
 #import <SVProgressHUD.h>
 #import "SecondLoginViewController.h"
 #import "CustomUtilities.h"
+#import "UserHttpResponseDelegate.h"
 
-@interface LaunchViewController ()
+@interface LaunchViewController ()<UserHttpResponseDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *faceImageView;
 @property (weak, nonatomic) IBOutlet UILabel *userdIdLabel;
 @property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;

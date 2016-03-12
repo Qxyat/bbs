@@ -12,6 +12,7 @@
 #import "SecondLoginViewController.h"
 #import "RootViewController.h"
 #import "LaunchViewController.h"
+#import "UserInfo.h"
 #import <SVProgressHUD.h>
 @interface AppDelegate ()
 

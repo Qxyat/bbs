@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "UserInfo.h"
+@class UserInfo;
 @interface LoginManager : NSObject<NSCoding>
 
 @property (copy,nonatomic)NSString *access_token;

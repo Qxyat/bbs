@@ -7,10 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UserHttpResponseDelegate.h"
-#import "LoginHttpResponseDelegate.h"
 
-@interface SecondLoginViewController : UIViewController<UITextFieldDelegate,LoginHttpResponseDelegate>
+
+@interface SecondLoginViewController : UIViewController
 
 +(instancetype)getInstance;
 

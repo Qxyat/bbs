@@ -7,10 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LoginHttpResponseDelegate.h"
-#import "UserHttpResponseDelegate.h"
 
-@interface FirstLoginViewController : UIViewController<UITextFieldDelegate,LoginHttpResponseDelegate>
+
+@interface FirstLoginViewController : UIViewController
 
 +(instancetype)getInstance:(BOOL)showCancleButton;
 

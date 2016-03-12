@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HttpResponseDelegate.h"
-@interface TopTenViewController : UITableViewController<HttpResponseDelegate>
+
+@interface TopTenViewController : UITableViewController
 
 +(instancetype)getInstance;
 @end

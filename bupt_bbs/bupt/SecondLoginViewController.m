@@ -17,7 +17,11 @@
 #import <UIImageView+WebCache.h>
 #import "LaunchViewController.h"
 #import "CustomUtilities.h"
-@interface SecondLoginViewController ()
+#import "UserHttpResponseDelegate.h"
+#import "LoginHttpResponseDelegate.h"
+#import "UserInfo.h"
+
+@interface SecondLoginViewController ()<UITextFieldDelegate,LoginHttpResponseDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *faceImageView;

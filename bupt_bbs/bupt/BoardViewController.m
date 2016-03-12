@@ -16,6 +16,7 @@
 #import "CustomUtilities.h"
 #import "CustomPopoverController.h"
 #import "JumpPopoverController.h"
+#import "HttpResponseDelegate.h"
 
 #import <MJRefresh.h>
 #import <UITableView+FDTemplateLayoutCell.h>
@@ -23,7 +24,7 @@
 
 static NSString* const kCellIdentifier=@"cell";
 
-@interface BoardViewController ()<CustomPopoverControllerDelegate,JumpPopoverControllerDelegate>
+@interface BoardViewController ()<CustomPopoverControllerDelegate,JumpPopoverControllerDelegate,HttpResponseDelegate>
 
 @property(strong,nonatomic)NSString *name;
 @property(strong,nonatomic)NSString *board_description;

@@ -7,10 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HttpResponseDelegate.h"
 
-@interface RecommedArticalViewController : UITableViewController<HttpResponseDelegate>
-
+@interface RecommedArticalViewController : UITableViewController
 +(instancetype)getInstance;
 
 @end

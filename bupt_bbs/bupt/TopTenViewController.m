@@ -19,11 +19,12 @@
 #import "ScreenAdaptionUtilities.h"
 #import <UITableView+FDTemplateLayoutCell.h>
 #import "CustomUtilities.h"
+#import "HttpResponseDelegate.h"
 #import <SVProgressHUD.h>
 
 static NSString *const kCellIdentifier=@"cell";
 
-@interface TopTenViewController ()
+@interface TopTenViewController ()<HttpResponseDelegate>
 
 @property (copy,nonatomic) NSArray *data;
 @property (strong,nonatomic) UIFont * titleLabelFont;

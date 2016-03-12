@@ -15,10 +15,12 @@
 #import "SectionInfo.h"
 #import "BoardViewController.h"
 #import "CustomUtilities.h"
+#import "HttpResponseDelegate.h"
 #import <SVProgressHUD.h>
+
 static NSString *const kContentCellIdentifier=@"contentCell";
 static NSString *const kHeaderCellIdentifier=@"headerCell";
-@interface SectionViewController ()
+@interface SectionViewController ()<UICollectionViewDelegateFlowLayout,HttpResponseDelegate>
 
 @property (strong,nonatomic)NSArray *section_data;
 @property (strong,nonatomic)NSArray *board_data;

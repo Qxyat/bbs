@@ -11,7 +11,7 @@
 #import <SVProgressHUD.h>
 #import <Masonry.h>
 
-@interface JumpPopoverController ()
+@interface JumpPopoverController ()<UITextFieldDelegate>
 @property (nonatomic) CGRect frame;
 @property (weak,nonatomic) id<JumpPopoverControllerDelegate>delegate;
 @property (nonatomic) NSInteger page_all_count;

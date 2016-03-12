@@ -19,11 +19,13 @@
 #import "ScreenAdaptionUtilities.h"
 #import <UITableView+FDTemplateLayoutCell.h>
 #import "CustomUtilities.h"
+#import "HttpResponseDelegate.h"
 #import <SVProgressHUD.h>
 
 static NSString *const kCellIdentifier=@"cell";
 
-@interface RecommedArticalViewController ()
+@interface RecommedArticalViewController ()<HttpResponseDelegate>
+
 
 @property (strong,nonatomic) NSArray *data;
 @property (strong,nonatomic) UIFont * titleLabelFont;

@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import <YYKit.h>
-#import "QCEmojiKeyboardDelegate.h"
 
 @interface QCEmojiCell : UICollectionViewCell
 

@@ -7,9 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HttpResponseDelegate.h"
-#import "ThemePopoverControllerDelegate.h"
-#import "RefreshTableViewDelegate.h"
+
 @interface ThemeViewController : UITableViewController
 
 +(instancetype)getInstanceWithBoardName:(NSString *)boardName

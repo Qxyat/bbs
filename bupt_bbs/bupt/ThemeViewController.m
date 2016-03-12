@@ -20,6 +20,9 @@
 #import "CustomUtilities.h"
 #import "PictureInfo.h"
 #import "ReplyViewController.h"
+#import "HttpResponseDelegate.h"
+#import "ThemePopoverControllerDelegate.h"
+#import "RefreshTableViewDelegate.h"
 
 static NSString * const kCellIdentifier=@"articledetailinfo";
 static const int kNumOfPageToCache=5;

@@ -20,6 +20,11 @@
 #import "CustomLinePositionModifier.h"
 #import <SVProgressHUD.h>
 #import <Masonry.h>
+#import <YYKit.h>
+#import "HttpResponseDelegate.h"
+#import "QCEmojiKeyboardDelegate.h"
+#import "AttachmentHttpResponseDelegate.h"
+#import "ReplyViewImageCellDelegate.h"
 
 #define kStatusBarHeight 20
 #define kNavigationBarHeight 44
@@ -30,7 +35,8 @@
 #define kMargin 8
 #define kImageSize (kCustomScreenWidth-4*kMargin)/3
 
-@interface ReplyViewController ()
+@interface ReplyViewController ()<HttpResponseDelegate,QCEmojiKeyboardDelegate,YYTextViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,AttachmentHttpResponseDelegate,ReplyViewImageCellDelegate>
+
 
 @property (strong,nonatomic)NSString *boardName;
 @property (strong,nonatomic)NSString *articleName;

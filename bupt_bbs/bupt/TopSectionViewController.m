@@ -17,9 +17,11 @@
 #import "RootViewController.h"
 #import "ScreenAdaptionUtilities.h"
 #import "CustomUtilities.h"
+#import "HttpResponseDelegate.h"
+#import "UserInfo.h"
 #import <SVProgressHUD.h>
 
-@interface TopSectionViewController ()
+@interface TopSectionViewController ()<HttpResponseDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UICollectionViewDataSource>
 
 @property (copy,nonatomic) NSArray* data;
 @property (strong,nonatomic) UICollectionView *collectionView;

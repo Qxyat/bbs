@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UserInfo.h"
+
 #import "ShowUserInfoViewControllerDelegate.h"
+
+@class UserInfo;
+
 @interface ShowUserInfoViewController : UIViewController
 
 @property (strong,nonatomic)UserInfo *userInfo;

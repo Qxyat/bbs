@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HttpResponseDelegate.h"
 
-@interface SectionViewController : UICollectionViewController<UICollectionViewDelegateFlowLayout,HttpResponseDelegate>
+
+@interface SectionViewController : UICollectionViewController
 
 
 @property (strong,nonatomic) NSString *name;

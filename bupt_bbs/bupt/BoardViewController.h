@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HttpResponseDelegate.h"
 
-@interface BoardViewController : UITableViewController<HttpResponseDelegate>
+@interface BoardViewController : UITableViewController
 
 
 

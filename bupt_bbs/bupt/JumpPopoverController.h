@@ -13,7 +13,7 @@
 -(void)jumpToRefresh:(NSUInteger) nextPage;
 @end
 
-@interface JumpPopoverController : UIViewController<UITextFieldDelegate>
+@interface JumpPopoverController : UIViewController
 
 +(instancetype)getInstanceWithFrame:(CGRect)frame
                    withPageAllCount:(NSInteger)page_all_count

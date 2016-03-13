@@ -8,7 +8,7 @@
 
 #import "TopSectionViewController.h"
 #import "SectionUtilities.h"
-#import <MJRefresh.h>
+
 #import "SectionInfo.h"
 #import "SectionAndBoardInfoCell.h"
 #import "SectionViewController.h"
@@ -17,11 +17,12 @@
 #import "RootViewController.h"
 #import "ScreenAdaptionUtilities.h"
 #import "CustomUtilities.h"
-#import "HttpResponseDelegate.h"
+#import "SectionHttpResponseDelegate.h"
 #import "UserInfo.h"
 #import <SVProgressHUD.h>
+#import <MJRefresh.h>
 
-@interface TopSectionViewController ()<HttpResponseDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UICollectionViewDataSource>
+@interface TopSectionViewController ()<SectionHttpResponseDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UICollectionViewDataSource>
 
 @property (copy,nonatomic) NSArray* data;
 @property (strong,nonatomic) UICollectionView *collectionView;

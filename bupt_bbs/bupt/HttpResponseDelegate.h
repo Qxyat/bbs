@@ -15,7 +15,6 @@
 -(void)handleHttpErrorWithResponse:(id)response
                          withError:(NSError *)error;
 
-@optional
--(void)handleSubSectionResponse:(id)response;
+
 
 @end

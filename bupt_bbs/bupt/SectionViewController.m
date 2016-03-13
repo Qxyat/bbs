@@ -15,12 +15,12 @@
 #import "SectionInfo.h"
 #import "BoardViewController.h"
 #import "CustomUtilities.h"
-#import "HttpResponseDelegate.h"
+#import "SectionHttpResponseDelegate.h"
 #import <SVProgressHUD.h>
 
 static NSString *const kContentCellIdentifier=@"contentCell";
 static NSString *const kHeaderCellIdentifier=@"headerCell";
-@interface SectionViewController ()<UICollectionViewDelegateFlowLayout,HttpResponseDelegate>
+@interface SectionViewController ()<UICollectionViewDelegateFlowLayout,SectionHttpResponseDelegate>
 
 @property (strong,nonatomic)NSArray *section_data;
 @property (strong,nonatomic)NSArray *board_data;
@@ -158,43 +158,52 @@ static NSString *const kHeaderCellIdentifier=@"headerCell";
 
 #pragma mark - 刷新当前分区信息
 -(void)refresh{
-    [SectionUtilities getSpecifiedSectionsWithName:self.name delegate:self];
+    [SectionUtilities getSpecifiedSectionWithName:self.name isSubSectionRequest:NO subIndex:0 delegate:self];
 }
 
-#pragma mark - 实现HttpResponseDelegate协议
--(void)handleHttpSuccessWithResponse:(id)response{
-    NSDictionary *dic=(NSDictionary*)response;
-    NSArray *sub_sections=dic[@"sub_section"];
-    if(sub_sections.count>0){
-        NSMutableArray *tmp=[[NSMutableArray alloc]initWithCapacity:sub_sections.count];
-        for(int i=0;i<sub_sections.count;i++){
-            SectionInfo *sectionInfo=[[SectionInfo alloc]init];
-            sectionInfo.section_description=sub_sections[i];
-            sectionInfo.name=sub_sections[i];
-            [tmp addObject:sectionInfo];
+#pragma mark - 实现SectionHttpResponseDelegate协议
+-(void)handleSectionSucessWithResponse:(id)response isSubSectionRequest:(BOOL)isSubSectionRequest subIndex:(NSUInteger)index{
+    if(!isSubSectionRequest){
+        NSDictionary *dic=(NSDictionary*)response;
+        NSArray *sub_sections=dic[@"sub_section"];
+        if(sub_sections.count>0){
+            NSMutableArray* subSections=[[NSMutableArray alloc]init];
+            for(int i=0;i<sub_sections.count;i++){
+                SectionInfo *sectionInfo=[[SectionInfo alloc]init];
+                sectionInfo.name=sub_sections[i];
+                sectionInfo.section_description=sub_sections[i];
+                [subSections addObject:sectionInfo];
+                [SectionUtilities getSpecifiedSectionWithName:sub_sections[i] isSubSectionRequest:YES subIndex:i delegate:self];
+            }
+            _section_data=subSections;
         }
-        self.section_data=tmp;
-        [SectionUtilities getSubSectionsWithName:sub_sections delegate:self];
+        else
+            self.section_data=[[NSArray alloc]init];
+        self.board_data=[BoardInfo getBoardsInfo:dic[@"board"]];
+        if(self.section_data.count==0||self.board_data.count==0)
+            _numberOfSections=1;
+        else
+            _numberOfSections=2;
+        [self.collectionView.mj_header endRefreshing];
+        [self.collectionView reloadData];
     }
-    else
-        self.section_data=[[NSArray alloc]init];
-    self.board_data=[BoardInfo getBoardsInfo:dic[@"board"]];
-    if(self.section_data.count==0||self.board_data.count==0)
-        _numberOfSections=1;
-    else
-        _numberOfSections=2;
-    [self.collectionView.mj_header endRefreshing];
-    [self.collectionView reloadData];
+    else{
+        SectionInfo *sectionInfo=[SectionInfo getSectionInfo:response];
+        ((SectionInfo *)_section_data[index]).section_description=sectionInfo.section_description;
+        NSIndexPath *indexPath=[NSIndexPath indexPathForRow:index inSection:0];
+        SectionAndBoardInfoCell *cell=(SectionAndBoardInfoCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+        cell.label.text=((SectionInfo *)_section_data[index]).section_description;
+    }
 }
--(void)handleHttpErrorWithResponse:(id)response
-                         withError:(NSError *)error{
-    NSString *errorString=[CustomUtilities getNetworkErrorInfoWithResponse:response withError:error];
-    [SVProgressHUD showErrorWithStatus:errorString];
-    
-    [self.collectionView.mj_header endRefreshing];
+-(void)handleSectionErrorWithResponse:(id)response withError:(NSError *)error isSubSectionRequest:(BOOL)isSubSectionRequest subIndex:(NSUInteger)index{
+    if(!isSubSectionRequest){
+        NSString *string=[CustomUtilities getNetworkErrorInfoWithResponse:response withError:error];
+        [SVProgressHUD showErrorWithStatus:string];
+        [self.collectionView.mj_header endRefreshing];
+    }
+    else{
+        NSLog(@"请求子分区的中文名字失败");
+    }
 }
--(void)handleSubSectionResponse:(id)response{
-    self.section_data=response;
-    [self.collectionView reloadData];
-}
+
 @end

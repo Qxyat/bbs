@@ -180,6 +180,7 @@
 		419411DD1C1C1573002E59AC /* BoardInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardInfo.m; sourceTree = "<group>"; };
 		419411DF1C1C372C002E59AC /* CollectionViewHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewHeader.h; sourceTree = "<group>"; };
 		419411E01C1C372C002E59AC /* CollectionViewHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewHeader.m; sourceTree = "<group>"; };
+		419501A01C95013D00371B57 /* SectionHttpResponseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionHttpResponseDelegate.h; sourceTree = "<group>"; };
 		419E5E071C50BAFF00BE575E /* MailboxUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailboxUtilities.h; sourceTree = "<group>"; };
 		419E5E081C50BAFF00BE575E /* MailboxUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailboxUtilities.m; sourceTree = "<group>"; };
 		419E5E0A1C50C08300BE575E /* MailInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailInfo.h; sourceTree = "<group>"; };
@@ -290,6 +291,7 @@
 				41B018531C2304E700AA8F88 /* UserHttpResponseDelegate.h */,
 				412DF8591C57D2420001CF20 /* MailHttpResponseDelegate.h */,
 				412641F81C0E91A7006C4B31 /* HttpResponseDelegate.h */,
+				419501A01C95013D00371B57 /* SectionHttpResponseDelegate.h */,
 				4124410F1C2244F2009A4172 /* ShowUserInfoViewControllerDelegate.h */,
 				41432A7F1C38E53000423DFE /* ThemePopoverControllerDelegate.h */,
 				41D383C41C3C071100255BA9 /* RefreshTableViewDelegate.h */,

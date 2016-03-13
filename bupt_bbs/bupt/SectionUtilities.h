@@ -7,12 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HttpResponseDelegate.h"
+#import "SectionHttpResponseDelegate.h"
+
 @interface SectionUtilities : NSObject
 
-+(void)getSections:(id<HttpResponseDelegate>)delegate;
++(void)getSections:(id<SectionHttpResponseDelegate>)delegate;
 
-+(void)getSpecifiedSectionsWithName:(NSString*)name delegate:(id<HttpResponseDelegate>)delegate;
++(void)getSpecifiedSectionWithName:(NSString*)name
+               isSubSectionRequest:(BOOL)isSubSectionRequest
+                          subIndex:(NSUInteger)index
+                          delegate:(id<SectionHttpResponseDelegate>)delegate;
 
-+(void)getSubSectionsWithName:(NSArray*)array delegate:(id<HttpResponseDelegate>)delegate;
+//+(void)getSubSectionsWithName:(NSArray*)array delegate:(id<HttpResponseDelegate>)delegate;
 @end

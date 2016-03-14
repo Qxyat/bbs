@@ -34,7 +34,7 @@
 		41432A7D1C38DA3200423DFE /* ThemePopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41432A7B1C38DA3200423DFE /* ThemePopoverController.m */; };
 		41432A7E1C38DA3200423DFE /* ThemePopoverControllerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41432A7C1C38DA3200423DFE /* ThemePopoverControllerView.xib */; };
 		41432A821C39053E00423DFE /* JumpPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41432A811C39053E00423DFE /* JumpPopoverController.m */; };
-		4143427D1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4143427C1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.m */; };
+		4143427D1C1EC67F009300BC /* AttributedStringUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4143427C1C1EC67F009300BC /* AttributedStringUtilities.m */; };
 		41434F2D1BE8D5AA00FF01D9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 41434F2C1BE8D5AA00FF01D9 /* main.m */; };
 		41434F301BE8D5AA00FF01D9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 41434F2F1BE8D5AA00FF01D9 /* AppDelegate.m */; };
 		4153C8361C3BB4C000A0C0F2 /* ArticlePreProcessingUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4153C8351C3BB4C000A0C0F2 /* ArticlePreProcessingUtilities.m */; };
@@ -148,8 +148,8 @@
 		41432A7F1C38E53000423DFE /* ThemePopoverControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemePopoverControllerDelegate.h; sourceTree = "<group>"; };
 		41432A801C39053E00423DFE /* JumpPopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JumpPopoverController.h; sourceTree = "<group>"; };
 		41432A811C39053E00423DFE /* JumpPopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JumpPopoverController.m; sourceTree = "<group>"; };
-		4143427B1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaluateAttributedStringSizeUtilities.h; sourceTree = "<group>"; };
-		4143427C1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaluateAttributedStringSizeUtilities.m; sourceTree = "<group>"; };
+		4143427B1C1EC67F009300BC /* AttributedStringUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributedStringUtilities.h; sourceTree = "<group>"; };
+		4143427C1C1EC67F009300BC /* AttributedStringUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributedStringUtilities.m; sourceTree = "<group>"; };
 		41434F281BE8D5AA00FF01D9 /* 邮遍天下.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "邮遍天下.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		41434F2C1BE8D5AA00FF01D9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		41434F2E1BE8D5AA00FF01D9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -274,8 +274,8 @@
 			children = (
 				410B201E1C151842004C0CBE /* CustomUtilities.h */,
 				410B201F1C151842004C0CBE /* CustomUtilities.m */,
-				4143427B1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.h */,
-				4143427C1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.m */,
+				4143427B1C1EC67F009300BC /* AttributedStringUtilities.h */,
+				4143427C1C1EC67F009300BC /* AttributedStringUtilities.m */,
 				41CEB46C1C2B8C4A004935FF /* ScreenAdaptionUtilities.h */,
 				41CEB46D1C2B8C4A004935FF /* ScreenAdaptionUtilities.m */,
 				4153C8341C3BB4C000A0C0F2 /* ArticlePreProcessingUtilities.h */,
@@ -759,7 +759,7 @@
 				411DEC061C0D3131008B7EB6 /* TopTenViewController.m in Sources */,
 				41B26AC51C3E08A90088E1FE /* YYImage+Emoji.m in Sources */,
 				4129D06D1C3CB0D900BCB528 /* PictureInfo.m in Sources */,
-				4143427D1C1EC67F009300BC /* CaluateAttributedStringSizeUtilities.m in Sources */,
+				4143427D1C1EC67F009300BC /* AttributedStringUtilities.m in Sources */,
 				419411D51C1BEF41002E59AC /* SectionInfo.m in Sources */,
 				41D383C31C3BF2E100255BA9 /* DownloadResourcesUtilities.m in Sources */,
 				410EABA21C0A9EE70076F7A9 /* RootViewController.m in Sources */,

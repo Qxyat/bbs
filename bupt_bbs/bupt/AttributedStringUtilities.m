@@ -6,7 +6,7 @@
 //  Copyright © 2015年 qiu. All rights reserved.
 //
 
-#import "CaluateAttributedStringSizeUtilities.h"
+#import "AttributedStringUtilities.h"
 #import <CoreText/CoreText.h>
 #pragma mark - 获得AttributedString高度的相关方法
 static CGFLOAT_TYPE CGFloat_ceil(CGFLOAT_TYPE cgfloat) {

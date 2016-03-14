@@ -14,12 +14,14 @@
 #import "DownloadResourcesUtilities.h"
 #import "CustomUtilities.h"
 #import "PictureInfo.h"
+#import "UserInfo.h"
 
 @implementation ArticlePreProcessingUtilities
 #pragma mark - 预加载一页文章所需要的图片
 +(void)onePageArticlesPreProcess:(NSArray*)array{
     for(int i=0;i<array.count;i++){
         ArticleInfo *articleInfo=(ArticleInfo*)array[i];
+        [DownloadResourcesUtilities downloadImage:articleInfo.user.face_url FromBBS:YES Completed:nil];
         [ArticlePreProcessingUtilities oneArticlePreProcessing:articleInfo];
     }
 }
@@ -36,7 +38,7 @@
     }
     NSScanner *scanner=[[NSScanner alloc]initWithString:articleInfo.content];
     scanner.charactersToBeSkipped=nil;
-   
+
     while(![scanner isAtEnd]){
         if([scanner scanString:@"[upload=" intoString:nil]){
             int pos=1;

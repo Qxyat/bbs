@@ -117,7 +117,7 @@ static const int kNumOfPageToCache=5;
     return _data.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    ArticleDetailInfoCell *cell=[tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
+    ArticleDetailInfoCell *cell=[tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
     ArticleInfo *articleInfo=_data[indexPath.row];
     cell.articleInfo=articleInfo;
     cell.delegate=self;
@@ -126,8 +126,16 @@ static const int kNumOfPageToCache=5;
 
 #pragma mark - UITableView Delegate
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static int count=0;
+    
     ArticleInfo *articleInfo=_data[indexPath.row];
     CGSize size=[articleInfo.contentSize CGSizeValue];
+    
+    NSLog(@"**************");
+    NSLog(@"height For Row At IndexPath %@ %d",indexPath,count++);
+    NSLog(@"%@",NSStringFromCGSize(size));
+    NSLog(@"**************");
+    
     return 4*kMargin+2*kFaceImageViewHeight+size.height+1;
 }
 -(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath{

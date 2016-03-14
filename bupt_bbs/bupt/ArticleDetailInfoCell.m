@@ -14,7 +14,7 @@
 #import "ShowUserInfoViewController.h"
 #import "ScreenAdaptionUtilities.h"
 #import "CustomUtilities.h"
-#import "CaluateAttributedStringSizeUtilities.h"
+#import "AttributedStringUtilities.h"
 #import "AttachmentInfo.h"
 #import "AttachmentFile.h"
 #import "DownloadResourcesUtilities.h"

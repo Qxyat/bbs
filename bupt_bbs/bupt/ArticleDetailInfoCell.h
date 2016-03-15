@@ -16,7 +16,8 @@ extern CGFloat const kMargin;
 extern CGFloat const kMaxRatio;
 extern CGFloat const kFaceImageViewHeight;
 
-@interface ArticleDetailInfoCell : UITableViewCell<ShowUserInfoViewControllerDelegate,MWPhotoBrowserDelegate>
+@interface ArticleDetailInfoCell : UITableViewCell
+
 @property (weak, nonatomic) IBOutlet YYAnimatedImageView *faceImageView;
 @property (weak, nonatomic) IBOutlet UILabel *floorLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
@@ -26,5 +27,5 @@ extern CGFloat const kFaceImageViewHeight;
 @property (weak, nonatomic) ArticleInfo *articleInfo;
 @property (weak, nonatomic) IBOutlet UIView *labelContainer;
 @property (weak, nonatomic) id<RefreshTableViewDelegate> delegate;
--(void)refreshCustomLayout;
+
 @end

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+@class ArticleInfo;
 @protocol RefreshTableViewDelegate <NSObject>
--(void)refreshTableView:(NSString*)url;
+-(void)refreshTableView:(ArticleInfo*)article;
 @end

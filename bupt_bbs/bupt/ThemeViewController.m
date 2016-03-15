@@ -16,7 +16,6 @@
 #import "ScreenAdaptionUtilities.h"
 #import "ThemePopoverController.h"
 #import "JumpPopoverController.h"
-#import "ArticlePreProcessingUtilities.h"
 #import "CustomUtilities.h"
 #import "PictureInfo.h"
 #import "ReplyViewController.h"
@@ -126,15 +125,15 @@ static const int kNumOfPageToCache=5;
 
 #pragma mark - UITableView Delegate
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static int count=0;
+   // static int count=0;
     
     ArticleInfo *articleInfo=_data[indexPath.row];
     CGSize size=[articleInfo.contentSize CGSizeValue];
     
-    NSLog(@"**************");
-    NSLog(@"height For Row At IndexPath %@ %d",indexPath,count++);
-    NSLog(@"%@",NSStringFromCGSize(size));
-    NSLog(@"**************");
+//    NSLog(@"**************");
+//    NSLog(@"height For Row At IndexPath %@ %d",indexPath,count++);
+//    NSLog(@"%@",NSStringFromCGSize(size));
+//    NSLog(@"**************");
     
     return 4*kMargin+2*kFaceImageViewHeight+size.height+1;
 }
@@ -174,8 +173,13 @@ static const int kNumOfPageToCache=5;
     self.theme_title=dic[@"title"];
     self.titleLabel.text=dic[@"title"];
     NSArray *tmp=[ArticleInfo getArticlesInfo:dic[@"article"]];
+    for(ArticleInfo *article in tmp){
+        [article articlePreprocess];
+    }
+    
     self.page_all_count=[dic[@"pagination"][@"page_all_count"] intValue];
     self.page_cur_count=[dic[@"pagination"][@"page_current_count"] intValue];
+    
     if(self.refreshMode==RefreshModePullDown){
         [_data insertObjects:tmp atIndex:0];
     }
@@ -186,7 +190,7 @@ static const int kNumOfPageToCache=5;
         [_data removeAllObjects];
         [_data addObjectsFromArray:tmp];
     }
-    [ArticlePreProcessingUtilities onePageArticlesPreProcess:tmp];
+    //[ArticlePreProcessingUtilities onePageArticlesPreProcess:tmp];
     
     if(self.refreshMode==RefreshModePullDown){
         [self.tableView.mj_header endRefreshing];
@@ -289,19 +293,8 @@ static const int kNumOfPageToCache=5;
 }
 
 #pragma mark - 实现RefreshTableViewDelegate协议
--(void)refreshTableView:(NSString*)url{
-    NSArray *paths=[self.tableView indexPathsForVisibleRows];
-    
-    for(int i=0;i<paths.count;i++){
-        NSIndexPath *indexPath=paths[i];
-        ArticleInfo *articleInfo=self.data[indexPath.row];
-        for(int j=0;j<articleInfo.pictures.count;j++){
-            PictureInfo *picture=articleInfo.pictures[j];
-            if([url isEqualToString:picture.original_url]){
-                [self.tableView reloadData];
-                return;
-            }
-        }
-    }
+-(void)refreshTableView:(ArticleInfo*)article{
+    [self.tableView reloadData];
 }
+
 @end

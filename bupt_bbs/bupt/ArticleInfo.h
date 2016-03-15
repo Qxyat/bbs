@@ -6,12 +6,20 @@
 //  Copyright © 2015年 qiu. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "ArticleDetailInfoCell.h"
 
 @class UserInfo;
 @class AttachmentInfo;
 
-@interface ArticleInfo : NSObject
+@protocol ArticleInfoDelegate <NSObject>
+
+-(void)pictureTapped:(UIGestureRecognizer*)recognizer;
+
+@end
+
+
+@interface ArticleInfo : NSObject<ArticleInfoDelegate>
 
 @property(nonatomic) int articleId;
 @property(nonatomic) int group_id;
@@ -37,10 +45,22 @@
 @property(nonatomic) int last_reply_time;
 
 //用来保存一篇文章里面的图片信息
+@property(nonatomic)BOOL isPictureArrayAlready;
 @property(strong,nonatomic)NSMutableArray *pictures;
-@property(strong,nonatomic)NSAttributedString *contentAttributesString;
+@property(strong,nonatomic)NSAttributedString *contentAttributedString;
 @property(strong,nonatomic)NSValue *contentSize;
+
+
+//@property(weak,nonatomic) <UITabBarControllerDelegate>delegate;
+@property(weak,nonatomic) id<ArticleInfoDelegate> delegate;
 
 +(NSArray*)getArticlesInfo:(id)item;
 +(ArticleInfo *)getArticleInfo:(id)item;
+
+-(void)addCellObserver;
+
+-(void)removeCellObserver;
+
+-(void)articlePreprocess;
+
 @end

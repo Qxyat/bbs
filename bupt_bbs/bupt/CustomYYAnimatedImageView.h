@@ -11,5 +11,6 @@
 @interface CustomYYAnimatedImageView : YYAnimatedImageView
 
 @property (strong,nonatomic) NSString *imageString;
+@property (nonatomic)BOOL isFailed;
 
 @end

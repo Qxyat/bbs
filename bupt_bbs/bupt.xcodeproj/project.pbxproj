@@ -37,7 +37,6 @@
 		4143427D1C1EC67F009300BC /* AttributedStringUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4143427C1C1EC67F009300BC /* AttributedStringUtilities.m */; };
 		41434F2D1BE8D5AA00FF01D9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 41434F2C1BE8D5AA00FF01D9 /* main.m */; };
 		41434F301BE8D5AA00FF01D9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 41434F2F1BE8D5AA00FF01D9 /* AppDelegate.m */; };
-		4153C8361C3BB4C000A0C0F2 /* ArticlePreProcessingUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4153C8351C3BB4C000A0C0F2 /* ArticlePreProcessingUtilities.m */; };
 		415836C41C53448800D542A3 /* CustomPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 415836C31C53448800D542A3 /* CustomPopoverController.m */; };
 		415AE0951C0AF5F700B1F137 /* UserCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 415AE0941C0AF5F700B1F137 /* UserCenterViewController.m */; };
 		416B272F1C1BE87F00D0FFE4 /* SectionUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 416B272E1C1BE87F00D0FFE4 /* SectionUtilities.m */; };
@@ -155,8 +154,6 @@
 		41434F2E1BE8D5AA00FF01D9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		41434F2F1BE8D5AA00FF01D9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		41434F3C1BE8D5AA00FF01D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4153C8341C3BB4C000A0C0F2 /* ArticlePreProcessingUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticlePreProcessingUtilities.h; sourceTree = "<group>"; };
-		4153C8351C3BB4C000A0C0F2 /* ArticlePreProcessingUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticlePreProcessingUtilities.m; sourceTree = "<group>"; };
 		415836C21C53448800D542A3 /* CustomPopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPopoverController.h; sourceTree = "<group>"; };
 		415836C31C53448800D542A3 /* CustomPopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPopoverController.m; sourceTree = "<group>"; };
 		415AE0931C0AF5F700B1F137 /* UserCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCenterViewController.h; sourceTree = "<group>"; };
@@ -278,8 +275,6 @@
 				4143427C1C1EC67F009300BC /* AttributedStringUtilities.m */,
 				41CEB46C1C2B8C4A004935FF /* ScreenAdaptionUtilities.h */,
 				41CEB46D1C2B8C4A004935FF /* ScreenAdaptionUtilities.m */,
-				4153C8341C3BB4C000A0C0F2 /* ArticlePreProcessingUtilities.h */,
-				4153C8351C3BB4C000A0C0F2 /* ArticlePreProcessingUtilities.m */,
 			);
 			name = CustomUtilities;
 			sourceTree = "<group>";
@@ -734,7 +729,6 @@
 				41DAC4581C57101600BFAB5A /* UIBarButtonItem+Image.m in Sources */,
 				417455321C43AC3F00CC1334 /* QCEmojiKeyboard.m in Sources */,
 				4108AFFA1C0D8FBB00CDC292 /* TopSectionViewController.m in Sources */,
-				4153C8361C3BB4C000A0C0F2 /* ArticlePreProcessingUtilities.m in Sources */,
 				419411DB1C1C0C93002E59AC /* SectionViewController.m in Sources */,
 				41B684BD1C2001BB0088395D /* ShowUserInfoViewController.m in Sources */,
 				4108B0001C0D951600CDC292 /* TopTenUtilities.m in Sources */,

@@ -10,7 +10,10 @@
 @class YYImage;
 @interface DownloadResourcesUtilities : NSObject
 
++(YYImage*)getDownloadedImage:(NSString *)string;
+
 +(YYImage*)downloadImage:(NSString *)string
                  FromBBS:(BOOL)isFromBBS
-               Completed:(void (^)(YYImage *image))block;
+               Completed:(void (^)(YYImage *image,BOOL isFailed))block;
+
 @end

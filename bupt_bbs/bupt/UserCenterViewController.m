@@ -183,7 +183,7 @@
 #pragma mark - 刷新用户个人中心界面
 -(void)refresh{
     typeof(self) wkself=self;
-    YYImage *cacheImage=[DownloadResourcesUtilities downloadImage:[LoginManager sharedManager].currentLoginUserInfo.face_url FromBBS:NO Completed:^(YYImage *image) {
+    YYImage *cacheImage=[DownloadResourcesUtilities downloadImage:[LoginManager sharedManager].currentLoginUserInfo.face_url FromBBS:NO Completed:^(YYImage *image,BOOL isFailed) {
         wkself.faceImageView.image=image;
     }];
     if(cacheImage){

@@ -141,15 +141,16 @@ CGSize getStringSize(NSString *string){
     CustomYYAnimatedImageView *imageView=(CustomYYAnimatedImageView*)recognizer.view;
     if(imageView.isFailed){
         PictureInfo *picture=_pictures[imageView.tag];
-        picture.isFailed=NO;
-        picture.isDownloading=NO;
-        picture.isShowed=NO;
-        picture.isDownloaded=NO;
+        @synchronized(picture) {
+            picture.isFailed=NO;
+            picture.isDownloading=NO;
+            picture.isShowed=NO;
+            picture.isDownloaded=NO;
+        }
         [self _calculateAttributedString];
         return;
     }
-    if(_delegate!=nil)
-        [_delegate pictureTapped:recognizer];
+    [_delegate pictureTapped:recognizer];
 }
 
 -(void)addCellObserver{

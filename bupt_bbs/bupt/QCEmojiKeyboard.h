@@ -13,4 +13,6 @@
 
 @property (weak,nonatomic) id<QCEmojiKeyboardDelegate> delegate;
 
++(instancetype)sharedQCEmojiKeyboard;
+
 @end

@@ -281,7 +281,7 @@ static CGFloat const kContentFontSize=15;
 
 
 #pragma mark - 实现MailHttpResponseDelegate协议
--(void)handleMailInfoSuccessResponse:(id)response{
+-(void)handleMailInfoSuccessWithResponse:(id)response{
     [SVProgressHUD dismiss];
     _maildata=[MailInfo getMailInfo:response];
     [self _refreshView];

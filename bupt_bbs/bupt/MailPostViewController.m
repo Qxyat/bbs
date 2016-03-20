@@ -215,8 +215,8 @@
         _contentTextView.selectedRange=NSMakeRange(0, 0);
     }
     
-    _emojiKeyboard=[[QCEmojiKeyboard alloc]init];
-    _emojiKeyboard.delegate=self;
+//    _emojiKeyboard=[[QCEmojiKeyboard alloc]init];
+//    _emojiKeyboard.delegate=self;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -324,13 +324,16 @@
 
 #pragma mark - 显示表情键盘
 -(void)showEmojiKeyboard{
-    if(_contentTextView.inputView==_emojiKeyboard){
+    if(_contentTextView.inputView!=nil){
         _contentTextView.inputView=nil;
+        _emojiKeyboard=nil;
         [_contentTextView reloadInputViews];
         [_emojiButton setImage:[UIImage imageNamed:@"toolbaremotion"] forState:UIControlStateNormal];
         [_emojiButton setImage:[UIImage imageNamed:@"toolbaremotionhighlighted"] forState:UIControlStateHighlighted];
     }
     else{
+        _emojiKeyboard=[QCEmojiKeyboard sharedQCEmojiKeyboard];
+        _emojiKeyboard.delegate=self;
         _contentTextView.inputView=_emojiKeyboard;
         [_contentTextView reloadInputViews];
         [_emojiButton setImage:[UIImage imageNamed:@"toolbarkeyboard"] forState:UIControlStateNormal];

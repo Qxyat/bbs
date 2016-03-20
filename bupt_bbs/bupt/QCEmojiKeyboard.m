@@ -29,7 +29,7 @@ static NSUInteger const kQCEmojiOnePageCount=21;
 static NSUInteger const kQCEmojiColCount=7;
 static CGFloat    const kQCEmojiItemHeight=50.0;
 static CGFloat    const kQCEmojiToolbarHeight=36.0;
-static NSUInteger const kQCEmojiToolbarOnePageItemCount=4;
+static NSUInteger const kQCEmojiToolbarOnePageItemCount=3;
 
 @interface QCEmojiKeyboard ()<UICollectionViewDataSource,UICollectionViewDelegate,UIScrollViewDelegate>
 
@@ -45,7 +45,7 @@ static NSUInteger const kQCEmojiToolbarOnePageItemCount=4;
 
 @implementation QCEmojiKeyboard
 
--(instancetype)sharedQCEmojiKeyboard{
++(instancetype)sharedQCEmojiKeyboard{
     static QCEmojiKeyboard *qcEmojiKeyboard;
     static dispatch_once_t token;
     dispatch_once(&token, ^{
@@ -148,6 +148,7 @@ static NSUInteger const kQCEmojiToolbarOnePageItemCount=4;
         [scrollView addSubview:button];
         [buttons addObject:button];
     }
+    scrollView.contentSize=CGSizeMake(CGRectGetWidth(((UIButton*)[buttons lastObject]).frame)*_emojiGroups.count, CGRectGetHeight(((UIButton*)[buttons lastObject]).frame));
     _toolbarButtons=buttons;
     [self addSubview:_toolbar];
 }

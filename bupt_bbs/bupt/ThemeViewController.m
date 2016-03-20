@@ -14,13 +14,14 @@
 #import <MJRefresh.h>
 #import <SVProgressHUD.h>
 #import "ScreenAdaptionUtilities.h"
-#import "ThemePopoverController.h"
+//#import "ThemePopoverController.h"
 #import "JumpPopoverController.h"
 #import "CustomUtilities.h"
 #import "PictureInfo.h"
 #import "ReplyViewController.h"
 #import "HttpResponseDelegate.h"
-#import "ThemePopoverControllerDelegate.h"
+//#import "ThemePopoverControllerDelegate.h"
+#import "CustomPopoverController.h"
 #import "RefreshTableViewDelegate.h"
 
 static NSString * const kCellIdentifier=@"articledetailinfo";
@@ -30,7 +31,7 @@ static const int kNumOfPageToCache=5;
 #define RefreshModePullDown 1
 #define RefreshModeJump 2
 
-@interface ThemeViewController ()<HttpResponseDelegate,ThemePopoverControllerDelegate,JumpPopoverControllerDelegate,RefreshTableViewDelegate>
+@interface ThemeViewController ()<HttpResponseDelegate,CustomPopoverControllerDelegate,JumpPopoverControllerDelegate,RefreshTableViewDelegate>
 
 @property (nonatomic) int group_id;
 @property (strong,nonatomic) NSString *board_name;
@@ -42,7 +43,7 @@ static const int kNumOfPageToCache=5;
 @property (nonatomic)     int              item_page_count;
 @property (nonatomic)     NSUInteger       refreshMode;
 @property (strong,nonatomic)UILabel*       titleLabel;
-@property (strong,nonatomic)ThemePopoverController *themePopoverController;
+@property (strong,nonatomic)CustomPopoverController *customPopoverController;
 @property (strong,nonatomic)JumpPopoverController *jumpPopoverController;
 @end
 
@@ -65,13 +66,13 @@ static const int kNumOfPageToCache=5;
     self.titleLabel.textAlignment=NSTextAlignmentCenter;
     self.navigationItem.titleView=self.titleLabel;
     
-    self.themePopoverController=nil;
+    self.customPopoverController=nil;
     self.jumpPopoverController=nil;
     
     UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kCustomNavigationBarHeight-8, kCustomNavigationBarHeight-8)];
     imageView.contentMode=UIViewContentModeScaleAspectFit;
     imageView.image=[UIImage imageNamed:@"more"];
-    UITapGestureRecognizer *recognizer=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showThemePopoverController)];
+    UITapGestureRecognizer *recognizer=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showCustomPopoverController)];
     [imageView addGestureRecognizer:recognizer];
     UIBarButtonItem *barButtonItem=[[UIBarButtonItem alloc]initWithCustomView:imageView];
     self.navigationItem.rightBarButtonItem=barButtonItem;
@@ -101,7 +102,7 @@ static const int kNumOfPageToCache=5;
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [self hideJumpPopoverController];
-    [self hideThemePopoverController];
+    [self hideCustomPopoverController];
     [SVProgressHUD dismiss];
 }
 -(void)viewDidDisappear:(BOOL)animated{
@@ -243,41 +244,53 @@ static const int kNumOfPageToCache=5;
 }
 
 #pragma mark - 显示更多内容页的PopoverController
--(void)showThemePopoverController{
+-(void)showCustomPopoverController{
     [self hideJumpPopoverController];
-    if(self.themePopoverController==nil){
-        self.themePopoverController=[ThemePopoverController getInstance];
-        self.themePopoverController.delegate=self;
-        self.themePopoverController.navigationBarHeight=kCustomNavigationBarHeight;
-        
-        [self.tableView.superview addSubview:self.themePopoverController.view];
+    if(self.customPopoverController==nil){
+        CGFloat yOffset=CGRectGetMaxY(self.navigationController.navigationBar.frame);
+        CGRect frame=CGRectMake(0, yOffset, kCustomScreenWidth,kCustomScreenHeight-yOffset);
+        NSArray *pictures=@[@{CustomPopoverControllerImageTypeNormal:@"btn_jump_n",CustomPopoverControllerImageTypeHighlighted: @"btn_jump_h"},@{CustomPopoverControllerImageTypeNormal:@"btn_reply_n",CustomPopoverControllerImageTypeHighlighted:@"btn_reply_h"}];
+        _customPopoverController=[CustomPopoverController getInstanceWithFrame:frame withItemNames:@[@"跳页",@"快捷回复"] withItemPictures:pictures withDelegate:self];
+        [self.tableView.superview addSubview:_customPopoverController.view];
     }
     else{
-        [self hideThemePopoverController];
+        [self hideCustomPopoverController];
+    }
+//    if(self.themePopoverController==nil){
+//        self.themePopoverController=[ThemePopoverController getInstance];
+//        self.themePopoverController.delegate=self;
+//        self.themePopoverController.navigationBarHeight=kCustomNavigationBarHeight;
+//        
+//        [self.tableView.superview addSubview:self.themePopoverController.view];
+//    }
+//    else{
+//        [self hideThemePopoverController];
+//    }
+}
+#pragma mark - 实现CustomPopoverControllerDelegate协议
+-(void)hideCustomPopoverController{
+    if(self.customPopoverController!=nil){
+        [self.customPopoverController hideCustomPopoverControllerView];
+        self.customPopoverController=nil;
     }
 }
-#pragma mark - 实现ThemePopoverControllerDelegate协议
--(void)hideThemePopoverController{
-    if(self.themePopoverController!=nil){
-        [self.themePopoverController hideThemePopoverControllerView];
-        self.themePopoverController=nil;
+-(void)itemTapped:(NSInteger)index{
+    [self hideCustomPopoverController];
+    if(index==0){
+        if(self.jumpPopoverController==nil){
+            self.jumpPopoverController=[JumpPopoverController getInstanceWithFrame:CGRectMake(0, CGRectGetMaxY(self.navigationController.navigationBar.frame), kCustomScreenWidth, kCustomScreenHeight-CGRectGetMaxY(self.navigationController.navigationBar.frame)) withPageAllCount:_page_all_count withPageCurCount:_page_cur_count withDelegate:self];
+            [self.tableView.superview addSubview:self.jumpPopoverController.view];
+        }
+        else{
+            [self hideJumpPopoverController];
+        }
+    }
+    else if(index==1){
+        ReplyViewController *viewController=[ReplyViewController getInstanceWithBoardName:self.board_name isNewTheme:NO withArticleName:self.theme_title withArticleId:self.group_id withArticleInfo:nil];
+        [self.navigationController pushViewController:viewController animated:YES];
     }
 }
--(void)showJumpPopoverController{
-    [self hideThemePopoverController];
-    if(self.jumpPopoverController==nil){
-        self.jumpPopoverController=[JumpPopoverController getInstanceWithFrame:CGRectMake(0, CGRectGetMaxY(self.navigationController.navigationBar.frame), kCustomScreenWidth, kCustomScreenHeight-CGRectGetMaxY(self.navigationController.navigationBar.frame)) withPageAllCount:_page_all_count withPageCurCount:_page_cur_count withDelegate:self];
-        [self.tableView.superview addSubview:self.jumpPopoverController.view];
-    }
-    else{
-        [self hideJumpPopoverController];
-    }
-}
--(void)showQucikReplyViewController{
-    [self hideThemePopoverController];
-    ReplyViewController *viewController=[ReplyViewController getInstanceWithBoardName:self.board_name isNewTheme:NO withArticleName:self.theme_title withArticleId:self.group_id withArticleInfo:nil];
-    [self.navigationController pushViewController:viewController animated:YES];
-}
+
 #pragma mark - 实现JumpPopoverControllerDelegate协议
 -(void)hideJumpPopoverController{
     if(self.jumpPopoverController!=nil){

@@ -60,7 +60,9 @@
     self.getUserInfo=NO;
     [UserUtilities getLoginUserInfo:self];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.timeUp=YES;
+        @synchronized(self) {
+            self.timeUp=YES;
+        }
         if(self.timeUp&&self.getUserInfo){
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self showRootView];
@@ -84,7 +86,10 @@
 -(void)handleUserInfoSuccessWithResponse:(id)response{
     LoginManager *manager=[LoginManager sharedManager];
     manager.currentLoginUserInfo=[UserInfo getUserInfo:response];
-    self.getUserInfo=YES;
+    @synchronized(self) {
+         self.getUserInfo=YES;
+    }
+   
     if(self.getUserInfo&&self.timeUp)
         [self showRootView];
 }

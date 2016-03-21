@@ -20,7 +20,7 @@ CGSize sizeThatFitsAttributedString(NSAttributedString *attributedString,
 
 @interface AttributedStringUtilities : NSObject
 
-@property (weak) ArticleInfo<AttributedStringUtilitiesDelegate>* delegate;
+@property (nonatomic,readwrite,weak) ArticleInfo<AttributedStringUtilitiesDelegate>* delegate;
 
 -(NSMutableAttributedString*)getAttributedStringWithArticle:(ArticleInfo*)article
                                                   fontColor:(UIColor*)color

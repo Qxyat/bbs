@@ -142,8 +142,7 @@ getImageInAttachment:(AttachmentInfo*)attachmentInfo
                             curPictureInfo.isDownloaded=YES;
                             curPictureInfo.isShowed=NO;
                             curPictureInfo.image=image;
-                            if(_delegate!=nil)
-                                [_delegate updateAttributedString];
+                            [_delegate updateAttributedString];
                         }
                     }];
                     if(cachedImage){
@@ -225,8 +224,8 @@ getImageInAttachment:(AttachmentInfo*)attachmentInfo
                     curPictureInfo.isDownloaded=YES;
                     curPictureInfo.isShowed=NO;
                     curPictureInfo.image=image;
-                    if(_delegate!=nil)
-                        [_delegate updateAttributedString];
+
+                    [_delegate updateAttributedString];
                 }
             }];
             if(cachedImage){

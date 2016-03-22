@@ -130,8 +130,6 @@ getImageInAttachment:(AttachmentInfo*)attachmentInfo
             }
         
             PictureInfo *curPictureInfo=_delegate.pictures[_photo_pos];
-            //@synchronized(curPictureInfo) {
-           
             if(curPictureInfo.pictureState==PictureIsIdle){
                 cachedImage=[DownloadResourcesUtilities getImageFromDisk:file.url];
                 if(cachedImage!=nil){
@@ -143,15 +141,13 @@ getImageInAttachment:(AttachmentInfo*)attachmentInfo
                     curPictureInfo.pictureState=PictureIsDownloading;
                     cachedImage=[UIImage imageNamed:@"picIsdownloading"];
                     [DownloadResourcesUtilities downloadImage:file.url FromBBS:YES Completed:^(YYImage *image,BOOL isFailed) {
-                        
-                        NSLog(@"Download block,%@",[NSThread currentThread]);
                         if(!isFailed){
                             curPictureInfo.pictureState=PictureIsDownloaded;
                             curPictureInfo.image=image;
                         }
                         else
                             curPictureInfo.pictureState=PictureIsFailed;
-                       
+                        
                         [_delegate updateAttributedString];
                         
                     }];
@@ -181,7 +177,7 @@ getImageInAttachment:(AttachmentInfo*)attachmentInfo
             imageView.opaque=YES;
             imageView.image=cachedImage;
             imageView.userInteractionEnabled=YES;
-            //imageView.isFailed=curPictureInfo.isFailed;
+    
             UITapGestureRecognizer *tapGestureRecognizer=[[UITapGestureRecognizer alloc]initWithTarget:_delegate action:@selector(pictureTapped:)];
             [imageView addGestureRecognizer:tapGestureRecognizer];
             //使用YYKit提供的方法，后期争取能替换成自己的
@@ -196,84 +192,79 @@ getImageInAttachment:(AttachmentInfo*)attachmentInfo
 -(NSAttributedString *)getImageFromURL:(NSString*)string{
     NSMutableAttributedString *res=[[NSMutableAttributedString alloc]init];
     
-//    UIImage *cachedImage;
-//    if(!_delegate.isPictureArrayAlready){
-//        PictureInfo *picture=[[PictureInfo alloc]init];
-//        picture.thumbnail_url=string;
-//        picture.original_url=string;
-//        picture.isFromBBS=NO;
-//        picture.isDownloading=NO;
-//        picture.isDownloaded=NO;
-//        picture.isFailed=NO;
-//        picture.isShowed=NO;
-//        [_delegate.pictures addObject:picture];
-//    }
-//    
-//    PictureInfo *curPictureInfo=_delegate.pictures[_photo_pos];
-//    @synchronized(curPictureInfo) {
-//        if(curPictureInfo.isDownloading==NO&&curPictureInfo.isDownloaded==NO){
-//            curPictureInfo.isDownloading=YES;
-//            cachedImage=[DownloadResourcesUtilities downloadImage:string FromBBS:NO Completed:^(YYImage *image,BOOL isFailed) {
-//                @synchronized(curPictureInfo) {
-//                    curPictureInfo.isDownloading=NO;
-//                    curPictureInfo.isFailed=isFailed;
-//                    curPictureInfo.isDownloaded=YES;
-//                    curPictureInfo.isShowed=NO;
-//                    curPictureInfo.image=image;
-//
-//                    [_delegate updateAttributedString];
-//                }
-//            }];
-//            if(cachedImage){
-//                curPictureInfo.isDownloading=NO;
-//                curPictureInfo.isDownloaded=YES;
-//                curPictureInfo.isShowed=YES;
-//                curPictureInfo.isFailed=NO;
-//                curPictureInfo.image=cachedImage;
-//            }
-//            else{
-//                curPictureInfo.isDownloaded=NO;
-//                curPictureInfo.isShowed=NO;
-//                curPictureInfo.isFailed=NO;
-//                cachedImage=[UIImage imageNamed:@"picIsdownloading"];
-//            }
-//        }
-//        else if(curPictureInfo.isDownloaded){
-//            curPictureInfo.isDownloading=NO;
-//            if(curPictureInfo.isFailed){
-//                cachedImage=[UIImage imageNamed:@"picdownloadfailed"];
-//            }
-//            else{
-//                cachedImage=curPictureInfo.image;
-//                curPictureInfo.isShowed=YES;
-//            }
-//        }
-//    }
-//    
-//    CGFloat width=cachedImage.size.width;
-//    CGFloat height=cachedImage.size.height;
-//    if(width>kCustomScreenWidth-2*kMargin){
-//        height=(height/width)*(kCustomScreenWidth-2*kMargin);
-//        width=kCustomScreenWidth-2*kMargin;
-//        
-//    }
-//    height+=10;//图片之间的间隔
-//    CustomYYAnimatedImageView *imageView=[[CustomYYAnimatedImageView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
-//    imageView.contentMode=UIViewContentModeScaleAspectFit;
-//    imageView.tag=_photo_pos;
-//    imageView.opaque=YES;
-//    imageView.image=cachedImage;
-//    imageView.userInteractionEnabled=YES;
-//    imageView.isFailed=curPictureInfo.isFailed;
-//    UITapGestureRecognizer *tapGestureRecognizer=[[UITapGestureRecognizer alloc]initWithTarget:_delegate action:@selector(pictureTapped:)];
-//    [imageView addGestureRecognizer:tapGestureRecognizer];
-//    //使用YYKit提供的方法，后期争取能替换成自己的
-//    NSMutableAttributedString* attachText = [NSMutableAttributedString attachmentStringWithContent:imageView contentMode:UIViewContentModeCenter attachmentSize:CGSizeMake(kCustomScreenWidth-2*kMargin, height)  alignToFont:[UIFont systemFontOfSize:_fontSize] alignment:YYTextVerticalAlignmentCenter];
-//    [res appendAttributedString:attachText];
-//    _photo_pos++;
+    UIImage *cachedImage;
+    if(!_delegate.isPictureArrayAlready){
+        PictureInfo *picture=[[PictureInfo alloc]init];
+        picture.thumbnail_url=string;
+        picture.original_url=string;
+        picture.pictureState=PictureIsIdle;
+        picture.isShowed=NO;
+        picture.image=nil;
+        [_delegate.pictures addObject:picture];
+    }
+
+    PictureInfo *curPictureInfo=_delegate.pictures[_photo_pos];
+
+
+    if(curPictureInfo.pictureState==PictureIsIdle){
+        cachedImage=[DownloadResourcesUtilities getImageFromDisk:string];
+        if(cachedImage!=nil){
+            curPictureInfo.pictureState=PictureIsDownloaded;
+            curPictureInfo.image=cachedImage;
+            curPictureInfo.isShowed=YES;
+        }
+        else{
+            curPictureInfo.pictureState=PictureIsDownloading;
+            cachedImage=[UIImage imageNamed:@"picIsdownloading"];
+            [DownloadResourcesUtilities downloadImage:string FromBBS:YES Completed:^(YYImage *image,BOOL isFailed) {
+        
+                if(!isFailed){
+                    curPictureInfo.pictureState=PictureIsDownloaded;
+                    curPictureInfo.image=image;
+                }
+                else
+                    curPictureInfo.pictureState=PictureIsFailed;
+                
+                [_delegate updateAttributedString];
+                
+            }];
+        }
+    }
+    else if(curPictureInfo.pictureState==PictureIsDownloaded){
+        cachedImage=curPictureInfo.image;
+        curPictureInfo.isShowed=YES;
+    }
+    else if(curPictureInfo.pictureState==PictureIsFailed){
+        cachedImage=[UIImage imageNamed:@"picdownloadfailed"];
+        curPictureInfo.isShowed=YES;
+    }
+    
+    CGFloat width=cachedImage.size.width;
+    CGFloat height=cachedImage.size.height;
+    if(width>kCustomScreenWidth-2*kMargin){
+        height=(height/width)*(kCustomScreenWidth-2*kMargin);
+        width=kCustomScreenWidth-2*kMargin;
+
+    }
+    height+=10;//图片之间的间隔
+    CustomYYAnimatedImageView *imageView=[[CustomYYAnimatedImageView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
+    imageView.contentMode=UIViewContentModeScaleAspectFit;
+    imageView.tag=_photo_pos;
+    imageView.opaque=YES;
+    imageView.image=cachedImage;
+    imageView.userInteractionEnabled=YES;
+   
+    UITapGestureRecognizer *tapGestureRecognizer=[[UITapGestureRecognizer alloc]initWithTarget:_delegate action:@selector(pictureTapped:)];
+    [imageView addGestureRecognizer:tapGestureRecognizer];
+    //使用YYKit提供的方法，后期争取能替换成自己的
+    NSMutableAttributedString* attachText = [NSMutableAttributedString attachmentStringWithContent:imageView contentMode:UIViewContentModeCenter attachmentSize:CGSizeMake(kCustomScreenWidth-2*kMargin, height)  alignToFont:[UIFont systemFontOfSize:_fontSize] alignment:YYTextVerticalAlignmentCenter];
+    [res appendAttributedString:attachText];
+    _photo_pos++;
     
     return res;
 }
+
+
 #pragma mark - 通过递归的方式获取对应的attributedstring
 -(NSMutableAttributedString*)
 getAttributedStringByRecursiveWithString:(NSString*)string

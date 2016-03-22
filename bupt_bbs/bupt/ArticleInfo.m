@@ -109,26 +109,12 @@ CGSize getStringSize(NSString *string){
     if(self.content!=nil){
         _attributedUtilities=[[AttributedStringUtilities alloc]init];
         _attributedUtilities.delegate=self;
-        [self updateAttributedString];
+        [self _calculateAttributedString];
     }
 }
 
 -(void)updateAttributedString{
-   // @synchronized(self) {
-        if(self.isPictureArrayAlready){
-            for(PictureInfo *picture in self.pictures){
-               // @synchronized(picture) {
-                    if((picture.pictureState==PictureIsDownloaded||picture.pictureState==PictureIsFailed)&&!picture.isShowed){
-                        [self _calculateAttributedString];
-                        break;
-                    }
-                //}
-            }
-        }
-        else{
-            [self _calculateAttributedString];
-        }
-    //}
+    [self _calculateAttributedString];
 }
 -(void)_calculateAttributedString{
     self.contentAttributedString=[_attributedUtilities getAttributedStringWithArticle:self fontColor:[UIColor blackColor] fontSize:kContentFontSize];

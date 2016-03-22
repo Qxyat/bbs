@@ -8,15 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger,PictureState){
+    PictureIsIdle,
+    PictureIsDownloading,
+    PictureIsDownloaded,
+    PictureIsFailed
+};
+
 @interface PictureInfo : NSObject
 
-@property (strong,nonatomic)NSString *thumbnail_url;
-@property (strong,nonatomic)NSString *original_url;
-@property (nonatomic)BOOL isFromBBS;
-@property (nonatomic)BOOL isDownloading;
-@property (nonatomic)BOOL isDownloaded;
-@property (nonatomic)BOOL isFailed;
-@property (nonatomic)BOOL isShowed;
-@property (nonatomic,strong) UIImage *image;
+@property (nonatomic,readwrite,copy)NSString *thumbnail_url;
+@property (nonatomic,readwrite,copy)NSString *original_url;
+@property (nonatomic,readwrite,assign)BOOL isFromBBS;
+@property (nonatomic,readwrite,assign)PictureState pictureState;
+@property (nonatomic,readwrite,assign)BOOL isShowed;
+@property (nonatomic,readwrite,strong) UIImage *image;
 
 @end

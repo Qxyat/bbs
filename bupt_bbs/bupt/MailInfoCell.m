@@ -37,17 +37,21 @@
     
     if(mailInfo.isUserExist){
         UserInfo *user=(UserInfo*)mailInfo.user;
-        YYImage *cachedImage=[DownloadResourcesUtilities downloadImage:user.face_url FromBBS:NO Completed:^(YYImage *image,BOOL isFailed) {
-            _wkself.faceImageView.image=image;
-            if(image.animatedImageType==YYImageTypeGIF){
-                [_wkself.faceImageView startAnimating];
-            }
-        }];
+        YYImage *cachedImage=[DownloadResourcesUtilities getImageFromDisk:user.face_url];
         if(cachedImage){
             _faceImageView.image=cachedImage;
             if(cachedImage.animatedImageType==YYImageTypeGIF){
                 [_faceImageView startAnimating];
             }
+        }
+        else{
+            _faceImageView.image=[UIImage imageNamed:@"face_default"];
+            [DownloadResourcesUtilities downloadImage:user.face_url FromBBS:NO Completed:^(YYImage *image,BOOL isFailed) {
+                _wkself.faceImageView.image=image;
+                if(image.animatedImageType==YYImageTypeGIF){
+                    [_wkself.faceImageView startAnimating];
+                }
+            }];
         }
         _useridLabel.text=user.userId;
     }

@@ -114,21 +114,21 @@ CGSize getStringSize(NSString *string){
 }
 
 -(void)updateAttributedString{
-    @synchronized(self) {
+   // @synchronized(self) {
         if(self.isPictureArrayAlready){
             for(PictureInfo *picture in self.pictures){
-                @synchronized(picture) {
-                    if(picture.isDownloaded&&!picture.isShowed){
+               // @synchronized(picture) {
+                    if((picture.pictureState==PictureIsDownloaded||picture.pictureState==PictureIsFailed)&&!picture.isShowed){
                         [self _calculateAttributedString];
                         break;
                     }
-                }
+                //}
             }
         }
         else{
             [self _calculateAttributedString];
         }
-    }
+    //}
 }
 -(void)_calculateAttributedString{
     self.contentAttributedString=[_attributedUtilities getAttributedStringWithArticle:self fontColor:[UIColor blackColor] fontSize:kContentFontSize];
@@ -139,18 +139,15 @@ CGSize getStringSize(NSString *string){
 
 -(void)pictureTapped:(UIGestureRecognizer*)recognizer{
     CustomYYAnimatedImageView *imageView=(CustomYYAnimatedImageView*)recognizer.view;
-    if(imageView.isFailed){
-        PictureInfo *picture=_pictures[imageView.tag];
-        @synchronized(picture) {
-            picture.isFailed=NO;
-            picture.isDownloading=NO;
-            picture.isShowed=NO;
-            picture.isDownloaded=NO;
-        }
-        [self _calculateAttributedString];
-        return;
+    PictureInfo *pictureInfo=self.pictures[imageView.tag];
+    if(pictureInfo.pictureState==PictureIsDownloaded){
+        [_delegate pictureTapped:recognizer];
     }
-    [_delegate pictureTapped:recognizer];
+    else if(pictureInfo.pictureState==PictureIsFailed){
+        pictureInfo.pictureState=PictureIsIdle;
+        pictureInfo.isShowed=NO;
+        [self _calculateAttributedString];
+    }
 }
 
 -(void)addCellObserver{

@@ -117,7 +117,7 @@ CGFloat const kFaceImageViewHeight=30;
     _articleInfo.delegate=self;
     [_articleInfo addCellObserver];
     
-    __weak typeof (self) _weakself=self;
+    
     
     _photoBrowser=[[MWPhotoBrowser alloc]initWithDelegate:self];
     _photoBrowser.displayActionButton=NO;
@@ -138,14 +138,7 @@ CGFloat const kFaceImageViewHeight=30;
         [_photos addObject:[MWPhoto photoWithURL:url]];
     }
 
-    YYImage *cachedFaceImage=[DownloadResourcesUtilities downloadImage:articleInfo.user.face_url FromBBS:YES Completed:^(YYImage *image,BOOL isFailed) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            _weakself.faceImageView.image=image;
-            if(image.animatedImageType==YYImageTypeGIF)
-                [_weakself.faceImageView startAnimating];
-            [_weakself refreshCustomLayout];
-        });
-    }];
+    YYImage *cachedFaceImage=[DownloadResourcesUtilities getImageFromDisk:articleInfo.user.face_url];
     
     if(cachedFaceImage){
         self.faceImageView.image=cachedFaceImage;
@@ -154,8 +147,16 @@ CGFloat const kFaceImageViewHeight=30;
         [self refreshCustomLayout];
     }
     else{
-        UIImage *image=[UIImage imageNamed:@"face_default"];
-        _faceImageView.image=image;
+        _faceImageView.image=[UIImage imageNamed:@"face_default"];
+        __weak typeof (self) _weakself=self;
+        [DownloadResourcesUtilities downloadImage:articleInfo.user.face_url FromBBS:YES Completed:^(YYImage *image,BOOL isFailed) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                _weakself.faceImageView.image=image;
+                if(image.animatedImageType==YYImageTypeGIF)
+                    [_weakself.faceImageView startAnimating];
+                [_weakself refreshCustomLayout];
+            });
+        }];
     }
     
     self.floorLabel.text=[CustomUtilities getFloorString:articleInfo.position];

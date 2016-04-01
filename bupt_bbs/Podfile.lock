@@ -28,14 +28,14 @@ PODS:
     - DACircularProgress (~> 2.3)
     - MBProgressHUD (~> 0.9)
     - SDWebImage (!= 3.7.2, ~> 3.7)
-  - SDWebImage (3.7.4):
-    - SDWebImage/Core (= 3.7.4)
-  - SDWebImage/Core (3.7.4)
-  - SVProgressHUD (1.1.3)
+  - SDWebImage (3.7.5):
+    - SDWebImage/Core (= 3.7.5)
+  - SDWebImage/Core (3.7.5)
+  - SVProgressHUD (2.0)
   - UITableView+FDTemplateLayoutCell (1.4)
-  - YYKit (0.9.10):
-    - YYKit/no-arc (= 0.9.10)
-  - YYKit/no-arc (0.9.10)
+  - YYKit (1.0.3):
+    - YYKit/no-arc (= 1.0.3)
+  - YYKit/no-arc (1.0.3)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
@@ -54,9 +54,9 @@ SPEC CHECKSUMS:
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
   MWPhotoBrowser: ba0d0c09ffda3a7ea10093518738c502c1c7141c
-  SDWebImage: 247edd7dd80dd6124197b0d6a17846fe9d1df968
-  SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
+  SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
+  SVProgressHUD: e9e7c893686a20da55a28015ed384d9425e15479
   UITableView+FDTemplateLayoutCell: 234e1582bcc4e18461af91155123bb96538ed030
-  YYKit: c220d01f6fe9fd4b4b379e2dad50fffd2b2ce633
+  YYKit: fa66d61240458f14562c33c85c91d11131e43261
 
 COCOAPODS: 0.39.0

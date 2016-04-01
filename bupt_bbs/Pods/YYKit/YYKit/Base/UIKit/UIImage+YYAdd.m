@@ -125,7 +125,7 @@ static NSTimeInterval _yy_CGImageSourceGetGIFFrameDelayAtIndex(CGImageSourceRef 
             CFRelease(imageRef);
             return nil;
         }
-        UIImage *image = image = [UIImage imageWithCGImage:decoded scale:scale orientation:UIImageOrientationUp];
+        UIImage *image = [UIImage imageWithCGImage:decoded scale:scale orientation:UIImageOrientationUp];
         CGImageRelease(imageRef);
         CGImageRelease(decoded);
         if (!image) {
@@ -177,7 +177,7 @@ static NSTimeInterval _yy_CGImageSourceGetGIFFrameDelayAtIndex(CGImageSourceRef 
 }
 
 + (UIImage *)imageWithEmoji:(NSString *)emoji size:(CGFloat)size {
-    if (emoji.length == 0 || ![emoji containsEmoji]) return nil;
+    if (emoji.length == 0) return nil;
     if (size < 1) return nil;
     
     CGFloat scale = [UIScreen mainScreen].scale;
@@ -371,6 +371,15 @@ static NSTimeInterval _yy_CGImageSourceGetGIFFrameDelayAtIndex(CGImageSourceRef 
                           borderWidth:(CGFloat)borderWidth
                           borderColor:(UIColor *)borderColor
                        borderLineJoin:(CGLineJoin)borderLineJoin {
+    
+    if (corners != UIRectCornerAllCorners) {
+        UIRectCorner tmp = 0;
+        if (corners & UIRectCornerTopLeft) tmp |= UIRectCornerBottomLeft;
+        if (corners & UIRectCornerTopRight) tmp |= UIRectCornerBottomRight;
+        if (corners & UIRectCornerBottomLeft) tmp |= UIRectCornerTopLeft;
+        if (corners & UIRectCornerBottomRight) tmp |= UIRectCornerTopRight;
+        corners = tmp;
+    }
     
     UIGraphicsBeginImageContextWithOptions(self.size, NO, self.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();

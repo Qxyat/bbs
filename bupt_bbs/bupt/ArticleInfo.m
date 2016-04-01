@@ -113,16 +113,18 @@ CGSize getStringSize(NSString *string){
     }
 }
 
--(void)updateAttributedString{
-    [self _calculateAttributedString];
-}
+
+
 -(void)_calculateAttributedString{
     self.contentAttributedString=[_attributedUtilities getAttributedStringWithArticle:self fontColor:[UIColor blackColor] fontSize:kContentFontSize];
     CGSize boundSize=CGSizeMake(kCustomScreenWidth-2*kMargin, CGFLOAT_MAX);
     self.contentSize=[NSValue valueWithCGSize: sizeThatFitsAttributedString(_contentAttributedString,boundSize,0)];
 }
 
-
+#pragma mark - 实现AttributedStringUtilitiesDelegate协议
+-(void)updateAttributedString{
+    [self _calculateAttributedString];
+}
 -(void)pictureTapped:(UIGestureRecognizer*)recognizer{
     CustomYYAnimatedImageView *imageView=(CustomYYAnimatedImageView*)recognizer.view;
     PictureInfo *pictureInfo=self.pictures[imageView.tag];

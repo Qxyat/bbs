@@ -20,6 +20,16 @@
 #import <YYKit.h>
 #import <CoreText/CoreText.h>
 
+#pragma mark - 后台下载完成的图片都在线程里面更新
+dispatch_queue_t updateAttributedStringQueue(){
+    static dispatch_queue_t queue;
+    static dispatch_once_t once_token;
+    dispatch_once(&once_token, ^{
+        queue=dispatch_queue_create("UpdateAttributedStringQueue", DISPATCH_QUEUE_SERIAL);
+    });
+    return queue;
+}
+
 #pragma mark - 获得AttributedString高度的相关方法
 static CGFLOAT_TYPE CGFloat_ceil(CGFLOAT_TYPE cgfloat) {
 #if CGFLOAT_IS_DOUBLE
@@ -148,8 +158,9 @@ getImageInAttachment:(AttachmentInfo*)attachmentInfo
                         else
                             curPictureInfo.pictureState=PictureIsFailed;
                         
-                        [_delegate updateAttributedString];
-                        
+                        dispatch_async(updateAttributedStringQueue(), ^{
+                            [_delegate updateAttributedString];
+                        });
                     }];
                 }
             }

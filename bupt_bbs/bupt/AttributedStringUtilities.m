@@ -351,44 +351,30 @@ getImageInAttachment:(AttachmentInfo*)attachmentInfo
         picture.pictureState=PictureIsIdle;
         picture.isShowed=NO;
         picture.image=nil;
+        picture.isFromBBS=NO;
         [_delegate.pictures addObject:picture];
     }
 
     PictureInfo *curPictureInfo=_delegate.pictures[_photo_pos];
 
 
-    if(curPictureInfo.pictureState==PictureIsIdle){
-        cachedImage=[DownloadResourcesUtilities getImageFromDisk:string];
-        if(cachedImage!=nil){
-            curPictureInfo.pictureState=PictureIsDownloaded;
-            curPictureInfo.image=cachedImage;
-            curPictureInfo.isShowed=YES;
-        }
-        else{
-            curPictureInfo.pictureState=PictureIsDownloading;
-            cachedImage=[UIImage imageNamed:@"picIsdownloading"];
-            [DownloadResourcesUtilities downloadImage:string FromBBS:YES Completed:^(YYImage *image,BOOL isFailed) {
-        
-                if(!isFailed){
-                    curPictureInfo.pictureState=PictureIsDownloaded;
-                    curPictureInfo.image=image;
-                }
-                else
-                    curPictureInfo.pictureState=PictureIsFailed;
-                
-                [_delegate updateAttributedString];
-                
-            }];
-        }
+    if(curPictureInfo.pictureState==PictureIsFailed){
+        cachedImage=[UIImage imageNamed:@"picdownloadfailed"];
     }
     else if(curPictureInfo.pictureState==PictureIsDownloaded){
         cachedImage=curPictureInfo.image;
-        curPictureInfo.isShowed=YES;
     }
-    else if(curPictureInfo.pictureState==PictureIsFailed){
-        cachedImage=[UIImage imageNamed:@"picdownloadfailed"];
-        curPictureInfo.isShowed=YES;
+    else{
+        cachedImage=[DownloadResourcesUtilities getImageFromDisk:string];
+        if(cachedImage==nil){
+            cachedImage=[UIImage imageNamed:@"picIsdownloading"];
+        }
+        else{
+            curPictureInfo.image=cachedImage;
+            curPictureInfo.pictureState=PictureIsDownloaded;
+        }
     }
+
     
     CGFloat width=cachedImage.size.width;
     CGFloat height=cachedImage.size.height;

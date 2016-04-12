@@ -11,15 +11,11 @@
 #import <SDImageCache.h>
 #import <SDWebImageDownloader.h>
 #import "ArticleDetailInfoCell.h"
-#import "ShowUserInfoViewController.h"
+#import "UserInfoViewController.h"
 #import "ScreenAdaptionUtilities.h"
 #import "CustomUtilities.h"
-#import "AttributedStringUtilities.h"
-#import "AttachmentInfo.h"
-#import "AttachmentFile.h"
 #import "DownloadResourcesUtilities.h"
 #import "PictureInfo.h"
-#import "LoginManager.h"
 #import "YYImage+Emoji.h"
 #import "ReplyViewController.h"
 #import "UserInfo.h"
@@ -28,11 +24,7 @@ CGFloat const kMargin=4;
 CGFloat const kMaxRatio=1.6;
 CGFloat const kFaceImageViewHeight=30;
 
-@interface ArticleDetailInfoCell()<ShowUserInfoViewControllerDelegate,MWPhotoBrowserDelegate,ArticleInfoDelegate>
-
-@property (strong,nonatomic)ShowUserInfoViewController*showUserInfoViewController;
-@property (strong,nonatomic)MWPhotoBrowser *photoBrowser;
-@property (strong,nonatomic)NSMutableArray *photos;
+@interface ArticleDetailInfoCell()
 
 @end
 
@@ -50,22 +42,7 @@ CGFloat const kFaceImageViewHeight=30;
     [self setSeparatorInset:UIEdgeInsetsMake(0, kMargin, 0, kMargin)];
 }
 
-#pragma mark -实现MWPhotoBrowserDelegate协议
--(NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser{
-    return _photos.count;
-}
--(id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index{
-    if(index<self.articleInfo.pictures.count){
-        return _photos[index];
-    }
-    return nil;
-}
--(id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser thumbPhotoAtIndex:(NSUInteger)index{
-    if(index<self.articleInfo.pictures.count){
-        return _photos[index];
-    }
-    return nil;
-}
+
 #pragma mark -
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
@@ -93,51 +70,11 @@ CGFloat const kFaceImageViewHeight=30;
     self.replyImageView.frame=CGRectMake(kCustomScreenWidth-2*kMargin-kFaceImageViewHeight, 3*kMargin+kFaceImageViewHeight+self.contentLabel.frame.size.height, kFaceImageViewHeight, kFaceImageViewHeight);
     self.contentView.frame=CGRectMake(0,0,kCustomScreenWidth,4*kMargin+2*kFaceImageViewHeight+self.contentLabel.frame.size.height);
 }
-#pragma mark - 展示用户信息
--(void)showUserInfo{
-    self.showUserInfoViewController=[ShowUserInfoViewController getInstance:self];
-    self.showUserInfoViewController.userInfo=self.articleInfo.user;
-    [self.showUserInfoViewController showUserInfoView];
-}
-#pragma mark - 实现ShowUserInfoViewControllerDelegate协议
--(void)userInfoViewControllerDidDismiss:(ShowUserInfoViewController *)userInfoViewController{
-    if(self.showUserInfoViewController==userInfoViewController){
-        [self.showUserInfoViewController hideUserInfoView];
-        self.showUserInfoViewController=nil;
-    }
-}
+
 #pragma mark - 填写cell内容
 -(void)setArticleInfo:(ArticleInfo *)articleInfo{
-    if(_articleInfo!=nil){
-        [_articleInfo removeCellObserver];
-        _articleInfo.delegate=nil;
-    }
-    
     _articleInfo=articleInfo;
-    _articleInfo.delegate=self;
-    [_articleInfo addCellObserver];
     
-    
-    
-    _photoBrowser=[[MWPhotoBrowser alloc]initWithDelegate:self];
-    _photoBrowser.displayActionButton=NO;
-   
-    _photos=[[NSMutableArray alloc]initWithCapacity:_articleInfo.pictures.count];
-    for(int i=0;i<_articleInfo.pictures.count;i++){
-        PictureInfo *picture=_articleInfo.pictures[i];
-        NSURL *url=nil;
-        if(picture.isFromBBS){
-            url=[NSURL URLWithString:
-                 [NSString stringWithFormat:@"%@?oauth_token=%@",picture.original_url,[LoginManager sharedManager].access_token]];
-        }
-        else{
-            url=[NSURL URLWithString:
-                 [NSString stringWithFormat:@"%@",picture.original_url]];
-        }
-
-        [_photos addObject:[MWPhoto photoWithURL:url]];
-    }
-
     YYImage *cachedFaceImage=[DownloadResourcesUtilities getImageFromDisk:articleInfo.user.face_url];
     
     if(cachedFaceImage){
@@ -169,30 +106,20 @@ CGFloat const kFaceImageViewHeight=30;
     contentLabelNewFrame.size=[articleInfo.contentSize CGSizeValue];
     self.contentLabel.frame=contentLabelNewFrame;
     
+    [articleInfo startDownloadPictures];
+    
     [self refreshCustomLayout];
 }
 
 
-#pragma mark - 实现当值发生变化后，更新
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
-    if([keyPath isEqualToString:@"contentSize"]){
-        dispatch_async(dispatch_get_main_queue(), ^{
-                           [_delegate refreshTableView:_articleInfo];
-                       });
-    }
-}
-#pragma mark - 点击图片后相应的反馈
--(void)pictureTapped:(UIGestureRecognizer*)recognizer{
-    YYAnimatedImageView *imageView=(YYAnimatedImageView*)recognizer.view;
-    UITableViewController *controller=(UITableViewController*)self.delegate;
-    [_photoBrowser setCurrentPhotoIndex:imageView.tag];
-    [controller.navigationController pushViewController:_photoBrowser animated:YES];
+#pragma mark - 展示用户信息
+-(void)showUserInfo{
+    [_delegate showUserInfoViewController:self.articleInfo.user];
 }
 
-#pragma mark - 打开回复文章的标题
+#pragma mark - 打开回复文章
 -(void)replyArticle{
-    UITableViewController *controller=(UITableViewController*)self.delegate;
-    [controller.navigationController pushViewController:[ReplyViewController getInstanceWithBoardName:self.articleInfo.board_name isNewTheme:NO withArticleName:self.articleInfo.title withArticleId:self.articleInfo.articleId withArticleInfo:self.articleInfo ] animated:YES];
+    [_delegate showReplyViewControllerWithBoardName:self.articleInfo.board_name isNewTheme:NO ArtilceName:self.articleInfo.title ArticleID:self.articleInfo.articleId ArticleInfo:self.articleInfo];
 }
 
 @end

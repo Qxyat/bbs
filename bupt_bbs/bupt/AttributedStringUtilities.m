@@ -16,9 +16,13 @@
 #import "ArticleInfo.h"
 #import "PictureInfo.h"
 #import "CustomYYAnimatedImageView.h"
+#import "LoginManager.h"
+#import "ArticleDetailInfoCell.h"
 
 #import <YYKit.h>
 #import <CoreText/CoreText.h>
+#import <SDImageCache.h>
+#import <AFNetworking.h>
 
 #pragma mark - 后台下载完成的图片都在线程里面更新
 dispatch_queue_t updateAttributedStringQueue(){
@@ -87,13 +91,37 @@ CGSize sizeThatFitsAttributedString(NSAttributedString *attributedString,
     
     return calculatedSize;
 }
+static AFHTTPRequestOperationManager* getAFHTTPRequestOperationManager(){
+    static AFHTTPRequestOperationManager *manager=nil;
+    static dispatch_once_t once_token;
+    dispatch_once(&once_token, ^{
+        manager=[AFHTTPRequestOperationManager manager];
+        manager.responseSerializer=[AFHTTPResponseSerializer serializer];
+    });
+    return manager;
+}
+
+@interface AFHTTPRequestOperationManager(AttributedStringUtilities)
+- (AFHTTPRequestOperation *)HTTPRequestOperationWithHTTPMethod:(NSString *)method
+                                                     URLString:(NSString *)URLString
+                                                    parameters:(id)parameters
+                                                       success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                                                       failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+@end
+
+@interface AttributedStringUtilities()
+
+@property (nonatomic,readwrite,strong) NSOperationQueue *downloadAndAnalyseQueue;
+
+@end
+
 
 @implementation AttributedStringUtilities
 {
     NSUInteger _photo_pos;
     CGFloat _fontSize;
 }
-#pragma mark - 根据表情代码获得表情对应的AttributedString
+
 
 -(id)init{
     if(self=[super init]){
@@ -101,6 +129,100 @@ CGSize sizeThatFitsAttributedString(NSAttributedString *attributedString,
     }
     return self;
 }
+
+#pragma mark - NSOperationQueue
+-(NSOperationQueue *)downloadAndAnalyseQueue{
+    if(_downloadAndAnalyseQueue==nil){
+        _downloadAndAnalyseQueue=[[NSOperationQueue alloc]init];
+    }
+    return _downloadAndAnalyseQueue;
+}
+-(void)addDownloadOperation{
+    Boolean findDownloadOperation=false;
+
+    dispatch_group_t group=dispatch_group_create();
+    for(int i=0;i<_delegate.pictures.count;i++){
+        PictureInfo *pictureInfo=_delegate.pictures[i];
+        if(pictureInfo.pictureState!=PictureIsDownloaded&&pictureInfo.pictureState!=PictureIsFailed){
+            findDownloadOperation=true;
+            
+            NSString *urlString=nil;
+            if(pictureInfo.isFromBBS){
+                urlString=[NSString stringWithFormat:@"%@?oauth_token=%@",pictureInfo.original_url,[LoginManager sharedManager].access_token];
+                
+            }
+            else{
+                urlString=[NSString stringWithFormat:@"%@",pictureInfo.original_url];
+            }
+            
+            AFHTTPRequestOperationManager *manager=getAFHTTPRequestOperationManager();
+            
+            dispatch_group_enter(group);
+            AFHTTPRequestOperation *downloadOperation=[manager HTTPRequestOperationWithHTTPMethod:@"GET" URLString:urlString parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+                YYImage *downloadImage=[YYImage imageWithData:responseObject];
+                [[SDImageCache sharedImageCache]storeImage:downloadImage recalculateFromImage:NO imageData:responseObject forKey:pictureInfo.original_url toDisk:YES];
+                 pictureInfo.image=downloadImage;
+                 pictureInfo.pictureState=PictureIsDownloaded;
+                dispatch_group_leave(group);
+            } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+                pictureInfo.pictureState=PictureIsFailed;
+                dispatch_group_leave(group);
+            }];
+            
+            //[updateAttributedStringOperation addDependency:downloadOperation];
+            [self.downloadAndAnalyseQueue addOperation:downloadOperation];
+        }
+    }
+    if(findDownloadOperation){
+        dispatch_group_notify(group, dispatch_queue_create("UpdateAttributedString", DISPATCH_QUEUE_CONCURRENT), ^{
+            [_delegate updateAttributedString];
+        });
+    }
+}
+-(void)addDownloadFaidedOperation{
+    Boolean findDownloadOperation=false;
+    
+    dispatch_group_t group=dispatch_group_create();
+    for(int i=0;i<_delegate.pictures.count;i++){
+        PictureInfo *pictureInfo=_delegate.pictures[i];
+        if(pictureInfo.pictureState==PictureIsFailed){
+            findDownloadOperation=true;
+            
+            NSString *urlString=nil;
+            if(pictureInfo.isFromBBS){
+                urlString=[NSString stringWithFormat:@"%@?oauth_token=%@",pictureInfo.original_url,[LoginManager sharedManager].access_token];
+                
+            }
+            else{
+                urlString=[NSString stringWithFormat:@"%@",pictureInfo.original_url];
+            }
+            
+            AFHTTPRequestOperationManager *manager=getAFHTTPRequestOperationManager();
+            
+            dispatch_group_enter(group);
+            AFHTTPRequestOperation *downloadOperation=[manager HTTPRequestOperationWithHTTPMethod:@"GET" URLString:urlString parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+                YYImage *downloadImage=[YYImage imageWithData:responseObject];
+                [[SDImageCache sharedImageCache]storeImage:downloadImage recalculateFromImage:NO imageData:responseObject forKey:pictureInfo.original_url toDisk:YES];
+                pictureInfo.image=downloadImage;
+                pictureInfo.pictureState=PictureIsDownloaded;
+                dispatch_group_leave(group);
+            } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+                pictureInfo.pictureState=PictureIsFailed;
+                dispatch_group_leave(group);
+            }];
+            
+            //[updateAttributedStringOperation addDependency:downloadOperation];
+            [self.downloadAndAnalyseQueue addOperation:downloadOperation];
+        }
+    }
+    if(findDownloadOperation){
+        dispatch_group_notify(group, dispatch_queue_create("UpdateAttributedString", DISPATCH_QUEUE_CONCURRENT), ^{
+            [_delegate updateAttributedString];
+        });
+    }
+}
+
+#pragma mark - 根据表情代码获得表情对应的AttributedString
 -(NSAttributedString*)
 getEmojiAttributedStringWithString:(NSString*)string
                           fontSize:(CGFloat)fontSize
@@ -136,42 +258,60 @@ getImageInAttachment:(AttachmentInfo*)attachmentInfo
                 picture.pictureState=PictureIsIdle;
                 picture.isShowed=NO;
                 picture.image=nil;
+                picture.isFromBBS=YES;
                 [_delegate.pictures addObject:picture];
             }
         
             PictureInfo *curPictureInfo=_delegate.pictures[_photo_pos];
-            if(curPictureInfo.pictureState==PictureIsIdle){
-                cachedImage=[DownloadResourcesUtilities getImageFromDisk:file.url];
-                if(cachedImage!=nil){
-                    curPictureInfo.pictureState=PictureIsDownloaded;
-                    curPictureInfo.image=cachedImage;
-                    curPictureInfo.isShowed=YES;
-                }
-                else{
-                    curPictureInfo.pictureState=PictureIsDownloading;
-                    cachedImage=[UIImage imageNamed:@"picIsdownloading"];
-                    [DownloadResourcesUtilities downloadImage:file.url FromBBS:YES Completed:^(YYImage *image,BOOL isFailed) {
-                        if(!isFailed){
-                            curPictureInfo.pictureState=PictureIsDownloaded;
-                            curPictureInfo.image=image;
-                        }
-                        else
-                            curPictureInfo.pictureState=PictureIsFailed;
-                        
-                        dispatch_async(updateAttributedStringQueue(), ^{
-                            [_delegate updateAttributedString];
-                        });
-                    }];
-                }
+            if(curPictureInfo.pictureState==PictureIsFailed){
+                cachedImage=[UIImage imageNamed:@"picdownloadfailed"];
             }
             else if(curPictureInfo.pictureState==PictureIsDownloaded){
                 cachedImage=curPictureInfo.image;
-                curPictureInfo.isShowed=YES;
             }
-            else if(curPictureInfo.pictureState==PictureIsFailed){
-                cachedImage=[UIImage imageNamed:@"picdownloadfailed"];
-                curPictureInfo.isShowed=YES;
+            else{
+                cachedImage=[DownloadResourcesUtilities getImageFromDisk:file.url];
+                if(cachedImage==nil){
+                    cachedImage=[UIImage imageNamed:@"picIsdownloading"];
+                }
+                else{
+                    curPictureInfo.image=cachedImage;
+                    curPictureInfo.pictureState=PictureIsDownloaded;
+                }
             }
+            
+//            if(curPictureInfo.pictureState==PictureIsIdle){
+//                cachedImage=[DownloadResourcesUtilities getImageFromDisk:file.url];
+//                if(cachedImage!=nil){
+//                    curPictureInfo.pictureState=PictureIsDownloaded;
+//                    curPictureInfo.image=cachedImage;
+//                    curPictureInfo.isShowed=YES;
+//                }
+//                else{
+//                    curPictureInfo.pictureState=PictureIsDownloading;
+//                    cachedImage=[UIImage imageNamed:@"picIsdownloading"];
+//                    [DownloadResourcesUtilities downloadImage:file.url FromBBS:YES Completed:^(YYImage *image,BOOL isFailed) {
+//                        if(!isFailed){
+//                            curPictureInfo.pictureState=PictureIsDownloaded;
+//                            curPictureInfo.image=image;
+//                        }
+//                        else
+//                            curPictureInfo.pictureState=PictureIsFailed;
+//                        
+//                        dispatch_async(updateAttributedStringQueue(), ^{
+//                            [_delegate updateAttributedString];
+//                        });
+//                    }];
+//                }
+//            }
+//            else if(curPictureInfo.pictureState==PictureIsDownloaded){
+//                cachedImage=curPictureInfo.image;
+//                curPictureInfo.isShowed=YES;
+//            }
+//            else if(curPictureInfo.pictureState==PictureIsFailed){
+//                cachedImage=[UIImage imageNamed:@"picdownloadfailed"];
+//                curPictureInfo.isShowed=YES;
+//            }
             
             CGFloat width=cachedImage.size.width;
             CGFloat height=cachedImage.size.height;

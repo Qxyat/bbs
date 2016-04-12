@@ -14,6 +14,7 @@
 #import "ScreenAdaptionUtilities.h"
 #import "PictureInfo.h"
 #import "CustomYYAnimatedImageView.h"
+#import "ArticleDetailInfoCell.h"
 
 static NSString* const kArticleId=@"id";
 static NSString* const kGroupId=@"group_id";
@@ -49,7 +50,7 @@ CGSize getStringSize(NSString *string){
 
 @interface ArticleInfo ()<AttributedStringUtilitiesDelegate>
 
-@property (strong)AttributedStringUtilities *attributedUtilities;
+@property (nonatomic,readwrite,strong) AttributedStringUtilities *attributedUtilities;
 
 @end
 
@@ -107,46 +108,49 @@ CGSize getStringSize(NSString *string){
     [DownloadResourcesUtilities downloadImage:self.user.face_url FromBBS:NO Completed:nil];
 
     if(self.content!=nil){
-        _attributedUtilities=[[AttributedStringUtilities alloc]init];
-        _attributedUtilities.delegate=self;
         [self _calculateAttributedString];
     }
 }
 
-
-
 -(void)_calculateAttributedString{
-    self.contentAttributedString=[_attributedUtilities getAttributedStringWithArticle:self fontColor:[UIColor blackColor] fontSize:kContentFontSize];
+    _contentAttributedString=[self.attributedUtilities getAttributedStringWithArticle:self fontColor:[UIColor blackColor] fontSize:kContentFontSize];
     CGSize boundSize=CGSizeMake(kCustomScreenWidth-2*kMargin, CGFLOAT_MAX);
     self.contentSize=[NSValue valueWithCGSize: sizeThatFitsAttributedString(_contentAttributedString,boundSize,0)];
 }
 
+-(AttributedStringUtilities*)attributedUtilities{
+    if(_attributedUtilities==nil){
+        _attributedUtilities=[[AttributedStringUtilities alloc]init];
+        _attributedUtilities.delegate=self;
+    }
+    return _attributedUtilities;
+}
+
+-(void)startDownloadPictures{
+    [self.attributedUtilities addDownloadOperation];
+}
+
+
 #pragma mark - 实现AttributedStringUtilitiesDelegate协议
 -(void)updateAttributedString{
     [self _calculateAttributedString];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_delegate updateTableView:self];
+    });
 }
+
 -(void)pictureTapped:(UIGestureRecognizer*)recognizer{
     CustomYYAnimatedImageView *imageView=(CustomYYAnimatedImageView*)recognizer.view;
     PictureInfo *pictureInfo=self.pictures[imageView.tag];
     if(pictureInfo.pictureState==PictureIsDownloaded){
-        [_delegate pictureTapped:recognizer];
+        [_delegate pictureTappedWithArticle:self Index:imageView.tag];
     }
     else if(pictureInfo.pictureState==PictureIsFailed){
         pictureInfo.pictureState=PictureIsIdle;
         pictureInfo.isShowed=NO;
-        [self _calculateAttributedString];
+        [self.attributedUtilities addDownloadFaidedOperation];
     }
 }
 
--(void)addCellObserver{
-    if(_delegate!=nil)
-        [self addObserver:_delegate forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:NULL];
-}
--(void)removeCellObserver{
-    if(_delegate!=nil)
-        [self removeObserver:_delegate forKeyPath:@"contentSize"];
-}
--(void)dealloc{
-    [self removeCellObserver];
-}
 @end

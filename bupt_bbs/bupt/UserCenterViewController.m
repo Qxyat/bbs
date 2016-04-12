@@ -9,17 +9,16 @@
 #import "UserCenterViewController.h"
 #import "LoginManager.h"
 #import "SecondLoginViewController.h"
-#import "ShowUserInfoViewController.h"
+#import "UserInfoViewController.h"
 #import "DownloadResourcesUtilities.h"
 #import "MailboxViewController.h"
 #import "RootViewController.h"
 #import "FavoriteViewController.h"
-#import "ShowUserInfoViewControllerDelegate.h"
 #import "UserInfo.h"
 #import <Masonry.h>
 #import <YYKit.h>
 
-@interface UserCenterViewController ()<ShowUserInfoViewControllerDelegate>
+@interface UserCenterViewController ()<UserInfoViewControllerDelegate>
 @property (strong, nonatomic) UIView *containerView;
 @property (strong, nonatomic) YYAnimatedImageView *faceImageView;
 @property (strong, nonatomic) UIImageView *mailboxImageView;
@@ -30,7 +29,7 @@
 
 @property (strong, nonatomic) UILabel *userIdLabel;
 @property (strong, nonatomic) UIButton *quitButton;
-@property (strong,nonatomic)ShowUserInfoViewController *showUserInfoViewController;
+@property (strong,nonatomic)UserInfoViewController *userInfoViewController;
 
 @end
 
@@ -167,16 +166,15 @@
 
 #pragma mark - 查看当前登陆用户信息
 - (void)faceImageViewPressed{
-    self.showUserInfoViewController=[ShowUserInfoViewController getInstance:self];
-    self.showUserInfoViewController.userInfo=[LoginManager sharedManager].currentLoginUserInfo;
-    [self.showUserInfoViewController showUserInfoView];
+    _userInfoViewController=[UserInfoViewController getInstanceWithUserInfo:[LoginManager sharedManager].currentLoginUserInfo Delegate:self];
+    [[UIApplication sharedApplication].keyWindow addSubview:_userInfoViewController.view];
 }
 
-#pragma mark - 实现ShowUserInfoViewControllerDelegate协议
--(void)userInfoViewControllerDidDismiss:(ShowUserInfoViewController *)userInfoViewController{
-    if(self.showUserInfoViewController==userInfoViewController){
-        [self.showUserInfoViewController hideUserInfoView];
-        self.showUserInfoViewController=nil;
+#pragma mark - 实现UserInfoViewControllerDelegate协议
+-(void)hideUserInfoViewController{
+    if(_userInfoViewController!=nil){
+        [_userInfoViewController hideUserInfoControllerView];
+        _userInfoViewController=nil;
     }
 }
 

@@ -25,5 +25,6 @@ CGSize sizeThatFitsAttributedString(NSAttributedString *attributedString,
 -(NSMutableAttributedString*)getAttributedStringWithArticle:(ArticleInfo*)article
                                                   fontColor:(UIColor*)color
                                                    fontSize:(CGFloat)size;
-
+-(void)addDownloadOperation;
+-(void)addDownloadFaidedOperation;
 @end

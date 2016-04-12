@@ -7,19 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ArticleDetailInfoCell.h"
+
+#import "AttributedStringUtilities.h"
 
 @class UserInfo;
 @class AttachmentInfo;
 
+
 @protocol ArticleInfoDelegate <NSObject>
 
--(void)pictureTapped:(UIGestureRecognizer*)recognizer;
+-(void)pictureTappedWithArticle:(ArticleInfo *)article
+                          Index:(NSUInteger)index;
+-(void)updateTableView:(ArticleInfo *)article;
 
 @end
 
 
-@interface ArticleInfo : NSObject<ArticleInfoDelegate>
+@interface ArticleInfo : NSObject<AttributedStringUtilitiesDelegate>
 
 @property(nonatomic) int articleId;
 @property(nonatomic) int group_id;
@@ -51,16 +55,14 @@
 @property(strong,nonatomic)NSValue *contentSize;
 
 
-//@property(weak,nonatomic) <UITabBarControllerDelegate>delegate;
-@property(weak,nonatomic) id<ArticleInfoDelegate> delegate;
+@property(nonatomic,readwrite,weak) id<ArticleInfoDelegate> delegate;
 
 +(NSArray*)getArticlesInfo:(id)item;
 +(ArticleInfo *)getArticleInfo:(id)item;
 
--(void)addCellObserver;
-
--(void)removeCellObserver;
 
 -(void)articlePreprocess;
+
+-(void)startDownloadPictures;
 
 @end

@@ -65,7 +65,7 @@
 		41B26AC51C3E08A90088E1FE /* YYImage+Emoji.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B26AC41C3E08A90088E1FE /* YYImage+Emoji.m */; };
 		41B57D471C314AFB00B9A01B /* ArticleRoughInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B57D451C314AFB00B9A01B /* ArticleRoughInfoCell.m */; };
 		41B57D481C314AFB00B9A01B /* ArticleRoughInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41B57D461C314AFB00B9A01B /* ArticleRoughInfoCell.xib */; };
-		41B684BD1C2001BB0088395D /* ShowUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B684BB1C2001BB0088395D /* ShowUserInfoViewController.m */; };
+		41B684BD1C2001BB0088395D /* UserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B684BB1C2001BB0088395D /* UserInfoViewController.m */; };
 		41B684BE1C2001BB0088395D /* ShowUserInfo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41B684BC1C2001BB0088395D /* ShowUserInfo.xib */; };
 		41BA83AA1C488C3300A35FFD /* AttachmentUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 41BA83A91C488C3300A35FFD /* AttachmentUtilities.m */; };
 		41C4317E1C85C4E100A494D4 /* FavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C4317D1C85C4E100A494D4 /* FavoriteViewController.m */; };
@@ -110,7 +110,6 @@
 		411DC6611C846BD6003BE738 /* UserMainInterfaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserMainInterfaceViewController.m; sourceTree = "<group>"; };
 		411DEC041C0D3131008B7EB6 /* TopTenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopTenViewController.h; sourceTree = "<group>"; };
 		411DEC051C0D3131008B7EB6 /* TopTenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopTenViewController.m; sourceTree = "<group>"; };
-		4124410F1C2244F2009A4172 /* ShowUserInfoViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowUserInfoViewControllerDelegate.h; sourceTree = "<group>"; };
 		412441101C2259EA009A4172 /* FirstLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstLoginViewController.h; sourceTree = "<group>"; };
 		412441111C2259EA009A4172 /* FirstLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstLoginViewController.m; sourceTree = "<group>"; };
 		412441131C225A1E009A4172 /* FirstLoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FirstLoginView.xib; sourceTree = "<group>"; };
@@ -207,8 +206,8 @@
 		41B57D451C314AFB00B9A01B /* ArticleRoughInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleRoughInfoCell.m; sourceTree = "<group>"; };
 		41B57D461C314AFB00B9A01B /* ArticleRoughInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArticleRoughInfoCell.xib; sourceTree = "<group>"; };
 		41B6203E1C4DD91F0007E8EE /* ReplyViewImageCellDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplyViewImageCellDelegate.h; sourceTree = "<group>"; };
-		41B684BA1C2001BB0088395D /* ShowUserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowUserInfoViewController.h; sourceTree = "<group>"; };
-		41B684BB1C2001BB0088395D /* ShowUserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowUserInfoViewController.m; sourceTree = "<group>"; };
+		41B684BA1C2001BB0088395D /* UserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoViewController.h; sourceTree = "<group>"; };
+		41B684BB1C2001BB0088395D /* UserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoViewController.m; sourceTree = "<group>"; };
 		41B684BC1C2001BB0088395D /* ShowUserInfo.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShowUserInfo.xib; sourceTree = "<group>"; };
 		41BA83A81C488C3300A35FFD /* AttachmentUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentUtilities.h; sourceTree = "<group>"; };
 		41BA83A91C488C3300A35FFD /* AttachmentUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentUtilities.m; sourceTree = "<group>"; };
@@ -284,7 +283,6 @@
 				412DF8591C57D2420001CF20 /* MailHttpResponseDelegate.h */,
 				412641F81C0E91A7006C4B31 /* HttpResponseDelegate.h */,
 				419501A01C95013D00371B57 /* SectionHttpResponseDelegate.h */,
-				4124410F1C2244F2009A4172 /* ShowUserInfoViewControllerDelegate.h */,
 				41432A7F1C38E53000423DFE /* ThemePopoverControllerDelegate.h */,
 				41D383C41C3C071100255BA9 /* RefreshTableViewDelegate.h */,
 				41BA83AB1C488D7100A35FFD /* AttachmentHttpResponseDelegate.h */,
@@ -460,8 +458,8 @@
 				41404F691C1D142100A45B13 /* BoardViewController.m */,
 				4108AFFB1C0D8FEF00CDC292 /* RecommedArticalViewController.h */,
 				4108AFFC1C0D8FEF00CDC292 /* RecommedArticalViewController.m */,
-				41B684BA1C2001BB0088395D /* ShowUserInfoViewController.h */,
-				41B684BB1C2001BB0088395D /* ShowUserInfoViewController.m */,
+				41B684BA1C2001BB0088395D /* UserInfoViewController.h */,
+				41B684BB1C2001BB0088395D /* UserInfoViewController.m */,
 				41432A801C39053E00423DFE /* JumpPopoverController.h */,
 				41432A811C39053E00423DFE /* JumpPopoverController.m */,
 				41360AC61C40E25C00D3DE9C /* ReplyViewController.h */,
@@ -724,7 +722,7 @@
 				417455321C43AC3F00CC1334 /* QCEmojiKeyboard.m in Sources */,
 				4108AFFA1C0D8FBB00CDC292 /* TopSectionViewController.m in Sources */,
 				419411DB1C1C0C93002E59AC /* SectionViewController.m in Sources */,
-				41B684BD1C2001BB0088395D /* ShowUserInfoViewController.m in Sources */,
+				41B684BD1C2001BB0088395D /* UserInfoViewController.m in Sources */,
 				4108B0001C0D951600CDC292 /* TopTenUtilities.m in Sources */,
 				41EE38AA1C475E3400AE75BA /* CustomYYAnimatedImageView.m in Sources */,
 				416B272F1C1BE87F00D0FFE4 /* SectionUtilities.m in Sources */,

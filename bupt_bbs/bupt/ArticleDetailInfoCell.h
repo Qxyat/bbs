@@ -9,12 +9,24 @@
 #import <UIKit/UIKit.h>
 #import <YYKit.h>
 #import "ArticleInfo.h"
-#import "ShowUserInfoViewControllerDelegate.h"
 #import "RefreshTableViewDelegate.h"
-#import <MWPhotoBrowser.h>
 extern CGFloat const kMargin;
 extern CGFloat const kMaxRatio;
 extern CGFloat const kFaceImageViewHeight;
+
+@class UserInfo;
+
+
+@protocol ArticleDetailInfoCellDelegate <NSObject>
+
+-(void)showUserInfoViewController:(UserInfo *)userInfo;
+-(void)showReplyViewControllerWithBoardName:(NSString *)board_name
+                                 isNewTheme:(Boolean)isNewTheme
+                                ArtilceName:(NSString *)article_name
+                                  ArticleID:(NSInteger)articleID
+                                ArticleInfo:(ArticleInfo *)articleInfo;
+
+@end
 
 @interface ArticleDetailInfoCell : UITableViewCell
 
@@ -26,6 +38,6 @@ extern CGFloat const kFaceImageViewHeight;
 @property (weak, nonatomic) IBOutlet YYLabel *contentLabel;
 @property (weak, nonatomic) ArticleInfo *articleInfo;
 @property (weak, nonatomic) IBOutlet UIView *labelContainer;
-@property (weak, nonatomic) id<RefreshTableViewDelegate> delegate;
+@property (weak, nonatomic) id<ArticleDetailInfoCellDelegate> delegate;
 
 @end

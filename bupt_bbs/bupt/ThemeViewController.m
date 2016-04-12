@@ -23,6 +23,9 @@
 //#import "ThemePopoverControllerDelegate.h"
 #import "CustomPopoverController.h"
 #import "RefreshTableViewDelegate.h"
+#import "UserInfoViewController.h"
+#import "LoginManager.h"
+#import <MWPhotoBrowser.h>
 
 static NSString * const kCellIdentifier=@"articledetailinfo";
 static const int kNumOfPageToCache=5;
@@ -31,7 +34,7 @@ static const int kNumOfPageToCache=5;
 #define RefreshModePullDown 1
 #define RefreshModeJump 2
 
-@interface ThemeViewController ()<HttpResponseDelegate,CustomPopoverControllerDelegate,JumpPopoverControllerDelegate,RefreshTableViewDelegate>
+@interface ThemeViewController ()<HttpResponseDelegate,CustomPopoverControllerDelegate,JumpPopoverControllerDelegate,ArticleDetailInfoCellDelegate,UserInfoViewControllerDelegate,ArticleInfoDelegate,MWPhotoBrowserDelegate>
 
 @property (nonatomic) int group_id;
 @property (strong,nonatomic) NSString *board_name;
@@ -45,6 +48,11 @@ static const int kNumOfPageToCache=5;
 @property (strong,nonatomic)UILabel*       titleLabel;
 @property (strong,nonatomic)CustomPopoverController *customPopoverController;
 @property (strong,nonatomic)JumpPopoverController *jumpPopoverController;
+@property (strong,nonatomic)UserInfoViewController *userInfoViewController;
+
+@property (strong,nonatomic)MWPhotoBrowser *photoBrowser;
+@property (strong,nonatomic)NSMutableArray *photoBrowserPhotos;
+
 @end
 
 @implementation ThemeViewController
@@ -103,12 +111,10 @@ static const int kNumOfPageToCache=5;
     [super viewWillDisappear:animated];
     [self hideJumpPopoverController];
     [self hideCustomPopoverController];
+    [self hideUserInfoViewController];
     [SVProgressHUD dismiss];
 }
--(void)viewDidDisappear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    [self.tableView reloadData];//为了解决MWPhotoBrowser不能重用的问题
-}
+
 #pragma mark - UITableView Data Source
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -119,8 +125,10 @@ static const int kNumOfPageToCache=5;
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ArticleDetailInfoCell *cell=[tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
     ArticleInfo *articleInfo=_data[indexPath.row];
+   
     cell.articleInfo=articleInfo;
     cell.delegate=self;
+    
     return cell;
 }
 
@@ -144,6 +152,17 @@ static const int kNumOfPageToCache=5;
 -(void)tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     _page_cur_count=(int)(_pageRange.location+indexPath.row/_item_page_count);
 }
+
+//-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+//
+//}
+//-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+//    
+//}
+//-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+//    NSLog(@"%@ %@",NSStringFromClass([self class]),NSStringFromSelector(_cmd));
+//}
+
 #pragma mark - 根据刷新方式刷新页面的内容
 -(void)pullDownToRefresh{
     self.refreshMode=RefreshModePullDown;
@@ -154,6 +173,7 @@ static const int kNumOfPageToCache=5;
         [self.tableView.mj_header endRefreshing];
     }
 }
+
 -(void)pullUpToRefresh{
     self.refreshMode=RefreshModePullUp;
     NSUInteger nextPage;
@@ -176,6 +196,7 @@ static const int kNumOfPageToCache=5;
     NSArray *tmp=[ArticleInfo getArticlesInfo:dic[@"article"]];
     for(ArticleInfo *article in tmp){
         [article articlePreprocess];
+        article.delegate=self;
     }
     
     self.page_all_count=[dic[@"pagination"][@"page_all_count"] intValue];
@@ -305,9 +326,70 @@ static const int kNumOfPageToCache=5;
     [ThemeUtilities getThemeWithBoardName:self.board_name groupId:self.group_id pageIndex:(int)nextPage countOfOnePage:self.item_page_count delegate:self];
 }
 
-#pragma mark - 实现RefreshTableViewDelegate协议
--(void)refreshTableView:(ArticleInfo*)article{
-    [self.tableView reloadData];
+#pragma mark - 实现ArticleDetailInfoCellDelegate协议
+-(void)showUserInfoViewController:(UserInfo *)userInfo{
+    _userInfoViewController=[UserInfoViewController getInstanceWithUserInfo:userInfo Delegate:self];
+    [[UIApplication sharedApplication].keyWindow addSubview:_userInfoViewController.view];
 }
 
+-(void)showReplyViewControllerWithBoardName:(NSString *)board_name
+                                 isNewTheme:(Boolean)isNewTheme
+                                ArtilceName:(NSString *)article_name
+                                  ArticleID:(NSInteger)articleID
+                                ArticleInfo:(ArticleInfo *)articleInfo{
+    [self.navigationController pushViewController:[ReplyViewController getInstanceWithBoardName:board_name isNewTheme:isNewTheme withArticleName:article_name withArticleId:articleID withArticleInfo:articleInfo] animated:YES];
+}
+
+#pragma mark - 实现UserInfoViewControllerDelegate协议
+-(void)hideUserInfoViewController{
+    if(_userInfoViewController!=nil){
+        [_userInfoViewController hideUserInfoControllerView];
+        _userInfoViewController=nil;
+    }
+}
+
+#pragma mark - 实现ArticleInfoDelegate协议
+-(void)pictureTappedWithArticle:(ArticleInfo *)article Index:(NSUInteger)index{
+    _photoBrowser=[[MWPhotoBrowser alloc]initWithDelegate:self];
+    _photoBrowser.displayActionButton=NO;
+    
+    _photoBrowserPhotos=[[NSMutableArray alloc]initWithCapacity:article.pictures.count];
+    for(int i=0;i<article.pictures.count;i++){
+        PictureInfo *picture=article.pictures[i];
+        NSURL *url=nil;
+        if(picture.isFromBBS){
+            url=[NSURL URLWithString:
+                 [NSString stringWithFormat:@"%@?oauth_token=%@",picture.original_url,[LoginManager sharedManager].access_token]];
+        }
+        else{
+            url=[NSURL URLWithString:
+                 [NSString stringWithFormat:@"%@",picture.original_url]];
+        }
+        
+        [_photoBrowserPhotos addObject:[MWPhoto photoWithURL:url]];
+    }
+    [_photoBrowser setCurrentPhotoIndex:index];
+    [self.navigationController pushViewController:_photoBrowser animated:YES];
+}
+
+-(void)updateTableView:(ArticleInfo *)article{
+    NSArray * array=[self.tableView indexPathsForVisibleRows];
+    for(int i=0;i<array.count;i++){
+        if(_data[((NSIndexPath *)array[i]).row]==article){
+            [self.tableView reloadRowAtIndexPath:(NSIndexPath *)array[i] withRowAnimation:UITableViewRowAnimationNone];
+        }
+    }
+}
+
+
+#pragma mark - 实现MWPhotoBrowserDelegate协议
+-(NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser{
+    return _photoBrowserPhotos.count;
+}
+-(id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index{
+    return _photoBrowserPhotos[index];
+}
+-(id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser thumbPhotoAtIndex:(NSUInteger)index{
+    return _photoBrowserPhotos[index];
+}
 @end

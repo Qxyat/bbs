@@ -6,11 +6,15 @@
 //  Copyright © 2015年 qiu. All rights reserved.
 //
 
-#import "ShowUserInfoViewController.h"
+#import "UserInfoViewController.h"
 #import <UIImageView+WebCache.h>
 #import "CustomUtilities.h"
 #import "UserInfo.h"
-@interface ShowUserInfoViewController ()
+@interface UserInfoViewController ()
+
+@property (strong,nonatomic)UserInfo *userInfo;
+@property (strong,nonatomic)id<UserInfoViewControllerDelegate>delegate;
+
 @property (nonatomic) CGFloat screenWidth;
 @property (nonatomic) CGFloat screenHeight;
 
@@ -32,10 +36,11 @@
 
 @end
 
-@implementation ShowUserInfoViewController
+@implementation UserInfoViewController
 
-+(instancetype)getInstance:(id<ShowUserInfoViewControllerDelegate>)delegate{
-    ShowUserInfoViewController *controller=[[ShowUserInfoViewController alloc]initWithNibName:@"ShowUserInfo" bundle:nil];
++(instancetype)getInstanceWithUserInfo:(UserInfo *)userInfo
+Delegate:(id<UserInfoViewControllerDelegate>)delegate{    UserInfoViewController *controller=[[UserInfoViewController alloc]initWithNibName:@"ShowUserInfo" bundle:nil];
+    controller.userInfo=userInfo;
     controller.delegate=delegate;
     return controller;
 }
@@ -47,29 +52,29 @@
     
     self.faceImageView.layer.cornerRadius=self.faceImageView.frame.size.width/2;
     self.faceImageView.clipsToBounds=YES;
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-#pragma mark- 显示用户信息
--(void)showUserInfoView{
+    
     self.view.center=CGPointMake(self.screenWidth/2, -self.screenHeight/2);
     [[UIApplication sharedApplication].keyWindow.rootViewController.view addSubview:self.view];
     [self fillUserInfo];
     [UIView animateWithDuration:0.5 animations:^{
         self.view.center=CGPointMake(self.screenWidth/2,self.screenHeight/2);
     } completion:nil];
-    
 }
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
 #pragma mark - 触发隐藏用户信息的事件
 - (IBAction)hideUserInfoViewPressed:(id)sender {
-    [self.delegate userInfoViewControllerDidDismiss:self];
+    [_delegate hideUserInfoViewController];
 }
 #pragma mark - 完成隐藏用户信息
--(void)hideUserInfoView{
+-(void)hideUserInfoControllerView{
     [UIView animateWithDuration:0.5 animations:^{
         self.view.center=CGPointMake(self.screenWidth/2, 3*self.screenHeight/2);
+    } completion:^(BOOL finished) {
+        [self.view removeFromSuperview];
     }];
 }
 #pragma mark- 填充用户信息

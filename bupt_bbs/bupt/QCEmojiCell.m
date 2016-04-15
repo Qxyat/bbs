@@ -8,6 +8,7 @@
 
 #import "QCEmojiCell.h"
 #import "YYImage+QCEmojiKeyboard.h"
+#import "QCEmojiUtilities.h"
 #import <YYKit.h>
 
 @interface QCEmojiCell ()
@@ -20,11 +21,11 @@
 
 -(id)initWithFrame:(CGRect)frame{
     if(self=[super initWithFrame:frame]){
-        self.backgroundColor=[UIColor clearColor];
+        self.backgroundColor=[QCEmojiUtilities getColor:@"f9f9f9"];
         _imageView=[[YYAnimatedImageView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame)-4, CGRectGetHeight(frame)-4)];
         _imageView.center=CGPointMake(CGRectGetWidth(frame)/2,CGRectGetHeight(frame)/2);
         _imageView.contentMode=UIViewContentModeScaleAspectFit;
-        _imageView.backgroundColor=[UIColor clearColor];
+        _imageView.backgroundColor=[QCEmojiUtilities getColor:@"f9f9f9"];
         [self.contentView addSubview:_imageView];
     }
     return self;

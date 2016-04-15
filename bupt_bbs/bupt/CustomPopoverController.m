@@ -53,8 +53,7 @@ static CGFloat kItemContainerViewWidth;
     return  controller;
 }
 -(void)loadView{
-    [super loadView];
-    self.view.frame=_frame;
+    self.view=[[UIView alloc]initWithFrame:_frame];
     self.view.backgroundColor=[UIColor clearColor];
     
     _containerView=[[UIView alloc]init];

@@ -11,17 +11,18 @@
 #import "LoginManager.h"
 #import "ScreenAdaptionUtilities.h"
 #import "UserMainInterfaceViewController.h"
+#import "ReplyViewController.h"
 
 #import <UIImageView+WebCache.h>
 
 static CGFloat const kProportion=0.77;
 
-@interface RootViewController()
+@interface RootViewController()<UIGestureRecognizerDelegate>
 @property (nonatomic) CGFloat moveDistance;
 @property (nonatomic) CGFloat maxMoveDistance;
 
 @property (strong,nonatomic) UserCenterViewController *userViewController;
-@property (strong,nonatomic) UITabBarController *userMainInterfaceViewController;
+@property (strong,nonatomic) UserMainInterfaceViewController *userMainInterfaceViewController;
 @property (strong,nonatomic) UIView *blackCover;
 
 @property (strong,nonatomic) UITapGestureRecognizer *tapGestureRecognizer;
@@ -61,6 +62,7 @@ static CGFloat const kProportion=0.77;
     [self.view addSubview:self.userMainInterfaceViewController.view];
     
     UIPanGestureRecognizer *panGestureRecognizer=[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGestureEvent:)];
+    panGestureRecognizer.delegate=self;
     [self.userMainInterfaceViewController.view addGestureRecognizer:panGestureRecognizer];
     self.tapGestureRecognizer=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMain)];
     self.tapGestureRecognizer.enabled=NO;
@@ -71,7 +73,15 @@ static CGFloat const kProportion=0.77;
 -(BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController{
     return YES;
 }
-
+#pragma mark - 实现UIGestureRecognizerDelegate
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
+    for(int i=0;i<_userMainInterfaceViewController.navigationControllers.count;i++){
+        UINavigationController *navicontroller=_userMainInterfaceViewController.navigationControllers[i];
+        if([navicontroller.topViewController isKindOfClass:[ReplyViewController class]])
+            return NO;
+    }
+    return YES;
+}
 #pragma mark - 手势动作
 -(void)panGestureEvent:(UIPanGestureRecognizer*)recognizer{
     CGFloat x=[recognizer translationInView:self.view].x;

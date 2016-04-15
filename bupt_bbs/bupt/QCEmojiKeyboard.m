@@ -54,6 +54,7 @@ static NSUInteger const kQCEmojiToolbarOnePageItemCount=3;
     return qcEmojiKeyboard;
 }
 -(id)init{
+    NSLog(@"%@ %@",NSStringFromClass([self class]),NSStringFromSelector(_cmd));
     if(self=[super init]){
         self.frame=CGRectMake(0, 0, kQCScreenWidth, kQCEmojiKeyboardHeight);
         self.backgroundColor=[QCEmojiUtilities getColor:@"f9f9f9"];
@@ -67,7 +68,8 @@ static NSUInteger const kQCEmojiToolbarOnePageItemCount=3;
     return self;
 }
 -(void)drawRect:(CGRect)rect{
-    [super drawRect:rect];
+    //[super drawRect:rect];
+    NSLog(@"%@ %@",NSStringFromClass([self class]),NSStringFromSelector(_cmd));
     CGContextRef context=UIGraphicsGetCurrentContext();
     CGContextSetLineWidth(context, 1.0);
     CGContextSetStrokeColorWithColor(context, [QCEmojiUtilities getColor:@"bfbfbf"].CGColor);

@@ -12,4 +12,6 @@
 
 +(instancetype)getInstance;
 
+@property (nonatomic,strong,readwrite)NSMutableArray* navigationControllers;
+
 @end

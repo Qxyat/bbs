@@ -52,6 +52,7 @@
     //全局样式的统一
     [SVProgressHUD setBackgroundColor:[[UIColor grayColor]colorWithAlphaComponent:0.5]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
     
 //    UITabBar *tabbar=[UITabBar appearance];
 //    [tabbar setBarTintColor:[UIColor greenColor]];

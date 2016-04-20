@@ -106,7 +106,15 @@
     
     [_scrollview scrollToTop];
     _imageAttachments=[[NSMutableArray alloc]init];
+    
+    UIPanGestureRecognizer *gesture=[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGesture:)];
+    
+    [self.view addGestureRecognizer:gesture];
 }
+-(void)panGesture:(UIGestureRecognizer*)recognizer{
+
+}
+
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
 }

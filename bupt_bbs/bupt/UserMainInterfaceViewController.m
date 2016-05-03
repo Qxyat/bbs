@@ -35,35 +35,35 @@
     {
         TopSectionViewController *topSectionViewController=[TopSectionViewController getInstance];
         UINavigationController *navigationController=[[UINavigationController alloc]initWithRootViewController:topSectionViewController];
-        navigationController.tabBarItem=[[UITabBarItem alloc]initWithTitle:@"讨论区" image:nil selectedImage:nil];
+        navigationController.tabBarItem=[[UITabBarItem alloc]initWithTitle:@"讨论区" image:[UIImage imageNamed:@"tab_forum_n"] selectedImage:nil];
         [items addObject:navigationController];
         [_navigationControllers addObject:navigationController];
     }
     {
         TopTenViewController *topTenViewController=[TopTenViewController getInstance];
         UINavigationController *navigationController=[[UINavigationController alloc]initWithRootViewController:topTenViewController];
-        navigationController.tabBarItem=[[UITabBarItem alloc]initWithTitle:@"十大热门" image:nil selectedImage:nil];
+        navigationController.tabBarItem=[[UITabBarItem alloc]initWithTitle:@"十大热门" image:[UIImage imageNamed:@"tab_hot_n"] selectedImage:nil];
         [items addObject:navigationController];
         [_navigationControllers addObject:navigationController];
     }
     {
         RecommedArticalViewController *recommendArticalViewController=[RecommedArticalViewController getInstance];
         UINavigationController *navigationController=[[UINavigationController alloc]initWithRootViewController:recommendArticalViewController];
-        navigationController.tabBarItem=[[UITabBarItem alloc]initWithTitle:@"推荐文章" image:nil selectedImage:nil];
+        navigationController.tabBarItem=[[UITabBarItem alloc]initWithTitle:@"推荐文章" image:[UIImage imageNamed:@"tab_recommend_n"] selectedImage:nil];
         [items addObject:navigationController];
         [_navigationControllers addObject:navigationController];
     }
     {
         BoardViewController *boardViewController=[BoardViewController getInstanceWithBoardName:@"Picture" withBoardDescription:@"贴图秀" withCouldBack:NO];
         UINavigationController *navigationController=[[UINavigationController alloc]initWithRootViewController:boardViewController];
-        navigationController.tabBarItem=[[UITabBarItem alloc]initWithTitle:@"贴图秀" image:nil selectedImage:nil];
+        navigationController.tabBarItem=[[UITabBarItem alloc]initWithTitle:@"贴图秀" image:[UIImage imageNamed:@"tab_pic_n"] selectedImage:nil];
         [items addObject:navigationController];
         [_navigationControllers addObject:navigationController];
     }
     {
         BoardViewController *boardViewController=[BoardViewController getInstanceWithBoardName:@"Job" withBoardDescription:@"毕业生找工作" withCouldBack:NO];
         UINavigationController *navigationController=[[UINavigationController alloc]initWithRootViewController:boardViewController];
-        navigationController.tabBarItem=[[UITabBarItem alloc]initWithTitle:@"毕业生找工作" image:nil selectedImage:nil];
+        navigationController.tabBarItem=[[UITabBarItem alloc]initWithTitle:@"毕业生找工作" image:[UIImage imageNamed:@"tab_job_n"] selectedImage:nil];
         [items addObject:navigationController];
         [_navigationControllers addObject:navigationController];
     }

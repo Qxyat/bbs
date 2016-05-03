@@ -54,6 +54,11 @@
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
     
+    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:[[UIImage imageNamed:@"nav_back_n"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 30, 0, 0)] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:[[UIImage imageNamed:@"nav_back_h"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 30, 0, 0)] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+    //将返回按钮的文字position设置不在屏幕上显示
+    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(NSIntegerMin, NSIntegerMin) forBarMetrics:UIBarMetricsDefault];
+    
 //    UITabBar *tabbar=[UITabBar appearance];
 //    [tabbar setBarTintColor:[UIColor greenColor]];
 //    [tabbar setTintColor:[UIColor whiteColor]];

@@ -67,24 +67,8 @@ static const int kNumOfPageToCache=5;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.tableView registerNib:[UINib nibWithNibName:@"ArticleDetailInfoCell" bundle:nil] forCellReuseIdentifier:kCellIdentifier];
-    self.titleLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, 200, 40)];
-    self.titleLabel.font=[UIFont systemFontOfSize:14];
-    self.titleLabel.numberOfLines=0;
-    self.titleLabel.lineBreakMode=NSLineBreakByCharWrapping;
-    self.titleLabel.textAlignment=NSTextAlignmentCenter;
-    self.navigationItem.titleView=self.titleLabel;
     
-    self.customPopoverController=nil;
-    self.jumpPopoverController=nil;
-    
-    UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kCustomNavigationBarHeight-8, kCustomNavigationBarHeight-8)];
-    imageView.contentMode=UIViewContentModeScaleAspectFit;
-    imageView.image=[UIImage imageNamed:@"more"];
-    UITapGestureRecognizer *recognizer=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showCustomPopoverController)];
-    [imageView addGestureRecognizer:recognizer];
-    UIBarButtonItem *barButtonItem=[[UIBarButtonItem alloc]initWithCustomView:imageView];
-    self.navigationItem.rightBarButtonItem=barButtonItem;
-    
+    [self _initNavigationItem];
     _pageRange.location=0;
     _pageRange.length=0;
     self.page_all_count=0;
@@ -98,9 +82,7 @@ static const int kNumOfPageToCache=5;
     [self jumpToRefresh:1];
     self.tableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
 
-    UIBarButtonItem *backBarButtonItem=[[UIBarButtonItem alloc]init];
-    backBarButtonItem.title=@"";
-    self.navigationItem.backBarButtonItem=backBarButtonItem;
+   
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -115,6 +97,28 @@ static const int kNumOfPageToCache=5;
     [SVProgressHUD dismiss];
 }
 
+-(void)_initNavigationItem{
+    self.navigationController.navigationBar.translucent=NO;
+    _titleLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, 200, 40)];
+    _titleLabel.font=[UIFont systemFontOfSize:14];
+    _titleLabel.numberOfLines=0;
+    _titleLabel.lineBreakMode=NSLineBreakByCharWrapping;
+    _titleLabel.textAlignment=NSTextAlignmentCenter;
+    
+    self.navigationItem.titleView=self.titleLabel;
+    
+    UIButton *rightButton=[UIButton buttonWithType:UIButtonTypeCustom];
+    [rightButton addTarget:self action:@selector(showCustomPopoverController) forControlEvents:UIControlEventTouchUpInside];
+    rightButton.frame=CGRectMake(0, 0, 40, 40);
+    [rightButton setImage:[UIImage imageNamed:@"nav_more_n"] forState:UIControlStateNormal];
+    [rightButton setImage:[UIImage imageNamed:@"nav_more_h"] forState:UIControlStateHighlighted];
+    UIBarButtonItem *rightBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:rightButton];
+    self.navigationItem.rightBarButtonItem=rightBarButtonItem;
+    
+}
+-(void)_back{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 #pragma mark - UITableView Data Source
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -325,7 +329,6 @@ static const int kNumOfPageToCache=5;
     [SVProgressHUD showWithStatus:@"页面加载中"];
     [ThemeUtilities getThemeWithBoardName:self.board_name groupId:self.group_id pageIndex:(int)nextPage countOfOnePage:self.item_page_count delegate:self];
 }
-
 #pragma mark - 实现ArticleDetailInfoCellDelegate协议
 -(void)showUserInfoViewController:(UserInfo *)userInfo{
     _userInfoViewController=[UserInfoViewController getInstanceWithUserInfo:userInfo Delegate:self];

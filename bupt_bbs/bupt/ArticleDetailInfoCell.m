@@ -61,14 +61,14 @@ CGFloat const kFaceImageViewHeight=30;
     }
     imageviewWidth=imageviewHeight*ratio;
     
-    self.faceImageView.frame=CGRectMake(kMargin, kMargin, imageviewWidth, imageviewHeight);
-    self.labelContainer.frame=CGRectMake(2*kMargin+imageviewWidth, kMargin, kCustomScreenWidth-3*kMargin-imageviewWidth, kFaceImageViewHeight);
-    self.nameLabel.frame=CGRectMake(0,0,self.labelContainer.frame.size.width*0.8, self.labelContainer.frame.size.height*0.5);
-    self.floorLabel.frame=CGRectMake(self.labelContainer.frame.size.width*0.85, 0, 0.1*self.labelContainer.frame.size.width, self.labelContainer.frame.size.height*0.5);
-    self.timeLabel.frame=CGRectMake(0,self.labelContainer.frame.size.height*0.5,self.labelContainer.frame.size.width, self.labelContainer.frame.size.height*0.5);
-    self.contentLabel.frame=CGRectMake(kMargin,2*kMargin+kFaceImageViewHeight,  kCustomScreenWidth-2*kMargin, self.contentLabel.frame.size.height);
-    self.replyImageView.frame=CGRectMake(kCustomScreenWidth-2*kMargin-kFaceImageViewHeight, 3*kMargin+kFaceImageViewHeight+self.contentLabel.frame.size.height, kFaceImageViewHeight, kFaceImageViewHeight);
-    self.contentView.frame=CGRectMake(0,0,kCustomScreenWidth,4*kMargin+2*kFaceImageViewHeight+self.contentLabel.frame.size.height);
+    self.faceImageView.frame=CGRectIntegral(CGRectMake(kMargin, kMargin, imageviewWidth, imageviewHeight));
+    self.labelContainer.frame=CGRectIntegral(CGRectMake(2*kMargin+imageviewWidth, kMargin, kCustomScreenWidth-3*kMargin-imageviewWidth, kFaceImageViewHeight));
+    self.nameLabel.frame=CGRectIntegral(CGRectMake(0,0,self.labelContainer.frame.size.width*0.8, self.labelContainer.frame.size.height*0.5));
+    self.floorLabel.frame=CGRectIntegral(CGRectMake(self.labelContainer.frame.size.width*0.85, 0, 0.1*self.labelContainer.frame.size.width, self.labelContainer.frame.size.height*0.5));
+    self.timeLabel.frame=CGRectIntegral(CGRectMake(0,self.labelContainer.frame.size.height*0.5,self.labelContainer.frame.size.width, self.labelContainer.frame.size.height*0.5));
+    self.contentLabel.frame=CGRectIntegral(CGRectMake(kMargin,2*kMargin+kFaceImageViewHeight,  kCustomScreenWidth-2*kMargin, self.contentLabel.frame.size.height));
+    self.replyImageView.frame=CGRectIntegral(CGRectMake(kCustomScreenWidth-2*kMargin-kFaceImageViewHeight, 3*kMargin+kFaceImageViewHeight+self.contentLabel.frame.size.height, kFaceImageViewHeight, kFaceImageViewHeight));
+    self.contentView.frame=CGRectIntegral(CGRectMake(0,0,kCustomScreenWidth,4*kMargin+2*kFaceImageViewHeight+self.contentLabel.frame.size.height));
 }
 
 #pragma mark - 填写cell内容

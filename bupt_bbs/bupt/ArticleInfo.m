@@ -147,8 +147,6 @@ CGSize getStringSize(NSString *string){
         [_delegate pictureTappedWithArticle:self Index:imageView.tag];
     }
     else if(pictureInfo.pictureState==PictureIsFailed){
-        pictureInfo.pictureState=PictureIsIdle;
-        pictureInfo.isShowed=NO;
         [self.attributedUtilities addDownloadFaidedOperation];
     }
 }

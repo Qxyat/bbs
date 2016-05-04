@@ -19,7 +19,7 @@
 #pragma mark - 获取已下载过的图片
 +(YYImage*)getImageFromDisk:(NSString *)string{
     NSString *path=[[SDImageCache sharedImageCache]defaultCachePathForKey:string];
-
+    
     return [YYImage imageWithContentsOfFile:path];
 }
 #pragma mark - 下载图片

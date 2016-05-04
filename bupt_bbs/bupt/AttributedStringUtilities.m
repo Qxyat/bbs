@@ -20,6 +20,7 @@
 #import "ArticleDetailInfoCell.h"
 
 #import <YYKit.h>
+#import <YYKit/YYImageCoder.h>
 #import <CoreText/CoreText.h>
 #import <SDImageCache.h>
 #import <AFNetworking.h>
@@ -97,6 +98,7 @@ static AFHTTPRequestOperationManager* getAFHTTPRequestOperationManager(){
     dispatch_once(&once_token, ^{
         manager=[AFHTTPRequestOperationManager manager];
         manager.responseSerializer=[AFHTTPResponseSerializer serializer];
+        manager.completionQueue=dispatch_queue_create("ThemeDownloadPicture", DISPATCH_QUEUE_CONCURRENT);
     });
     return manager;
 }
@@ -160,8 +162,22 @@ static AFHTTPRequestOperationManager* getAFHTTPRequestOperationManager(){
             dispatch_group_enter(group);
             AFHTTPRequestOperation *downloadOperation=[manager HTTPRequestOperationWithHTTPMethod:@"GET" URLString:urlString parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
                 YYImage *downloadImage=[YYImage imageWithData:responseObject];
-                [[SDImageCache sharedImageCache]storeImage:downloadImage recalculateFromImage:NO imageData:responseObject forKey:pictureInfo.original_url toDisk:YES];
-                 pictureInfo.image=downloadImage;
+                    if(downloadImage.animatedImageType!=YYImageTypeGIF&&downloadImage.animatedImageType!=YYImageTypeWebP){
+                    CGFloat width=downloadImage.size.width/[UIScreen mainScreen].scale;
+                    CGFloat height=downloadImage.size.height/[UIScreen mainScreen].scale;
+                    if(width>kCustomScreenWidth-2*kMargin){
+                        height=(height/width)*(kCustomScreenWidth-2*kMargin);
+                        width=kCustomScreenWidth-2*kMargin;
+                    }
+                    UIImage *scaledImage=[CustomUtilities image:downloadImage scaleToSize:CGSizeMake(width, height)];
+                    [[SDImageCache sharedImageCache]storeImage:scaledImage forKey:pictureInfo.original_url toDisk:YES];
+                    pictureInfo.image=scaledImage;
+
+                }
+                else{
+                    [[SDImageCache sharedImageCache]storeImage:downloadImage recalculateFromImage:NO imageData:responseObject forKey:pictureInfo.original_url toDisk:YES];
+                    pictureInfo.image=downloadImage;
+                }
                  pictureInfo.pictureState=PictureIsDownloaded;
                 dispatch_group_leave(group);
             } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
@@ -169,7 +185,7 @@ static AFHTTPRequestOperationManager* getAFHTTPRequestOperationManager(){
                 dispatch_group_leave(group);
             }];
             
-            //[updateAttributedStringOperation addDependency:downloadOperation];
+            
             [self.downloadAndAnalyseQueue addOperation:downloadOperation];
         }
     }
@@ -202,8 +218,22 @@ static AFHTTPRequestOperationManager* getAFHTTPRequestOperationManager(){
             dispatch_group_enter(group);
             AFHTTPRequestOperation *downloadOperation=[manager HTTPRequestOperationWithHTTPMethod:@"GET" URLString:urlString parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
                 YYImage *downloadImage=[YYImage imageWithData:responseObject];
-                [[SDImageCache sharedImageCache]storeImage:downloadImage recalculateFromImage:NO imageData:responseObject forKey:pictureInfo.original_url toDisk:YES];
-                pictureInfo.image=downloadImage;
+                if(downloadImage.animatedImageType!=YYImageTypeGIF&&downloadImage.animatedImageType!=YYImageTypeWebP){
+                    CGFloat width=downloadImage.size.width/[UIScreen mainScreen].scale;
+                    CGFloat height=downloadImage.size.height/[UIScreen mainScreen].scale;
+                    if(width>kCustomScreenWidth-2*kMargin){
+                        height=(height/width)*(kCustomScreenWidth-2*kMargin);
+                        width=kCustomScreenWidth-2*kMargin;
+                    }
+                    UIImage *scaledImage=[CustomUtilities image:downloadImage scaleToSize:CGSizeMake(width, height)];
+                    [[SDImageCache sharedImageCache]storeImage:scaledImage forKey:pictureInfo.original_url toDisk:YES];
+                    pictureInfo.image=scaledImage;
+                    
+                }
+                else{
+                    [[SDImageCache sharedImageCache]storeImage:downloadImage recalculateFromImage:NO imageData:responseObject forKey:pictureInfo.original_url toDisk:YES];
+                    pictureInfo.image=downloadImage;
+                }
                 pictureInfo.pictureState=PictureIsDownloaded;
                 dispatch_group_leave(group);
             } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
@@ -313,8 +343,8 @@ getImageInAttachment:(AttachmentInfo*)attachmentInfo
 //                curPictureInfo.isShowed=YES;
 //            }
             
-            CGFloat width=cachedImage.size.width;
-            CGFloat height=cachedImage.size.height;
+            CGFloat width=cachedImage.size.width/[UIScreen mainScreen].scale;
+            CGFloat height=cachedImage.size.height/[UIScreen mainScreen].scale;
             if(width>kCustomScreenWidth-2*kMargin){
                 height=(height/width)*(kCustomScreenWidth-2*kMargin);
                 width=kCustomScreenWidth-2*kMargin;
@@ -376,13 +406,13 @@ getImageInAttachment:(AttachmentInfo*)attachmentInfo
     }
 
     
-    CGFloat width=cachedImage.size.width;
-    CGFloat height=cachedImage.size.height;
+    CGFloat width=cachedImage.size.width/[UIScreen mainScreen].scale;
+    CGFloat height=cachedImage.size.height/[UIScreen mainScreen].scale;
     if(width>kCustomScreenWidth-2*kMargin){
         height=(height/width)*(kCustomScreenWidth-2*kMargin);
         width=kCustomScreenWidth-2*kMargin;
-
     }
+    
     height+=10;//图片之间的间隔
     CustomYYAnimatedImageView *imageView=[[CustomYYAnimatedImageView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
     imageView.contentMode=UIViewContentModeScaleAspectFit;

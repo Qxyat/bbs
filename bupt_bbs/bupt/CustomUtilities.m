@@ -125,16 +125,9 @@
 #pragma mark - 缩放图片
 +(UIImage *)image:(UIImage *)image
       scaleToSize:(CGSize)size{
-    CGSize newSize;
-    if(image.size.width>=image.size.height){
-        newSize.width=size.width;
-        newSize.height=image.size.height/image.size.width*size.width;
-    }
-    else{
-        newSize.height=size.height;
-        newSize.width=image.size.width/image.size.height*size.width;
-    }
-    UIGraphicsBeginImageContext(newSize);
+    CGSize newSize=CGSizeMake(size.width*[UIScreen mainScreen].scale, size.height*[UIScreen mainScreen].scale);
+
+    UIGraphicsBeginImageContextWithOptions(newSize, YES, 1);
     [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
     UIImage *scaledImage=UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
